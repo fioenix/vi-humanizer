@@ -171,7 +171,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 ### 7. Overused "AI Vocabulary" Words
 
-**High-frequency AI words:** Additionally, align with, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (verb), interplay, intricate/intricacies, key (adjective), landscape (abstract noun), pivotal, showcase, tapestry (abstract noun), testament, underscore (verb), valuable, vibrant
+**High-frequency AI words:** Actually, additionally, align with, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (verb), interplay, intricate/intricacies, key (adjective), landscape (abstract noun), pivotal, showcase, tapestry (abstract noun), testament, underscore (verb), valuable, vibrant
 
 **Problem:** These words appear far more frequently in post-2023 text. They often co-occur.
 

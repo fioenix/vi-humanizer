@@ -79,7 +79,7 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 
 | # | Pattern | Before | After |
 |---|---------|--------|-------|
-| 7 | **AI vocabulary** | "Additionally... testament... landscape... showcasing" | "also... remain common" |
+| 7 | **AI vocabulary** | "Actually... additionally... testament... landscape... showcasing" | "also... remain common" |
 | 8 | **Copula avoidance** | "serves as... features... boasts" | "is... has" |
 | 9 | **Negative parallelisms** | "It's not just X, it's Y" | State the point directly |
 | 10 | **Rule of three** | "innovation, inspiration, and insights" | Use natural number of items |
