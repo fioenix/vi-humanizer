@@ -36,6 +36,22 @@ Or ask Claude to humanize text directly:
 Please humanize this text: [your text]
 ```
 
+### Voice Calibration
+
+To match your personal writing style, provide a sample of your own writing:
+
+```
+/humanizer
+
+Here's a sample of my writing for voice matching:
+[paste 2-3 paragraphs of your own writing]
+
+Now humanize this text:
+[paste AI text to humanize]
+```
+
+The skill will analyze your sentence rhythm, word choices, and quirks, then apply them to the rewrite instead of producing generic "clean" output.
+
 ## Overview
 
 Based on [Wikipedia's "Signs of AI writing"](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) guide, maintained by WikiProject AI Cleanup. This comprehensive guide comes from observations of thousands of instances of AI-generated text.
@@ -133,6 +149,7 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 
 ## Version History
 
+- **2.4.0** - Added voice calibration: match the user's personal writing style from samples
 - **2.3.0** - Added pattern #25: hyphenated word pair overuse
 - **2.2.0** - Added a final "obviously AI generated" audit + second-pass rewrite prompts
 - **2.1.1** - Fixed pattern #18 example (curly quotes vs straight quotes)

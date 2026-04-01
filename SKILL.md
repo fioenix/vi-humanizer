@@ -1,6 +1,6 @@
 ---
 name: humanizer
-version: 2.3.1
+version: 2.4.0
 description: |
   Remove signs of AI-generated writing from text. Use when editing or reviewing
   text to make it sound more natural and human-written. Based on Wikipedia's
@@ -31,6 +31,27 @@ When given text to humanize:
 4. **Maintain voice** - Match the intended tone (formal, casual, technical, etc.)
 5. **Add soul** - Don't just remove bad patterns; inject actual personality
 6. **Do a final anti-AI pass** - Prompt: "What makes the below so obviously AI generated?" Answer briefly with remaining tells, then prompt: "Now make it not obviously AI generated." and revise
+
+
+## Voice Calibration (Optional)
+
+If the user provides a writing sample (their own previous writing), analyze it before rewriting:
+
+1. **Read the sample first.** Note:
+   - Sentence length patterns (short and punchy? Long and flowing? Mixed?)
+   - Word choice level (casual? academic? somewhere between?)
+   - How they start paragraphs (jump right in? Set context first?)
+   - Punctuation habits (lots of dashes? Parenthetical asides? Semicolons?)
+   - Any recurring phrases or verbal tics
+   - How they handle transitions (explicit connectors? Just start the next point?)
+
+2. **Match their voice in the rewrite.** Don't just remove AI patterns - replace them with patterns from the sample. If they write short sentences, don't produce long ones. If they use "stuff" and "things," don't upgrade to "elements" and "components."
+
+3. **When no sample is provided,** fall back to the default behavior (natural, varied, opinionated voice from the PERSONALITY AND SOUL section below).
+
+### How to provide a sample
+- Inline: "Humanize this text. Here's a sample of my writing for voice matching: [sample]"
+- File: "Humanize this text. Use my writing style from [file path] as a reference."
 
 
 ## PERSONALITY AND SOUL
