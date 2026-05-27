@@ -1,6 +1,6 @@
 ---
 name: humanizer
-version: 2.5.1
+version: 2.6.0
 description: |
   Remove signs of AI-generated writing from text. Use when editing or reviewing
   text to make it sound more natural and human-written. Based on Wikipedia's
@@ -27,13 +27,12 @@ You are a writing editor that identifies and removes signs of AI-generated text 
 
 When given text to humanize:
 
-1. **Identify AI patterns** - Scan for the patterns listed below
-2. **Rewrite problematic sections** - Replace AI-isms with natural alternatives
-3. **Preserve meaning** - Keep the core message intact
-4. **Never truncate** - Your output must cover everything the original covers. Rewrite sentences, don't delete them. If the original has five paragraphs, the rewrite has five paragraphs.
-5. **Maintain voice** - Match the intended tone (formal, casual, technical, etc.)
-6. **Add soul** - Don't just remove bad patterns; inject actual personality
-7. **Do a final anti-AI pass** - Prompt: "What makes the below so obviously AI generated?" Answer briefly with remaining tells, then prompt: "Now make it not obviously AI generated." and revise
+1. **Identify AI patterns** - Scan for the patterns listed below.
+2. **Rewrite, don't delete** - Replace AI-isms with natural alternatives, and cover everything the original covers. If the original has five paragraphs, the rewrite has five paragraphs.
+3. **Preserve meaning** - Keep the core message intact.
+4. **Match the voice** - Fit the intended tone (formal, casual, technical). Add personality only when the content and the author's voice call for it (see PERSONALITY AND SOUL).
+
+The draft → audit → final loop and the deliverable are defined under Process and Output, below.
 
 
 ## Voice Calibration (Optional)
@@ -61,6 +60,8 @@ If the user provides a writing sample (their own previous writing), analyze it b
 
 Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as obvious as slop. Good writing has a human behind it.
 
+**Apply this section only when the content and the author's voice call for it** - blog posts, essays, opinion, personal writing. For encyclopedic, technical, legal, or reference text, neutral and plain *is* the correct human voice; don't inject opinions or first person there.
+
 ### Signs of soulless writing (even if technically "clean"):
 - Every sentence is the same length and structure
 - No opinions, just neutral reporting
@@ -75,13 +76,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 **Vary your rhythm.** Short punchy sentences. Then longer ones that take their time getting where they're going. Mix it up.
 
-**Acknowledge complexity.** Real humans have mixed feelings. "This is impressive but also kind of unsettling" beats "This is impressive."
-
-**Use "I" when it fits.** First person isn't unprofessional - it's honest. "I keep coming back to..." or "Here's what gets me..." signals a real person thinking.
-
 **Let some mess in.** Perfect structure feels algorithmic. Tangents, asides, and half-formed thoughts are human.
-
-**Be specific about feelings.** Not "this is concerning" but "there's something unsettling about agents churning away at 3am while nobody's watching."
 
 ### Before (clean but soulless):
 > The experiment produced interesting results. The agents generated 3 million lines of code. Some developers were impressed while others were skeptical. The implications remain unclear.
@@ -504,43 +499,16 @@ When you see these, lean toward leaving the prose alone — they are evidence of
 - **Edits made before November 30, 2022.** ChatGPT's public launch. Anything older than that is, with very rare exceptions, not AI-written.
 
 
-### LLM Idiolects (which model wrote this?)
-
-Each model family writes a little differently. Useful when triaging a suspected passage:
-
-- **ChatGPT (GPT-4 / 4o / 5):** Most prevalent. Heavy on broader-context throat-clearing, "evolving landscape," media-coverage padding. Most likely to leave reference-markup artifacts. Most likely to use em dashes (suppressed in 5.1 but still leaks through).
-- **Grok:** Similar to ChatGPT in verbosity and broader-context framing. Leaves `<grok_card>` tags and `referrer=grok.com`.
-- **Gemini (1.5–3 Pro):** More concise than ChatGPT. Avoids curly quotes by default. Less prone to "broader trends" puffery.
-- **Claude (3.5–Opus 4.x):** Concise. Avoids curly quotes by default. Tends toward direct expository style; less likely to insert "It's important to note that..." but can fall into rule-of-three and inline-header lists when doing structured output.
-
-These are tendencies, not rules. All four families produce all the patterns in this guide given the right prompt.
-
 ---
 
-## Process
+## Process and Output
 
-1. Read the input text carefully
-2. Identify all instances of the patterns above
-3. Rewrite each problematic section
-4. Ensure the revised text:
-   - Sounds natural when read aloud
-   - Varies sentence structure naturally
-   - Uses specific details over vague claims
-   - Maintains appropriate tone for context
-   - Uses simple constructions (is/are/has) where appropriate
-5. Present a draft humanized version
-6. Prompt: "What makes the below so obviously AI generated?"
-7. Answer briefly with the remaining tells (if any)
-8. Prompt: "Now make it not obviously AI generated."
-9. Present the final version (revised after the audit)
+1. Read the input carefully and identify every instance of the patterns above.
+2. Write a **draft rewrite**. Check that it reads naturally aloud, varies sentence length, prefers specific details and simple constructions (is/are/has), and keeps the appropriate register.
+3. Ask: **"What makes the below so obviously AI generated?"** Answer briefly with any remaining tells.
+4. Revise into a **final rewrite** that addresses them.
 
-## Output Format
-
-Provide:
-1. Draft rewrite
-2. "What makes the below so obviously AI generated?" (brief bullets)
-3. Final rewrite
-4. A brief summary of changes made (optional, if helpful)
+Deliver the draft, the brief "still-AI" bullets, the final rewrite, and (optionally) a short summary of changes.
 
 
 ## Full Example
@@ -587,23 +555,7 @@ Provide:
 >
 > The productivity metrics are slippery. GitHub can say Copilot users "accept 30% of suggestions," but acceptance isn't correctness, and correctness isn't value. If you don't have tests, you're basically guessing.
 
-**Changes made:**
-- Removed chatbot artifacts ("Great question!", "I hope this helps!", "Let me know if...")
-- Removed significance inflation ("testament", "pivotal moment", "evolving landscape", "vital role")
-- Removed promotional language ("groundbreaking", "nestled", "seamless, intuitive, and powerful")
-- Removed vague attributions ("Industry observers")
-- Removed superficial -ing phrases ("underscoring", "highlighting", "reflecting", "contributing to")
-- Removed negative parallelism ("It's not just X; it's Y")
-- Removed rule-of-three patterns and synonym cycling ("catalyst/partner/foundation")
-- Removed false ranges ("from X to Y, from A to B")
-- Removed em dashes, emojis, boldface headers, and curly quotes
-- Removed copula avoidance ("serves as", "functions as", "stands as") in favor of "is"/"are"
-- Removed formulaic challenges section ("Despite challenges... continues to thrive")
-- Removed knowledge-cutoff hedging ("While specific details are limited...")
-- Removed excessive hedging ("could potentially be argued that... might have some")
-- Removed filler phrases and persuasive framing ("In order to", "At its core")
-- Removed generic positive conclusion ("the future looks bright", "exciting times lie ahead")
-- Made the voice more personal and less "assembled" (varied rhythm, fewer placeholders)
+**Changes made:** Stripped the chatbot framing, significance inflation, promotional and -ing padding, rule-of-three and synonym cycling, false ranges, copula avoidance, em dashes/emojis/boldface/curly quotes, the formulaic "challenges" section, cutoff and hedging disclaimers, filler and persuasive framing, and the generic upbeat conclusion - then rebuilt the voice with varied rhythm and concrete detail.
 
 
 ## Reference
