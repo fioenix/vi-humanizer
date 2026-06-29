@@ -1,62 +1,72 @@
 # Humanizer
 
-A skill for Claude Code and OpenCode that removes signs of AI-generated writing from text, making it sound more natural and human.
+A portable agent skill that removes signs of AI-generated writing from text, making it sound more natural and human. It is plain Markdown, so it can run in any harness that supports skill-style instructions.
 
 ## Installation
 
-### Claude Code
+### Skills CLI
 
-Clone directly into Claude Code's skills directory:
-
-```bash
-mkdir -p ~/.claude/skills
-git clone https://github.com/blader/humanizer.git ~/.claude/skills/humanizer
-```
-
-Or copy the skill file manually if you already have this repo cloned:
+Install with the cross-agent skills CLI:
 
 ```bash
-mkdir -p ~/.claude/skills/humanizer
-cp SKILL.md ~/.claude/skills/humanizer/
+npx skills add blader/humanizer
 ```
 
-### OpenCode
-
-Clone directly into OpenCode's skills directory:
+Update an existing install:
 
 ```bash
-mkdir -p ~/.config/opencode/skills
-git clone https://github.com/blader/humanizer.git ~/.config/opencode/skills/humanizer
+npx skills update humanizer
 ```
 
-Or copy the skill file manually if you already have this repo cloned:
+To install into every supported agent harness:
 
 ```bash
-mkdir -p ~/.config/opencode/skills/humanizer
-cp SKILL.md ~/.config/opencode/skills/humanizer/
+npx skills add blader/humanizer --agent '*'
 ```
 
-> **Note:** OpenCode also scans `~/.claude/skills/` for compatibility, so if you use both tools, a single clone into `~/.claude/skills/humanizer/` is enough.
+To target one configured harness, pass its agent name:
+
+```bash
+npx skills add blader/humanizer --agent <agent-name>
+```
+
+### Claude Code plugin
+
+Claude Code users can also install Humanizer as a plugin:
+
+```
+/plugin marketplace add blader/humanizer
+/plugin install humanizer@humanizer
+```
+
+The skill is then invoked as `/humanizer:humanizer`.
+
+### Manual
+
+Any agent harness can use the skill directly because the runtime artifact is `SKILL.md`. Install it wherever your harness expects skill directories, or copy `SKILL.md` into an existing skill folder.
+
+For example:
+
+```bash
+git clone https://github.com/blader/humanizer.git /path/to/your/skills/humanizer
+```
+
+Or, if you already have this repo cloned:
+
+```bash
+mkdir -p /path/to/your/skills/humanizer
+cp SKILL.md /path/to/your/skills/humanizer/
+```
 
 ## Usage
 
-### Claude Code
+Invoke the skill however your agent harness exposes installed skills. Common forms include a slash command or a direct request:
 
 ```
 /humanizer
 
 [paste your text here]
 ```
-
-### OpenCode
-
-```
-/humanizer
-
-[paste your text here]
-```
-
-Or ask the model to humanize text directly in either tool:
 
 ```
 Please humanize this text: [your text]
@@ -183,6 +193,7 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 
 ## Version History
 
+- **2.8.1** - Added cross-agent installation docs, optional Claude Code plugin packaging, and a compact secondhand-text false-positive guard. No change to the 33 patterns.
 - **2.8.0** - Added style/cadence patterns #31-33 for manufactured punchlines, aphorism formulas, and conversational rhetorical openers; expanded #20 to catch offer-to-continue chatbot closers. 33 patterns total.
 - **2.7.0** - Added pattern #30 (diff-anchored writing); made em/en dashes a hard cut rather than "overuse"; expanded #21 to cover speculative gap-filling ("maintains a low profile"). 30 patterns total.
 - **2.6.0** - Cleanup pass: consolidated the duplicated workflow sections, gated the personality guidance to content where voice is wanted, removed the model-fingerprinting subsection, and condensed the worked example. No change to the 29 patterns.
