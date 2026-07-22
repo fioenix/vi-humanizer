@@ -132,7 +132,7 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 | 16 | **Inline-header lists** | "**Performance:** Performance improved" | Convert to prose |
 | 17 | **Title Case Headings** | "Strategic Negotiations And Partnerships" | "Strategic negotiations and partnerships" |
 | 18 | **Emojis** | "🚀 Launch Phase: 💡 Key Insight:" | Remove emojis |
-| 19 | **Curly quotes** | `said “the project”` | `said “the project”` |
+| 19 | **Curly quotes** | `said “the project”` | `said "the project"` |
 | 26 | **Hyphenated word pairs** | “cross-functional, data-driven, client-facing” | Drop hyphens on common word pairs |
 | 27 | **Persuasive authority tropes** | "At its core, what matters is..." | State the point directly |
 | 28 | **Signposting announcements** | "Let's dive in", "Here's what you need to know" | Start with the content |
