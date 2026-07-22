@@ -1,34 +1,38 @@
 # Humanizer
 
+[![skills.sh installs](https://skills.sh/b/blader/humanizer)](https://skills.sh/blader/humanizer)
+
 A portable agent skill that removes signs of AI-generated writing from text, making it sound more natural and human. It is plain Markdown, so it can run in any harness that supports skill-style instructions.
 
 ## Installation
 
 ### Skills CLI
 
-Install with the cross-agent skills CLI:
+Install globally with the cross-agent skills CLI so Humanizer is available in every project:
 
 ```bash
-npx skills add blader/humanizer
+npx skills add blader/humanizer --global
 ```
 
 Update an existing install:
 
 ```bash
-npx skills update humanizer
+npx skills update humanizer --global
 ```
 
-To install into every supported agent harness:
+To install globally into every supported agent harness:
 
 ```bash
-npx skills add blader/humanizer --agent '*'
+npx skills add blader/humanizer --global --agent '*'
 ```
 
 To target one configured harness, pass its agent name:
 
 ```bash
-npx skills add blader/humanizer --agent <agent-name>
+npx skills add blader/humanizer --global --agent <agent-name>
 ```
+
+Omit `--global` for a project-local install that can be committed and shared with collaborators. Start a new agent session or reload skills after installation.
 
 ### Claude Code plugin
 
@@ -203,6 +207,7 @@ Rewrites follow a no-fabrication rule: they never add facts, names, dates, or ci
 
 ## Version History
 
+- **2.9.1** - Improved distribution and portability: removed nonportable frontmatter and tool preapprovals, made global installation the documented default, added package validation, and removed the duplicated long-form example from the runtime prompt. No change to the 33 patterns.
 - **2.9.0** - Added a no-fabrication rule: rewrites may not invent facts, names, dates, or citations not present in the source, and every example that modeled invented specifics was re-cut to use only source information (fixes #187). Replaced paragraph-count parity with an information-over-shape rule, made a user's voice sample outrank the em dash ban, and added invocation modes (pasted text / file / embedded). No change to the 33 patterns.
 - **2.8.3** - Moved the skill version from the unsupported top-level frontmatter key to `metadata.version` for Agent Skills and Claude compatibility. No change to the 33 patterns.
 - **2.8.2** - Replaced the full before/after example with a first-person Lisbon trip recap. The after now keeps the same topic, perspective, and rough length as the before while removing the AI tells without becoming clipped or slogan-like. No change to the 33 patterns.
