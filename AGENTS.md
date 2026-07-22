@@ -8,7 +8,7 @@ A portable agent skill implemented entirely as Markdown. The runtime artifact is
 
 ## Key files
 
-- `SKILL.md` — the skill itself. YAML frontmatter (`name`, `version`, `description`, `compatibility`, `allowed-tools`) followed by the canonical, numbered pattern list with before/after examples. **This is the source of truth.**
+- `SKILL.md` — the skill itself. YAML frontmatter (`name`, `description`, `license`, `compatibility`, `metadata.version`, `allowed-tools`) followed by the canonical, numbered pattern list with before/after examples. **This is the source of truth.**
 - `README.md` — for humans: installation, usage, a summary table of the patterns, and a version history.
 - `.claude-plugin/plugin.json` — optional Claude Code plugin manifest.
 - `.claude-plugin/marketplace.json` — optional single-repo marketplace entry so `/plugin marketplace add blader/humanizer` works.
@@ -18,7 +18,7 @@ A portable agent skill implemented entirely as Markdown. The runtime artifact is
 `SKILL.md` and `README.md` must stay in sync. When you change behavior or content:
 
 - **Patterns:** the skill currently defines **33 numbered patterns**. If you add, remove, or renumber any, update the README pattern table, its "N Patterns Detected" heading, and every cross-reference in the same change. Keep numbering stable unless you are deliberately renumbering.
-- **Version:** `SKILL.md` frontmatter has a `version:` field, `README.md` has a "Version History" section, and `.claude-plugin/plugin.json` has a `version` field. Bump them together so package metadata matches the skill. (`marketplace.json` intentionally omits a version so `plugin.json` stays the package source of truth.)
+- **Version:** `SKILL.md` frontmatter stores the version under `metadata.version`, `README.md` has a "Version History" section, and `.claude-plugin/plugin.json` has a `version` field. Bump them together so package metadata matches the skill. Keep the skill version under `metadata`; a top-level `version` key is not portable across Agent Skills hosts. (`marketplace.json` intentionally omits a version so `plugin.json` stays the package source of truth.)
 - **Compatibility:** keep install and usage language harness-neutral. The skill should work in any agent harness that can load Markdown skill instructions; Claude Code, OpenCode, Codex, and other harnesses are examples, not limits.
 - **Non-obvious fixes:** if you change the prompt to handle a tricky failure mode (a repeated mis-edit, an unexpected tone shift), add a short note to the README version history explaining what was fixed and why.
 
