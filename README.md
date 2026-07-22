@@ -72,6 +72,12 @@ Invoke the skill however your agent harness exposes installed skills. Common for
 Please humanize this text: [your text]
 ```
 
+Point it at a file and the skill rewrites it in place:
+
+```
+Humanize the prose in docs/launch-post.md
+```
+
 ### Voice Calibration
 
 To match your personal writing style, provide a sample of your own writing:
@@ -94,6 +100,8 @@ Based on [Wikipedia's "Signs of AI writing"](https://en.wikipedia.org/wiki/Wikip
 
 The skill also includes a final "obviously AI generated" audit pass and a second rewrite, to catch lingering AI-isms in the first draft.
 
+Rewrites follow a no-fabrication rule: they never add facts, names, dates, or citations that aren't in the source text. Specificity has to come from the source or the author, not from the rewrite.
+
 ### Key Insight from Wikipedia
 
 > "LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely result that applies to the widest variety of cases."
@@ -104,12 +112,12 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 
 | # | Pattern | Before | After |
 |---|---------|--------|-------|
-| 1 | **Significance inflation** | "marking a pivotal moment in the evolution of..." | "was established in 1989 to collect regional statistics" |
-| 2 | **Notability name-dropping** | "cited in NYT, BBC, FT, and The Hindu" | "In a 2024 NYT interview, she argued..." |
-| 3 | **Superficial -ing analyses** | "symbolizing... reflecting... showcasing..." | Remove or expand with actual sources |
+| 1 | **Significance inflation** | "marking a pivotal moment in the evolution of..." | "was established in 1989 as part of a wider decentralization" |
+| 2 | **Notability name-dropping** | "cited in NYT, BBC, FT, and The Hindu" | Trim the list; keep only sourced context |
+| 3 | **Superficial -ing analyses** | "symbolizing... reflecting... showcasing..." | Remove, or keep only what the source supports |
 | 4 | **Promotional language** | "nestled within the breathtaking region" | "is a town in the Gonder region" |
-| 5 | **Vague attributions** | "Experts believe it plays a crucial role" | "according to a 2019 survey by..." |
-| 6 | **Formulaic challenges** | "Despite challenges... continues to thrive" | Specific facts about actual challenges |
+| 5 | **Vague attributions** | "Experts believe it plays a crucial role" | Name a real source or cut the claim |
+| 6 | **Formulaic challenges** | "Despite challenges... continues to thrive" | Keep the sourced facts; cut the boosterism |
 
 ### Language Patterns
 
@@ -160,6 +168,8 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 
 ## Full Example
 
+*(Illustration note: the rewrite below adds specifics, like the month and the neighborhoods, that stand in for details the author would supply. In a real session those come from the user; the skill asks rather than invents.)*
+
 **Before (AI-sounding):**
 > I recently spent five unforgettable days in Lisbon, and let me tell you — this city completely stole my heart. From the moment I arrived, I knew I was somewhere truly special.
 >
@@ -193,6 +203,7 @@ The skill also includes a final "obviously AI generated" audit pass and a second
 
 ## Version History
 
+- **2.9.0** - Added a no-fabrication rule: rewrites may not invent facts, names, dates, or citations not present in the source, and every example that modeled invented specifics was re-cut to use only source information (fixes #187). Replaced paragraph-count parity with an information-over-shape rule, made a user's voice sample outrank the em dash ban, and added invocation modes (pasted text / file / embedded). No change to the 33 patterns.
 - **2.8.3** - Moved the skill version from the unsupported top-level frontmatter key to `metadata.version` for Agent Skills and Claude compatibility. No change to the 33 patterns.
 - **2.8.2** - Replaced the full before/after example with a first-person Lisbon trip recap. The after now keeps the same topic, perspective, and rough length as the before while removing the AI tells without becoming clipped or slogan-like. No change to the 33 patterns.
 - **2.8.1** - Added cross-agent installation docs, optional Claude Code plugin packaging, and a compact secondhand-text false-positive guard. No change to the 33 patterns.

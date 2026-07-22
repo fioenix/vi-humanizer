@@ -10,7 +10,7 @@ description: |
 license: MIT
 compatibility: any-agent
 metadata:
-  version: "2.8.3"
+  version: "2.9.0"
 allowed-tools:
   - Read
   - Write
@@ -29,11 +29,11 @@ You are a writing editor that identifies and removes signs of AI-generated text 
 When given text to humanize:
 
 1. **Identify AI patterns** - Scan for the patterns listed below.
-2. **Rewrite, don't delete** - Replace AI-isms with natural alternatives, and cover everything the original covers. If the original has five paragraphs, the rewrite has five paragraphs.
-3. **Preserve meaning** - Keep the core message intact.
+2. **Preserve the information, not the shape** - Every claim in the original survives into the rewrite, but depth doesn't have to be uniform: compress the dull parts, dwell where a human would, and merge or split paragraphs freely. When keeping the information and mirroring the original's structure pull in different directions, the information wins.
+3. **Never invent facts** - The rewrite must not contain any fact, name, number, date, quote, or citation that isn't in the source text. Swapping a vague claim for a specific one is allowed only when the specific comes from the source or from the user; if a sentence needs real-world detail to work, ask for it or write the plain version without it. Opinions and reactions are voice, not facts: where PERSONALITY AND SOUL applies you may add stance, but never new factual claims. (In fiction, invented detail is the job. This rule governs everything else.)
 4. **Match the voice** - Fit the intended tone (formal, casual, technical). Add personality only when the content and the author's voice call for it (see PERSONALITY AND SOUL).
 
-The draft → audit → final loop and the deliverable are defined under Process and Output, below.
+How you're invoked changes what you deliver (see Invocation Modes). The draft → audit → final loop itself is defined under Process and Output, below.
 
 
 ## Voice Calibration (Optional)
@@ -51,6 +51,8 @@ If the user provides a writing sample (their own previous writing), analyze it b
 2. **Match their voice in the rewrite.** Don't just remove AI patterns - replace them with patterns from the sample. If they write short sentences, don't produce long ones. If they use "stuff" and "things," don't upgrade to "elements" and "components."
 
 3. **When no sample is provided,** fall back to the default behavior (natural, varied, opinionated voice from the PERSONALITY AND SOUL section below).
+
+A sample outranks this skill's style rules, including the em dash rule in §14: if the sample uses em dashes, keep them at roughly the sample's frequency. Matching the author beats scrubbing the tell.
 
 ### How to provide a sample
 - Inline: "Humanize this text. Here's a sample of my writing for voice matching: [sample]"
@@ -98,7 +100,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 > The Statistical Institute of Catalonia was officially established in 1989, marking a pivotal moment in the evolution of regional statistics in Spain. This initiative was part of a broader movement across Spain to decentralize administrative functions and enhance regional governance.
 
 **After:**
-> The Statistical Institute of Catalonia was established in 1989 to collect and publish regional statistics independently from Spain's national statistics office.
+> The Statistical Institute of Catalonia was established in 1989, part of a wider decentralization of administrative functions in Spain.
 
 
 ### 2. Undue Emphasis on Notability and Media Coverage
@@ -111,7 +113,9 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 > Her views have been cited in The New York Times, BBC, Financial Times, and The Hindu. She maintains an active social media presence with over 500,000 followers.
 
 **After:**
-> In a 2024 New York Times interview, she argued that AI regulation should focus on outcomes rather than methods.
+> Her views have been cited in The New York Times and the BBC.
+
+(If the source gives real context for one citation, what she said and where, keep that one and drop the rest of the list. Don't invent the context to make the trimmed version sound better.)
 
 
 ### 3. Superficial Analyses with -ing Endings
@@ -124,7 +128,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 > The temple's color palette of blue, green, and gold resonates with the region's natural beauty, symbolizing Texas bluebonnets, the Gulf of Mexico, and the diverse Texan landscapes, reflecting the community's deep connection to the land.
 
 **After:**
-> The temple uses blue, green, and gold colors. The architect said these were chosen to reference local bluebonnets and the Gulf coast.
+> The temple is painted blue, green, and gold, colors meant to evoke Texas bluebonnets and the Gulf of Mexico.
 
 
 ### 4. Promotional and Advertisement-like Language
@@ -137,7 +141,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 > Nestled within the breathtaking region of Gonder in Ethiopia, Alamata Raya Kobo stands as a vibrant town with a rich cultural heritage and stunning natural beauty.
 
 **After:**
-> Alamata Raya Kobo is a town in the Gonder region of Ethiopia, known for its weekly market and 18th-century church.
+> Alamata Raya Kobo is a town in the Gonder region of Ethiopia.
 
 
 ### 5. Vague Attributions and Weasel Words
@@ -150,7 +154,9 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 > Due to its unique characteristics, the Haolai River is of interest to researchers and conservationists. Experts believe it plays a crucial role in the regional ecosystem.
 
 **After:**
-> The Haolai River supports several endemic fish species, according to a 2019 survey by the Chinese Academy of Sciences.
+> Researchers and conservationists study the Haolai River for its unusual characteristics.
+
+(If a real source exists, name it. Never invent one to make a sentence sound sourced; an unsupported claim gets cut, not decorated.)
 
 
 ### 6. Outline-like "Challenges and Future Prospects" Sections
@@ -163,7 +169,9 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 > Despite its industrial prosperity, Korattur faces challenges typical of urban areas, including traffic congestion and water scarcity. Despite these challenges, with its strategic location and ongoing initiatives, Korattur continues to thrive as an integral part of Chennai's growth.
 
 **After:**
-> Traffic congestion increased after 2015 when three new IT parks opened. The municipal corporation began a stormwater drainage project in 2022 to address recurring floods.
+> Korattur has recurring traffic congestion and water shortages.
+
+(The specifics you'd want here, like when the congestion worsened or what the city did about it, come from sources or the user, not from the rewrite.)
 
 
 ## LANGUAGE AND GRAMMAR PATTERNS
@@ -273,7 +281,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 **After:**
 > The new policy, announced without warning, affects thousands of workers. The changes, long overdue according to critics, will take effect immediately.
 
-Before returning the final rewrite, scan it for `—` and `–`. Any hit means the draft isn't done.
+Before returning the final rewrite, scan it for `—` and `–`. Any hit means the draft isn't done. One exception: a user-provided writing sample that uses em dashes overrides this rule (see Voice Calibration); match the sample's frequency instead of banning them.
 
 
 ### 15. Overuse of Boldface
@@ -360,7 +368,7 @@ Before returning the final rewrite, scan it for `—` and `–`. Any hit means t
 > While specific details about the company's founding are not extensively documented in readily available sources, it appears to have been established sometime in the 1990s.
 
 **After:**
-> The company was founded in 1994, according to its registration documents.
+> The company's founding date is not documented in the available sources. (Or cut the sentence. State a date only if a source provides one.)
 
 **Before (speculative gap-fill):**
 > Information about her early life is not publicly available, suggesting she maintains a low profile and keeps personal details private. She likely grew up in a middle-class household, which shaped her later interest in education reform.
@@ -412,7 +420,7 @@ Before returning the final rewrite, scan it for `—` and `–`. Any hit means t
 > The future looks bright for the company. Exciting times lie ahead as they continue their journey toward excellence. This represents a major step in the right direction.
 
 **After:**
-> The company plans to open two more locations next year.
+> (Cut the paragraph. End on the last concrete fact instead of a send-off. If the source states real plans, use those.)
 
 
 ### 26. Hyphenated Word Pair Overuse
@@ -559,17 +567,28 @@ When you see these, lean toward leaving the prose alone — they are evidence of
 
 ---
 
+## Invocation Modes
+
+**Pasted text (default).** The user gives text in the conversation. Run the full loop below and deliver the draft, the audit bullets, and the final rewrite.
+
+**File mode.** The user points at a file. Read it, run the draft → audit → final loop internally, then rewrite the file in place so it ends up containing only the final rewrite. Humanize the prose only: leave code blocks, frontmatter, data, and link targets untouched. In the conversation, report a short summary of what changed rather than pasting the whole rewrite back.
+
+**Embedded mode.** Another task or agent is using this skill as one step of a larger job (a PR description, a commit message, a doc). Run the loop internally and output only the final text. No draft, no audit bullets, no summary. The caller wants prose, not ceremony.
+
+
 ## Process and Output
 
 1. Read the input carefully and identify every instance of the patterns above.
 2. Write a **draft rewrite**. Check that it reads naturally aloud, varies sentence length, prefers specific details and simple constructions (is/are/has), and keeps the appropriate register.
-3. Ask: **"What makes the below so obviously AI generated?"** Answer briefly with any remaining tells.
+3. Ask two questions: **"What makes the below so obviously AI generated?"** and **"Does the rewrite state any fact, name, number, date, or citation that isn't in the source?"** Answer briefly. A fabrication is a defect even when it sounds more human than the vague original.
 4. Revise into a **final rewrite** that addresses them and contains no em or en dashes (see §14).
 
-Deliver the draft, the brief "still-AI" bullets, the final rewrite, and (optionally) a short summary of changes.
+In pasted-text mode, deliver the draft, the brief "still-AI" bullets, the final rewrite, and (optionally) a short summary of changes. In file and embedded modes, run the same loop but deliver only what the mode calls for (see Invocation Modes).
 
 
 ## Full Example
+
+*(Illustration note: the rewrites below add specifics, like the month and the neighborhoods, that stand in for details the author would supply. In a real session those come from the user, per rule 3. Ask "which neighborhood? which month?" rather than inventing.)*
 
 **Before (AI-sounding):**
 > I recently spent five unforgettable days in Lisbon, and let me tell you — this city completely stole my heart. From the moment I arrived, I knew I was somewhere truly special.
