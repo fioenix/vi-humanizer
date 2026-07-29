@@ -48,6 +48,33 @@ Nếu một pattern mới có thể là lỗi ở blog nhưng là chuẩn ở c�
 - Ví dụ Before/After phải là tiếng Việt tự nhiên. Không dịch ví dụ từ skill tiếng Anh.
 - Ví dụ minh hoạ tránh dùng tên đơn vị hành chính đã sáp nhập theo NQ 202/2025/QH15 (hiệu lực 01/07/2025).
 
+## Nâng cấp từ sử dụng thật (giao thức cho agent tự bảo trì)
+
+Skill này được thiết kế để một agent chạy lâu dài (ví dụ Hermes) tự nâng cấp nó dựa trên cách người thật viết và sửa. Giao thức:
+
+**Nguồn bằng chứng, xếp theo độ mạnh:**
+1. **Bản vàng**: người dùng sửa lại output của skill. Đây là bằng chứng mạnh nhất.
+2. Văn bản người bản ngữ tự viết trong công việc, thu được khi skill được gọi.
+3. Nhận xét trực tiếp của người dùng về một pattern.
+
+**Phân loại trước khi đụng vào skill.** Mỗi khác biệt giữa output và bản vàng rơi vào đúng một trong ba loại:
+
+| Loại | Nhận biết | Hành động | Ngưỡng |
+|---|---|---|---|
+| Sở thích cá nhân | Cả hai bản đều là tiếng Việt tự nhiên, khác biệt là lựa chọn phong cách | Ghi vào voice memory của agent. **Không sửa skill** | Không bao giờ vào skill |
+| Lỗi guard | Skill sửa sai chỗ người thật viết đúng, hoặc bỏ sót chỗ lộ rõ | Nới hoặc siết guard của pattern có sẵn | n=1 đủ, nếu người sửa là người bản ngữ và lỗi gọi tên được |
+| Pattern mới | Một tell lặp lại mà chưa pattern nào bắt | Thêm pattern, đúng khung bốn phần | n≥3 mẫu độc lập, khác văn bản, khác ngày |
+
+**Ghi log trước, sửa sau.** Mỗi quan sát ghi một entry vào `calibration/LOG.md`: ngày, register, đoạn trước, bản vàng, khác biệt gọi tên được, pattern liên quan, phân loại, quyết định. Log là bộ nhớ bằng chứng của skill; sửa skill mà không có entry tương ứng là bịa.
+
+**Nhãn độ tin cậy mới.** Pattern hoặc guard sinh ra từ giao thức này gắn nhãn "Quan sát từ sử dụng (n=…)" thay vì "Suy luận từ cơ chế LLM". Đây là nhãn mạnh hơn suy luận nhưng yếu hơn corpus, và n phải là số đếm được trong log.
+
+**Kỷ luật đóng gói giữ nguyên.** Mỗi lần sửa: chạy validator, bump version ba nơi, thêm dòng changelog nói rõ sửa gì và từ bằng chứng nào. Không gộp nhiều thay đổi không liên quan vào một version.
+
+**Cảnh báo bias.** Học từ một nhóm người dùng làm skill lệch về register của nhóm đó. Với fork nội bộ thì đó là tính năng, không phải lỗi, nhưng phải ghi nhận trong changelog để người cài từ ngoài biết skill đã được tune cho tổ chức nào.
+
+**Phần agent phải tự lo, skill không làm được:** skill chỉ thấy các lượt nó được gọi. Muốn học từ chat thường ngày, agent cần một chỉ dẫn ở tầng memory/system prompt của chính nó, đại ý: "Khi thấy người dùng viết hoặc sửa văn bản tiếng Việt theo cách mâu thuẫn với vi-humanizer, ghi một entry vào calibration/LOG.md của repo skill."
+
 ## Việc còn tồn
 
 - Ngưỡng số trong skill chưa hiệu chuẩn trên corpus văn bản AI tiếng Việt thật. Đây là việc chính của v0.2.
