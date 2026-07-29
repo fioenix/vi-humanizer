@@ -107,6 +107,7 @@ references/bang-tra-cuu.md          bổ ngữ kết quả, cặp hô ứng, lo�
 calibration/LOG.md                  bộ nhớ bằng chứng cho vòng tự hiệu chuẩn
 scripts/validate-package.py         kiểm đồng bộ, chạy trong CI
 scripts/package-skill.sh            đóng gói dist/vi-humanizer.skill
+scripts/scan-tells.sh               tự soi repo bằng nhóm pattern quét máy được
 ```
 
 Trước khi áp bất kỳ pattern nào, skill chạy một **cổng thể loại**. Sáu nhóm văn bản bị chặn hoàn toàn: pháp quy và hợp đồng, cổ phong và nghi lễ, tài liệu API và changelog, thơ, bản dịch có chủ đích, trích dẫn nguyên văn. Ở những thể loại đó, danh hoá, bị động và nhịp đối xứng là **yêu cầu thể loại**, không phải lỗi.
@@ -163,7 +164,7 @@ Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typograph
 | T1 | Viết hoa kiểu marketing | Tiếng Việt không có Title Case, nên đây là tell **mạnh hơn** |
 | T2 | Em dash và gạch ngang chú thích giữa câu | **Hẹp hơn hẳn.** Chỉ cấm `—`. `–` là gạch ngang chuẩn tiếng Việt |
 | T3 | Ngoặc kép không nhất quán | **Đảo hành vi.** Không ép về ngoặc thẳng, chỉ kiểm nhất quán |
-| T4 | Dấu phẩy Oxford, chấm phẩy nối mệnh đề | Mới. Tiếng Việt không có Oxford comma |
+| T4 | Dấu phẩy Oxford và comma-and nối mệnh đề | Mới. Tiếng Việt không có Oxford comma. Nối mệnh đề thì dùng hư từ chứ không dùng *và* |
 | T5 | Lạm dụng markdown | Thêm ba nét riêng của tiếng Việt |
 | T6 | Emoji | Giữ nguyên |
 
@@ -289,6 +290,7 @@ Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đ
 
 ## Lịch sử phiên bản
 
+- **0.2.2** – Chạy skill lên toàn bộ 8 file nội dung của repo. Phát hiện T4 dính 25 chỗ trên 6 file, mà hai phần ba trong đó là comma-and nối hai mệnh đề độc lập chứ không phải Oxford comma. T4 bản cũ không mô tả nhánh này nên agent quét đúng regex mà không biết sửa thế nào. Tách T4 thành hai nhánh, thêm bảng chọn hư từ theo quan hệ (*nên* nhân quả, *mà* tương phản, *còn… thì* đối lập cục bộ, *rồi* nối tiếp). Thêm `scripts/scan-tells.sh` để tự soi bằng một lệnh thay vì dựng lại grep mỗi lần.
 - **0.2.1** – Chạy chính skill lên README. Sửa bốn lỗi ngôn ngữ (một em dash chú thích giữa câu vi phạm T2, "kết quả của nó" theo V7, "được xây mới" theo V16, một mệnh đề quan hệ thiếu ranh giới theo V3) và vá phần nội dung đã lệch so với repo: cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng Hán-Việt ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời. Thêm mục về vòng tự hiệu chuẩn (tính năng chính của 0.2.0 nhưng chưa có trong README) và cách cài một lệnh cho mọi harness bằng `--agent '*'`.
 - **0.2.0** – Giao thức tự nâng cấp cho agent chạy lâu dài: vòng phản hồi trong SKILL.md (bản người dùng sửa lại là bản vàng), giao thức hiệu chuẩn trong AGENTS.md (phân loại sở thích cá nhân / lỗi guard / pattern mới, ngưỡng bằng chứng, nhãn "Quan sát từ sử dụng"), và `calibration/LOG.md` làm bộ nhớ bằng chứng với entry mẫu đầu tiên. Skill cài cho agent nào thì sẽ dần tune theo cách viết của tổ chức đó; changelog phải ghi nhận điều này.
 - **0.1.1** – Tự áp skill lên chính văn bản của skill: bỏ toàn bộ em dash và các cụm dịch tính trong phần giải thích. Hiệu chỉnh từ vòng feedback thực tế đầu tiên: thêm quy tắc thanh ngữ vực (hạ giọng quá tay cũng là lỗi, như thổi phồng), V19 thêm chiều sửa chủ động (trả thuật ngữ bị dịch sạch về jargon: "đội ngũ kỹ thuật" → "team dev" trong tài liệu nội bộ IT), nới guard V9 và K2 cho tiếng Việt công sở (cụm mục đích và cụm "nâng cao hiệu quả X" có bổ ngữ cụ thể là bình thường trong báo cáo doanh nghiệp).

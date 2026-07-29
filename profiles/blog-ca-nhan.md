@@ -29,12 +29,12 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** *Trong bối cảnh..., Trong thời đại..., Trong xã hội hiện đại ngày nay, Ngày nay khi..., Cùng với sự phát triển không ngừng của, Với sự bùng nổ của công nghệ, Trước những biến động của thị trường, Trong bài viết này chúng ta sẽ, Hãy cùng tìm hiểu, Dưới đây là một số*. Sáo ngữ Hán-Việt cùng chức năng: *Từ xa xưa, Kể từ thuở, Trải qua bao thăng trầm*.
 **Vì sao:** câu mở không mang thông tin, chỉ dựng sân khấu. Tell nặng nhất là khi đoạn mở dài ba bốn câu mà xoá hết vẫn không mất gì.
 **Sửa:** cắt thẳng vào nội dung. *"Trong bối cảnh nền kinh tế số phát triển mạnh mẽ, cùng với sự bùng nổ của thương mại điện tử, việc quản lý tồn kho ngày càng trở thành bài toán nan giải. Vậy đâu là lời giải?"* → *"Tồn kho lệch giữa kho tổng và cửa hàng là lý do phổ biến nhất khiến đơn online bị huỷ sau khi khách đã thanh toán."*
-**Không flag:** bối cảnh thật sự cần để hiểu bài, và câu mở nêu bối cảnh **cụ thể** có mốc thời gian, số liệu hoặc sự kiện xác định. *"Sau đợt siết tín dụng bất động sản tháng 4/2022"* là bối cảnh; *"Trong bối cảnh nền kinh tế nhiều biến động"* là sáo ngữ. Giáo trình và bài giảng có câu dẫn dắt là chức năng sư phạm hợp lệ.
+**Không flag:** bối cảnh thật sự cần để hiểu bài và câu mở nêu bối cảnh **cụ thể** có mốc thời gian, số liệu hoặc sự kiện xác định. *"Sau đợt siết tín dụng bất động sản tháng 4/2022"* là bối cảnh; *"Trong bối cảnh nền kinh tế nhiều biến động"* là sáo ngữ. Giáo trình và bài giảng có câu dẫn dắt là chức năng sư phạm hợp lệ.
 
 ### B4. Kết bài lạc quan sáo rỗng
 
 **Dấu hiệu:** *hứa hẹn sẽ, tin rằng trong thời gian tới, mở ra tương lai tươi sáng, hướng tới một tương lai bền vững, tiếp tục gặt hái nhiều thành công, sẽ còn tiến xa hơn nữa, cùng chung tay, chắc chắn sẽ mang lại, là bước đi đúng đắn, xứng đáng để bạn trải nghiệm, còn chần chừ gì nữa, Tóm lại, Tựu trung lại, Hy vọng bài viết hữu ích*.
-**Vì sao:** model đóng bài bằng một câu chúc tụng vì nó học rằng văn bản cần có kết. Câu đó không kiểm chứng được, không ai chịu trách nhiệm, và thường mâu thuẫn với phần thân bài vốn đang nêu vấn đề.
+**Vì sao:** model đóng bài bằng một câu chúc tụng vì nó học rằng văn bản cần có kết. Câu đó không kiểm chứng được, không ai chịu trách nhiệm và thường mâu thuẫn với phần thân bài vốn đang nêu vấn đề.
 **Sửa:** **cắt cả đoạn, kết thúc ở dữ kiện cụ thể cuối cùng.** Nếu bản gốc có nêu kế hoạch thật thì dùng cái đó: *"Với những nỗ lực không ngừng, tin rằng doanh nghiệp sẽ tiếp tục gặt hái thành công."* → *"Kế hoạch năm sau là mở thêm 12 cửa hàng, nhưng ban điều hành chưa chốt nguồn vốn."* Không có kế hoạch thật trong bản gốc thì chỉ cắt, không sáng tác.
 **Không flag:** câu kết nêu kế hoạch cụ thể có mốc, số, hoặc người chịu trách nhiệm. Thư chúc mừng, diễn văn khai mạc, thông điệp đầu năm, ở đó lời chúc là chức năng chính. Luận văn và báo cáo có mục kết luận theo quy ước.
 
@@ -78,7 +78,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** thành ngữ, tục ngữ, điển cố rải dày để tỏ ra có vốn văn hoá, nhưng dùng lệch nghĩa hoặc lệch ngữ cảnh. Hoặc mật độ cao bất thường trong một đoạn ngắn.
 **Vì sao:** model rải thành ngữ vì corpus tiếng Việt gắn chúng với văn viết "hay". Người viết thật dùng thành ngữ thưa và đúng chỗ.
 **Sửa:** cắt bớt, giữ lại cái nào dùng đúng nghĩa và hợp ngữ cảnh nhất.
-**Không flag:** **khi nghi một thành ngữ bị dùng sai mà không chắc, hãy nêu nghi vấn cho người dùng thay vì tự sửa.** Nghĩa thành ngữ có biến thể vùng miền, và người kiểm tra cũng có thể sai. Không bao giờ tự sửa xuất xứ hay điển tích khi không chắc.
+**Không flag:** **khi nghi một thành ngữ bị dùng sai mà không chắc, hãy nêu nghi vấn cho người dùng thay vì tự sửa.** Nghĩa thành ngữ có biến thể vùng miền, người kiểm tra cũng có thể sai. Không bao giờ tự sửa xuất xứ hay điển tích khi không chắc.
 
 ## Nhịp và cấu trúc
 
@@ -139,7 +139,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 
 Tránh được dấu vết dịch mới là một nửa việc. Văn vô hồn, trung tính đều tăm tắp cũng lộ liễu không kém.
 
-Khi văn bản là blog, tuỳ bút, quan điểm cá nhân, hoặc bài viết personal brand, hãy để người viết có: ý kiến rõ ràng, chỗ chưa chắc chắn, cảm xúc lẫn lộn chưa gỡ, chỗ nói đùa, câu chen ngang, và nhịp không đều. Câu dài cạnh câu hai chữ. Một đoạn mười dòng rồi một đoạn một dòng.
+Khi văn bản là blog, tuỳ bút, quan điểm cá nhân, hoặc bài viết personal brand, hãy để người viết có: ý kiến rõ ràng, chỗ chưa chắc chắn, cảm xúc lẫn lộn chưa gỡ, chỗ nói đùa, câu chen ngang và nhịp không đều. Câu dài cạnh câu hai chữ. Một đoạn mười dòng rồi một đoạn một dòng.
 
 Ba ràng buộc:
 
