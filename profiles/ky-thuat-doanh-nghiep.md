@@ -16,7 +16,7 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 
 3. **Không tạo chuỗi đồng nghĩa cho thuật ngữ.** Thuật ngữ phải lặp lại y nguyên xuyên suốt văn bản. Đây là yêu cầu nghề nghiệp, không phải lựa chọn văn phong. Quy tắc đảo chiều trong `SKILL.md` áp dụng ở đây mạnh hơn: lặp thuật ngữ là **bắt buộc**, kể cả lặp nguyên cụm dài (*team dev*, *tồn kho*) qua nhiều câu liên tiếp.
 
-4. **Không thuần Việt hoá thuật ngữ Hán-Việt.** Xem `references/han-viet-thuan-viet.md`, cột thứ ba. Hầu như toàn bộ hệ thuật ngữ khoa học tiếng Việt là Hán-Việt, và việc chuẩn hoá chúng là công việc của giới chuyên môn, không phải của người biên tập văn phong. Ví dụ chí mạng: Bộ luật Dân sự phân biệt *chiếm hữu*, *sử dụng*, *định đoạt* thành ba quyền năng riêng biệt; gộp về thuần Việt là làm sai nghĩa pháp lý.
+4. **Không thuần Việt hoá thuật ngữ Hán-Việt.** Xem `references/han-viet-thuan-viet.md`, cột thứ ba. Hầu như toàn bộ hệ thuật ngữ khoa học tiếng Việt là Hán-Việt, mà chuẩn hoá chúng là việc của giới chuyên môn chứ không phải của người biên tập văn phong. Ví dụ chí mạng: Bộ luật Dân sự phân biệt *chiếm hữu*, *sử dụng*, *định đoạt* thành ba quyền năng riêng biệt; gộp về thuần Việt là làm sai nghĩa pháp lý.
 
 ## Điều chỉnh ngưỡng lõi
 
@@ -37,7 +37,7 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 | Register | Chêm tiếng Anh |
 |---|---|
 | README, SOP nội bộ, tài liệu doanh nghiệp, tài liệu kỹ thuật | Chuẩn mực. Giữ nguyên jargon: deploy, cloud, endpoint, benchmark, deadline. **Vắng hẳn mới là tell** |
-| Giáo trình, đề án môn học, nghiên cứu khoa học | **Chêm là lỗi register.** Chỉ giữ thuật ngữ chưa có tương đương tiếng Việt, và chú giải ở lần xuất hiện đầu. Người Việt viết luận văn không viết *"deploy lên prod"* |
+| Giáo trình, đề án môn học, nghiên cứu khoa học | **Chêm là lỗi register.** Chỉ giữ thuật ngữ chưa có tương đương tiếng Việt, rồi chú giải ở lần xuất hiện đầu. Người Việt viết luận văn không viết *"deploy lên prod"* |
 
 ## Pattern riêng của profile này
 

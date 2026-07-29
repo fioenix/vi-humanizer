@@ -138,7 +138,7 @@ Chỉ dùng cho `profiles/blog-ca-nhan.md`. **Không bao giờ chèn vào văn b
 
 Câu kết thúc bằng dấu hỏi mà **không có** từ để hỏi và **không có** khung nào ở trên là câu kể bị gắn dấu hỏi.
 
-**Khung cầu khiến: cần đủ ba thứ:** xưng hô, động từ, và một dấu cầu khiến.
+**Khung cầu khiến cần đủ ba thứ:** xưng hô, động từ và một dấu cầu khiến.
 
 | Dấu cầu khiến | Mức độ |
 |---|---|
