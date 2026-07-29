@@ -9,7 +9,7 @@ description: |
   Anh sai register, cùng nhóm sáo ngữ và typography.
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # vi-humanizer: xoá dấu vết dịch máy trong văn bản tiếng Việt
@@ -22,7 +22,7 @@ Nó phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt
 
 Cơ chế gốc của phần lớn pattern dưới đây: mô hình ngôn ngữ được huấn luyện chủ yếu trên tiếng Anh, nên khi sinh tiếng Việt nó dựng khung câu theo tiếng Anh rồi thay từ vựng vào. Tiếng Việt mã hoá bằng hư từ, tiểu từ và loại từ những thứ tiếng Anh mã hoá bằng biến tố, ngữ điệu, trợ động từ và mạo từ. Không có gì trong câu nguồn ánh xạ sang lớp hư từ tiếng Việt, nên nó bị bỏ trống. Kết quả là câu đúng ngữ pháp bề mặt nhưng hẫng, lạnh, dừng lại trước khi ý đóng lại.
 
-## Cổng thể loại — chạy trước mọi pattern
+## Cổng thể loại: chạy trước mọi pattern
 
 Xác định thể loại trước khi sửa bất cứ gì. Đây không phải bước tuỳ chọn: phần lớn pattern dưới đây là **chuẩn mực bắt buộc** ở một số thể loại.
 
@@ -53,14 +53,16 @@ Không xác định được thể loại thì hỏi người dùng. Không đo�
 1. Chạy cổng thể loại. Nạp profile tương ứng.
 2. Quét lõi V1–V19, rồi profile, rồi typography T1–T6.
 3. Viết bản nháp.
-4. Tự hỏi hai câu và trả lời ngắn gọn: **văn bản này còn chỗ nào lộ ra là dựng theo khung tiếng Anh?** và **bản sửa có nêu dữ kiện, tên, số, ngày tháng nào không có trong bản gốc không?**
+4. Tự hỏi ba câu và trả lời ngắn gọn: **văn bản này còn chỗ nào lộ ra là dựng theo khung tiếng Anh?**, **bản sửa có nêu dữ kiện, tên, số, ngày tháng nào không có trong bản gốc không?**, và **bản sửa có còn đúng giọng của thể loại không?**
 5. Viết bản cuối.
 
-## Ba quy tắc chặn
+## Bốn quy tắc chặn
 
 **Không bịa.** Bản sửa không được chứa bất kỳ dữ kiện, tên, con số, ngày tháng, trích dẫn hay nguồn nào không có trong bản gốc. Cảnh báo riêng cho tiếng Việt: cách chữa sáo ngữ hay nhất thường là thay bằng một chi tiết cụ thể, và mọi ví dụ trong skill này đều làm vậy. Đó là minh hoạ, không phải hướng dẫn. **Không có con số thì cắt câu sáo ngữ và để đoạn ngắn lại**, tuyệt đối không sáng tác dữ kiện. Cần chi tiết thì hỏi người dùng.
 
 **Ngưỡng 15%.** Bản sửa không được dài hơn bản gốc quá khoảng 15%. Vượt ngưỡng nghĩa là bạn đang viết lại chứ không phải chữa, và nguy cơ bịa tăng vọt. Thêm hư từ thì không thêm thông tin; thêm mệnh đề, ví dụ, số liệu thì có.
+
+**Đúng thanh ngữ vực.** Hạ giọng quá tay cũng là lỗi, y như thổi phồng. Trong báo cáo doanh nghiệp, *"nâng cao hiệu quả vận hành kho"* là tiếng Việt công sở bình thường vì nó có bổ ngữ cụ thể; đổi thành *"vận hành gọn hơn"* là kéo văn bản xuống giọng nói chuyện. Đích của skill là đúng giọng người viết trong thể loại đó, không phải nôm na nhất có thể. Thuần Việt hoá quá tay cho ra một thứ văn "dân dã diễn", cũng máy móc y hệt, chỉ đổi chiều.
 
 **Ba câu hỏi trước khi sửa mỗi câu.** Không trả lời được cả ba thì để yên:
 
@@ -80,7 +82,7 @@ Nếu người dùng đưa mẫu văn của chính họ, đọc mẫu trước. 
 
 Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng không đụng tới giọng người viết.
 
-## Nhóm 1 — Hư từ rụng
+## Nhóm 1: Hư từ rụng
 
 ### V1. Thiếu bổ ngữ kết quả và bổ ngữ hướng
 
@@ -96,17 +98,17 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 **Sửa:** *"Vì hệ thống chưa có cache, thời gian phản hồi tăng gấp ba"* → *"Vì hệ thống chưa có cache **nên** thời gian phản hồi tăng gấp ba"*. Cách chữa tự nhiên hơn thường là **bỏ vế đầu, giữ vế sau**: *"Nếu tình trạng kéo dài, chúng tôi phải mở rộng"* → *"Tình trạng này kéo dài **thì** chúng tôi phải mở rộng"*. Với cặp nhượng bộ gần như luôn cần thêm *vẫn* hoặc *còn*, không chỉ *nhưng*.
 **Không flag:** vế đầu quá dài (trên khoảng 20 âm tiết), lúc đó người Việt cũng bỏ vế hô ứng. Tít và sapo báo chí. Câu chỉ có một vế đứng riêng (*"Vì thế, chúng tôi dừng dự án."*). Chỉ tính là tell khi lặp lại trong đoạn.
 
-### V3. Thiếu "là", "thì", "mà" ở ranh giới đề - thuyết
+### V3. Thiếu "là", "thì", "mà" ở ranh giới đề – thuyết
 
 **Dấu hiệu:** danh ngữ dài đứng đầu câu nối thẳng vào danh ngữ khác không có *là*; mệnh đề trạng ngữ mở đầu (*Khi..., Với..., Trong trường hợp...*) nối thẳng vào mệnh đề chính không có *thì*; câu đọc lên bị dính liền không có chỗ ngắt.
-**Vì sao:** tiếng Anh dùng *to be* cho quan hệ đồng nhất và dùng trật tự với dấu phẩy cho ranh giới mệnh đề. Ba từ *là / thì / mà* không có tương đương một-một trong câu nguồn nên ranh giới đề - thuyết không được đánh dấu.
+**Vì sao:** tiếng Anh dùng *to be* cho quan hệ đồng nhất và dùng trật tự với dấu phẩy cho ranh giới mệnh đề. Ba từ *là / thì / mà* không có tương đương một-một trong câu nguồn nên ranh giới đề – thuyết không được đánh dấu.
 **Sửa:** *"Cách xử lý đơn giản nhất tăng số worker"* → *"Cách xử lý đơn giản nhất **là** tăng số worker"*. *"Khi lưu lượng tăng đột biến, hàng đợi bị nghẽn"* → *"Khi lưu lượng tăng đột biến **thì** hàng đợi bị nghẽn"*. Thứ tự bắt buộc giảm dần: *là* bắt buộc, *thì* gần bắt buộc, *mà* tuỳ chọn. Test nhanh: đọc to, chỗ nào phổi muốn ngắt mà chữ không cho ngắt là chỗ thiếu hư từ.
-**Không flag:** **tính từ làm vị ngữ thì không có *là*** — *"Cô ấy đẹp"* đúng, thêm *là* là sai. Đây là bẫy hay gặp nhất. Cũng không flag ở tiêu đề, nhãn, mục lục, ô bảng.
+**Không flag:** **tính từ làm vị ngữ thì không có *là***, *"Cô ấy đẹp"* đúng, thêm *là* là sai. Đây là bẫy hay gặp nhất. Cũng không flag ở tiêu đề, nhãn, mục lục, ô bảng.
 
-### V4. Rụng dấu thời - thể, hoặc rắc dấu thời - thể quá đều
+### V4. Rụng dấu thời – thể, hoặc rắc dấu thời – thể quá đều
 
 **Dấu hiệu:** hai chiều. (a) Đoạn kể việc đã xảy ra mà thiếu hẳn nhóm *rồi, vẫn, còn, mới, sắp, từng, chưa*. (b) Ngược lại, *đã* xuất hiện trước động từ trong câu đã có mốc thời gian tường minh; chuỗi *đã và đang*, *đã, đang và sẽ*.
-**Vì sao:** tiếng Anh bắt buộc chia thì ở mọi động từ hữu định, tiếng Việt đánh dấu thể bằng phó từ tuỳ chọn và chỉ khi ngữ cảnh chưa đủ. Nhóm *rồi / vẫn / còn / mới / chưa* là chỗ rơi rụng nặng nhất vì tiếng Anh không có từ tương ứng trực tiếp — không có gì trong câu nguồn kích hoạt chúng.
+**Vì sao:** tiếng Anh bắt buộc chia thì ở mọi động từ hữu định, tiếng Việt đánh dấu thể bằng phó từ tuỳ chọn và chỉ khi ngữ cảnh chưa đủ. Nhóm *rồi / vẫn / còn / mới / chưa* là chỗ rơi rụng nặng nhất vì tiếng Anh không có từ tương ứng trực tiếp, không có gì trong câu nguồn kích hoạt chúng.
 **Sửa:** *"Năm 2019, công ty đã mở chi nhánh đầu tiên"* → *"Năm 2019, công ty mở chi nhánh đầu tiên"*. *"Đội chuẩn bị tài liệu bàn giao"* → *"Đội **đang** chuẩn bị tài liệu bàn giao"*. Nguyên tắc: đánh dấu ở chỗ thời gian **thay đổi**, không đánh dấu ở mọi câu. Ưu tiên bổ sung nhóm *rồi / vẫn / còn / mới / chưa* trước khi nghĩ tới *đã / đang / sẽ*; nhóm này chở sắc thái mà bản dịch máy không bao giờ có.
 **Không flag:** câu không có mốc thời gian nào khác và *đã* là thứ duy nhất định vị được sự việc. Định nghĩa, thông số, mô tả chức năng phi thời gian. Đoạn đã có mốc thời gian rõ ở đầu thì các câu sau không cần lặp dấu.
 
@@ -115,7 +117,7 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 **Dấu hiệu:** số đếm đứng sát danh từ chỉ vật thể cụ thể (*"ba xe"*, *"hai bàn"*); danh từ chỉ vật thể cụ thể đứng trần sau động từ khi trỏ một cá thể xác định (*"treo tranh trong phòng khách"*); dùng *cái* làm loại từ vạn năng; chồng loại từ (*"cái con mèo"*).
 **Vì sao:** tiếng Anh cá thể hoá bằng mạo từ và số nhiều, tiếng Việt bằng loại từ. Model ánh xạ *a* thành *một* rồi dừng, không biết tiếng Việt còn cần *một **chiếc** xe*. Khi câu nguồn là danh từ số nhiều trần thì không có gì kích hoạt, danh từ đứng trơ.
 **Sửa:** *"Anh ấy vừa mua xe mới"* → *"Anh ấy vừa mua **một chiếc** xe mới"*. Chọn theo nhóm nghĩa: *con* cho động vật và một số vật chuyển động; *chiếc* cho phương tiện, vật dụng lẻ; *bức / tấm* cho vật phẳng; *quyển / cuốn* cho sách; *ngôi* cho nhà, trường; *người / vị* cho người.
-**Không flag:** danh từ trừu tượng, danh từ khối, thuật ngữ kỹ thuật (server, container, endpoint). **Chiều ngược cũng sai:** danh từ dùng ở nghĩa khái quát thì không thêm loại từ — *"Xe là phương tiện chủ yếu ở đô thị"* đúng như vậy. Danh mục, bảng biểu, tiêu đề đều lược loại từ.
+**Không flag:** danh từ trừu tượng, danh từ khối, thuật ngữ kỹ thuật (server, container, endpoint). **Chiều ngược cũng sai:** danh từ dùng ở nghĩa khái quát thì không thêm loại từ, *"Xe là phương tiện chủ yếu ở đô thị"* đúng như vậy. Danh mục, bảng biểu, tiêu đề đều lược loại từ.
 
 ### V6. Khung hỏi và khung cầu khiến không dựng theo tiếng Việt
 
@@ -124,7 +126,7 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 **Sửa:** *"Bạn có kế hoạch cho tuần sau?"* → *"Tuần sau anh có kế hoạch **gì chưa**?"*. *"Vui lòng gửi lại file trước 5 giờ"* → *"Anh gửi lại file cho em trước 5 giờ **nhé**"*. Cân nhắc đưa xưng hô về cuối câu (*"Báo cáo xong chưa anh?"*), vị trí rất tự nhiên trong hội thoại tiếng Việt mà model không bao giờ chọn.
 **Không flag:** câu hỏi tu từ trong văn nghị luận, tiêu đề dạng câu hỏi, biểu mẫu khảo sát, giao diện phần mềm và thông báo hệ thống (*"Vui lòng nhập mật khẩu"* đúng ở đó).
 
-## Nhóm 2 — Khuôn tiếng Anh áp thẳng
+## Nhóm 2: Khuôn tiếng Anh áp thẳng
 
 ### V7. "của" thừa theo khuôn "of"
 
@@ -145,7 +147,7 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 **Dấu hiệu:** mật độ cao của *thông qua, trong quá trình, với sự, dưới hình thức, dựa trên, đối với, trong bối cảnh, trên cơ sở, nhằm mục đích, tại thời điểm, trong khuôn khổ*. Chúng gần như luôn mở đầu câu và luôn có dấu phẩy theo sau, đúng khuôn cụm giới từ mở đầu tiếng Anh.
 **Vì sao:** một giới từ đơn tiếng Anh (through, during, with, upon) dịch sang tiếng Việt nở ra thành cụm ba bốn âm tiết. Tiếng Việt thường không diễn đạt quan hệ đó bằng giới từ mà bằng một mệnh đề có động từ.
 **Sửa:** chuyển cụm giới từ thành mệnh đề. *"Với sự hỗ trợ từ đối tác, lỗi đã được khắc phục trong hai ngày"* → *"Đối tác hỗ trợ nên chỉ hai ngày là xong"*. Rút cụm bốn âm tiết khi không chuyển được: *tại thời điểm* → *khi*; *trên cơ sở* → *theo*; *nhằm mục đích* → *để*. Lưu ý *tại* chỉ dùng cho địa điểm cụ thể: *"lỗi tại bước xác thực"* nên là *"lỗi ở bước xác thực"*.
-**Không flag:** pháp quy và hợp đồng, nơi *trên cơ sở*, *trong khuôn khổ*, *đối với* là công thức có hiệu lực pháp lý. **Cảnh báo:** chuyển thành mệnh đề có khi làm lộ ra là câu gốc không nêu chủ thể nào cả. Lúc đó hỏi người dùng, không bịa ra chủ thể.
+**Không flag:** pháp quy và hợp đồng, nơi *trên cơ sở*, *trong khuôn khổ*, *đối với* là công thức có hiệu lực pháp lý. Văn doanh nghiệp mở câu bằng cụm mục đích có nội dung thật cũng bình thường: *"Nhằm nâng cao hiệu quả vận hành kho, team dev đã triển khai..."* là cách người viết báo cáo thật mở câu. **Cảnh báo:** chuyển thành mệnh đề có khi làm lộ ra là câu gốc không nêu chủ thể nào cả. Lúc đó hỏi người dùng, không bịa ra chủ thể.
 
 ### V10. "một cách + tính từ" và trật tự trạng ngữ Tây hoá
 
@@ -165,30 +167,30 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 
 **Dấu hiệu:** đếm số câu mở đầu bằng *Hơn nữa, Ngoài ra, Bên cạnh đó, Đồng thời, Thêm vào đó, Mặt khác, Tuy nhiên, Do đó, Vì vậy, Chính vì thế, Nhìn chung, Cuối cùng*. Trên một phần ba số câu trong đoạn là dấu vết cấu trúc. Dấu hiệu tinh hơn: chúng đứng ở chỗ quan hệ giữa hai câu vốn đã hiển nhiên.
 **Vì sao:** tiếng Anh liên kết đoạn chủ yếu bằng trạng từ nối đầu câu. Tiếng Việt liên kết bằng ba phương thức khác: lặp từ khoá, hư từ nằm trong lòng câu (*cũng, còn, lại, mà, thì, nên*), và trật tự.
-**Sửa:** xoá trạng từ nối rồi **nhập hai câu lại**, đặt quan hệ vào bên trong bằng hư từ. *Hơn nữa / Ngoài ra* → *cũng* hoặc dấu phẩy; *Tuy nhiên / Mặt khác* → *còn, lại, nhưng, mà*; *Do đó / Vì vậy* → *nên*. Khi là tương phản cục bộ, dùng khung *"Riêng X thì..."* hoặc *"Còn X thì..."* — cách liên kết rất Việt mà model hầu như không dùng. Phần lớn trường hợp xoá đi mà không thay bằng gì là đủ.
-**Không flag:** văn bản học thuật, luận văn, pháp quy, báo cáo thẩm định — mật độ cao là chuẩn thể loại. Danh sách đánh số theo trình tự (*Thứ nhất... Thứ hai...*).
+**Sửa:** xoá trạng từ nối rồi **nhập hai câu lại**, đặt quan hệ vào bên trong bằng hư từ. *Hơn nữa / Ngoài ra* → *cũng* hoặc dấu phẩy; *Tuy nhiên / Mặt khác* → *còn, lại, nhưng, mà*; *Do đó / Vì vậy* → *nên*. Khi là tương phản cục bộ, dùng khung *"Riêng X thì..."* hoặc *"Còn X thì..."*, cách liên kết rất Việt mà model hầu như không dùng. Phần lớn trường hợp xoá đi mà không thay bằng gì là đủ.
+**Không flag:** văn bản học thuật, luận văn, pháp quy, báo cáo thẩm định: ở đó mật độ cao là chuẩn thể loại. Danh sách đánh số theo trình tự (*Thứ nhất... Thứ hai...*).
 
 ### V13. Khung SVO cứng, không đưa đề lên đầu
 
 **Dấu hiệu:** ở cấp đoạn, không cấp câu. Nếu 5 trên 6 câu mở đầu bằng một danh ngữ chỉ chủ thể hành động, đoạn đó gần như chắc chắn dịch từ SVO. Thành phần đang được bàn tới lại xuất hiện ở cuối câu sau thay vì đầu câu.
 **Vì sao:** tiếng Anh gắn chặt vào trật tự chủ - vị - tân, muốn nhấn thì phải dùng bị động hoặc cấu trúc chẻ. Tiếng Việt đưa thẳng cái đang bàn lên đầu làm đề. Model bám khuôn nguồn nên câu nào cũng đúng mà đoạn đọc như văn dịch: mạch thông tin không nối được từ câu này sang câu kia.
-**Sửa:** *"Tôi đã đọc cuốn sách này ba lần. Cuốn sách này rất khó hiểu ở chương cuối."* → *"Cuốn sách này tôi đọc ba lần rồi. Chương cuối vẫn khó hiểu."* Thành phần đưa lên đầu không cần là chủ ngữ ngữ pháp. **Không đảo hết mọi câu** — mục tiêu là trộn. Sau khi sửa, trong 6 câu liên tiếp không nên quá 4 câu mở đầu bằng chủ thể hành động.
-**Không flag:** pháp quy, điều khoản, mô tả thuật toán, tài liệu API — trật tự cố định là cố ý để tránh mơ hồ. Đoạn tường thuật chuỗi hành động của cùng một chủ thể. Không flag câu lẻ, chỉ flag khi cả đoạn đồng dạng.
+**Sửa:** *"Tôi đã đọc cuốn sách này ba lần. Cuốn sách này rất khó hiểu ở chương cuối."* → *"Cuốn sách này tôi đọc ba lần rồi. Chương cuối vẫn khó hiểu."* Thành phần đưa lên đầu không cần là chủ ngữ ngữ pháp. **Không đảo hết mọi câu**, mục tiêu là trộn. Sau khi sửa, trong 6 câu liên tiếp không nên quá 4 câu mở đầu bằng chủ thể hành động.
+**Không flag:** pháp quy, điều khoản, mô tả thuật toán, tài liệu API: trật tự cố định ở đó là cố ý để tránh mơ hồ. Đoạn tường thuật chuỗi hành động của cùng một chủ thể. Không flag câu lẻ, chỉ flag khi cả đoạn đồng dạng.
 
 ### V14. Danh ngữ trần đứng làm câu
 
 **Dấu hiệu:** một câu hoàn chỉnh về hình thức nhưng toàn bộ chỉ là một danh ngữ, không có vị ngữ. Thường mở đầu bằng *Một..., Những..., Cách tiếp cận..., Giải pháp...* kèm chuỗi định ngữ dài.
 **Vì sao:** tiếng Anh cho phép mảnh câu danh ngữ làm slogan hoặc câu chốt. Tiếng Việt chỉ chấp nhận danh ngữ trần ở tít, chú thích ảnh, nhãn. Đưa vào văn xuôi thì câu treo lơ lửng, người đọc chờ vị ngữ không tới.
 **Sửa:** ba cách, theo thứ tự ưu tiên. (a) Gắn vào câu trước bằng dấu phẩy nếu đang đồng vị. (b) Thêm khung *Đây là / X là*. (c) Kéo vị từ nằm sẵn trong định ngữ ra làm vị ngữ chính. *"Một hệ thống được thiết kế để xử lý hàng triệu yêu cầu."* → *"Hệ thống này xử lý được hàng triệu yêu cầu mỗi giây."* Tránh cách thứ tư mà model hay tự chọn: thêm *chính là* hoặc *thực sự là*. Đó là thêm giọng, không phải chữa cấu trúc.
-**Không flag:** tít, sapo, chú thích ảnh, nhãn nút, mục lục, ô bảng, checklist. Một mảnh câu đơn lẻ dùng để nhấn có chủ ý — chỉ flag khi có từ hai mảnh trở lên gần nhau.
+**Không flag:** tít, sapo, chú thích ảnh, nhãn nút, mục lục, ô bảng, checklist. Một mảnh câu đơn lẻ dùng để nhấn có chủ ý, chỉ flag khi có từ hai mảnh trở lên gần nhau.
 
-## Nhóm 3 — Chuỗi danh hoá
+## Nhóm 3: Chuỗi danh hoá
 
 ### V15. Danh hoá thừa và động từ rỗng đỡ
 
-**Dấu hiệu:** quét theo **cụm ba tầng**, không quét lẻ. Tầng một: *việc / sự / tính / công tác / quá trình + động từ*. Tầng hai: động từ rỗng đỡ danh ngữ vừa tạo ra — *thực hiện, tiến hành, triển khai, đưa ra, mang lại, tạo ra, có sự*. Tầng ba kéo theo V16. Chồng hai động từ rỗng (*tiến hành thực hiện*) là chắc chắn. Ngưỡng tham khảo: trên 3 lần `việc|sự|tính + động từ` trên 100 âm tiết.
+**Dấu hiệu:** quét theo **cụm ba tầng**, không quét lẻ. Tầng một: *việc / sự / tính / công tác / quá trình + động từ*. Tầng hai: động từ rỗng đỡ danh ngữ vừa tạo ra, *thực hiện, tiến hành, triển khai, đưa ra, mang lại, tạo ra, có sự*. Tầng ba kéo theo V16. Chồng hai động từ rỗng (*tiến hành thực hiện*) là chắc chắn. Ngưỡng tham khảo: trên 3 lần `việc|sự|tính + động từ` trên 100 âm tiết.
 **Vì sao:** tiếng Anh học thuật danh hoá rất mạnh và tiếng Việt không cần, vì động từ đứng ở vị trí nào cũng được, không đổi hình thái. Khi động từ đã bị biến thành danh từ, câu cần một động từ mới để đứng vững, và model luôn với tay vào cùng một nhóm động từ rỗng.
-**Sửa:** *"Nhóm đã tiến hành thực hiện việc rà soát toàn bộ dữ liệu và đưa ra quyết định về việc dừng chiến dịch."* → *"Nhóm rà soát lại toàn bộ dữ liệu rồi quyết định dừng chiến dịch."* Bảng thay thế Hán-Việt ↔ thuần Việt: `references/han-viet-thuan-viet.md`. **Cấm dùng bảng đó như find-and-replace** — cột thứ ba là phần chịu lực.
+**Sửa:** *"Nhóm đã tiến hành thực hiện việc rà soát toàn bộ dữ liệu và đưa ra quyết định về việc dừng chiến dịch."* → *"Nhóm rà soát lại toàn bộ dữ liệu rồi quyết định dừng chiến dịch."* Bảng thay thế Hán-Việt ↔ thuần Việt: `references/han-viet-thuan-viet.md`. **Cấm dùng bảng đó như find-and-replace**: cột thứ ba mới là phần chịu lực.
 **Không flag:** *việc* danh hoá một mệnh đề có chủ ngữ riêng (*"Việc anh ấy nghỉ ngang khiến cả nhóm bối rối"*). *việc* nghĩa đen là công việc. *sự* trong từ ghép cố định: sự thật, sự kiện, sự cố, sự nghiệp. *tính* trong thuật ngữ: tính toàn vẹn dữ liệu, tính thanh khoản. Hành chính và pháp quy: *tiến hành thanh tra*, *thực hiện nghĩa vụ thuế* là thuật ngữ đúng chuẩn.
 
 ### V16. Bị động calque "được / bị ... bởi"
@@ -196,7 +198,7 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 **Dấu hiệu:** `được\s+\p{L}+\s+bởi` là tín hiệu rất mạnh và sạch. Cũng vậy: `bởi + danh từ chỉ tác nhân`. Chuỗi *được xem là, được coi là, được biết đến như là, được kỳ vọng sẽ*.
 **Vì sao:** tiếng Anh dùng bị động để giữ chủ đề ở đầu câu. Tiếng Việt đạt cùng mục đích bằng cách đưa chủ đề lên trước rồi để câu ở dạng chủ động. Chuỗi *được... bởi* là dấu vết cơ học của giới từ *by*. Thêm nữa *được / bị* mang sắc thái đánh giá lợi hại, không phải dấu hiệu ngữ pháp thuần tuý như *be + V-ed*.
 **Sửa:** *"Báo cáo được hoàn thành bởi phòng kế toán"* → *"Phòng kế toán hoàn thành báo cáo"*. *"Các lỗi được phát hiện bởi hệ thống sẽ được xử lý bởi đội kỹ thuật"* → *"Hệ thống phát hiện lỗi nào thì đội kỹ thuật xử lý lỗi đó"*.
-**Không flag:** **cấm quét *được* đơn lẻ.** Phần lớn *được* không phải bị động: thụ hưởng (*được nghỉ phép*), khả năng (*làm được*, *nói được tiếng Nhật*), kết quả đứng sau động từ (*giữ được tiến độ* — đó là V1, không phải V16). *bị* mang sắc thái tiêu cực đúng chỗ (*đơn hàng bị huỷ*). Pháp quy: *"Quyết định được ban hành ngày..."* là chuẩn.
+**Không flag:** **cấm quét *được* đơn lẻ.** Phần lớn *được* không phải bị động: thụ hưởng (*được nghỉ phép*), khả năng (*làm được*, *nói được tiếng Nhật*), kết quả đứng sau động từ (*giữ được tiến độ* thuộc V1, không phải V16). *bị* mang sắc thái tiêu cực đúng chỗ (*đơn hàng bị huỷ*). Pháp quy: *"Quyết định được ban hành ngày..."* là chuẩn.
 
 ### V17. Né hệ từ: "đóng vai trò là", "sở hữu", "mang lại"
 
@@ -212,15 +214,15 @@ Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng k
 **Sửa:** cắt thành câu riêng. *"Hệ thống mới, vốn được xây dựng trên nền tảng đám mây mà công ty đã đầu tư từ 2024, cho phép đồng bộ tồn kho theo thời gian thực, điều này giúp giảm bán vượt tồn."* → *"Hệ thống mới chạy trên nền tảng đám mây công ty đầu tư từ năm 2024. Các cửa hàng đồng bộ tồn kho theo thời gian thực. Nhờ vậy những điểm bán đông khách không còn bán vượt tồn."*
 **Không flag:** *mà* là liên từ đối lập dùng đúng (*"Rẻ mà bền"*). *mà* là tiểu từ nhấn mạnh cuối câu (*"Tôi đã nói rồi mà"*). Pháp quy và hợp đồng: câu dài nhiều mệnh đề là yêu cầu nghề nghiệp, cắt câu là đổi phạm vi điều chỉnh. Một câu dài đơn lẻ giữa các câu ngắn.
 
-## Nhóm 4 — Song ngữ
+## Nhóm 4: Song ngữ
 
 ### V19. Chêm tiếng Anh sai mật độ hoặc sai kiểu
 
 Tín hiệu **hai chiều**, hướng do cổng thể loại quyết định.
 
-**Chiều mật độ:** ở văn công việc, chat nội bộ, LinkedIn, personal brand, marketing, IT — chêm tiếng Anh là chuẩn mực và **vắng hẳn mới là tell**. Không dân bán lẻ Việt nào viết *"chương trình giảm giá cuối mùa"* thay cho *"sale off"*; không dân IT nào viết *"triển khai lên môi trường sản xuất"* thay cho *"deploy lên prod"*. Ngược lại, ở giáo trình, đề án môn học, nghiên cứu khoa học và văn bản hành chính, chêm tiếng Anh **là lỗi register**, trừ thuật ngữ chưa có tương đương và có chú giải ở lần xuất hiện đầu.
+**Chiều mật độ:** ở văn công việc, chat nội bộ, LinkedIn, personal brand, marketing, IT, chêm tiếng Anh là chuẩn mực và **vắng hẳn mới là tell**. Không dân bán lẻ Việt nào viết *"chương trình giảm giá cuối mùa"* thay cho *"sale off"*; không dân IT nào viết *"triển khai lên môi trường sản xuất"* thay cho *"deploy lên prod"*. Ngược lại, ở giáo trình, đề án môn học, nghiên cứu khoa học và văn bản hành chính, chêm tiếng Anh **là lỗi register**, trừ thuật ngữ chưa có tương đương và có chú giải ở lần xuất hiện đầu.
 
-**Chiều cách chêm** — quét được và đáng tin hơn mật độ:
+**Chiều cách chêm**, quét được và đáng tin hơn mật độ:
 
 | Người thật | Model |
 |---|---|
@@ -229,9 +231,11 @@ Tín hiệu **hai chiều**, hướng do cổng thể loại quyết định.
 | Chêm lộn xộn, không đều, đôi khi sai chính tả | Chêm đều đặn theo khuôn, chính tả luôn đúng |
 | Giữ nguyên từ mà người trong ngành không bao giờ dịch: cloud, deploy, benchmark, brief, deadline | **Dịch sạch mọi thuật ngữ**: *"điện toán đám mây"*, *"điểm chuẩn"*, *"học máy"* ở chỗ người trong ngành luôn nói cloud, benchmark, machine learning |
 
-Dòng cuối là tell mạnh nhất của V19, và cùng cơ chế với cả họ dịch tính: model render sang tiếng Việt một cách triệt để, còn người Việt thật giữ nguyên phần tiếng Anh vì đó là cách đồng nghiệp họ nói.
+Dòng cuối là tell mạnh nhất của V19, và cùng cơ chế với cả họ dịch tính: model render sạch sang tiếng Việt, còn người Việt thật giữ nguyên phần tiếng Anh vì đó là cách đồng nghiệp họ nói.
 
-**Không flag:** người viết có chủ trương thuần Việt hoá nhất quán — nhất quán là dấu hiệu chủ ý. Văn bản viết cho người đọc ngoài ngành. **Không bao giờ tự thêm từ tiếng Anh vào** khi không chắc giới trong ngành dùng từ nào; chêm sai jargon lộ liễu hơn không chêm.
+Ở register công việc, chiều sửa gồm cả việc **trả thuật ngữ đã bị dịch sạch về jargon**: trong tài liệu nội bộ IT, *"đội ngũ kỹ thuật"* thường phải trở lại thành *"team dev"*, *"môi trường sản xuất"* thành *"prod"*. Chỉ đổi khi chắc chắn đó là cách giới đó gọi.
+
+**Không flag:** người viết có chủ trương thuần Việt hoá nhất quán, nhất quán là dấu hiệu chủ ý. Văn bản viết cho người đọc ngoài ngành. **Không bao giờ tự thêm từ tiếng Anh vào** khi không chắc giới trong ngành dùng từ nào; chêm sai jargon lộ liễu hơn không chêm.
 
 ---
 
@@ -255,26 +259,26 @@ Cùng quy tắc này áp cho đại từ hồi chỉ. Tiếng Việt lược ch�
 
 **Dấu hiệu:** heading viết hoa mọi âm tiết (`## Chiến Lược Tăng Trưởng Và Mở Rộng Thị Trường`); viết hoa cả liên từ và giới từ giữa tiêu đề; viết hoa mọi âm tiết của tên đơn vị (*Ban Giám Đốc*, *Bộ Giáo Dục Và Đào Tạo*); viết hoa danh từ chung giữa câu để nhấn.
 **Vì sao:** tiếng Việt **không có** quy ước Title Case. Quy tắc viết hoa tiếng Việt là viết hoa vì phép đặt câu và viết hoa danh từ riêng, hết. Đây là calque trực tiếp và là tell **mạnh hơn** ở tiếng Việt so với tiếng Anh, vì không nhà xuất bản Việt nào viết như vậy.
-**Sửa:** hạ về chữ thường trừ chữ đầu và danh từ riêng. Với tên cơ quan tổ chức, chuẩn đối chiếu là NĐ 30/2020/NĐ-CP Phụ lục II: viết hoa chữ cái đầu của **từ** có nghĩa cấu thành tên riêng, không phải mỗi âm tiết — *Bộ Giáo dục và Đào tạo*, *Ban Giám đốc*, *Phòng Kinh doanh*.
+**Sửa:** hạ về chữ thường trừ chữ đầu và danh từ riêng. Với tên cơ quan tổ chức, chuẩn đối chiếu là NĐ 30/2020/NĐ-CP Phụ lục II: viết hoa chữ cái đầu của **từ** có nghĩa cấu thành tên riêng, không phải mỗi âm tiết, *Bộ Giáo dục và Đào tạo*, *Ban Giám đốc*, *Phòng Kinh doanh*.
 **Không flag:** tên thương hiệu và mã dự án có quy ước riêng (YODY, VinFast). Viết tắt (TP.HCM, KPI, ERP). Tên riêng nhiều âm tiết đều có nghĩa riêng (*Bộ Công Thương*). Trích dẫn nguyên văn.
 
 ### T2. Em dash và gạch ngang chú thích giữa câu
 
 **Dấu hiệu:** ký tự `—` (U+2014) ở bất kỳ đâu. Gạch ngang dùng làm dấu chú thích chèn giữa câu theo kiểu tiếng Anh. Gạch nối `-` có khoảng trắng hai bên dùng như gạch ngang. Hai gạch nối liền `--`.
 **Vì sao:** `—` không thuộc quy ước typography tiếng Việt ở bất kỳ chức năng nào. Gạch ngang chú thích giữa câu thì có tồn tại nhưng thưa; khi nó xuất hiện ở mật độ như văn xuôi tiếng Anh thì đó là dấu vết khuôn.
-**Sửa:** thay bằng dấu phẩy, dấu hai chấm, dấu ngoặc đơn, hoặc tách câu. *"Hệ thống mới — vốn được đầu tư từ 2024 — đã giúp giảm sai lệch."* → *"Hệ thống mới, đầu tư từ năm 2024, đã giúp giảm sai lệch."*
-**Không flag — đây là chỗ khác hẳn bản tiếng Anh:** `–` (en dash) là **gạch ngang chuẩn của tiếng Việt** và có bốn chức năng hợp lệ, tất cả đều giữ nguyên: mở lời thoại đầu dòng, mở đầu mục liệt kê, nối cặp tên riêng (*quan hệ Việt – Trung*, *tuyến Hà Nội – Lào Cai*), nối khoảng (*quý I – quý II*, *2020 – 2025*). Gạch nối không khoảng trắng trong phiên âm (*Lê-nin*, *vắc-xin*) và mã số. Cấm en dash sẽ phá địa danh và mọi lời thoại — đó là hỏng nội dung, không phải hỏng phong cách.
+**Sửa:** thay bằng dấu phẩy, dấu hai chấm, dấu ngoặc đơn, hoặc tách câu. *"Hệ thống mới, vốn được đầu tư từ 2024, đã giúp giảm sai lệch."* → *"Hệ thống mới, đầu tư từ năm 2024, đã giúp giảm sai lệch."*
+**Không flag** (đây là chỗ khác hẳn bản tiếng Anh): `–` (en dash) là **gạch ngang chuẩn của tiếng Việt** và có bốn chức năng hợp lệ, tất cả đều giữ nguyên: mở lời thoại đầu dòng, mở đầu mục liệt kê, nối cặp tên riêng (*quan hệ Việt – Trung*, *tuyến Hà Nội – Lào Cai*), nối khoảng (*quý I – quý II*, *2020 – 2025*). Gạch nối không khoảng trắng trong phiên âm (*Lê-nin*, *vắc-xin*) và mã số. Cấm en dash sẽ phá địa danh và mọi lời thoại, đó là hỏng nội dung, không phải hỏng phong cách.
 
 ### T3. Ngoặc kép không nhất quán
 
 **Dấu hiệu:** trộn `" "` cong và `" "` thẳng trong cùng một tài liệu. Ngoặc `«...»` hoặc `„..."` xuất hiện lẻ tẻ giữa văn bản Việt hiện đại.
-**Vì sao:** bản thân ngoặc cong không nói lên gì — Word, Google Docs và macOS đều tự bo cong, và đây là công cụ soạn thảo mặc định ở Việt Nam. Thứ đáng ngờ là **sự trộn lẫn**, vì nó cho thấy các đoạn đến từ nguồn khác nhau.
-**Sửa:** thống nhất về một kiểu, giữ kiểu đang chiếm đa số trong văn bản. **Không ép về ngoặc thẳng** — đây là chỗ đảo hành vi so với bản tiếng Anh.
+**Vì sao:** bản thân ngoặc cong không nói lên gì: Word, Google Docs và macOS đều tự bo cong, và đây là công cụ soạn thảo mặc định ở Việt Nam. Thứ đáng ngờ là **sự trộn lẫn**, vì nó cho thấy các đoạn đến từ nguồn khác nhau.
+**Sửa:** thống nhất về một kiểu, giữ kiểu đang chiếm đa số trong văn bản. **Không ép về ngoặc thẳng**, đây là chỗ đảo hành vi so với bản tiếng Anh.
 **Không flag:** toàn văn bản nhất quán một kiểu, dù cong hay thẳng. `«...»` trong bản dịch từ tiếng Pháp hoặc Nga. Ngoặc lồng. Code, JSON, chuỗi kỹ thuật.
 
 ### T4. Dấu phẩy Oxford và dấu chấm phẩy nối mệnh đề
 
-**Dấu hiệu:** `,\s+và\s` — dấu phẩy trước *và* trong liệt kê. Dấu chấm phẩy nối hai mệnh đề độc lập kiểu Anh.
+**Dấu hiệu:** `,\s+và\s`, dấu phẩy trước *và* trong liệt kê. Dấu chấm phẩy nối hai mệnh đề độc lập kiểu Anh.
 **Vì sao:** quy ước liệt kê tiếng Việt là `A, B và C`, không có Oxford comma. Trong tiếng Việt `;` chủ yếu dùng để ngăn các khoản trong danh sách văn bản pháp quy, không dùng để nối mệnh đề.
 **Sửa:** *"báo cáo tài chính, kế hoạch nhân sự, và lịch triển khai"* → *"báo cáo tài chính, kế hoạch nhân sự và lịch triển khai"*. Dấu chấm phẩy nối mệnh đề thì thay bằng dấu phẩy với hư từ, hoặc tách câu.
 **Không flag:** phần tử liệt kê tự nó chứa *và*, khi đó dấu phẩy trước *và* cuối là cần thiết để phân định. `;` trong pháp quy ngăn các điểm a, b, c. `;` trong code, URL, CSS.
@@ -282,9 +286,9 @@ Cùng quy tắc này áp cho đại từ hồi chỉ. Tiếng Việt lược ch�
 ### T5. Lạm dụng định dạng markdown
 
 **Dấu hiệu:** ba nét riêng của tiếng Việt, ngoài các biểu hiện chung. (a) In đậm rơi vào danh ngữ Hán-Việt trừu tượng (`**tối ưu hoá quy trình**`, `**chuyển đổi số toàn diện**`) thay vì vào con số hay hạn chót. (b) Bullet header lặp lại chính nó: `- **Hiệu quả vận hành:** Hiệu quả vận hành được cải thiện...`. (c) Bộ heading là danh ngữ Hán-Việt hai âm tiết xếp đối xứng: Tổng quan / Hiện trạng / Giải pháp / Kết luận.
-**Vì sao:** model dùng định dạng để bù cho việc câu chữ không tự phân tầng thông tin. Người Việt viết prose thật phân tầng bằng hư từ và trật tự câu, và bôi đậm rất tiết kiệm — thường là vào con số, hạn chót, tên người chịu trách nhiệm.
+**Vì sao:** model dùng định dạng để bù cho việc câu chữ không tự phân tầng thông tin. Người Việt viết prose thật phân tầng bằng hư từ và trật tự câu, và bôi đậm rất tiết kiệm, thường là vào con số, hạn chót, tên người chịu trách nhiệm.
 **Sửa:** chuyển bullet có header thành văn xuôi. Bỏ bôi đậm khỏi danh ngữ trừu tượng.
-**Không flag:** README, changelog, đặc tả kỹ thuật, SOP, tài liệu tham chiếu — bullet có header là định dạng đúng ở đó. Slide và báo cáo lãnh đạo. Bôi đậm một con số giữa đoạn dài. Bảng biểu.
+**Không flag:** README, changelog, đặc tả kỹ thuật, SOP, tài liệu tham chiếu: bullet có header là định dạng đúng ở đó. Slide và báo cáo lãnh đạo. Bôi đậm một con số giữa đoạn dài. Bảng biểu.
 
 ### T6. Emoji
 
@@ -297,7 +301,7 @@ Cùng quy tắc này áp cho đại từ hồi chỉ. Tiếng Việt lược ch�
 
 # Nhận diện: cái gì KHÔNG được sửa
 
-## Dấu hiệu người Việt thật viết — bất khả xâm phạm
+## Dấu hiệu người Việt thật viết: bất khả xâm phạm
 
 Thấy những thứ này thì nghiêng về để nguyên. Chúng là bằng chứng có người thật đằng sau, và over-edit sẽ xoá đúng cái làm nên văn bản. Xếp theo độ mạnh:
 
@@ -316,11 +320,11 @@ Thấy những thứ này thì nghiêng về để nguyên. Chúng là bằng ch
 
 **Khoảng trắng trước dấu câu là bằng chứng NGƯỜI THẬT VIẾT, không phải tell AI.** Model gần như không sinh lỗi này; người gõ nhanh, gõ trên điện thoại, hoặc quen typography Pháp thì có. Nếu xếp nó vào nhóm tell, bạn sẽ vừa kết luận ngược vừa sửa mất bằng chứng người viết. Chỉ sửa khi người dùng yêu cầu soát chính tả.
 
-## Loại khỏi skill — không phải tell, đừng đụng vào
+## Loại khỏi skill: không phải tell, đừng đụng vào
 
 **Dấu thanh kiểu cũ và kiểu mới** (*hòa / hoà*, *thủy / thuỷ*) và **quy tắc i/y** (*kỹ / kĩ*, *tỷ / tỉ*, *lý / lí*). QĐ 1989/QĐ-BGDĐT 2018 Điều 8 và Điều 9 chỉ áp cho chương trình và sách giáo khoa phổ thông; báo chí, doanh nghiệp và pháp quy dùng kiểu còn lại áp đảo. Đây là tranh chấp chuẩn mực giữa hai giới, không liên quan gì tới AI. Thêm nữa Điều 9.2 loại trừ tên riêng (*Nguyễn Vỹ*, *Thy Ngọc*), nên mọi quy tắc i/y tự động đều có nguy cơ sửa sai tên người.
 
-Chỉ giữ lại dưới dạng **kiểm tra nhất quán nội bộ trong một văn bản**. Nguyên tắc: nhất quán nội bộ, không áp chuẩn ngoài. Một người viết *kỹ thuật* và *tỷ lệ* suốt hai mươi năm mà bị sửa thành *kĩ thuật* và *tỉ lệ* thì skill vừa làm văn bản của họ trông giống văn bản máy hơn — đúng ngược mục tiêu.
+Chỉ giữ lại dưới dạng **kiểm tra nhất quán nội bộ trong một văn bản**. Nguyên tắc: nhất quán nội bộ, không áp chuẩn ngoài. Một người viết *kỹ thuật* và *tỷ lệ* suốt hai mươi năm mà bị sửa thành *kĩ thuật* và *tỉ lệ* thì skill vừa làm văn bản của họ trông giống văn bản máy hơn, đúng ngược mục tiêu.
 
 ## Quy tắc cụm
 
@@ -328,13 +332,13 @@ Không kết luận từ một dấu hiệu lẻ. Gần như mọi cụm trong s
 
 ## Phân biệt "cụt vì dịch máy" với "ngắn gọn có chủ ý"
 
-Rất nhiều người Việt viết ngắn và cộc một cách có ý thức, nhất là dân kỹ thuật và dân vận hành. Nhồi hư từ vào văn của họ cho ra kết quả tệ hơn bản gốc: một loại giả mới, thứ văn giả dân dã, cố tỏ ra tự nhiên.
+Rất nhiều người Việt chủ động viết ngắn và cộc, nhất là dân kỹ thuật và dân vận hành. Nhồi hư từ vào văn của họ cho ra kết quả tệ hơn bản gốc: một loại giả mới, thứ văn giả dân dã, cố tỏ ra tự nhiên.
 
-**Tiêu chí mạnh nhất — xét cái gì bị bỏ.** Người viết tối giản có chủ ý bỏ **từ thừa**: trạng từ nhấn mạnh, tính từ trang trí, cụm rào đón, câu dẫn nhập. Họ không bao giờ bỏ hư từ, vì bỏ hư từ thì chính họ đọc lại cũng thấy hẫng. Dịch máy bỏ **từ chức năng**: *là, thì, được, nên, rồi*, loại từ, tiểu từ.
+**Tiêu chí mạnh nhất: xét cái gì bị bỏ.** Người viết tối giản có chủ ý bỏ **từ thừa**: trạng từ nhấn mạnh, tính từ trang trí, cụm rào đón, câu dẫn nhập. Họ không bao giờ bỏ hư từ, vì bỏ hư từ thì chính họ đọc lại cũng thấy hẫng. Dịch máy bỏ **từ chức năng**: *là, thì, được, nên, rồi*, loại từ, tiểu từ.
 
-**Tiêu chí phụ — tính nhất quán.** Người viết cộc cắt **có hệ thống**: cùng một kiểu cấu trúc thì cắt cùng một kiểu, xuyên suốt. Dịch máy rụng hư từ **ngẫu nhiên**: cùng một cấu trúc, chỗ có chỗ không, trong cùng một đoạn. Sự bất nhất này là chữ ký của lỗi dịch.
+**Tiêu chí phụ: tính nhất quán.** Người viết cộc cắt **có hệ thống**: cùng một kiểu cấu trúc thì cắt cùng một kiểu, xuyên suốt. Dịch máy rụng hư từ **ngẫu nhiên**: cùng một cấu trúc, chỗ có chỗ không, trong cùng một đoạn. Sự bất nhất này là chữ ký của lỗi dịch.
 
-## Mật độ khi sửa — phanh chống nhồi
+## Mật độ khi sửa: phanh chống nhồi
 
 - Hư từ nối trong lòng câu (*thì, mà, là, nên, cũng, còn, lại*): trung bình 1–2 mỗi câu. Trên 3 là nhồi.
 - Tiểu từ tình thái cuối câu: 1 trên 3–5 câu ở văn hội thoại. **0 ở văn trang trọng.**
@@ -356,7 +360,7 @@ Rất nhiều người Việt viết ngắn và cộc một cách có ý thức,
 
 Không tồn tại nghiên cứu định lượng nào về dấu hiệu văn bản AI trong tiếng Việt ở cấp từ vựng hay cú pháp. Các công trình hiện có về phát hiện văn bản AI tiếng Việt chỉ dùng đặc trưng phân bố xác suất, không liệt kê pattern ngôn ngữ học nào.
 
-Khoảng một phần ba pattern trong skill này có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, đối chiếu ngữ pháp Anh - Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
+Khoảng một phần ba pattern trong skill này có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, đối chiếu ngữ pháp Anh – Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
 
 Mọi ngưỡng số trong skill này (mật độ danh hoá, tỉ lệ câu mở bằng trạng từ nối, mật độ tiểu từ) là **chưa hiệu chuẩn trên corpus**. Dùng làm phanh, đừng dùng làm bằng chứng.
 
