@@ -37,6 +37,16 @@ Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo. Lưu 
 
 Gọi bằng `/vi-humanizer:vi-humanizer`.
 
+### Claude Desktop và claude.ai
+
+Hai chỗ này không đọc thư mục skill trên máy, chúng cần một file `.skill` để upload. Đóng gói bằng:
+
+```bash
+./scripts/package-skill.sh
+```
+
+Ra `dist/vi-humanizer.skill`, kéo thả vào Claude Desktop hoặc upload trong phần Skills của claude.ai. Gói chỉ chứa phần runtime (`SKILL.md`, `profiles/`, `references/`, `calibration/`); README, AGENTS.md và manifest plugin không nằm trong đó.
+
 ### Thủ công
 
 Runtime artifact là `SKILL.md` cùng thư mục `profiles/` và `references/`. Chép cả cây thư mục vào chỗ harness của bạn tìm skill.
