@@ -25,3 +25,31 @@ Bộ nhớ bằng chứng của skill. Mỗi quan sát một entry, ghi trước
 | 5 | "độ trễ" ↔ "độ trễ của hệ thống": bản vàng thêm định ngữ cho rõ | Sở thích cá nhân (cả hai đều tự nhiên) | Không sửa skill |
 
 **Ghi chú:** n=1 nhưng người sửa là chủ repo và cả bốn lỗi guard đều gọi tên được, nên đủ ngưỡng theo giao thức. Đây cũng là entry mẫu cho định dạng log.
+
+---
+
+## 2026-07-30 · README của chính repo (tài liệu kỹ thuật)
+
+**Nguồn:** chạy skill lên `README.md` theo yêu cầu của người dùng. Đây là self-application, không phải bản vàng của người thật, nên bằng chứng yếu hơn entry trên.
+
+**Cổng thể loại:** README repo → profile `ky-thuat-doanh-nghiep`, tiểu từ tắt, V13 tắt, V15 và V16 nới, T5 nới mạnh, V19 giữ jargon.
+
+**Bắt được, đều là lỗi thật:**
+
+| Pattern | Chỗ sai | Sửa |
+|---|---|---|
+| T2 | Em dash chú thích giữa câu: *"phá địa danh và mọi lời thoại — hỏng nội dung"* | Thay bằng *"tức là hỏng nội dung chứ không phải..."* |
+| V7 | *"Đừng dùng kết quả của nó như bằng chứng"*, *của* thừa theo khuôn *of* | Bỏ *của nó* |
+| V16 | *"Bộ pattern tiếng Việt được xây mới hoàn toàn"* | *"thì xây mới hoàn toàn"* |
+| V3 | *"Chép cả cây thư mục vào chỗ harness của bạn tìm skill"*, mệnh đề quan hệ thiếu ranh giới | Viết lại thành *"vào thư mục skill của harness"* |
+| T4 | Ba chỗ `, và`: một Oxford comma thật (*"tìm trong lock, không thấy, và báo lỗi"*), hai chỗ comma-and nối mệnh đề kiểu Anh | Thay bằng *nên* và *mà… lại* |
+
+**Cổng thể loại hoạt động đúng, ba lần từ chối sửa:**
+
+- `, và` trong mục Lịch sử phiên bản: changelog nằm trong nhóm thể loại bị chặn. Để nguyên.
+- *"một cách nhanh chóng"* và *"Điều quan trọng cần lưu ý là"* trong bảng pattern: đây là ví dụ đang được bàn tới, thuộc ngoại lệ văn bản thứ cấp. Để nguyên.
+- Bullet có header và bảng dày đặc: T5 nới mạnh cho README. Để nguyên.
+
+**Phân loại:** cả năm mục đều là **lỗi thật của văn bản**, không phải lỗi guard của skill. Skill bắn đúng, không bắn thừa. Không sửa pattern nào.
+
+**Quan sát đáng ghi:** phần lớn công việc trong lượt này không phải sửa câu mà là vá nội dung đã lệch so với repo (cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời khi repo đang ở 0.2.0). Skill không bắt được loại lỗi này vì nó chỉ soi ngôn ngữ, không đối chiếu văn bản với thực tế. Nếu muốn agent tự bảo trì README, cần một bước kiểm tra riêng: đối chiếu mọi phát biểu về cấu trúc repo với cây thư mục thật. Chưa đủ cơ sở để thành pattern, ghi lại để theo dõi.

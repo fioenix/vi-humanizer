@@ -10,7 +10,7 @@ Phần lớn mô hình ngôn ngữ được huấn luyện chủ yếu trên ti�
 
 Kết quả là câu đúng ngữ pháp bề mặt nhưng cụt, hẫng, lạnh, dừng lại trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu.
 
-**Lưu ý quan trọng về định vị:** skill này phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Đừng dùng kết quả của nó như bằng chứng ai đó dùng AI.
+**Lưu ý quan trọng về định vị:** skill này phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Đừng dùng kết quả như bằng chứng ai đó dùng AI.
 
 ## Cài đặt
 
@@ -26,7 +26,15 @@ Cập nhật:
 npx skills update vi-humanizer --global --yes
 ```
 
-Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo. Lưu ý: cờ `--global` phải khớp giữa lúc cài và lúc update. Cài global mà update thiếu `--global` thì CLI tìm trong lock của project hiện tại, không thấy, và báo lỗi `repository 'vi-humanizer' does not exist`.
+Cài cho mọi agent harness trên máy trong một lệnh:
+
+```bash
+npx skills add fioenix/vi-humanizer --skill vi-humanizer --global --agent '*' --yes
+```
+
+Lệnh này đặt một bản duy nhất ở `~/.agents/skills/vi-humanizer` rồi symlink cho khoảng 70 harness, nên về sau chỉ cần update một lần là mọi agent cùng lên bản mới. Vài harness không hỗ trợ cài global (Eve, PromptScript) sẽ báo lỗi và bị bỏ qua, phần còn lại vẫn cài bình thường.
+
+Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo. Lưu ý: cờ `--global` phải khớp giữa lúc cài và lúc update. Cài global mà update thiếu `--global` thì CLI tìm trong lock của project hiện tại, không thấy nên báo lỗi `repository 'vi-humanizer' does not exist`.
 
 ### Claude Code plugin
 
@@ -49,7 +57,7 @@ Ra `dist/vi-humanizer.skill`, kéo thả vào Claude Desktop hoặc upload trong
 
 ### Thủ công
 
-Runtime artifact là `SKILL.md` cùng thư mục `profiles/` và `references/`. Chép cả cây thư mục vào chỗ harness của bạn tìm skill.
+Runtime artifact là `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration/`. Chép cả cây thư mục vào thư mục skill của harness.
 
 ```bash
 git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
@@ -94,8 +102,11 @@ Skill chia theo trục **lỗi ngôn ngữ** và **lỗi giọng**, không chia 
 SKILL.md                            cổng thể loại, lõi V1-V19, typography T1-T6, nhận diện
 profiles/blog-ca-nhan.md            B1-B17 + giọng và cá tính
 profiles/ky-thuat-doanh-nghiep.md   K1-K4 + lệnh cấm và điều chỉnh ngưỡng
-references/han-viet-thuan-viet.md   bảng tra ~130 dòng
+references/han-viet-thuan-viet.md   bảng tra 111 dòng + năm phép thử
 references/bang-tra-cuu.md          bổ ngữ kết quả, cặp hô ứng, loại từ, checklist
+calibration/LOG.md                  bộ nhớ bằng chứng cho vòng tự hiệu chuẩn
+scripts/validate-package.py         kiểm đồng bộ, chạy trong CI
+scripts/package-skill.sh            đóng gói dist/vi-humanizer.skill
 ```
 
 Trước khi áp bất kỳ pattern nào, skill chạy một **cổng thể loại**. Sáu nhóm văn bản bị chặn hoàn toàn: pháp quy và hợp đồng, cổ phong và nghi lễ, tài liệu API và changelog, thơ, bản dịch có chủ đích, trích dẫn nguyên văn. Ở những thể loại đó, danh hoá, bị động và nhịp đối xứng là **yêu cầu thể loại**, không phải lỗi.
@@ -193,9 +204,9 @@ Phần lớn profile này là **lệnh cấm**, không phải pattern: cấm ch�
 
 **1. Không bao giờ sửa câu chỉ vì nó lặp từ.** Bản tiếng Anh coi lặp danh từ là lỗi văn phong và chữa bằng từ đồng nghĩa. Tiếng Việt đơn lập, không có đại từ hồi chỉ tiện dụng như *it / they*, nên lặp nguyên danh từ là **phương thức liên kết chuẩn mực**. Mang ngưỡng chống lặp của tiếng Anh sang là chủ động tạo ra dịch tính. Thứ phải cắt là chuỗi đồng nghĩa (*doanh nghiệp → công ty → tổ chức → đơn vị*), không phải chuỗi lặp.
 
-**2. Không cấm en dash.** Bản tiếng Anh cấm cả `—` và `–`. Trong tiếng Việt, `–` là gạch ngang chuẩn với bốn chức năng hợp lệ: lời thoại, liệt kê đầu dòng, cặp tên riêng (*quan hệ Việt – Trung*), khoảng (*2020 – 2025*). Bê nguyên quy tắc đó sang sẽ phá địa danh và mọi lời thoại — hỏng nội dung, không phải hỏng phong cách.
+**2. Không cấm en dash.** Bản tiếng Anh cấm cả `—` và `–`. Trong tiếng Việt, `–` là gạch ngang chuẩn với bốn chức năng hợp lệ: lời thoại, liệt kê đầu dòng, cặp tên riêng (*quan hệ Việt – Trung*), khoảng (*2020 – 2025*). Bê nguyên quy tắc đó sang sẽ phá địa danh và mọi lời thoại, tức là hỏng nội dung chứ không phải hỏng phong cách.
 
-**3. Không ép ngoặc kép về dạng thẳng.** Word, Google Docs và macOS đều tự bo cong, và đây là công cụ soạn thảo mặc định ở Việt Nam. Ép về ngoặc thẳng sẽ sửa hàng loạt văn bản người thật gõ. Chỉ kiểm tra nhất quán nội bộ.
+**3. Không ép ngoặc kép về dạng thẳng.** Word, Google Docs và macOS đều tự bo cong, mà đây lại là công cụ soạn thảo mặc định ở Việt Nam. Ép về ngoặc thẳng sẽ sửa hàng loạt văn bản người thật gõ. Chỉ kiểm tra nhất quán nội bộ.
 
 ## Hai thứ bị loại khỏi skill có chủ đích
 
@@ -207,13 +218,31 @@ Chỉ giữ lại dưới dạng kiểm tra nhất quán nội bộ. Nguyên t�
 
 **Khoảng trắng trước dấu câu là bằng chứng người thật viết, không phải tell AI.** Mô hình gần như không sinh lỗi này; người gõ nhanh trên điện thoại thì có. Skill khai báo chiều tín hiệu này tường minh, vì để agent tự suy thì nó sẽ vừa kết luận ngược vừa sửa mất bằng chứng.
 
+## Skill tự hiệu chuẩn từ sử dụng thật
+
+Skill được thiết kế để một agent chạy lâu dài tự nâng cấp nó dựa trên cách người thật viết và sửa. Khi người dùng sửa lại bản rewrite, bản của họ là bản vàng: agent so hai bản, gọi tên pattern nào bắn sai và guard nào thiếu, ghi vào `calibration/LOG.md`, rồi mới đề xuất sửa skill.
+
+Chỗ dễ hỏng nhất là gộp mọi khác biệt vào một rọ, nên giao thức bắt phân loại ba đường trước:
+
+| Loại khác biệt | Đi đâu | Ngưỡng bằng chứng |
+|---|---|---|
+| Sở thích cá nhân | Voice memory của agent, **không vào skill** | không bao giờ |
+| Lỗi guard | Nới hoặc siết guard của pattern có sẵn | n=1 nếu lỗi gọi tên được |
+| Pattern mới | Thêm pattern, đúng khung bốn phần | n≥3 mẫu độc lập |
+
+Không có entry trong log thì không được sửa skill: log là bộ nhớ bằng chứng, sửa mà không có nó là bịa. Pattern sinh ra theo đường này gắn nhãn "Quan sát từ sử dụng (n=…)", mạnh hơn suy luận nhưng yếu hơn corpus.
+
+Một hệ quả cần nói rõ: skill cài cho agent nào thì sẽ dần tune theo giọng của tổ chức đó. Với fork nội bộ thì đó là tính năng, nhưng ai cài từ ngoài cần biết. Giao thức đầy đủ nằm trong `AGENTS.md`.
+
+Ranh giới của cơ chế này: skill chỉ thấy những lượt nó được gọi. Muốn agent học từ chat thường ngày, phải thêm một chỉ dẫn ở tầng memory của chính agent, skill không tự làm được.
+
 ## Nền tảng bằng chứng
 
 Không tồn tại nghiên cứu định lượng nào về dấu hiệu văn bản AI trong tiếng Việt ở cấp từ vựng hay cú pháp. Các công trình hiện có về phát hiện văn bản AI tiếng Việt chỉ dùng đặc trưng phân bố xác suất, không liệt kê pattern ngôn ngữ học nào.
 
-Khoảng một phần ba pattern trong skill có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, dựa trên đối chiếu ngữ pháp Anh – Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
+Khoảng một phần ba pattern trong skill có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, dựa trên đối chiếu ngữ pháp Anh – Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, mà phần lớn lại dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
 
-Mọi ngưỡng số trong skill là **chưa hiệu chuẩn trên corpus**. Việc bắt buộc cho v0.2: kiểm chứng trên corpus văn bản AI tiếng Việt thật.
+Mọi ngưỡng số trong skill là **chưa hiệu chuẩn trên corpus**. Đây là việc chính còn nợ: kiểm chứng trên corpus văn bản AI tiếng Việt thật. Trong lúc chưa có corpus, vòng hiệu chuẩn từ sử dụng thật đang gánh phần này.
 
 ## Nguồn tham khảo
 
@@ -256,10 +285,11 @@ Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đ
 
 ## Lời cảm ơn
 
-Ý tưởng đóng gói, hợp đồng bảo trì và cấu trúc "before / after / không được flag khi" học từ [blader/humanizer](https://github.com/blader/humanizer), skill humanizer tiếng Anh dựa trên hướng dẫn của WikiProject AI Cleanup. Bộ pattern tiếng Việt được xây mới hoàn toàn.
+Ý tưởng đóng gói, hợp đồng bảo trì và cấu trúc "before / after / không được flag khi" học từ [blader/humanizer](https://github.com/blader/humanizer), skill humanizer tiếng Anh dựa trên hướng dẫn của WikiProject AI Cleanup. Bộ pattern tiếng Việt thì xây mới hoàn toàn.
 
 ## Lịch sử phiên bản
 
+- **0.2.1** – Chạy chính skill lên README. Sửa bốn lỗi ngôn ngữ (một em dash chú thích giữa câu vi phạm T2, "kết quả của nó" theo V7, "được xây mới" theo V16, một mệnh đề quan hệ thiếu ranh giới theo V3) và vá phần nội dung đã lệch so với repo: cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng Hán-Việt ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời. Thêm mục về vòng tự hiệu chuẩn (tính năng chính của 0.2.0 nhưng chưa có trong README) và cách cài một lệnh cho mọi harness bằng `--agent '*'`.
 - **0.2.0** – Giao thức tự nâng cấp cho agent chạy lâu dài: vòng phản hồi trong SKILL.md (bản người dùng sửa lại là bản vàng), giao thức hiệu chuẩn trong AGENTS.md (phân loại sở thích cá nhân / lỗi guard / pattern mới, ngưỡng bằng chứng, nhãn "Quan sát từ sử dụng"), và `calibration/LOG.md` làm bộ nhớ bằng chứng với entry mẫu đầu tiên. Skill cài cho agent nào thì sẽ dần tune theo cách viết của tổ chức đó; changelog phải ghi nhận điều này.
 - **0.1.1** – Tự áp skill lên chính văn bản của skill: bỏ toàn bộ em dash và các cụm dịch tính trong phần giải thích. Hiệu chỉnh từ vòng feedback thực tế đầu tiên: thêm quy tắc thanh ngữ vực (hạ giọng quá tay cũng là lỗi, như thổi phồng), V19 thêm chiều sửa chủ động (trả thuật ngữ bị dịch sạch về jargon: "đội ngũ kỹ thuật" → "team dev" trong tài liệu nội bộ IT), nới guard V9 và K2 cho tiếng Việt công sở (cụm mục đích và cụm "nâng cao hiệu quả X" có bổ ngữ cụ thể là bình thường trong báo cáo doanh nghiệp).
 - **0.1.0** – Bản đầu. 19 pattern lõi, 6 pattern typography, 2 profile với 21 pattern, 2 file tham chiếu. Cổng thể loại chạy trước mọi pattern. Ba chỗ đi ngược bản tiếng Anh: quy tắc lặp từ, en dash, ngoặc kép. Loại dấu thanh cũ/mới và i/y khỏi skill có chủ đích.
