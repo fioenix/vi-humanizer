@@ -9,7 +9,7 @@ description: |
   Anh sai register, cùng nhóm sáo ngữ và typography.
 license: MIT
 metadata:
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # vi-humanizer: xoá dấu vết dịch máy trong văn bản tiếng Việt
@@ -355,6 +355,10 @@ Rất nhiều người Việt chủ động viết ngắn và cộc, nhất là 
 **Chế độ file.** Người dùng trỏ vào một file. Đọc, chạy vòng lặp bên trong, ghi đè file bằng bản cuối. Chỉ sửa phần văn xuôi: để nguyên khối code, frontmatter, dữ liệu, đích liên kết. Trong hội thoại chỉ báo cáo tóm tắt, không dán lại toàn bộ.
 
 **Chế độ nhúng.** Một tác vụ khác dùng skill này như một bước. Chạy vòng lặp bên trong, chỉ xuất bản cuối. Không nháp, không phân tích, không tóm tắt.
+
+## Vòng phản hồi
+
+Khi người dùng sửa lại bản rewrite của bạn, bản của họ là bản vàng. So hai bản và gọi tên khác biệt: pattern nào bắn sai, pattern nào bắn sót, guard nào thiếu. Ghi một entry vào `calibration/LOG.md` theo giao thức trong `AGENTS.md`, rồi mới đề xuất sửa skill nếu đủ ngưỡng. Sở thích cá nhân của người dùng đi vào voice memory, không đi vào skill. Đừng sửa skill giữa phiên đang làm văn bản; tách thành việc riêng.
 
 ## Nền tảng bằng chứng
 

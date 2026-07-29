@@ -250,6 +250,7 @@ Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đ
 
 ## Lịch sử phiên bản
 
+- **0.2.0** – Giao thức tự nâng cấp cho agent chạy lâu dài: vòng phản hồi trong SKILL.md (bản người dùng sửa lại là bản vàng), giao thức hiệu chuẩn trong AGENTS.md (phân loại sở thích cá nhân / lỗi guard / pattern mới, ngưỡng bằng chứng, nhãn "Quan sát từ sử dụng"), và `calibration/LOG.md` làm bộ nhớ bằng chứng với entry mẫu đầu tiên. Skill cài cho agent nào thì sẽ dần tune theo cách viết của tổ chức đó; changelog phải ghi nhận điều này.
 - **0.1.1** – Tự áp skill lên chính văn bản của skill: bỏ toàn bộ em dash và các cụm dịch tính trong phần giải thích. Hiệu chỉnh từ vòng feedback thực tế đầu tiên: thêm quy tắc thanh ngữ vực (hạ giọng quá tay cũng là lỗi, như thổi phồng), V19 thêm chiều sửa chủ động (trả thuật ngữ bị dịch sạch về jargon: "đội ngũ kỹ thuật" → "team dev" trong tài liệu nội bộ IT), nới guard V9 và K2 cho tiếng Việt công sở (cụm mục đích và cụm "nâng cao hiệu quả X" có bổ ngữ cụ thể là bình thường trong báo cáo doanh nghiệp).
 - **0.1.0** – Bản đầu. 19 pattern lõi, 6 pattern typography, 2 profile với 21 pattern, 2 file tham chiếu. Cổng thể loại chạy trước mọi pattern. Ba chỗ đi ngược bản tiếng Anh: quy tắc lặp từ, en dash, ngoặc kép. Loại dấu thanh cũ/mới và i/y khỏi skill có chủ đích.
 
