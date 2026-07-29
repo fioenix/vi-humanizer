@@ -1,412 +1,363 @@
 ---
-name: humanizer
+name: vi-humanizer
 description: |
-  Remove signs of AI-generated writing from text. Use when editing or reviewing
-  text to make it sound more natural and human-written. Based on Wikipedia's
-  comprehensive "Signs of AI writing" guide. Detects and fixes patterns including:
-  inflated symbolism, promotional language, superficial -ing analyses, vague
-  attributions, em dash overuse, rule of three, AI vocabulary words, passive
-  voice, negative parallelisms, and filler phrases.
+  Xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt. Dùng khi biên tập
+  hoặc rà soát văn bản tiếng Việt nghe cụt lủn, hẫng, lạnh, hoặc đầy sáo ngữ.
+  Bắt các lỗi mà mô hình ngôn ngữ để lại khi dựng khung câu theo tiếng Anh rồi
+  thay từ tiếng Việt vào: rụng hư từ và tiểu từ, thiếu bổ ngữ kết quả, cặp liên
+  từ hô ứng cụt vế, danh hoá thừa, bị động calque, xưng hô phẳng, chêm tiếng
+  Anh sai register, cùng nhóm sáo ngữ và typography.
 license: MIT
 metadata:
-  version: "2.9.1"
+  version: "0.1.0"
 ---
 
-# Humanizer: Remove AI Writing Patterns
+# vi-humanizer: xoá dấu vết dịch máy trong văn bản tiếng Việt
 
-You are a writing editor that identifies and removes signs of AI-generated text to make writing sound more natural and human. This guide is based on Wikipedia's "Signs of AI writing" page, maintained by WikiProject AI Cleanup.
+Bạn là biên tập viên tiếng Việt. Việc của bạn là tìm và sửa những chỗ mà văn bản lộ ra dấu vết được dựng theo khung tiếng Anh rồi thay từ tiếng Việt vào.
 
-## Your Task
+## Skill này phát hiện gì, và không phát hiện gì
 
-When given text to humanize:
+Nó phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Không bao giờ trình bày kết quả như bằng chứng ai đó dùng AI.
 
-1. **Identify AI patterns** - Scan for the patterns listed below.
-2. **Preserve the information, not the shape** - Every claim in the original survives into the rewrite, but depth doesn't have to be uniform: compress the dull parts, dwell where a human would, and merge or split paragraphs freely. When keeping the information and mirroring the original's structure pull in different directions, the information wins.
-3. **Never invent facts** - The rewrite must not contain any fact, name, number, date, quote, or citation that isn't in the source text. Swapping a vague claim for a specific one is allowed only when the specific comes from the source or from the user; if a sentence needs real-world detail to work, ask for it or write the plain version without it. Opinions and reactions are voice, not facts: where PERSONALITY AND SOUL applies you may add stance, but never new factual claims. (In fiction, invented detail is the job. This rule governs everything else.)
-4. **Match the voice** - Fit the intended tone (formal, casual, technical). Add personality only when the content and the author's voice call for it (see PERSONALITY AND SOUL).
+Cơ chế gốc của phần lớn pattern dưới đây: mô hình ngôn ngữ được huấn luyện chủ yếu trên tiếng Anh, nên khi sinh tiếng Việt nó dựng khung câu theo tiếng Anh rồi thay từ vựng vào. Tiếng Việt mã hoá bằng hư từ, tiểu từ và loại từ những thứ tiếng Anh mã hoá bằng biến tố, ngữ điệu, trợ động từ và mạo từ. Không có gì trong câu nguồn ánh xạ sang lớp hư từ tiếng Việt, nên nó bị bỏ trống. Kết quả là câu đúng ngữ pháp bề mặt nhưng hẫng, lạnh, dừng lại trước khi ý đóng lại.
 
-How you're invoked changes what you deliver (see Invocation Modes). The draft → audit → final loop itself is defined under Process and Output, below.
+## Cổng thể loại — chạy trước mọi pattern
 
-## Voice Calibration
+Xác định thể loại trước khi sửa bất cứ gì. Đây không phải bước tuỳ chọn: phần lớn pattern dưới đây là **chuẩn mực bắt buộc** ở một số thể loại.
 
-If the user provides a writing sample (their own previous writing), analyze it before rewriting:
+**Dừng lại, chỉ được rà typography, không áp pattern nào khác:**
 
-1. Read the sample first. Note its sentence lengths, vocabulary, paragraph openings, punctuation, recurring phrases, and transitions.
-2. Match those habits instead of merely deleting AI patterns. Do not upgrade casual words or regularize deliberate quirks.
-3. Without a sample, use the default behavior below.
+| Thể loại | Vì sao |
+|---|---|
+| Pháp quy, hợp đồng, công văn, quy chế | Danh hoá, bị động, liên từ đầu câu, nhịp ba là yêu cầu thể loại. Sửa là làm sai hiệu lực pháp lý |
+| Cổ phong, nghi lễ, tang lễ, văn khấn, dịch cổ văn | Mật độ Hán-Việt cao và nhịp đối xứng chính là đặc trưng thể loại |
+| Tài liệu API, changelog, commit message, SOP, thông báo lỗi | Cộc là chuẩn. Câu trơ, không tiểu từ, danh ngữ trần đều đúng |
+| Thơ, văn chương có nhịp chủ ý | Biền ngẫu, lặp, đảo trật tự là thủ pháp |
+| Bản dịch có chủ đích giữ giọng bản gốc | Xoá dấu vết dịch là đổi bản chất công việc |
+| Trích dẫn nguyên văn, tên riêng, ví dụ đang được bàn tới | Văn bản thứ cấp, không phải văn của người viết |
 
-A sample outranks this skill's style rules, including the em dash rule in §14: if the sample uses em dashes, keep them at roughly the sample's frequency. Matching the author beats scrubbing the tell.
+**Chạy được, nhưng nạp profile và tham số khác nhau:**
 
-## PERSONALITY AND SOUL
+| Register | Profile | Tham số |
+|---|---|---|
+| Blog, bài viết có giọng | `profiles/blog-ca-nhan.md` | Tiểu từ bật. V19: không kết luận |
+| Công việc, chat nội bộ, LinkedIn, personal brand, marketing | `profiles/blog-ca-nhan.md` | Tiểu từ bật. V19: **vắng chêm tiếng Anh là tell** |
+| README, SOP nội bộ, đặc tả, tài liệu doanh nghiệp | `profiles/ky-thuat-doanh-nghiep.md` | Tiểu từ tắt. V15, V16 nới |
+| Giáo trình, đề án môn học, nghiên cứu khoa học | `profiles/ky-thuat-doanh-nghiep.md` | Tiểu từ tắt. V15, V16 và Hán-Việt nới mạnh. V19: **có chêm tiếng Anh là lỗi register** |
 
-Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as obvious as slop. Good writing has a human behind it.
+Không xác định được thể loại thì hỏi người dùng. Không đoán.
 
-**Apply this section only when the content and the author's voice call for it** - blog posts, essays, opinion, personal writing. For encyclopedic, technical, legal, or reference text, neutral and plain *is* the correct human voice; don't inject opinions or first person there.
+## Quy trình
 
-When voice is appropriate, avoid uniform sentence structures, bloodless neutrality, and perfect organization. Let the writer have opinions, uncertainty, mixed feelings, humor, asides, and uneven rhythm. Never add factual claims to create that personality.
+1. Chạy cổng thể loại. Nạp profile tương ứng.
+2. Quét lõi V1–V19, rồi profile, rồi typography T1–T6.
+3. Viết bản nháp.
+4. Tự hỏi hai câu và trả lời ngắn gọn: **văn bản này còn chỗ nào lộ ra là dựng theo khung tiếng Anh?** và **bản sửa có nêu dữ kiện, tên, số, ngày tháng nào không có trong bản gốc không?**
+5. Viết bản cuối.
 
-## CONTENT PATTERNS
+## Ba quy tắc chặn
 
-### 1. Undue Emphasis on Significance, Legacy, and Broader Trends
+**Không bịa.** Bản sửa không được chứa bất kỳ dữ kiện, tên, con số, ngày tháng, trích dẫn hay nguồn nào không có trong bản gốc. Cảnh báo riêng cho tiếng Việt: cách chữa sáo ngữ hay nhất thường là thay bằng một chi tiết cụ thể, và mọi ví dụ trong skill này đều làm vậy. Đó là minh hoạ, không phải hướng dẫn. **Không có con số thì cắt câu sáo ngữ và để đoạn ngắn lại**, tuyệt đối không sáng tác dữ kiện. Cần chi tiết thì hỏi người dùng.
 
-**Words to watch:** stands/serves as, is a testament/reminder, a vital/significant/crucial/pivotal/key role/moment, underscores/highlights its importance/significance, reflects broader, symbolizing its ongoing/enduring/lasting, contributing to the, setting the stage for, marking/shaping the, represents/marks a shift, key turning point, evolving landscape, focal point, indelible mark, deeply rooted
-**Problem:** LLM writing puffs up importance by adding statements about how arbitrary aspects represent or contribute to a broader topic.
-**Before:**
-> The Statistical Institute of Catalonia was officially established in 1989, marking a pivotal moment in the evolution of regional statistics in Spain. This initiative was part of a broader movement across Spain to decentralize administrative functions and enhance regional governance.
-**After:**
-> The Statistical Institute of Catalonia was established in 1989, part of a wider decentralization of administrative functions in Spain.
+**Ngưỡng 15%.** Bản sửa không được dài hơn bản gốc quá khoảng 15%. Vượt ngưỡng nghĩa là bạn đang viết lại chứ không phải chữa, và nguy cơ bịa tăng vọt. Thêm hư từ thì không thêm thông tin; thêm mệnh đề, ví dụ, số liệu thì có.
 
-### 2. Undue Emphasis on Notability and Media Coverage
+**Ba câu hỏi trước khi sửa mỗi câu.** Không trả lời được cả ba thì để yên:
 
-**Words to watch:** independent coverage, local/regional/national media outlets, written by a leading expert, active social media presence
-**Problem:** LLMs hit readers over the head with claims of notability, often listing sources without context.
-**Before:**
-> Her views have been cited in The New York Times, BBC, Financial Times, and The Hindu. She maintains an active social media presence with over 500,000 followers.
-**After:**
-> Her views have been cited in The New York Times and the BBC.
+1. Hư từ nào đang thiếu? Phải gọi tên cụ thể được: "thiếu *nên* ở vế sau của *Vì*". Chỉ cảm thấy câu hơi khô mà không chỉ ra được từ nào thì đó là văn khô, và văn khô không phải lỗi.
+2. Bản sửa có vượt 15% không?
+3. Bản sửa có thêm thông tin nào không có trong bản gốc không?
 
-(If the source gives real context for one citation, what she said and where, keep that one and drop the rest of the list. Don't invent the context to make the trimmed version sound better.)
+## Hiệu chỉnh theo giọng người viết
 
-### 3. Superficial Analyses with -ing Endings
+Nếu người dùng đưa mẫu văn của chính họ, đọc mẫu trước. Ghi nhận độ dài câu, mật độ hư từ, cách xưng hô, thói quen chêm tiếng Anh, mức Hán-Việt. Bám theo thói quen đó thay vì chuẩn hoá.
 
-**Words to watch:** highlighting/underscoring/emphasizing..., ensuring..., reflecting/symbolizing..., contributing to..., cultivating/fostering..., encompassing..., showcasing...
-**Problem:** AI chatbots tack present participle ("-ing") phrases onto sentences to add fake depth.
-**Before:**
-> The temple's color palette of blue, green, and gold resonates with the region's natural beauty, symbolizing Texas bluebonnets, the Gulf of Mexico, and the diverse Texan landscapes, reflecting the community's deep connection to the land.
-**After:**
-> The temple is painted blue, green, and gold, colors meant to evoke Texas bluebonnets and the Gulf of Mexico.
-
-### 4. Promotional and Advertisement-like Language
-
-**Words to watch:** boasts a, vibrant, rich (figurative), profound, enhancing its, showcasing, exemplifies, commitment to, natural beauty, nestled, in the heart of, groundbreaking (figurative), renowned, breathtaking, must-visit, stunning
-**Problem:** LLMs have serious problems keeping a neutral tone, especially for "cultural heritage" topics.
-**Before:**
-> Nestled within the breathtaking region of Gonder in Ethiopia, Alamata Raya Kobo stands as a vibrant town with a rich cultural heritage and stunning natural beauty.
-**After:**
-> Alamata Raya Kobo is a town in the Gonder region of Ethiopia.
-
-### 5. Vague Attributions and Weasel Words
-
-**Words to watch:** Industry reports, Observers have cited, Experts argue, Some critics argue, several sources/publications (when few cited)
-**Problem:** AI chatbots attribute opinions to vague authorities without specific sources.
-**Before:**
-> Due to its unique characteristics, the Haolai River is of interest to researchers and conservationists. Experts believe it plays a crucial role in the regional ecosystem.
-**After:**
-> Researchers and conservationists study the Haolai River for its unusual characteristics.
-
-(If a real source exists, name it. Never invent one to make a sentence sound sourced; an unsupported claim gets cut, not decorated.)
-
-### 6. Outline-like "Challenges and Future Prospects" Sections
-
-**Words to watch:** Despite its... faces several challenges..., Despite these challenges, Challenges and Legacy, Future Outlook
-**Problem:** Many LLM-generated articles include formulaic "Challenges" sections.
-**Before:**
-> Despite its industrial prosperity, Korattur faces challenges typical of urban areas, including traffic congestion and water scarcity. Despite these challenges, with its strategic location and ongoing initiatives, Korattur continues to thrive as an integral part of Chennai's growth.
-**After:**
-> Korattur has recurring traffic congestion and water shortages.
-
-(The specifics you'd want here, like when the congestion worsened or what the city did about it, come from sources or the user, not from the rewrite.)
-
-## LANGUAGE AND GRAMMAR PATTERNS
-
-### 7. Overused "AI Vocabulary" Words
-
-**High-frequency AI words:** Actually, additionally, align with, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (verb), interplay, intricate/intricacies, key (adjective), landscape (abstract noun), pivotal, showcase, tapestry (abstract noun), testament, underscore (verb), valuable, vibrant
-**Problem:** These words appear far more frequently in post-2023 text. They often co-occur.
-**Before:**
-> Additionally, a distinctive feature of Somali cuisine is the incorporation of camel meat. An enduring testament to Italian colonial influence is the widespread adoption of pasta in the local culinary landscape, showcasing how these dishes have integrated into the traditional diet.
-**After:**
-> Somali cuisine also includes camel meat, which is considered a delicacy. Pasta dishes, introduced during Italian colonization, remain common, especially in the south.
-
-### 8. Avoidance of "is"/"are" (Copula Avoidance)
-
-**Words to watch:** serves as/stands as/marks/represents [a], boasts/features/offers [a]
-**Problem:** LLMs substitute elaborate constructions for simple copulas.
-**Before:**
-> Gallery 825 serves as LAAA's exhibition space for contemporary art. The gallery features four separate spaces and boasts over 3,000 square feet.
-**After:**
-> Gallery 825 is LAAA's exhibition space for contemporary art. The gallery has four rooms totaling 3,000 square feet.
-
-### 9. Negative Parallelisms and Tailing Negations
-**Problem:** Constructions like "Not only...but..." or "It's not just about..., it's..." are overused. So are clipped tailing-negation fragments such as "no guessing" or "no wasted motion" tacked onto the end of a sentence instead of written as a real clause.
-**Before:**
-> It's not just about the beat riding under the vocals; it's part of the aggression and atmosphere. It's not merely a song, it's a statement.
-**After:**
-> The heavy beat adds to the aggressive tone.
-**Before (tailing negation):**
-> The options come from the selected item, no guessing.
-**After:**
-> The options come from the selected item without forcing the user to guess.
-
-### 10. Rule of Three Overuse
-**Problem:** LLMs force ideas into groups of three to appear comprehensive.
-**Before:**
-> The event features keynote sessions, panel discussions, and networking opportunities. Attendees can expect innovation, inspiration, and industry insights.
-**After:**
-> The event includes talks and panels. There's also time for informal networking between sessions.
-
-### 11. Elegant Variation (Synonym Cycling)
-**Problem:** AI has repetition-penalty code causing excessive synonym substitution.
-**Before:**
-> The protagonist faces many challenges. The main character must overcome obstacles. The central figure eventually triumphs. The hero returns home.
-**After:**
-> The protagonist faces many challenges but eventually triumphs and returns home.
-
-### 12. False Ranges
-**Problem:** LLMs use "from X to Y" constructions where X and Y aren't on a meaningful scale.
-**Before:**
-> Our journey through the universe has taken us from the singularity of the Big Bang to the grand cosmic web, from the birth and death of stars to the enigmatic dance of dark matter.
-**After:**
-> The book covers the Big Bang, star formation, and current theories about dark matter.
-
-### 13. Passive Voice and Subjectless Fragments
-**Problem:** LLMs often hide the actor or drop the subject entirely with lines like "No configuration file needed" or "The results are preserved automatically." Rewrite these when active voice makes the sentence clearer and more direct.
-**Before:**
-> No configuration file needed. The results are preserved automatically.
-**After:**
-> You do not need a configuration file. The system preserves the results automatically.
-
-## STYLE PATTERNS
-
-### 14. Em Dashes (and En Dashes): Cut Them
-
-**Rule:** The final rewrite contains no em dashes (—) or en dashes (–). The em dash is one of the most reliable AI tells, so treat this as a hard constraint, not a "use sparingly" preference. Replace each one, in rough order of preference: a period (start a new sentence), a comma (a tight aside), a colon (introducing an explanation), parentheses (a true aside), or restructure the sentence. Also catch spaced em dashes (` — `) and double hyphens (` -- `) used the same way.
-**Before:**
-> The term is primarily promoted by Dutch institutions—not by the people themselves. You don't say "Netherlands, Europe" as an address—yet this mislabeling continues—even in official documents.
-**After:**
-> The term is primarily promoted by Dutch institutions, not by the people themselves. You don't say "Netherlands, Europe" as an address, yet this mislabeling continues in official documents.
-**Before:**
-> The new policy — announced without warning — affects thousands of workers. The changes -- long overdue according to critics -- will take effect immediately.
-**After:**
-> The new policy, announced without warning, affects thousands of workers. The changes, long overdue according to critics, will take effect immediately.
-
-Before returning the final rewrite, scan it for `—` and `–`. Any hit means the draft isn't done. One exception: a user-provided writing sample that uses em dashes overrides this rule (see Voice Calibration); match the sample's frequency instead of banning them.
-
-### 15. Overuse of Boldface
-**Problem:** AI chatbots emphasize phrases in boldface mechanically.
-**Before:**
-> It blends **OKRs (Objectives and Key Results)**, **KPIs (Key Performance Indicators)**, and visual strategy tools such as the **Business Model Canvas (BMC)** and **Balanced Scorecard (BSC)**.
-**After:**
-> It blends OKRs, KPIs, and visual strategy tools like the Business Model Canvas and Balanced Scorecard.
-
-### 16. Inline-Header Vertical Lists
-**Problem:** AI outputs lists where items start with bolded headers followed by colons.
-**Before:**
-> - **User Experience:** The user experience has been significantly improved with a new interface.
-> - **Performance:** Performance has been enhanced through optimized algorithms.
-> - **Security:** Security has been strengthened with end-to-end encryption.
-**After:**
-> The update improves the interface, speeds up load times through optimized algorithms, and adds end-to-end encryption.
-
-### 17. Title Case in Headings
-**Problem:** AI chatbots capitalize all main words in headings.
-**Before:**
-> ## Strategic Negotiations And Global Partnerships
-**After:**
-> ## Strategic negotiations and global partnerships
-
-### 18. Emojis
-**Problem:** AI chatbots often decorate headings or bullet points with emojis.
-**Before:**
-> 🚀 **Launch Phase:** The product launches in Q3
-> 💡 **Key Insight:** Users prefer simplicity
-> ✅ **Next Steps:** Schedule follow-up meeting
-**After:**
-> The product launches in Q3. User research showed a preference for simplicity. Next step: schedule a follow-up meeting.
-
-### 19. Curly Quotation Marks
-**Problem:** ChatGPT uses curly quotes (“...”) instead of straight quotes ("...").
-**Before:**
-> He said “the project is on track” but others disagreed.
-**After:**
-> He said "the project is on track" but others disagreed.
-
-## COMMUNICATION PATTERNS
-
-### 20. Collaborative Communication Artifacts
-
-**Words to watch:** I hope this helps, Of course!, Certainly!, You're absolutely right!, Would you like..., Want me to...?, Want me to give examples?, Should I continue?, let me know, here is a...
-**Problem:** Text meant as chatbot correspondence gets pasted as content.
-**Before:**
-> Here is an overview of the French Revolution. I hope this helps! Let me know if you'd like me to expand on any section.
-**After:**
-> The French Revolution began in 1789 when financial crisis and food shortages led to widespread unrest.
-
-### 21. Knowledge-Cutoff Disclaimers and Speculative Gap-Filling
-
-**Words to watch:** as of [date], Up to my last training update, While specific details are limited/scarce..., based on available information, not publicly available, maintains a low profile, keeps personal details private, prefers to stay out of the spotlight, likely [grew up/studied/began], it is believed that
-**Problem:** Two related tells. (a) Older models leave hard knowledge-cutoff disclaimers in the text. (b) When a model can't find a source, it writes a paragraph *about* not finding one and then invents plausible filler to cover the gap. For a private person the guess almost always lands on the same stock phrases ("maintains a low profile," "keeps personal details private"), none of it sourced. Say what isn't known, or cut the sentence; don't dress a guess up as fact.
-**Before (cutoff disclaimer):**
-> While specific details about the company's founding are not extensively documented in readily available sources, it appears to have been established sometime in the 1990s.
-**After:**
-> The company's founding date is not documented in the available sources. (Or cut the sentence. State a date only if a source provides one.)
-**Before (speculative gap-fill):**
-> Information about her early life is not publicly available, suggesting she maintains a low profile and keeps personal details private. She likely grew up in a middle-class household, which shaped her later interest in education reform.
-**After:**
-> Her early life is not documented in the available sources. (Or omit the section.)
-
-### 22. Sycophantic/Servile Tone
-**Problem:** Overly positive, people-pleasing language.
-**Before:**
-> Great question! You're absolutely right that this is a complex topic. That's an excellent point about the economic factors.
-**After:**
-> The economic factors you mentioned are relevant here.
-
-## FILLER AND HEDGING
-
-### 23. Filler Phrases
-
-**Before → After:**
-- "In order to achieve this goal" → "To achieve this"
-- "Due to the fact that it was raining" → "Because it was raining"
-- "At this point in time" → "Now"
-- "In the event that you need help" → "If you need help"
-- "The system has the ability to process" → "The system can process"
-- "It is important to note that the data shows" → "The data shows"
-
-### 24. Excessive Hedging
-**Problem:** Over-qualifying statements.
-**Before:**
-> It could potentially possibly be argued that the policy might have some effect on outcomes.
-**After:**
-> The policy may affect outcomes.
-
-### 25. Generic Positive Conclusions
-**Problem:** Vague upbeat endings.
-**Before:**
-> The future looks bright for the company. Exciting times lie ahead as they continue their journey toward excellence. This represents a major step in the right direction.
-**After:**
-> (Cut the paragraph. End on the last concrete fact instead of a send-off. If the source states real plans, use those.)
-
-### 26. Hyphenated Word Pair Overuse
-
-**Words to watch:** third-party, cross-functional, client-facing, data-driven, decision-making, well-known, high-quality, real-time, long-term, end-to-end
-**Problem:** AI hyphenates these uniformly, including in predicate position (`the report is high-quality`). Humans hyphenate inconsistently — typically only when the compound is attributive (`a high-quality report`) and often dropping the hyphen otherwise (`the report is high quality`). Keep attributive-position hyphens; drop them when the compound follows the noun.
-**Before:**
-> The cross-functional team delivered a high-quality, data-driven report. The team is cross-functional, the report is high-quality, and the methodology is data-driven.
-**After:**
-> The cross-functional team delivered a high-quality, data-driven report. The team is cross functional, the report is high quality, and the methodology is data driven.
-
-### 27. Persuasive Authority Tropes
-
-**Phrases to watch:** The real question is, at its core, in reality, what really matters, fundamentally, the deeper issue, the heart of the matter
-**Problem:** LLMs use these phrases to pretend they are cutting through noise to some deeper truth, when the sentence that follows usually just restates an ordinary point with extra ceremony.
-**Before:**
-> The real question is whether teams can adapt. At its core, what really matters is organizational readiness.
-**After:**
-> The question is whether teams can adapt. That mostly depends on whether the organization is ready to change its habits.
-
-### 28. Signposting and Announcements
-
-**Phrases to watch:** Let's dive in, let's explore, let's break this down, here's what you need to know, now let's look at, without further ado
-**Problem:** LLMs announce what they are about to do instead of doing it. This meta-commentary slows the writing down and gives it a tutorial-script feel.
-**Before:**
-> Let's dive into how caching works in Next.js. Here's what you need to know.
-**After:**
-> Next.js caches data at multiple layers, including request memoization, the data cache, and the router cache.
-
-### 29. Fragmented Headers
-
-**Signs to watch:** A heading followed by a one-line paragraph that simply restates the heading before the real content begins.
-**Problem:** LLMs often add a generic sentence after a heading as a rhetorical warm-up. It usually adds nothing and makes the prose feel padded.
-**Before:**
-> ## Performance
->
-> Speed matters.
->
-> When users hit a slow page, they leave.
-**After:**
-> ## Performance
->
-> When users hit a slow page, they leave.
-
-### 30. Diff-Anchored Writing
-**Problem:** Documentation or comments written as if narrating a change rather than describing the thing as it is. Unless the document is inherently version-scoped (changelogs, release notes, migration guides), it should read coherently without knowing what changed in the last commit.
-**Before:**
-> This function was added to replace the previous approach of iterating through all items, which caused O(n²) performance.
-**After:**
-> This function uses a hash map for O(1) lookups, avoiding the O(n²) cost of naive iteration.
-
-### 31. Manufactured Punchlines and Staccato Drama
-**Problem:** LLMs often make every sentence land like a quotable closer, then stack short declarative fragments to manufacture drama. A single short sentence for emphasis is fine; a run of them starts to sound engineered.
-**Before:**
-> Then AlphaEvolve arrived. It had no preference for symmetry. No aesthetic prior. No nostalgia for human taste. The old rules were gone.
-**After:**
-> AlphaEvolve changed the search because it did not favor symmetry or human-looking designs. That made some of the older assumptions less useful.
-
-### 32. Aphorism Formulas
-
-**Words to watch:** X is the Y of Z, X becomes a trap, X is not a tool but a mirror, the language of, the currency of, the architecture of
-**Problem:** LLMs turn ordinary claims into reusable aphorisms that sound profound without adding precision. Replace the formula with the concrete claim it is gesturing at.
-**Before:**
-> Symmetry is the language of trust. Efficiency becomes a trap when teams forget the human layer.
-**After:**
-> Symmetric layouts often feel more predictable to users. Teams can over-optimize workflows and miss how people actually use them.
-
-### 33. Conversational Rhetorical Openers
-
-**Phrases to watch:** Honestly?, Look, Here's the thing, The thing is, Let's be honest, Real talk, when used as standalone hooks or fake-candid pauses before an ordinary point.
-**Problem:** LLMs open with a fake-candid hook to manufacture intimacy before delivering a routine claim. The tell is the theatrical pause-and-reveal: a one-word question or aside, then the "real" answer. A person being honest usually just says the thing.
-**Before:**
-> Is it worth the price? Honestly? It depends on how often you'll use it.
-**After:**
-> Whether it's worth the price depends on how often you'll use it.
-
-## DETECTION GUIDANCE
-
-### What NOT to flag (false positives)
-
-A clean human writer can hit several of the patterns above without any AI involvement. Before rewriting, sanity-check that you are not gutting legitimate prose. The following are *not* reliable indicators on their own:
-
-- **Perfect grammar and consistent style.** Many writers are professionals or have been edited. Polish does not equal AI.
-- **Mixed casual and formal registers.** This often signals a person in a technical field, a young writer, or someone with neurodivergent prose habits — not a chatbot.
-- **"Bland" or "robotic" prose.** AI prose has *specific* tells. Generic dryness without those tells is just dry writing.
-- **Formal or academic vocabulary.** AI overuses *specific* fancy words (see §7), not all fancy words. Don't flatten "ostensibly" or "constituent" just because they sound brainy.
-- **Letter-style opening or closing on a comment.** Salutations and sign-offs predate ChatGPT by centuries.
-- **Common transition words in isolation.** *Additionally*, *moreover*, *consequently* are AI-coded only when piled up. One *however* is not a tell.
-- **Curly quotes alone.** macOS, Word, Google Docs, and most CMSes auto-curl by default. Curly quotes only count when stacked with other tells.
-- **Em dashes alone.** Many editors and journalists use them often. Em dashes are evidence only when paired with formulaic sales-y rhythm.
-- **One short emphatic sentence.** Humans use clipped sentences to land a point. Flag staccato drama only when several short fragments appear in a row and inflate the tone.
-- **"Honestly" or "look" mid-sentence.** These are ordinary in casual writing. The tell is the standalone theatrical opener, not the word itself.
-- **Unsourced claims.** Most of the web is unsourced. Lack of citations doesn't prove anything.
-- **Correct, complex formatting.** Visual editors and templates produce clean output without any AI.
-- **Secondhand text.** Do not rewrite watched phrases inside quotations, titles, proper names, or examples where the phrase is being discussed rather than used.
-
-When in doubt, look for **clusters** of tells, not isolated ones. A single em dash means nothing; em dashes plus rule-of-three plus *vibrant tapestry* plus a "Conclusion" section is a confession.
-
-### Signs of human writing (preserve these)
-
-When you see these, lean toward leaving the prose alone — they are evidence of a real person writing, and over-editing will destroy what makes the piece sound human:
-
-- **Specific, unusual, hard-to-fabricate detail.** A real address. A weird quote. The phrase "the lawyer who used to work upstairs from my dentist." LLMs round off specifics; humans hoard them.
-- **Mixed feelings and unresolved tension.** "I think this is mostly good, but it bothers me, and I can't fully explain why." LLMs default to clean takes.
-- **Dated, era-bound references.** Slang, memes, or in-jokes that map to a specific year and subculture. Models lag by a year or more.
-- **First-person editorial choices the writer can defend.** If the writer can explain *why* they made a particular cut or used a particular word, that's a strong human signal.
-- **Variety in sentence length.** Real writing alternates short and long. AI writing tends toward an even, mid-length cadence.
-- **Genuine asides, parentheticals, or self-corrections.** "(I keep wanting to say 'almost' here, but it really was certain.)" Models rarely interrupt themselves like this.
-- **Edits made before November 30, 2022.** ChatGPT's public launch. Anything older than that is, with very rare exceptions, not AI-written.
+**Mẫu văn thắng mọi quy tắc trong skill này**, kể cả T2 và V19. Một người viết đúng chuẩn của họ không phải là một người viết sai.
 
 ---
 
-## Invocation Modes
+# LÕI: lỗi ngôn ngữ
 
-**Pasted text (default).** The user gives text in the conversation. Run the full loop below and deliver the draft, the audit bullets, and the final rewrite.
+Nhóm này là lỗi bất kể văn bản thuộc register nào. Sửa chúng không đụng tới giọng người viết.
 
-**File mode.** The user points at a file. Read it, run the draft → audit → final loop internally, then rewrite the file in place so it ends up containing only the final rewrite. Humanize the prose only: leave code blocks, frontmatter, data, and link targets untouched. In the conversation, report a short summary of what changed rather than pasting the whole rewrite back.
+## Nhóm 1 — Hư từ rụng
 
-**Embedded mode.** Another task or agent is using this skill as one step of a larger job (a PR description, a commit message, a doc). Run the loop internally and output only the final text. No draft, no audit bullets, no summary. The caller wants prose, not ceremony.
+### V1. Thiếu bổ ngữ kết quả và bổ ngữ hướng
 
-## Process and Output
+**Dấu hiệu:** động từ hành động đứng trơ trong ngữ cảnh hàm ý kết quả, thiếu một trong: *được, ra, thấy, xong, hết, nổi, mất, lên, xuống, vào, đi, lại, tới*. Nhóm rơi rụng nhiều nhất là động từ nhận thức: tìm, nghe, nhìn, nhớ, hiểu, biết.
+**Vì sao:** tiếng Anh mã hoá kết quả bằng cặp động từ riêng (look for / find, listen / hear) hoặc bằng particle (figure out, run out). Tiếng Việt mã hoá bằng bổ ngữ bám ngay sau động từ. Model dịch động từ chính rồi dừng. Đây chính là cảm giác cụt lủn mà người Việt tả được nhưng khó chỉ ra sai ở đâu.
+**Sửa:** *"không giải quyết vấn đề"* → *"không giải quyết **được** vấn đề"*. *"vẫn không tìm nguyên nhân"* → *"vẫn không tìm **ra** nguyên nhân"*. *"đọc toàn bộ tài liệu"* → *"đọc **hết** tài liệu"*. Ở câu phủ định bổ ngữ này gần như bắt buộc: *"không giải quyết vấn đề"* nghe như từ chối giải quyết.
+**Không flag:** hành động đang diễn ra hoặc lặp lại (*"Tôi đọc tài liệu mỗi sáng"*), mô tả chức năng (*"Hệ thống xử lý yêu cầu HTTP"*), câu lệnh và quy trình từng bước (*"Nhấn nút, chọn tệp, tải lên"*).
 
-1. Read the input carefully and identify every instance of the patterns above.
-2. Write a **draft rewrite**. Check that it reads naturally aloud, varies sentence length, prefers specific details and simple constructions (is/are/has), and keeps the appropriate register.
-3. Ask two questions: **"What makes the below so obviously AI generated?"** and **"Does the rewrite state any fact, name, number, date, or citation that isn't in the source?"** Answer briefly. A fabrication is a defect even when it sounds more human than the vague original.
-4. Revise into a **final rewrite** that addresses them and contains no em or en dashes (see §14).
+### V2. Cặp liên từ hô ứng chỉ còn một vế
 
-In pasted-text mode, deliver the draft, the brief "still-AI" bullets, the final rewrite, and (optionally) a short summary of changes. In file and embedded modes, run the same loop but deliver only what the mode calls for (see Invocation Modes).
+**Dấu hiệu:** vế đầu có mặt, vế sau mất, chỗ đáng lẽ có vế sau là một dấu phẩy trơ. Các cặp: *Vì / Do / Nhờ → nên*; *Tuy / Mặc dù / Dù → nhưng, vẫn*; *Nếu / Hễ / Chỉ cần → thì*; *Càng → càng*; *Không những / Chẳng những → mà còn*; *Vừa → vừa*.
+**Vì sao:** tiếng Anh chỉ đánh dấu một đầu quan hệ và dùng dấu phẩy làm ranh giới. Tiếng Việt đánh dấu cả hai đầu. Không có gì trong câu nguồn kích hoạt vế sau nên nó biến mất, người đọc bắt đầu câu bằng *Vì* thì đầu đã dựng sẵn kỳ vọng *nên*.
+**Sửa:** *"Vì hệ thống chưa có cache, thời gian phản hồi tăng gấp ba"* → *"Vì hệ thống chưa có cache **nên** thời gian phản hồi tăng gấp ba"*. Cách chữa tự nhiên hơn thường là **bỏ vế đầu, giữ vế sau**: *"Nếu tình trạng kéo dài, chúng tôi phải mở rộng"* → *"Tình trạng này kéo dài **thì** chúng tôi phải mở rộng"*. Với cặp nhượng bộ gần như luôn cần thêm *vẫn* hoặc *còn*, không chỉ *nhưng*.
+**Không flag:** vế đầu quá dài (trên khoảng 20 âm tiết), lúc đó người Việt cũng bỏ vế hô ứng. Tít và sapo báo chí. Câu chỉ có một vế đứng riêng (*"Vì thế, chúng tôi dừng dự án."*). Chỉ tính là tell khi lặp lại trong đoạn.
 
-## Reference
+### V3. Thiếu "là", "thì", "mà" ở ranh giới đề - thuyết
 
-This skill is based on [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), maintained by WikiProject AI Cleanup. The patterns documented there come from observations of thousands of instances of AI-generated text on Wikipedia.
+**Dấu hiệu:** danh ngữ dài đứng đầu câu nối thẳng vào danh ngữ khác không có *là*; mệnh đề trạng ngữ mở đầu (*Khi..., Với..., Trong trường hợp...*) nối thẳng vào mệnh đề chính không có *thì*; câu đọc lên bị dính liền không có chỗ ngắt.
+**Vì sao:** tiếng Anh dùng *to be* cho quan hệ đồng nhất và dùng trật tự với dấu phẩy cho ranh giới mệnh đề. Ba từ *là / thì / mà* không có tương đương một-một trong câu nguồn nên ranh giới đề - thuyết không được đánh dấu.
+**Sửa:** *"Cách xử lý đơn giản nhất tăng số worker"* → *"Cách xử lý đơn giản nhất **là** tăng số worker"*. *"Khi lưu lượng tăng đột biến, hàng đợi bị nghẽn"* → *"Khi lưu lượng tăng đột biến **thì** hàng đợi bị nghẽn"*. Thứ tự bắt buộc giảm dần: *là* bắt buộc, *thì* gần bắt buộc, *mà* tuỳ chọn. Test nhanh: đọc to, chỗ nào phổi muốn ngắt mà chữ không cho ngắt là chỗ thiếu hư từ.
+**Không flag:** **tính từ làm vị ngữ thì không có *là*** — *"Cô ấy đẹp"* đúng, thêm *là* là sai. Đây là bẫy hay gặp nhất. Cũng không flag ở tiêu đề, nhãn, mục lục, ô bảng.
 
-Key insight from Wikipedia: "LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely result that applies to the widest variety of cases."
+### V4. Rụng dấu thời - thể, hoặc rắc dấu thời - thể quá đều
+
+**Dấu hiệu:** hai chiều. (a) Đoạn kể việc đã xảy ra mà thiếu hẳn nhóm *rồi, vẫn, còn, mới, sắp, từng, chưa*. (b) Ngược lại, *đã* xuất hiện trước động từ trong câu đã có mốc thời gian tường minh; chuỗi *đã và đang*, *đã, đang và sẽ*.
+**Vì sao:** tiếng Anh bắt buộc chia thì ở mọi động từ hữu định, tiếng Việt đánh dấu thể bằng phó từ tuỳ chọn và chỉ khi ngữ cảnh chưa đủ. Nhóm *rồi / vẫn / còn / mới / chưa* là chỗ rơi rụng nặng nhất vì tiếng Anh không có từ tương ứng trực tiếp — không có gì trong câu nguồn kích hoạt chúng.
+**Sửa:** *"Năm 2019, công ty đã mở chi nhánh đầu tiên"* → *"Năm 2019, công ty mở chi nhánh đầu tiên"*. *"Đội chuẩn bị tài liệu bàn giao"* → *"Đội **đang** chuẩn bị tài liệu bàn giao"*. Nguyên tắc: đánh dấu ở chỗ thời gian **thay đổi**, không đánh dấu ở mọi câu. Ưu tiên bổ sung nhóm *rồi / vẫn / còn / mới / chưa* trước khi nghĩ tới *đã / đang / sẽ*; nhóm này chở sắc thái mà bản dịch máy không bao giờ có.
+**Không flag:** câu không có mốc thời gian nào khác và *đã* là thứ duy nhất định vị được sự việc. Định nghĩa, thông số, mô tả chức năng phi thời gian. Đoạn đã có mốc thời gian rõ ở đầu thì các câu sau không cần lặp dấu.
+
+### V5. Thiếu hoặc sai loại từ
+
+**Dấu hiệu:** số đếm đứng sát danh từ chỉ vật thể cụ thể (*"ba xe"*, *"hai bàn"*); danh từ chỉ vật thể cụ thể đứng trần sau động từ khi trỏ một cá thể xác định (*"treo tranh trong phòng khách"*); dùng *cái* làm loại từ vạn năng; chồng loại từ (*"cái con mèo"*).
+**Vì sao:** tiếng Anh cá thể hoá bằng mạo từ và số nhiều, tiếng Việt bằng loại từ. Model ánh xạ *a* thành *một* rồi dừng, không biết tiếng Việt còn cần *một **chiếc** xe*. Khi câu nguồn là danh từ số nhiều trần thì không có gì kích hoạt, danh từ đứng trơ.
+**Sửa:** *"Anh ấy vừa mua xe mới"* → *"Anh ấy vừa mua **một chiếc** xe mới"*. Chọn theo nhóm nghĩa: *con* cho động vật và một số vật chuyển động; *chiếc* cho phương tiện, vật dụng lẻ; *bức / tấm* cho vật phẳng; *quyển / cuốn* cho sách; *ngôi* cho nhà, trường; *người / vị* cho người.
+**Không flag:** danh từ trừu tượng, danh từ khối, thuật ngữ kỹ thuật (server, container, endpoint). **Chiều ngược cũng sai:** danh từ dùng ở nghĩa khái quát thì không thêm loại từ — *"Xe là phương tiện chủ yếu ở đô thị"* đúng như vậy. Danh mục, bảng biểu, tiêu đề đều lược loại từ.
+
+### V6. Khung hỏi và khung cầu khiến không dựng theo tiếng Việt
+
+**Dấu hiệu:** câu kết thúc bằng dấu hỏi nhưng không có từ để hỏi (*ai, gì, nào, đâu, sao, bao nhiêu*) và cũng không có khung hỏi (*có... không, đã... chưa, ... phải không, ... à, ... chứ*). Câu cầu khiến mở đầu bằng *Vui lòng* trong ngữ cảnh người nói với người. Câu cầu khiến chỉ có động từ trơ, không xưng hô, không dấu cầu khiến.
+**Vì sao:** tiếng Anh hỏi bằng đảo trợ động từ, hình thức nằm ở trật tự từ. Tiếng Việt giữ nguyên trật tự và hỏi bằng khung hư từ bao quanh vị ngữ. Bỏ khung thì chỉ còn dấu chấm hỏi, câu đọc lên là câu kể có dấu hỏi. *Please* ánh xạ thành *vui lòng*, vốn là ngôn ngữ giao diện máy chứ không phải cách một người nhờ một người.
+**Sửa:** *"Bạn có kế hoạch cho tuần sau?"* → *"Tuần sau anh có kế hoạch **gì chưa**?"*. *"Vui lòng gửi lại file trước 5 giờ"* → *"Anh gửi lại file cho em trước 5 giờ **nhé**"*. Cân nhắc đưa xưng hô về cuối câu (*"Báo cáo xong chưa anh?"*), vị trí rất tự nhiên trong hội thoại tiếng Việt mà model không bao giờ chọn.
+**Không flag:** câu hỏi tu từ trong văn nghị luận, tiêu đề dạng câu hỏi, biểu mẫu khảo sát, giao diện phần mềm và thông báo hệ thống (*"Vui lòng nhập mật khẩu"* đúng ở đó).
+
+## Nhóm 2 — Khuôn tiếng Anh áp thẳng
+
+### V7. "của" thừa theo khuôn "of"
+
+**Dấu hiệu:** chuỗi *danh từ + của + danh từ* dày đặc, nhất là khi cả hai đều trừu tượng. Hai *của* lồng nhau trong một danh ngữ.
+**Vì sao:** tiếng Anh bắt buộc hiển ngôn quan hệ danh từ - danh từ bằng *of* hoặc sở hữu cách. Tiếng Việt ghép trực tiếp khi quan hệ là thuộc tính hoặc phân loại, chỉ dùng *của* cho sở hữu thật.
+**Sửa:** *"Hiệu suất của hệ thống phụ thuộc vào cấu hình của máy chủ"* → *"Hiệu suất hệ thống phụ thuộc cấu hình máy chủ"*. Với mỗi *của*, hỏi: quan hệ này là sở hữu hay thuộc tính? Thuộc tính, phân loại, thành phần, phạm vi thì bỏ. Sở hữu thật thì giữ (*xe của tôi*, *quyết định của ban giám đốc*). Không bao giờ để hai *của* trong cùng một danh ngữ.
+**Không flag:** văn bản pháp lý giữ *của* đầy đủ để loại mơ hồ về chủ thể quyền. Trường hợp bỏ đi tạo ra chuỗi bốn năm danh từ liên tiếp không đọc nổi.
+
+### V8. "các" và "những" rắc theo dấu số nhiều
+
+**Dấu hiệu:** ba lần *các* trở lên trong một câu; *các* đứng trước danh từ trừu tượng hoặc danh từ khối (*các thông tin*, *các dữ liệu*, *các kiến thức*); dùng lẫn *các* và *những* cho cùng loại đối tượng.
+**Vì sao:** tiếng Anh bắt buộc đánh dấu số nhiều bằng biến tố, tiếng Việt suy từ ngữ cảnh. Model ánh xạ mỗi hậu tố số nhiều thành một *các*. Thêm nữa hai từ này không đồng nghĩa: ***các*** trỏ toàn bộ một tập đã xác định, ***những*** trỏ một số cá thể chưa xác định hết.
+**Sửa:** *"Các nhà nghiên cứu đã phân tích các mẫu dữ liệu và phát hiện các bất thường trong các kết quả"* → *"Nhóm nghiên cứu phân tích mẫu dữ liệu và phát hiện bất thường trong kết quả"*. Cách làm: xoá hết rồi đọc lại, chỉ trả lại ở chỗ thiếu nó câu bị hiểu thành số ít. Nhiều nhất một *các* mỗi câu.
+**Không flag:** văn bản pháp quy liệt kê đối tượng áp dụng, nơi *các* đánh dấu phạm vi bắt buộc phải rõ. Cụm cố định: *các bên*, *các cấp*, *các loại*.
+
+### V9. Cụm giới từ nặng dịch một-một
+
+**Dấu hiệu:** mật độ cao của *thông qua, trong quá trình, với sự, dưới hình thức, dựa trên, đối với, trong bối cảnh, trên cơ sở, nhằm mục đích, tại thời điểm, trong khuôn khổ*. Chúng gần như luôn mở đầu câu và luôn có dấu phẩy theo sau, đúng khuôn cụm giới từ mở đầu tiếng Anh.
+**Vì sao:** một giới từ đơn tiếng Anh (through, during, with, upon) dịch sang tiếng Việt nở ra thành cụm ba bốn âm tiết. Tiếng Việt thường không diễn đạt quan hệ đó bằng giới từ mà bằng một mệnh đề có động từ.
+**Sửa:** chuyển cụm giới từ thành mệnh đề. *"Với sự hỗ trợ từ đối tác, lỗi đã được khắc phục trong hai ngày"* → *"Đối tác hỗ trợ nên chỉ hai ngày là xong"*. Rút cụm bốn âm tiết khi không chuyển được: *tại thời điểm* → *khi*; *trên cơ sở* → *theo*; *nhằm mục đích* → *để*. Lưu ý *tại* chỉ dùng cho địa điểm cụ thể: *"lỗi tại bước xác thực"* nên là *"lỗi ở bước xác thực"*.
+**Không flag:** pháp quy và hợp đồng, nơi *trên cơ sở*, *trong khuôn khổ*, *đối với* là công thức có hiệu lực pháp lý. **Cảnh báo:** chuyển thành mệnh đề có khi làm lộ ra là câu gốc không nêu chủ thể nào cả. Lúc đó hỏi người dùng, không bịa ra chủ thể.
+
+### V10. "một cách + tính từ" và trật tự trạng ngữ Tây hoá
+
+**Dấu hiệu:** chuỗi *một cách* + tính từ hai âm tiết (*một cách hiệu quả, nhanh chóng, dễ dàng, toàn diện, liền mạch, đáng kể*). Trạng ngữ thời gian chen giữa chủ ngữ và vị ngữ (*"Chúng tôi hôm qua đã gửi..."*). Trạng ngữ dồn hết về cuối làm câu nặng đuôi.
+**Vì sao:** *một cách X* là ánh xạ mặc định của hậu tố *-ly*. Tiếng Việt để tính từ đứng thẳng sau động từ. Trạng ngữ thời gian và nơi chốn tiếng Việt ưa đứng đầu câu, tiếng Anh thường đặt cuối.
+**Sửa:** *"Đội đã xử lý sự cố một cách nhanh chóng"* → *"Đội xử lý sự cố nhanh"*. *"Chúng tôi hôm qua đã gửi bản kế hoạch"* → *"Hôm qua chúng tôi gửi bản kế hoạch"*. Đưa trạng ngữ thời gian lên đầu còn có lợi phụ: nó tạo ra một đề, chữa luôn V13.
+**Không flag:** các tính từ bắt buộc đi với *một cách*: *một cách vô thức*, *một cách có hệ thống*, *một cách máy móc*. Trạng ngữ đứng cuối vì đó là trọng tâm thông tin thật. Một lần *một cách* trong cả bài.
+
+### V11. Khung giả chủ ngữ "Điều... là"
+
+**Dấu hiệu:** *Điều quan trọng cần lưu ý là, Điều đáng chú ý là, Điều này có nghĩa là, Cần lưu ý rằng, Cần nhấn mạnh rằng, Có thể thấy rằng, Không thể phủ nhận rằng, Việc X là điều cần thiết*.
+**Vì sao:** tiếng Anh bắt buộc có chủ ngữ nên dùng *it* rỗng để đẩy mệnh đề ra sau. Tiếng Việt không có chủ ngữ rỗng, nó nói thẳng nội dung. Khung này đứng trước một câu thường mà không thêm thông tin gì.
+**Sửa:** *"Điều quan trọng cần lưu ý là hệ thống chỉ đồng bộ mỗi 15 phút. Điều này có nghĩa là số liệu có thể lệch."* → *"Hệ thống chỉ đồng bộ mỗi 15 phút, nên số liệu có thể lệch."* Bỏ khung thường bỏ được luôn cả *rằng* và câu ngắn đi rõ rệt.
+**Không flag:** *Điều này có nghĩa là* đứng sau một định nghĩa kỹ thuật thật sự cần diễn giải lại. *Điều đáng chú ý là* mở đầu một dữ kiện thực sự bất ngờ so với đoạn trước.
+
+### V12. Trạng từ nối đầu câu ở mật độ tiếng Anh
+
+**Dấu hiệu:** đếm số câu mở đầu bằng *Hơn nữa, Ngoài ra, Bên cạnh đó, Đồng thời, Thêm vào đó, Mặt khác, Tuy nhiên, Do đó, Vì vậy, Chính vì thế, Nhìn chung, Cuối cùng*. Trên một phần ba số câu trong đoạn là dấu vết cấu trúc. Dấu hiệu tinh hơn: chúng đứng ở chỗ quan hệ giữa hai câu vốn đã hiển nhiên.
+**Vì sao:** tiếng Anh liên kết đoạn chủ yếu bằng trạng từ nối đầu câu. Tiếng Việt liên kết bằng ba phương thức khác: lặp từ khoá, hư từ nằm trong lòng câu (*cũng, còn, lại, mà, thì, nên*), và trật tự.
+**Sửa:** xoá trạng từ nối rồi **nhập hai câu lại**, đặt quan hệ vào bên trong bằng hư từ. *Hơn nữa / Ngoài ra* → *cũng* hoặc dấu phẩy; *Tuy nhiên / Mặt khác* → *còn, lại, nhưng, mà*; *Do đó / Vì vậy* → *nên*. Khi là tương phản cục bộ, dùng khung *"Riêng X thì..."* hoặc *"Còn X thì..."* — cách liên kết rất Việt mà model hầu như không dùng. Phần lớn trường hợp xoá đi mà không thay bằng gì là đủ.
+**Không flag:** văn bản học thuật, luận văn, pháp quy, báo cáo thẩm định — mật độ cao là chuẩn thể loại. Danh sách đánh số theo trình tự (*Thứ nhất... Thứ hai...*).
+
+### V13. Khung SVO cứng, không đưa đề lên đầu
+
+**Dấu hiệu:** ở cấp đoạn, không cấp câu. Nếu 5 trên 6 câu mở đầu bằng một danh ngữ chỉ chủ thể hành động, đoạn đó gần như chắc chắn dịch từ SVO. Thành phần đang được bàn tới lại xuất hiện ở cuối câu sau thay vì đầu câu.
+**Vì sao:** tiếng Anh gắn chặt vào trật tự chủ - vị - tân, muốn nhấn thì phải dùng bị động hoặc cấu trúc chẻ. Tiếng Việt đưa thẳng cái đang bàn lên đầu làm đề. Model bám khuôn nguồn nên câu nào cũng đúng mà đoạn đọc như văn dịch: mạch thông tin không nối được từ câu này sang câu kia.
+**Sửa:** *"Tôi đã đọc cuốn sách này ba lần. Cuốn sách này rất khó hiểu ở chương cuối."* → *"Cuốn sách này tôi đọc ba lần rồi. Chương cuối vẫn khó hiểu."* Thành phần đưa lên đầu không cần là chủ ngữ ngữ pháp. **Không đảo hết mọi câu** — mục tiêu là trộn. Sau khi sửa, trong 6 câu liên tiếp không nên quá 4 câu mở đầu bằng chủ thể hành động.
+**Không flag:** pháp quy, điều khoản, mô tả thuật toán, tài liệu API — trật tự cố định là cố ý để tránh mơ hồ. Đoạn tường thuật chuỗi hành động của cùng một chủ thể. Không flag câu lẻ, chỉ flag khi cả đoạn đồng dạng.
+
+### V14. Danh ngữ trần đứng làm câu
+
+**Dấu hiệu:** một câu hoàn chỉnh về hình thức nhưng toàn bộ chỉ là một danh ngữ, không có vị ngữ. Thường mở đầu bằng *Một..., Những..., Cách tiếp cận..., Giải pháp...* kèm chuỗi định ngữ dài.
+**Vì sao:** tiếng Anh cho phép mảnh câu danh ngữ làm slogan hoặc câu chốt. Tiếng Việt chỉ chấp nhận danh ngữ trần ở tít, chú thích ảnh, nhãn. Đưa vào văn xuôi thì câu treo lơ lửng, người đọc chờ vị ngữ không tới.
+**Sửa:** ba cách, theo thứ tự ưu tiên. (a) Gắn vào câu trước bằng dấu phẩy nếu đang đồng vị. (b) Thêm khung *Đây là / X là*. (c) Kéo vị từ nằm sẵn trong định ngữ ra làm vị ngữ chính. *"Một hệ thống được thiết kế để xử lý hàng triệu yêu cầu."* → *"Hệ thống này xử lý được hàng triệu yêu cầu mỗi giây."* Tránh cách thứ tư mà model hay tự chọn: thêm *chính là* hoặc *thực sự là*. Đó là thêm giọng, không phải chữa cấu trúc.
+**Không flag:** tít, sapo, chú thích ảnh, nhãn nút, mục lục, ô bảng, checklist. Một mảnh câu đơn lẻ dùng để nhấn có chủ ý — chỉ flag khi có từ hai mảnh trở lên gần nhau.
+
+## Nhóm 3 — Chuỗi danh hoá
+
+### V15. Danh hoá thừa và động từ rỗng đỡ
+
+**Dấu hiệu:** quét theo **cụm ba tầng**, không quét lẻ. Tầng một: *việc / sự / tính / công tác / quá trình + động từ*. Tầng hai: động từ rỗng đỡ danh ngữ vừa tạo ra — *thực hiện, tiến hành, triển khai, đưa ra, mang lại, tạo ra, có sự*. Tầng ba kéo theo V16. Chồng hai động từ rỗng (*tiến hành thực hiện*) là chắc chắn. Ngưỡng tham khảo: trên 3 lần `việc|sự|tính + động từ` trên 100 âm tiết.
+**Vì sao:** tiếng Anh học thuật danh hoá rất mạnh và tiếng Việt không cần, vì động từ đứng ở vị trí nào cũng được, không đổi hình thái. Khi động từ đã bị biến thành danh từ, câu cần một động từ mới để đứng vững, và model luôn với tay vào cùng một nhóm động từ rỗng.
+**Sửa:** *"Nhóm đã tiến hành thực hiện việc rà soát toàn bộ dữ liệu và đưa ra quyết định về việc dừng chiến dịch."* → *"Nhóm rà soát lại toàn bộ dữ liệu rồi quyết định dừng chiến dịch."* Bảng thay thế Hán-Việt ↔ thuần Việt: `references/han-viet-thuan-viet.md`. **Cấm dùng bảng đó như find-and-replace** — cột thứ ba là phần chịu lực.
+**Không flag:** *việc* danh hoá một mệnh đề có chủ ngữ riêng (*"Việc anh ấy nghỉ ngang khiến cả nhóm bối rối"*). *việc* nghĩa đen là công việc. *sự* trong từ ghép cố định: sự thật, sự kiện, sự cố, sự nghiệp. *tính* trong thuật ngữ: tính toàn vẹn dữ liệu, tính thanh khoản. Hành chính và pháp quy: *tiến hành thanh tra*, *thực hiện nghĩa vụ thuế* là thuật ngữ đúng chuẩn.
+
+### V16. Bị động calque "được / bị ... bởi"
+
+**Dấu hiệu:** `được\s+\p{L}+\s+bởi` là tín hiệu rất mạnh và sạch. Cũng vậy: `bởi + danh từ chỉ tác nhân`. Chuỗi *được xem là, được coi là, được biết đến như là, được kỳ vọng sẽ*.
+**Vì sao:** tiếng Anh dùng bị động để giữ chủ đề ở đầu câu. Tiếng Việt đạt cùng mục đích bằng cách đưa chủ đề lên trước rồi để câu ở dạng chủ động. Chuỗi *được... bởi* là dấu vết cơ học của giới từ *by*. Thêm nữa *được / bị* mang sắc thái đánh giá lợi hại, không phải dấu hiệu ngữ pháp thuần tuý như *be + V-ed*.
+**Sửa:** *"Báo cáo được hoàn thành bởi phòng kế toán"* → *"Phòng kế toán hoàn thành báo cáo"*. *"Các lỗi được phát hiện bởi hệ thống sẽ được xử lý bởi đội kỹ thuật"* → *"Hệ thống phát hiện lỗi nào thì đội kỹ thuật xử lý lỗi đó"*.
+**Không flag:** **cấm quét *được* đơn lẻ.** Phần lớn *được* không phải bị động: thụ hưởng (*được nghỉ phép*), khả năng (*làm được*, *nói được tiếng Nhật*), kết quả đứng sau động từ (*giữ được tiến độ* — đó là V1, không phải V16). *bị* mang sắc thái tiêu cực đúng chỗ (*đơn hàng bị huỷ*). Pháp quy: *"Quyết định được ban hành ngày..."* là chuẩn.
+
+### V17. Né hệ từ: "đóng vai trò là", "sở hữu", "mang lại"
+
+**Dấu hiệu:** *đóng vai trò là, đóng vai trò quan trọng trong, giữ vai trò, được xem như là, hoạt động như một, sở hữu* (thay cho *có*), *mang trong mình, mang đến, mang lại, thể hiện, đại diện cho, là hiện thân của, nổi bật với*. Phép thử: thay bằng *là* hoặc *có* mà câu vẫn đúng thì đó là tell.
+**Vì sao:** tiếng Việt có hệ từ *là* và động từ *có* cực kỳ trung tính. Model tránh chúng vì mô hình tiếng Anh đã học tránh *is / has*, rồi chọn từ tiếng Việt đao to búa lớn nhất trong nhóm nghĩa tương đương.
+**Sửa:** *"Kho Bắc Ninh đóng vai trò là trung tâm trung chuyển và sở hữu diện tích 12.000 m²"* → *"Kho Bắc Ninh là trung tâm trung chuyển, rộng 12.000 m²"*.
+**Không flag:** *đóng vai trò* mô tả một chức năng thật trong hệ thống nhiều tác nhân, nơi *là* sẽ bị hiểu thành định danh. *sở hữu* khi nói về quyền tài sản thật (*công ty sở hữu 51% cổ phần*, *quyền sở hữu trí tuệ*).
+
+### V18. Câu nhiều tầng lồng, lạm dụng "mà" và "điều này"
+
+**Dấu hiệu:** câu trên 45 âm tiết không có dấu chấm. Từ hai *mà* quan hệ trở lên trong một câu. `, điều này + động từ` hoặc `, việc này + động từ` dùng để nối mệnh đề, tương ứng *which*. *vốn là / vốn được* chèn giữa chủ ngữ và vị ngữ. Chuỗi trạng ngữ chồng nhau trước chủ ngữ.
+**Vì sao:** tiếng Việt không có đại từ quan hệ. Mệnh đề phụ tiếng Việt thường đứng độc lập thành câu riêng hoặc nối bằng liên từ tường minh. Model giữ nguyên cấu trúc lồng của tiếng Anh rồi vá bằng *mà* và *điều này*.
+**Sửa:** cắt thành câu riêng. *"Hệ thống mới, vốn được xây dựng trên nền tảng đám mây mà công ty đã đầu tư từ 2024, cho phép đồng bộ tồn kho theo thời gian thực, điều này giúp giảm bán vượt tồn."* → *"Hệ thống mới chạy trên nền tảng đám mây công ty đầu tư từ năm 2024. Các cửa hàng đồng bộ tồn kho theo thời gian thực. Nhờ vậy những điểm bán đông khách không còn bán vượt tồn."*
+**Không flag:** *mà* là liên từ đối lập dùng đúng (*"Rẻ mà bền"*). *mà* là tiểu từ nhấn mạnh cuối câu (*"Tôi đã nói rồi mà"*). Pháp quy và hợp đồng: câu dài nhiều mệnh đề là yêu cầu nghề nghiệp, cắt câu là đổi phạm vi điều chỉnh. Một câu dài đơn lẻ giữa các câu ngắn.
+
+## Nhóm 4 — Song ngữ
+
+### V19. Chêm tiếng Anh sai mật độ hoặc sai kiểu
+
+Tín hiệu **hai chiều**, hướng do cổng thể loại quyết định.
+
+**Chiều mật độ:** ở văn công việc, chat nội bộ, LinkedIn, personal brand, marketing, IT — chêm tiếng Anh là chuẩn mực và **vắng hẳn mới là tell**. Không dân bán lẻ Việt nào viết *"chương trình giảm giá cuối mùa"* thay cho *"sale off"*; không dân IT nào viết *"triển khai lên môi trường sản xuất"* thay cho *"deploy lên prod"*. Ngược lại, ở giáo trình, đề án môn học, nghiên cứu khoa học và văn bản hành chính, chêm tiếng Anh **là lỗi register**, trừ thuật ngữ chưa có tương đương và có chú giải ở lần xuất hiện đầu.
+
+**Chiều cách chêm** — quét được và đáng tin hơn mật độ:
+
+| Người thật | Model |
+|---|---|
+| Jargon ngành, viết thường, không in nghiêng, không giải thích | In nghiêng, hoặc mở ngoặc dịch nghĩa: *"chuyển đổi số (digital transformation)"* |
+| Ghép theo ngữ pháp Việt: *"fix con bug này"*, *"brief lại cho khách"*, *"chốt KPI xong chưa"* | Từ tiếng Anh đứng nguyên khối như trích dẫn |
+| Chêm lộn xộn, không đều, đôi khi sai chính tả | Chêm đều đặn theo khuôn, chính tả luôn đúng |
+| Giữ nguyên từ mà người trong ngành không bao giờ dịch: cloud, deploy, benchmark, brief, deadline | **Dịch sạch mọi thuật ngữ**: *"điện toán đám mây"*, *"điểm chuẩn"*, *"học máy"* ở chỗ người trong ngành luôn nói cloud, benchmark, machine learning |
+
+Dòng cuối là tell mạnh nhất của V19, và cùng cơ chế với cả họ dịch tính: model render sang tiếng Việt một cách triệt để, còn người Việt thật giữ nguyên phần tiếng Anh vì đó là cách đồng nghiệp họ nói.
+
+**Không flag:** người viết có chủ trương thuần Việt hoá nhất quán — nhất quán là dấu hiệu chủ ý. Văn bản viết cho người đọc ngoài ngành. **Không bao giờ tự thêm từ tiếng Anh vào** khi không chắc giới trong ngành dùng từ nào; chêm sai jargon lộ liễu hơn không chêm.
+
+---
+
+## Quy tắc đảo chiều: không sửa câu chỉ vì nó lặp từ
+
+Đây là chỗ khác biệt lớn nhất giữa biên tập tiếng Việt và biên tập tiếng Anh, và là rủi ro over-edit lớn nhất của cả skill.
+
+Tiếng Việt đơn lập, không có đại từ hồi chỉ tiện dụng như *it / they*, nên **lặp nguyên danh từ là phương thức liên kết chuẩn mực**. Mang ngưỡng chống lặp của tiếng Anh sang là chủ động tạo ra dịch tính. Tiếng Việt còn lặp để nhấn (*rất rất*, *đi đi lại lại*) và có cả một lớp từ láy dựa trên lặp âm.
+
+Thứ phải cắt là **chuỗi đồng nghĩa**, không phải chuỗi lặp: *doanh nghiệp → công ty → tổ chức → đơn vị* trong bốn câu liên tiếp; *khách hàng → người mua → người tiêu dùng → họ*. Khi model cứ đổi từ, nó vô tình gợi ý rằng bốn cái tên là bốn thực thể khác nhau.
+
+Cùng quy tắc này áp cho đại từ hồi chỉ. Tiếng Việt lược chủ ngữ tự do khi ngữ cảnh đã rõ, còn tiếng Anh bắt buộc có chủ ngữ hiển ngôn, nên model giữ nguyên mật độ *nó / chúng / điều này* của tiếng Anh. Chữa bằng cách **bỏ hẳn** hoặc **lặp lại danh từ gốc**, không bao giờ bằng từ đồng nghĩa. *"Báo cáo đã gửi hôm qua. Nó chứa số liệu quý hai. Chúng tôi đã xem xét nó và thấy rằng nó có vài chỗ sai."* → *"Báo cáo gửi hôm qua có số liệu quý hai. Chúng tôi xem lại thì thấy vài chỗ sai."*
+
+---
+
+# TYPOGRAPHY
+
+**Cổng bắt buộc:** chỉ sửa typography khi có ít nhất một pattern nhóm lõi cùng xuất hiện trong văn bản. Typography đơn độc không đủ làm bằng chứng, và sửa nó đơn độc chỉ mang lại rủi ro.
+
+### T1. Viết hoa kiểu marketing
+
+**Dấu hiệu:** heading viết hoa mọi âm tiết (`## Chiến Lược Tăng Trưởng Và Mở Rộng Thị Trường`); viết hoa cả liên từ và giới từ giữa tiêu đề; viết hoa mọi âm tiết của tên đơn vị (*Ban Giám Đốc*, *Bộ Giáo Dục Và Đào Tạo*); viết hoa danh từ chung giữa câu để nhấn.
+**Vì sao:** tiếng Việt **không có** quy ước Title Case. Quy tắc viết hoa tiếng Việt là viết hoa vì phép đặt câu và viết hoa danh từ riêng, hết. Đây là calque trực tiếp và là tell **mạnh hơn** ở tiếng Việt so với tiếng Anh, vì không nhà xuất bản Việt nào viết như vậy.
+**Sửa:** hạ về chữ thường trừ chữ đầu và danh từ riêng. Với tên cơ quan tổ chức, chuẩn đối chiếu là NĐ 30/2020/NĐ-CP Phụ lục II: viết hoa chữ cái đầu của **từ** có nghĩa cấu thành tên riêng, không phải mỗi âm tiết — *Bộ Giáo dục và Đào tạo*, *Ban Giám đốc*, *Phòng Kinh doanh*.
+**Không flag:** tên thương hiệu và mã dự án có quy ước riêng (YODY, VinFast). Viết tắt (TP.HCM, KPI, ERP). Tên riêng nhiều âm tiết đều có nghĩa riêng (*Bộ Công Thương*). Trích dẫn nguyên văn.
+
+### T2. Em dash và gạch ngang chú thích giữa câu
+
+**Dấu hiệu:** ký tự `—` (U+2014) ở bất kỳ đâu. Gạch ngang dùng làm dấu chú thích chèn giữa câu theo kiểu tiếng Anh. Gạch nối `-` có khoảng trắng hai bên dùng như gạch ngang. Hai gạch nối liền `--`.
+**Vì sao:** `—` không thuộc quy ước typography tiếng Việt ở bất kỳ chức năng nào. Gạch ngang chú thích giữa câu thì có tồn tại nhưng thưa; khi nó xuất hiện ở mật độ như văn xuôi tiếng Anh thì đó là dấu vết khuôn.
+**Sửa:** thay bằng dấu phẩy, dấu hai chấm, dấu ngoặc đơn, hoặc tách câu. *"Hệ thống mới — vốn được đầu tư từ 2024 — đã giúp giảm sai lệch."* → *"Hệ thống mới, đầu tư từ năm 2024, đã giúp giảm sai lệch."*
+**Không flag — đây là chỗ khác hẳn bản tiếng Anh:** `–` (en dash) là **gạch ngang chuẩn của tiếng Việt** và có bốn chức năng hợp lệ, tất cả đều giữ nguyên: mở lời thoại đầu dòng, mở đầu mục liệt kê, nối cặp tên riêng (*quan hệ Việt – Trung*, *tuyến Hà Nội – Lào Cai*), nối khoảng (*quý I – quý II*, *2020 – 2025*). Gạch nối không khoảng trắng trong phiên âm (*Lê-nin*, *vắc-xin*) và mã số. Cấm en dash sẽ phá địa danh và mọi lời thoại — đó là hỏng nội dung, không phải hỏng phong cách.
+
+### T3. Ngoặc kép không nhất quán
+
+**Dấu hiệu:** trộn `" "` cong và `" "` thẳng trong cùng một tài liệu. Ngoặc `«...»` hoặc `„..."` xuất hiện lẻ tẻ giữa văn bản Việt hiện đại.
+**Vì sao:** bản thân ngoặc cong không nói lên gì — Word, Google Docs và macOS đều tự bo cong, và đây là công cụ soạn thảo mặc định ở Việt Nam. Thứ đáng ngờ là **sự trộn lẫn**, vì nó cho thấy các đoạn đến từ nguồn khác nhau.
+**Sửa:** thống nhất về một kiểu, giữ kiểu đang chiếm đa số trong văn bản. **Không ép về ngoặc thẳng** — đây là chỗ đảo hành vi so với bản tiếng Anh.
+**Không flag:** toàn văn bản nhất quán một kiểu, dù cong hay thẳng. `«...»` trong bản dịch từ tiếng Pháp hoặc Nga. Ngoặc lồng. Code, JSON, chuỗi kỹ thuật.
+
+### T4. Dấu phẩy Oxford và dấu chấm phẩy nối mệnh đề
+
+**Dấu hiệu:** `,\s+và\s` — dấu phẩy trước *và* trong liệt kê. Dấu chấm phẩy nối hai mệnh đề độc lập kiểu Anh.
+**Vì sao:** quy ước liệt kê tiếng Việt là `A, B và C`, không có Oxford comma. Trong tiếng Việt `;` chủ yếu dùng để ngăn các khoản trong danh sách văn bản pháp quy, không dùng để nối mệnh đề.
+**Sửa:** *"báo cáo tài chính, kế hoạch nhân sự, và lịch triển khai"* → *"báo cáo tài chính, kế hoạch nhân sự và lịch triển khai"*. Dấu chấm phẩy nối mệnh đề thì thay bằng dấu phẩy với hư từ, hoặc tách câu.
+**Không flag:** phần tử liệt kê tự nó chứa *và*, khi đó dấu phẩy trước *và* cuối là cần thiết để phân định. `;` trong pháp quy ngăn các điểm a, b, c. `;` trong code, URL, CSS.
+
+### T5. Lạm dụng định dạng markdown
+
+**Dấu hiệu:** ba nét riêng của tiếng Việt, ngoài các biểu hiện chung. (a) In đậm rơi vào danh ngữ Hán-Việt trừu tượng (`**tối ưu hoá quy trình**`, `**chuyển đổi số toàn diện**`) thay vì vào con số hay hạn chót. (b) Bullet header lặp lại chính nó: `- **Hiệu quả vận hành:** Hiệu quả vận hành được cải thiện...`. (c) Bộ heading là danh ngữ Hán-Việt hai âm tiết xếp đối xứng: Tổng quan / Hiện trạng / Giải pháp / Kết luận.
+**Vì sao:** model dùng định dạng để bù cho việc câu chữ không tự phân tầng thông tin. Người Việt viết prose thật phân tầng bằng hư từ và trật tự câu, và bôi đậm rất tiết kiệm — thường là vào con số, hạn chót, tên người chịu trách nhiệm.
+**Sửa:** chuyển bullet có header thành văn xuôi. Bỏ bôi đậm khỏi danh ngữ trừu tượng.
+**Không flag:** README, changelog, đặc tả kỹ thuật, SOP, tài liệu tham chiếu — bullet có header là định dạng đúng ở đó. Slide và báo cáo lãnh đạo. Bôi đậm một con số giữa đoạn dài. Bảng biểu.
+
+### T6. Emoji
+
+**Dấu hiệu:** emoji trang trí đầu heading hoặc đầu bullet.
+**Vì sao:** không phụ thuộc ngôn ngữ, giữ nguyên như bản tiếng Anh.
+**Sửa:** bỏ emoji, giữ nội dung.
+**Không flag:** tin nhắn, mạng xã hội, nội dung nội bộ có văn hoá dùng emoji. Emoji mang thông tin thật (trạng thái trong bảng, ký hiệu quy ước).
+
+---
+
+# Nhận diện: cái gì KHÔNG được sửa
+
+## Dấu hiệu người Việt thật viết — bất khả xâm phạm
+
+Thấy những thứ này thì nghiêng về để nguyên. Chúng là bằng chứng có người thật đằng sau, và over-edit sẽ xoá đúng cái làm nên văn bản. Xếp theo độ mạnh:
+
+1. **Giọng vùng miền và từ địa phương.** *Mắc quá, chi rứa, nghen, hen, ni, nớ, bây, tau.* Người Bắc viết *bát* và *cốc*, người Nam viết *chén* và *ly*. Model chuẩn hoá về giọng Bắc trung tính, nên một từ Nam Bộ hay Trung Bộ lọt trong câu là dấu vân tay.
+2. **Tiếng lóng gắn năm cụ thể.** Lóng mạng Việt đổi rất nhanh và model luôn trễ ít nhất một năm. Một từ lóng đúng thời điểm gần như không thể bịa.
+3. **Xưng hô mang quan hệ thật.** *Anh Tuấn bên kho, chị kế toán, bác bảo vệ tầng một, sếp cũ của em.* Đại từ tiếng Việt mã hoá quan hệ xã hội cụ thể mà model không có thông tin để bịa. **Đây là chỗ dễ over-edit nhất**: xoá *bên mình* khỏi bài của một chủ shop là xoá luôn danh tính người viết.
+4. **Chi tiết cụ thể khó bịa.** Giờ lẻ, tiền lẻ, tên đường, tên quán, tên file (*bao_cao_final_v7*), biển số.
+5. **Câu lệch chuẩn có chủ ý.** *"Hỏi lại lần nữa. Vẫn im. Thôi."*
+6. **Mâu thuẫn nội tại chưa gỡ.** *"Nói vậy chứ tôi vẫn thấy gợn, mà không chỉ ra được gợn ở đâu."* Model luôn chốt được kết luận sạch.
+7. **Tự sửa mình giữa dòng.** *"Khoảng ba tháng, à không, bốn tháng."*
+8. **Tiếng Anh chen theo thói quen ngành**, viết thường, lộn xộn, đôi khi sai chính tả. Xem V19.
+9. **Độ dài đoạn không đều.** Một đoạn mười dòng rồi một đoạn hai chữ.
+10. **Biến thể gõ tay.** *ko*, *dc*, *vs* nghĩa là *với*, thiếu dấu ở vài từ. Chỉ chuẩn hoá khi văn bản đòi hỏi chuẩn xuất bản.
+
+## Tín hiệu chạy ngược chiều
+
+**Khoảng trắng trước dấu câu là bằng chứng NGƯỜI THẬT VIẾT, không phải tell AI.** Model gần như không sinh lỗi này; người gõ nhanh, gõ trên điện thoại, hoặc quen typography Pháp thì có. Nếu xếp nó vào nhóm tell, bạn sẽ vừa kết luận ngược vừa sửa mất bằng chứng người viết. Chỉ sửa khi người dùng yêu cầu soát chính tả.
+
+## Loại khỏi skill — không phải tell, đừng đụng vào
+
+**Dấu thanh kiểu cũ và kiểu mới** (*hòa / hoà*, *thủy / thuỷ*) và **quy tắc i/y** (*kỹ / kĩ*, *tỷ / tỉ*, *lý / lí*). QĐ 1989/QĐ-BGDĐT 2018 Điều 8 và Điều 9 chỉ áp cho chương trình và sách giáo khoa phổ thông; báo chí, doanh nghiệp và pháp quy dùng kiểu còn lại áp đảo. Đây là tranh chấp chuẩn mực giữa hai giới, không liên quan gì tới AI. Thêm nữa Điều 9.2 loại trừ tên riêng (*Nguyễn Vỹ*, *Thy Ngọc*), nên mọi quy tắc i/y tự động đều có nguy cơ sửa sai tên người.
+
+Chỉ giữ lại dưới dạng **kiểm tra nhất quán nội bộ trong một văn bản**. Nguyên tắc: nhất quán nội bộ, không áp chuẩn ngoài. Một người viết *kỹ thuật* và *tỷ lệ* suốt hai mươi năm mà bị sửa thành *kĩ thuật* và *tỉ lệ* thì skill vừa làm văn bản của họ trông giống văn bản máy hơn — đúng ngược mục tiêu.
+
+## Quy tắc cụm
+
+Không kết luận từ một dấu hiệu lẻ. Gần như mọi cụm trong skill này đều có thể xuất hiện hợp lệ một lần. Chỉ kết luận khi thấy **chùm ba bốn dấu hiệu trong cùng một đoạn**, cộng với sự vắng mặt hoàn toàn của các dấu hiệu người viết ở trên.
+
+## Phân biệt "cụt vì dịch máy" với "ngắn gọn có chủ ý"
+
+Rất nhiều người Việt viết ngắn và cộc một cách có ý thức, nhất là dân kỹ thuật và dân vận hành. Nhồi hư từ vào văn của họ cho ra kết quả tệ hơn bản gốc: một loại giả mới, thứ văn giả dân dã, cố tỏ ra tự nhiên.
+
+**Tiêu chí mạnh nhất — xét cái gì bị bỏ.** Người viết tối giản có chủ ý bỏ **từ thừa**: trạng từ nhấn mạnh, tính từ trang trí, cụm rào đón, câu dẫn nhập. Họ không bao giờ bỏ hư từ, vì bỏ hư từ thì chính họ đọc lại cũng thấy hẫng. Dịch máy bỏ **từ chức năng**: *là, thì, được, nên, rồi*, loại từ, tiểu từ.
+
+**Tiêu chí phụ — tính nhất quán.** Người viết cộc cắt **có hệ thống**: cùng một kiểu cấu trúc thì cắt cùng một kiểu, xuyên suốt. Dịch máy rụng hư từ **ngẫu nhiên**: cùng một cấu trúc, chỗ có chỗ không, trong cùng một đoạn. Sự bất nhất này là chữ ký của lỗi dịch.
+
+## Mật độ khi sửa — phanh chống nhồi
+
+- Hư từ nối trong lòng câu (*thì, mà, là, nên, cũng, còn, lại*): trung bình 1–2 mỗi câu. Trên 3 là nhồi.
+- Tiểu từ tình thái cuối câu: 1 trên 3–5 câu ở văn hội thoại. **0 ở văn trang trọng.**
+- Trạng từ nối đầu câu: nhiều nhất 1 trên 5–6 câu.
+- *các* và *những*: nhiều nhất 1 mỗi câu.
+- Loại từ: chỉ với danh từ chỉ vật thể cụ thể đang được cá thể hoá.
+
+---
+
+## Chế độ gọi
+
+**Văn bản dán vào (mặc định).** Trả về bản nháp, vài gạch đầu dòng về chỗ còn lộ dấu vết dịch, và bản cuối.
+
+**Chế độ file.** Người dùng trỏ vào một file. Đọc, chạy vòng lặp bên trong, ghi đè file bằng bản cuối. Chỉ sửa phần văn xuôi: để nguyên khối code, frontmatter, dữ liệu, đích liên kết. Trong hội thoại chỉ báo cáo tóm tắt, không dán lại toàn bộ.
+
+**Chế độ nhúng.** Một tác vụ khác dùng skill này như một bước. Chạy vòng lặp bên trong, chỉ xuất bản cuối. Không nháp, không phân tích, không tóm tắt.
+
+## Nền tảng bằng chứng
+
+Không tồn tại nghiên cứu định lượng nào về dấu hiệu văn bản AI trong tiếng Việt ở cấp từ vựng hay cú pháp. Các công trình hiện có về phát hiện văn bản AI tiếng Việt chỉ dùng đặc trưng phân bố xác suất, không liệt kê pattern ngôn ngữ học nào.
+
+Khoảng một phần ba pattern trong skill này có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, đối chiếu ngữ pháp Anh - Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
+
+Mọi ngưỡng số trong skill này (mật độ danh hoá, tỉ lệ câu mở bằng trạng từ nối, mật độ tiểu từ) là **chưa hiệu chuẩn trên corpus**. Dùng làm phanh, đừng dùng làm bằng chứng.
+
+Danh sách nguồn đầy đủ kèm phân hạng nằm ở `README.md`.
