@@ -13,7 +13,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 ### B1. Sáo ngữ tôn vinh tầm quan trọng
 
 **Dấu hiệu:** *đóng vai trò quan trọng, giữ vai trò then chốt, đóng góp không nhỏ, góp phần không nhỏ, có ý nghĩa hết sức quan trọng, là yếu tố then chốt, mang tính quyết định, không thể phủ nhận rằng, tạo tiền đề vững chắc, đặt nền móng cho, khẳng định vị thế, ghi dấu ấn sâu sắc, là minh chứng rõ nét cho*.
-**Vì sao:** lớp đệm ngữ nghĩa rỗng — bỏ cả cụm đi thì câu vẫn còn nguyên thông tin. Model chèn nó vào để làm câu đủ trọng lượng khi không có dữ kiện cụ thể để nói.
+**Vì sao:** lớp đệm ngữ nghĩa rỗng, bỏ cả cụm đi thì câu vẫn còn nguyên thông tin. Model chèn nó vào để làm câu đủ trọng lượng khi không có dữ kiện cụ thể để nói.
 **Sửa:** *"Chuyển đổi số đóng vai trò quan trọng trong bán lẻ hiện đại."* → *"Bán lẻ hiện đại phụ thuộc vào hệ thống số: hết hàng tại cửa hàng nhưng còn ở kho thì đơn vẫn chốt được."* **Nếu không có chi tiết cụ thể để thay vào thì cắt câu, không bịa.**
 **Không flag:** trích dẫn nguyên văn phát biểu của người khác.
 
@@ -22,7 +22,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** *hành trình* (khi không ai đi đâu cả), *chìa khoá thành công, chìa khoá để, bức tranh toàn cảnh, cái nhìn toàn cảnh, ngọn hải đăng dẫn lối, đòn bẩy tăng trưởng, bệ phóng, cú hích, làn gió mới, mảnh ghép còn thiếu, kim chỉ nam, xương sống của, trái tim của hệ thống, mở ra cánh cửa, thắp lửa đam mê, chắp cánh ước mơ, đào sâu vấn đề, tạo ra cuộc cách mạng*. Nhóm calque từ tiếng Anh: *vào cuối ngày* (at the end of the day), *mở khoá tiềm năng, thay đổi cuộc chơi, bắt kịp đường cong, câu chuyện thành công, nằm ở chỗ*.
 **Vì sao:** ẩn dụ đã chết, dùng để tránh phải nói chính xác điều gì xảy ra. Tell nặng nhất là khi một bài có ba bốn ẩn dụ loại này mà chúng không cùng trường nghĩa: vừa hành trình, vừa bệ phóng, vừa bức tranh.
 **Sửa:** *"Đào tạo nội bộ chính là chìa khoá mở ra cánh cửa tăng trưởng, là bệ phóng đưa doanh nghiệp bước vào hành trình chuyển đổi số."* → *"Không đào tạo lại đội vận hành thì phần mềm mới sẽ bị dùng sai trong ba tháng đầu."*
-**Không flag:** ẩn dụ đã thành thuật ngữ ngành — *hành trình khách hàng* trong tài liệu UX, *xương sống* trong mô tả hạ tầng mạng. Ẩn dụ được triển khai nhất quán và có chi tiết riêng: đó là dấu hiệu người viết. Thành ngữ Việt thật trùng hình với tiếng Anh (*con dao hai lưỡi*, *giọt nước tràn ly*).
+**Không flag:** ẩn dụ đã thành thuật ngữ ngành, *hành trình khách hàng* trong tài liệu UX, *xương sống* trong mô tả hạ tầng mạng. Ẩn dụ được triển khai nhất quán và có chi tiết riêng: đó là dấu hiệu người viết. Thành ngữ Việt thật trùng hình với tiếng Anh (*con dao hai lưỡi*, *giọt nước tràn ly*).
 
 ### B3. Mở bài dẫn dắt vòng vo
 
@@ -36,14 +36,14 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** *hứa hẹn sẽ, tin rằng trong thời gian tới, mở ra tương lai tươi sáng, hướng tới một tương lai bền vững, tiếp tục gặt hái nhiều thành công, sẽ còn tiến xa hơn nữa, cùng chung tay, chắc chắn sẽ mang lại, là bước đi đúng đắn, xứng đáng để bạn trải nghiệm, còn chần chừ gì nữa, Tóm lại, Tựu trung lại, Hy vọng bài viết hữu ích*.
 **Vì sao:** model đóng bài bằng một câu chúc tụng vì nó học rằng văn bản cần có kết. Câu đó không kiểm chứng được, không ai chịu trách nhiệm, và thường mâu thuẫn với phần thân bài vốn đang nêu vấn đề.
 **Sửa:** **cắt cả đoạn, kết thúc ở dữ kiện cụ thể cuối cùng.** Nếu bản gốc có nêu kế hoạch thật thì dùng cái đó: *"Với những nỗ lực không ngừng, tin rằng doanh nghiệp sẽ tiếp tục gặt hái thành công."* → *"Kế hoạch năm sau là mở thêm 12 cửa hàng, nhưng ban điều hành chưa chốt nguồn vốn."* Không có kế hoạch thật trong bản gốc thì chỉ cắt, không sáng tác.
-**Không flag:** câu kết nêu kế hoạch cụ thể có mốc, số, hoặc người chịu trách nhiệm. Thư chúc mừng, diễn văn khai mạc, thông điệp đầu năm — ở đó lời chúc là chức năng chính. Luận văn và báo cáo có mục kết luận theo quy ước.
+**Không flag:** câu kết nêu kế hoạch cụ thể có mốc, số, hoặc người chịu trách nhiệm. Thư chúc mừng, diễn văn khai mạc, thông điệp đầu năm, ở đó lời chúc là chức năng chính. Luận văn và báo cáo có mục kết luận theo quy ước.
 
 ### B5. Song hành phủ định "không chỉ... mà còn"
 
 **Dấu hiệu:** *không chỉ... mà còn, không những... mà còn, vừa... lại vừa, chẳng những... mà, không đơn thuần là... mà là, Đây không chỉ là..., đây là, hơn cả một..., tưởng chừng... nhưng*. Một lần trong bài dài là bình thường; từ hai lần trở lên, hoặc xuất hiện ở câu mở đoạn, là tell.
 **Vì sao:** ánh xạ một-một của *not only... but also* và *it's not just X, it's Y*. Cấu trúc này nâng một mệnh đề tầm thường thành tuyên bố nghe có sức nặng mà không thêm thông tin.
 **Sửa:** *"Hệ thống POS mới không chỉ giúp thu ngân nhanh hơn mà còn nâng cao trải nghiệm khách hàng."* → *"Hệ thống POS mới rút thời gian thanh toán từ 90 giây xuống 40 giây, nên hàng đợi giờ cao điểm ngắn hẳn."*
-**Không flag:** hai vế thật sự khác loại và vế sau mang thông tin mới. *"Nghị định này không chỉ áp dụng cho doanh nghiệp trong nước mà còn cho chi nhánh nước ngoài"* — hai phạm vi pháp lý khác nhau, giữ nguyên.
+**Không flag:** hai vế thật sự khác loại và vế sau mang thông tin mới. *"Nghị định này không chỉ áp dụng cho doanh nghiệp trong nước mà còn cho chi nhánh nước ngoài"*, hai phạm vi pháp lý khác nhau, giữ nguyên.
 
 ### B6. Nghi vấn tu từ mở đoạn kiểu SEO
 
@@ -70,8 +70,8 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 
 **Dấu hiệu:** chọn từ Hán-Việt trang trọng ở chỗ thuần Việt tự nhiên hơn: *phương tiện di chuyển* thay *xe*, *thực phẩm* thay *đồ ăn*, *trang phục* thay *quần áo*, *nơi cư trú* thay *chỗ ở*, *thân nhân* thay *người nhà*, *sở hữu* thay *có*, *tiến hành* thay *làm*.
 **Vì sao:** model chọn từ trang trọng nhất trong nhóm nghĩa tương đương vì nó có xác suất cao trong corpus hành chính và báo chí. Trong văn có giọng thì lựa chọn đó nghe như người ngoài đang đọc báo cáo.
-**Sửa:** tra `references/han-viet-thuan-viet.md`. **Đọc cột thứ ba trước khi thay** — nó nêu điều kiện phải giữ nguyên Hán-Việt. Cấm dùng bảng đó như find-and-replace.
-**Không flag:** năm phép thử trong file tham chiếu, chỉ cần một phép cho kết quả "giữ" là dừng. Đặc biệt: người viết lớn tuổi hoặc xuất thân khu vực nhà nước và học thuật dùng mật độ Hán-Việt cao **một cách nhất quán** — đó là giọng người, không phải tell. Mục tiêu là chỉnh tỷ lệ cho khớp thể loại, không phải loại bỏ Hán-Việt.
+**Sửa:** tra `references/han-viet-thuan-viet.md`. **Đọc cột thứ ba trước khi thay**, nó nêu điều kiện phải giữ nguyên Hán-Việt. Cấm dùng bảng đó như find-and-replace.
+**Không flag:** năm phép thử trong file tham chiếu, chỉ cần một phép cho kết quả "giữ" là dừng. Đặc biệt: người viết lớn tuổi hoặc xuất thân khu vực nhà nước và học thuật dùng mật độ Hán-Việt cao **và nhất quán**: đó là giọng người, không phải tell. Mục tiêu là chỉnh tỷ lệ cho khớp thể loại, không phải loại bỏ Hán-Việt.
 
 ### B10. Thành ngữ dùng lệch và mật độ thành ngữ bất thường
 
@@ -101,7 +101,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** đo theo **âm tiết**, không theo từ. Chỉ áp dụng khi đoạn có từ 6 câu trở lên. Nghi ngờ khi độ dài câu gần như không dao động và không có câu nào dưới 8 âm tiết.
 **Vì sao:** người Việt viết tự nhiên hay chêm câu cụt 3–6 âm tiết (*"Không đơn giản vậy."*, *"Thế thôi."*) giữa các câu dài. Model tối ưu theo xác suất trung bình nên hội tụ về độ dài trung vị và gần như không sinh câu cụt.
 **Sửa:** gộp hai câu ngắn thành một câu dài, tách một ý ra thành câu cụt. Sửa V12 và V13 thường tự phá nhịp đều, nên **làm cấu trúc trước, chỉnh nhịp sau**.
-**Không flag:** đoạn dưới 6 câu — mẫu quá nhỏ. Tác giả có phong cách câu đều đã xác nhận qua mẫu văn. **Chỉ số này một mình là bằng chứng yếu, chỉ dùng để cộng dồn.** Ngưỡng chưa hiệu chuẩn trên corpus tiếng Việt.
+**Không flag:** đoạn dưới 6 câu: mẫu quá nhỏ. Tác giả có phong cách câu đều đã xác nhận qua mẫu văn. **Chỉ số này một mình là bằng chứng yếu, chỉ dùng để cộng dồn.** Ngưỡng chưa hiệu chuẩn trên corpus tiếng Việt.
 
 ## Giọng và quan hệ
 
@@ -117,7 +117,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** ba đại từ *chúng ta*, *bạn*, *chúng tôi* xuất hiện trong cùng một đoạn ngắn mà không có quan hệ xã hội nào giải thích được. *Bạn* dùng ở chỗ tiếng Việt thật sẽ dùng anh / chị / em / quý khách. *Chúng ta* theo nghĩa "người ta nói chung", không thực sự bao gồm người đọc. Hoặc toàn văn bản không có đại từ nào trong khi nội dung rõ ràng là một người nói với một người.
 **Vì sao:** tiếng Anh có *I / you* trung tính, không mã hoá quan hệ. Tiếng Việt buộc chọn cặp phản ánh tuổi, vai vế, mức thân sơ. Model không có thông tin đó nên né bằng cặp trung tính giả, hoặc bỏ hẳn, hoặc đổi qua đổi lại.
 **Sửa:** **chọn cặp xưng hô trước khi sửa câu nào cả**, rồi giữ nhất quán tuyệt đối. Đổi cặp giữa chừng là tell mạnh hơn cả chọn sai cặp. *Chúng ta* chỉ giữ khi thật sự bao gồm người đọc vào cùng hành động; nếu chỉ là *we* khái quát thì bỏ hẳn và viết vô nhân xưng.
-**Không flag — đây là chỗ rủi ro cao nhất của cả skill:** **không được suy đoán tuổi tác hay vai vế để áp xưng hô.** Ngữ cảnh không cho biết quan hệ thì giữ nguyên và ghi chú cho người dùng tự chọn. Đổi *bạn* thành *em* khi không biết vai vế có thể xúc phạm người nhận. Tài liệu hướng dẫn, UX copy, giáo trình, quảng cáo đại chúng dùng *bạn* là quy ước hợp lệ. Bài học thuật dùng *chúng tôi* cho nhóm tác giả là đúng chuẩn.
+**Không flag** (đây là chỗ rủi ro cao nhất của cả skill): **không được suy đoán tuổi tác hay vai vế để áp xưng hô.** Ngữ cảnh không cho biết quan hệ thì giữ nguyên và ghi chú cho người dùng tự chọn. Đổi *bạn* thành *em* khi không biết vai vế có thể xúc phạm người nhận. Tài liệu hướng dẫn, UX copy, giáo trình, quảng cáo đại chúng dùng *bạn* là quy ước hợp lệ. Bài học thuật dùng *chúng tôi* cho nhóm tác giả là đúng chuẩn.
 
 ### B16. Giả thân mật
 
@@ -131,7 +131,7 @@ Tham số cho profile này: tiểu từ tình thái **bật**. Với nội dung 
 **Dấu hiệu:** văn nói lẫn vào văn trang trọng (*cực kỳ, siêu, cứ thế mà, nói chung là, xịn, ngon lành, luôn* cuối câu) hoặc văn hành chính lẫn vào blog cá nhân (*nhằm mục đích, trên tinh thần, theo đó, nêu trên, công tác, tiến hành thực hiện*). Nặng nhất là trộn trong cùng một câu.
 **Vì sao:** model chọn register theo từng câu chứ không theo cả văn bản, nên độ trang trọng dao động trong cùng một đoạn. Người viết thật cũng trộn register, nhưng trộn **có chủ đích** và thường ở chỗ chuyển giọng rõ ràng, không rải đều.
 **Sửa:** chọn một mức trang trọng cho cả văn bản dựa trên người đọc, rồi kéo các câu lệch về mức đó.
-**Không flag — đây là rủi ro over-edit nghiêm trọng:** áp pattern này máy móc sẽ biến giọng Nam Bộ hoặc giọng Trung thành giọng Bắc chuẩn tin tức. Đó là thiệt hại không phục hồi được. Cũng không flag khi người viết cố tình phá giọng để tạo hiệu ứng và chỗ phá giọng nằm gọn trong một câu. Văn bản nội bộ của đội ngũ trẻ suồng sã **nhất quán** từ đầu đến cuối là đúng chuẩn của họ.
+**Không flag** (đây là rủi ro over-edit nghiêm trọng): áp pattern này máy móc sẽ biến giọng Nam Bộ hoặc giọng Trung thành giọng Bắc chuẩn tin tức. Đó là thiệt hại không phục hồi được. Cũng không flag khi người viết cố tình phá giọng để tạo hiệu ứng và chỗ phá giọng nằm gọn trong một câu. Văn bản nội bộ của đội ngũ trẻ suồng sã **nhất quán** từ đầu đến cuối là đúng chuẩn của họ.
 
 ---
 

@@ -14,7 +14,7 @@ Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm ph
 
 1. **Phép thử phân biệt nghĩa.** Thay bằng thuần Việt có làm mất một phân biệt mà văn bản đang cần không? Bộ luật Dân sự phân biệt *chiếm hữu*, *sử dụng*, *định đoạt* là ba quyền năng khác nhau của quyền sở hữu. Gộp cả ba thành "cầm, dùng, bán" là làm hỏng văn bản.
 2. **Phép thử định danh.** Từ đó có định nghĩa trong một văn bản chuẩn không (luật, nghị định, tiêu chuẩn quốc gia, sách giáo khoa, từ điển chuyên ngành)? Nếu có thì nó là thuật ngữ, không phải lựa chọn văn phong.
-3. **Phép thử người trong ngành.** Bác sĩ nói với bác sĩ có dùng từ đó không? Kế toán nói với kế toán? Nếu có, đổi sang thuần Việt sẽ khiến văn bản nghe như người ngoài ngành viết — tức là bớt tự nhiên đi, không phải tự nhiên hơn.
+3. **Phép thử người trong ngành.** Bác sĩ nói với bác sĩ có dùng từ đó không? Kế toán nói với kế toán? Nếu có, đổi sang thuần Việt sẽ khiến văn bản nghe như người ngoài ngành viết, tức là bớt tự nhiên đi, không phải tự nhiên hơn.
 4. **Phép thử thể loại.** Thể loại có bắt buộc giọng trang trọng không? Cáo phó, điếu văn, thiệp mời cưới, công văn, quyết định, nghị quyết, sớ, văn khấn, chúc thư. Ở đây trang trọng là chức năng, không phải trang trí.
 5. **Phép thử sắc thái từ thuần Việt.** Từ thuần Việt tương đương có mang sắc thái thô, suồng sã, hoặc bất kính trong ngữ cảnh này không? *Chết* trong cáo phó, *đẻ* trong bệnh án, *bắt* trong quyết định tố tụng.
 
@@ -60,7 +60,7 @@ Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm ph
 | tôn vinh | khen, ca ngợi | Nghi lễ, lễ trao giải |
 | cư trú | ở | Luật Cư trú, hộ tịch |
 | tử vong | chết | Y khoa, thống kê, pháp y, báo cáo dịch |
-| từ trần, tạ thế, lâm chung | chết, mất, qua đời | Cáo phó, tang lễ, điếu văn — **bắt buộc giữ** |
+| từ trần, tạ thế, lâm chung | chết, mất, qua đời | Cáo phó, tang lễ, điếu văn, **bắt buộc giữ** |
 | giáo huấn | dạy bảo | Tôn giáo, văn bản đạo đức cổ |
 
 ## Nhóm 2: danh từ và tính từ

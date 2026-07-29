@@ -14,7 +14,7 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 
 2. **Không thêm giọng, ý kiến, ngôi thứ nhất.** Mục "Giọng và cá tính" của profile kia không áp dụng. Không thêm thái độ, không thêm chỗ chưa chắc chắn, không thêm câu chen ngang.
 
-3. **Không tạo chuỗi đồng nghĩa cho thuật ngữ.** Thuật ngữ phải lặp lại y nguyên xuyên suốt văn bản. Đây là yêu cầu nghề nghiệp, không phải lựa chọn văn phong. Quy tắc đảo chiều trong `SKILL.md` áp dụng ở đây với mức độ mạnh hơn: lặp thuật ngữ là **bắt buộc**, không chỉ là được phép.
+3. **Không tạo chuỗi đồng nghĩa cho thuật ngữ.** Thuật ngữ phải lặp lại y nguyên xuyên suốt văn bản. Đây là yêu cầu nghề nghiệp, không phải lựa chọn văn phong. Quy tắc đảo chiều trong `SKILL.md` áp dụng ở đây mạnh hơn: lặp thuật ngữ là **bắt buộc**, kể cả lặp nguyên cụm dài (*team dev*, *tồn kho*) qua nhiều câu liên tiếp.
 
 4. **Không thuần Việt hoá thuật ngữ Hán-Việt.** Xem `references/han-viet-thuan-viet.md`, cột thứ ba. Hầu như toàn bộ hệ thuật ngữ khoa học tiếng Việt là Hán-Việt, và việc chuẩn hoá chúng là công việc của giới chuyên môn, không phải của người biên tập văn phong. Ví dụ chí mạng: Bộ luật Dân sự phân biệt *chiếm hữu*, *sử dụng*, *định đoạt* thành ba quyền năng riêng biệt; gộp về thuần Việt là làm sai nghĩa pháp lý.
 
@@ -22,7 +22,7 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 
 | Pattern lõi | Điều chỉnh |
 |---|---|
-| V4 dấu thời - thể | Nới. Văn mô tả trạng thái phi thời gian (định nghĩa, thông số, mô tả chức năng) vốn không có dấu thời thể. Không bổ sung |
+| V4 dấu thời – thể | Nới. Văn mô tả trạng thái phi thời gian (định nghĩa, thông số, mô tả chức năng) vốn không có dấu thời thể. Không bổ sung |
 | V8 *các* và *những* | Nới với văn bản liệt kê đối tượng áp dụng, nơi *các* đánh dấu phạm vi bắt buộc phải rõ |
 | V13 khung SVO | **Tắt.** Trật tự cố định trong mô tả thuật toán, điều khoản và tài liệu API là cố ý để tránh mơ hồ |
 | V14 danh ngữ trần | Nới mạnh. Nhãn, mục lục, ô bảng, checklist, gạch đầu dòng đều dùng danh ngữ trần hợp lệ |
@@ -53,7 +53,7 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 **Dấu hiệu:** *đóng vai trò quan trọng, có ý nghĩa hết sức quan trọng, là yếu tố then chốt, góp phần nâng cao, đẩy mạnh, tăng cường, nhằm đáp ứng yêu cầu ngày càng cao* xuất hiện trong báo cáo doanh nghiệp, tài liệu kỹ thuật hoặc bài nghiên cứu.
 **Vì sao:** đây là ngôn ngữ thể chế hợp lệ **trong** nghị quyết và văn bản chỉ đạo, nhưng khi model mang nó sang báo cáo nội bộ hay bài nghiên cứu thì nó chỉ còn là lớp đệm rỗng. Phân biệt bằng thể loại, không bằng bản thân cụm từ.
 **Sửa:** thay bằng phát biểu kiểm chứng được có trong bản gốc, hoặc cắt.
-**Không flag:** văn bản pháp quy, nghị quyết, báo cáo chính trị, kế hoạch ngành — cổng thể loại đã chặn những loại này từ trước. Trích dẫn nguyên văn.
+**Không flag:** cụm có bổ ngữ cụ thể mang thông tin thật thì giữ: *"nâng cao hiệu quả vận hành kho"* nói rõ nâng cao cái gì, đó là tiếng Việt công sở bình thường; chỉ cắt khi cụm đứng trơ (*"nâng cao hiệu quả"* mà không nói hiệu quả của cái gì). Văn bản pháp quy, nghị quyết, kế hoạch ngành thì cổng thể loại đã chặn từ trước. Trích dẫn nguyên văn.
 
 ### K3. Bộ đề mục Hán-Việt đối xứng rỗng
 
