@@ -9,7 +9,7 @@ description: |
   Anh sai register, cùng nhóm sáo ngữ và typography.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # vi-humanizer: xoá dấu vết dịch máy trong văn bản tiếng Việt
