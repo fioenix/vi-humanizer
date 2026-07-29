@@ -29,7 +29,7 @@ Tiếng Anh mã hoá kết quả bằng cặp động từ riêng hoặc bằng 
 | được | khả năng và thành công |
 | ra, thấy | phát hiện và nhận thức |
 | xong, hết | hoàn tất |
-| nổi | chịu đựng, sức chịu — thường đi với phủ định |
+| nổi | chịu đựng, sức chịu, thường đi với phủ định |
 | mất | tiêu hao, biến mất |
 | lên, xuống, vào, ra, đi, lại, tới | hướng |
 
@@ -66,7 +66,7 @@ Tiếng Anh đánh dấu một đầu quan hệ và dùng dấu phẩy làm ranh
 
 **Với cặp nhượng bộ, gần như luôn cần thêm *vẫn* hoặc *còn* ở vế sau,** không chỉ *nhưng*. *"Tuy A nhưng B"* nghe hụt; *"Tuy A nhưng B vẫn..."* mới đóng ý.
 
-**Chỉ tính là tell khi lặp lại trong đoạn.** Một câu lẻ không nói lên gì. Nếu ba bốn câu liên tiếp đều theo khuôn "Liên từ + mệnh đề, mệnh đề" thì đó là dấu vết cấu trúc — phá khuôn bằng cách trộn ba cách chữa ở trên.
+**Chỉ tính là tell khi lặp lại trong đoạn.** Một câu lẻ không nói lên gì. Nếu ba bốn câu liên tiếp đều theo khuôn "Liên từ + mệnh đề, mệnh đề" thì đó là dấu vết cấu trúc, phá khuôn bằng cách trộn ba cách chữa ở trên.
 
 ---
 
@@ -138,7 +138,7 @@ Chỉ dùng cho `profiles/blog-ca-nhan.md`. **Không bao giờ chèn vào văn b
 
 Câu kết thúc bằng dấu hỏi mà **không có** từ để hỏi và **không có** khung nào ở trên là câu kể bị gắn dấu hỏi.
 
-**Khung cầu khiến — cần đủ ba thứ:** xưng hô, động từ, và một dấu cầu khiến.
+**Khung cầu khiến: cần đủ ba thứ:** xưng hô, động từ, và một dấu cầu khiến.
 
 | Dấu cầu khiến | Mức độ |
 |---|---|

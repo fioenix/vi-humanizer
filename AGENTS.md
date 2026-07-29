@@ -6,7 +6,7 @@ Hướng dẫn cho AI coding agent làm việc trong repo này.
 
 Một agent skill viết hoàn toàn bằng Markdown, không có bước build. Runtime artifact là `SKILL.md` cùng hai thư mục `profiles/` và `references/` mà nó trỏ tới.
 
-Đây **không** phải bản dịch của skill humanizer tiếng Anh. Phần lớn pattern ở đây bắt lỗi dịch **từ** tiếng Anh sang tiếng Việt, thứ mà một skill viết bằng tiếng Anh về nguyên tắc không phát hiện được. Ba pattern đi ngược hẳn bản gốc (quy tắc lặp từ, en dash, ngoặc kép) — đọc phần "Ba chỗ skill này đi ngược bản tiếng Anh" trong README trước khi sửa chúng.
+Đây **không** phải bản dịch của skill humanizer tiếng Anh. Phần lớn pattern ở đây bắt lỗi dịch **từ** tiếng Anh sang tiếng Việt, thứ mà một skill viết bằng tiếng Anh về nguyên tắc không phát hiện được. Ba pattern đi ngược hẳn bản gốc (quy tắc lặp từ, en dash, ngoặc kép), đọc phần "Ba chỗ skill này đi ngược bản tiếng Anh" trong README trước khi sửa chúng.
 
 ## Các file
 
@@ -43,7 +43,8 @@ Nếu một pattern mới có thể là lỗi ở blog nhưng là chuẩn ở c�
 
 - Giữ YAML frontmatter hợp lệ, đúng thụt lề.
 - Phần dưới frontmatter là sản phẩm. Sửa nó như sửa một tài liệu hướng dẫn cẩn thận, không phải như sửa code.
-- Mỗi pattern giữ đủ bốn phần: **Dấu hiệu**, **Vì sao**, **Sửa**, **Không flag**. Phần "Không flag" quan trọng ngang phần phát hiện — đây là thứ chặn skill phá văn bản người thật viết.
+- Mỗi pattern giữ đủ bốn phần: **Dấu hiệu**, **Vì sao**, **Sửa**, **Không flag**. Phần "Không flag" quan trọng ngang phần phát hiện: nó chặn skill phá văn bản người thật viết.
+- Văn trong skill phải qua được chính skill này. Không em dash, không "một cách + tính từ" thừa, không hạ giọng quá tay. Trước khi commit, tự soi lại phần văn mình vừa viết bằng đúng bộ pattern trong đó.
 - Ví dụ Before/After phải là tiếng Việt tự nhiên. Không dịch ví dụ từ skill tiếng Anh.
 - Ví dụ minh hoạ tránh dùng tên đơn vị hành chính đã sáp nhập theo NQ 202/2025/QH15 (hiệu lực 01/07/2025).
 

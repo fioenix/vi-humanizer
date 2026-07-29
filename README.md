@@ -92,7 +92,7 @@ Trước khi áp bất kỳ pattern nào, skill chạy một **cổng thể lo�
 
 ## Bộ pattern
 
-### Lõi — lỗi ngôn ngữ (V1–V19)
+### Lõi: lỗi ngôn ngữ (V1–V19)
 
 Hư từ rụng. Đây là nhóm không có tương đương trong bản tiếng Anh.
 
@@ -100,8 +100,8 @@ Hư từ rụng. Đây là nhóm không có tương đương trong bản tiếng
 |---|---|---|
 | V1 | Thiếu bổ ngữ kết quả và hướng | "không giải quyết vấn đề" → "không giải quyết **được** vấn đề" |
 | V2 | Cặp liên từ hô ứng chỉ còn một vế | "Vì A, B" → "A **nên** B" |
-| V3 | Thiếu "là / thì / mà" ở ranh giới đề - thuyết | "Cách đơn giản nhất tăng số worker" → "... **là** tăng số worker" |
-| V4 | Rụng dấu thời - thể, hoặc rắc quá đều | thiếu hẳn "rồi / vẫn / còn / mới / chưa" trong đoạn kể việc |
+| V3 | Thiếu "là / thì / mà" ở ranh giới đề – thuyết | "Cách đơn giản nhất tăng số worker" → "... **là** tăng số worker" |
+| V4 | Rụng dấu thời – thể, hoặc rắc quá đều | thiếu hẳn "rồi / vẫn / còn / mới / chưa" trong đoạn kể việc |
 | V5 | Thiếu hoặc sai loại từ | "mua xe mới" → "mua **một chiếc** xe mới" |
 | V6 | Khung hỏi và cầu khiến sai | "Bạn có kế hoạch tuần sau?" → "Tuần sau anh có kế hoạch **gì chưa**?" |
 
@@ -201,7 +201,7 @@ Chỉ giữ lại dưới dạng kiểm tra nhất quán nội bộ. Nguyên t�
 
 Không tồn tại nghiên cứu định lượng nào về dấu hiệu văn bản AI trong tiếng Việt ở cấp từ vựng hay cú pháp. Các công trình hiện có về phát hiện văn bản AI tiếng Việt chỉ dùng đặc trưng phân bố xác suất, không liệt kê pattern ngôn ngữ học nào.
 
-Khoảng một phần ba pattern trong skill có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, dựa trên đối chiếu ngữ pháp Anh - Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
+Khoảng một phần ba pattern trong skill có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, dựa trên đối chiếu ngữ pháp Anh – Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
 
 Mọi ngưỡng số trong skill là **chưa hiệu chuẩn trên corpus**. Việc bắt buộc cho v0.2: kiểm chứng trên corpus văn bản AI tiếng Việt thật.
 
@@ -209,38 +209,38 @@ Mọi ngưỡng số trong skill là **chưa hiệu chuẩn trên corpus**. Vi�
 
 Phân hạng theo độ tin cậy. Trộn nguồn quy phạm với bài blog rồi trình bày như nhau là bịa uy tín.
 
-### Hạng A — quy phạm và học thuật
+### Hạng A: quy phạm và học thuật
 
 | Nguồn | Dùng cho |
 |---|---|
 | [Nghị định 30/2020/NĐ-CP, Phụ lục II](https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/bieu-mau/55095/tong-hop-cac-phu-luc-ve-van-ban-hanh-chinh-moi-nhat-ban-hanh-kem-theo-nghi-dinh-30-2020) | Chuẩn viết hoa tên cơ quan tổ chức. Căn cứ cho T1 |
 | [Quyết định 1989/QĐ-BGDĐT 2018](https://thuvienphapluat.vn/van-ban/Giao-duc/Quyet-dinh-1989-QD-BGDDT-2018-quy-dinh-chinh-ta-Chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-445355.aspx) · [bản đối chiếu](https://hoatieu.vn/phap-luat/quyet-dinh-1989-qd-bgddt-2018-quy-dinh-chinh-ta-chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-214530) | Điều 8 và 9. Căn cứ để **loại** dấu thanh và i/y khỏi skill |
-| [ViDetect — arXiv:2405.03206](https://arxiv.org/abs/2405.03206) | Phát hiện văn bản AI tiếng Việt. **Không** cung cấp pattern ngôn ngữ học nào; dẫn để chứng minh khoảng trống nghiên cứu |
-| [VietBinoculars — arXiv:2509.26189](https://arxiv.org/pdf/2509.26189) | Như trên |
-| [A Survey on Zero Pronoun Translation — arXiv:2305.10196](https://arxiv.org/pdf/2305.10196) | Cơ sở cho quy tắc đảo chiều về đại từ hồi chỉ và pro-drop |
-| [Nghiên cứu dịch câu bị động Anh - Việt — i-jte.org](https://i-jte.org/index.php/journal/article/view/90) | V16. Lưu ý: khảo sát người dịch, không phải mô hình |
-| [Danh hoá động từ trong danh ngữ — Tạp chí Giáo dục](https://tcgd.tapchigiaoduc.edu.vn/index.php/tapchi/article/view/4322) | V15 |
-| [Cú pháp tiếng Việt nhìn từ ngữ pháp chức năng — VJOL](https://vjol.info.vn/index.php/tdm/article/download/93747/79245/) | V13, cấu trúc đề - thuyết |
-| [Tình thái từ — VOER](https://voer.edu.vn/c/tinh-thai-tu/4491bb06/712ccc96) | B14 |
-| [Tiểu từ tình thái và tính lịch sự — VUSTA](https://vusta.vn/mot-so-tieu-tu-tinh-thai-bieu-dat-tinh-lich-su-trong-hanh-dong-ngo-loi-bang-tieng-viet-p72715.html) | B14 |
-| [Loại từ CON và CÁI — ngonngu.org](http://ngonngu.org/Con_Cai.htm) | V5 |
+| [ViDetect – arXiv:2405.03206](https://arxiv.org/abs/2405.03206) | Phát hiện văn bản AI tiếng Việt. **Không** cung cấp pattern ngôn ngữ học nào; dẫn để chứng minh khoảng trống nghiên cứu |
+| [VietBinoculars – arXiv:2509.26189](https://arxiv.org/pdf/2509.26189) | Như trên |
+| [A Survey on Zero Pronoun Translation – arXiv:2305.10196](https://arxiv.org/pdf/2305.10196) | Cơ sở cho quy tắc đảo chiều về đại từ hồi chỉ và pro-drop |
+| [Nghiên cứu dịch câu bị động Anh – Việt – i-jte.org](https://i-jte.org/index.php/journal/article/view/90) | V16. Lưu ý: khảo sát người dịch, không phải mô hình |
+| [Danh hoá động từ trong danh ngữ – Tạp chí Giáo dục](https://tcgd.tapchigiaoduc.edu.vn/index.php/tapchi/article/view/4322) | V15 |
+| [Cú pháp tiếng Việt nhìn từ ngữ pháp chức năng – VJOL](https://vjol.info.vn/index.php/tdm/article/download/93747/79245/) | V13, cấu trúc đề – thuyết |
+| [Tình thái từ – VOER](https://voer.edu.vn/c/tinh-thai-tu/4491bb06/712ccc96) | B14 |
+| [Tiểu từ tình thái và tính lịch sự – VUSTA](https://vusta.vn/mot-so-tieu-tu-tinh-thai-bieu-dat-tinh-lich-su-trong-hanh-dong-ngo-loi-bang-tieng-viet-p72715.html) | B14 |
+| [Loại từ CON và CÁI – ngonngu.org](http://ngonngu.org/Con_Cai.htm) | V5 |
 
-### Hạng B — bách khoa và báo ngành
+### Hạng B: bách khoa và báo ngành
 
-[Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (nguồn của skill tiếng Anh gốc) · [Null anaphora](https://en.wikipedia.org/wiki/Null_anaphora) · [Loại từ](https://vi.wikipedia.org/wiki/Lo%E1%BA%A1i_t%E1%BB%AB) · [Dấu gạch ngang](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_g%E1%BA%A1ch_ngang) · [Dấu ngoặc kép](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_ngo%E1%BA%B7c_k%C3%A9p) · [Quy tắc đặt dấu thanh](https://vi.wikipedia.org/wiki/Quy_t%E1%BA%AFc_%C4%91%E1%BA%B7t_d%E1%BA%A5u_thanh_c%E1%BB%A7a_ch%E1%BB%AF_Qu%E1%BB%91c_ng%E1%BB%AF) · [Từ thuần Việt](https://vi.wikipedia.org/wiki/T%E1%BB%AB_thu%E1%BA%A7n_Vi%E1%BB%87t) · [Phân biệt gạch ngang và gạch nối — Giáo dục TP.HCM](https://giaoduc.edu.vn/phan-biet-dau-gach-ngang-va-gach-noi/) · [Chuyển đổi từ Hán-Việt sang thuần Việt — Người Hà Nội](https://nguoihanoi.vn/chuyen-doi-tu-han-viet-sang-tu-thuan-viet-73914.html)
+[Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (nguồn của skill tiếng Anh gốc) · [Null anaphora](https://en.wikipedia.org/wiki/Null_anaphora) · [Loại từ](https://vi.wikipedia.org/wiki/Lo%E1%BA%A1i_t%E1%BB%AB) · [Dấu gạch ngang](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_g%E1%BA%A1ch_ngang) · [Dấu ngoặc kép](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_ngo%E1%BA%B7c_k%C3%A9p) · [Quy tắc đặt dấu thanh](https://vi.wikipedia.org/wiki/Quy_t%E1%BA%AFc_%C4%91%E1%BA%B7t_d%E1%BA%A5u_thanh_c%E1%BB%A7a_ch%E1%BB%AF_Qu%E1%BB%91c_ng%E1%BB%AF) · [Từ thuần Việt](https://vi.wikipedia.org/wiki/T%E1%BB%AB_thu%E1%BA%A7n_Vi%E1%BB%87t) · [Phân biệt gạch ngang và gạch nối – Giáo dục TP.HCM](https://giaoduc.edu.vn/phan-biet-dau-gach-ngang-va-gach-noi/) · [Chuyển đổi từ Hán-Việt sang thuần Việt – Người Hà Nội](https://nguoihanoi.vn/chuyen-doi-tu-han-viet-sang-tu-thuan-viet-73914.html)
 
-### Hạng C — cộng đồng, chưa kiểm chứng
+### Hạng C: cộng đồng, chưa kiểm chứng
 
 Dùng để xác nhận hiện tượng tồn tại, **không** dùng làm căn cứ quy phạm. Phần lớn là bài hướng dẫn prompt của giới marketing.
 
-[Brands Vietnam — dấu hiệu nội dung viết bởi AI](https://help.brandsvietnam.com/vi/article/dau-hieu-nhan-biet-noi-dung-duoc-viet-boi-ai-3zy07d/) (nguồn tiếng Việt duy nhất liệt kê cụm từ cụ thể) · [VnReview](https://vnreview.vn/threads/6-prompt-bat-chatgpt-claude-ai-viet-nhu-nguoi-danh-cho-nganh-marketing-va-truyen-thong.83181/) · [QuanTriMang](https://quantrimang.com/prompt-giup-ai-viet-lai-noi-dung-tu-nhien-214919) · [TinAI](https://tinai.vn/ung-dung-ai/truyen-thong-va-marketing/cach-dung-ai-viet-content-chuan-seo-len-top-google.html) · [Mực Tím — Tuổi Trẻ](https://muctim.tuoitre.vn/nhung-cach-tan-dung-chatgpt-de-hoc-ngoai-ngu-101240829223938035.htm) · [Cặp quan hệ từ — HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html) · [Quan hệ từ — KidsUp](https://www.kidsup.net/quan-he-tu-la-gi/) · [Đề - Thuyết — Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/) · [Từ Hán-Việt và thuần Việt — RDSIC](https://rdsic.edu.vn/blog/blog-2/tu-han-viet-va-tu-thuan-viet-vi-cb.html) · [Biền ngẫu — Từ điển wiki](https://tudienwiki.com/bien-ngau/) · [Đối chiếu câu bị động Anh - Việt — Studocu](https://www.studocu.vn/vn/document/truong-dai-hoc-khoa-hoc-xa-hoi-va-nhan-van/ngon-ngu-hoc/doi-chieu-cau-bi-dong-trong-tieng-anh-va-tieng-viet/86106287) (tài liệu sinh viên, độ tin cậy trung bình)
+[Brands Vietnam – dấu hiệu nội dung viết bởi AI](https://help.brandsvietnam.com/vi/article/dau-hieu-nhan-biet-noi-dung-duoc-viet-boi-ai-3zy07d/) (nguồn tiếng Việt duy nhất liệt kê cụm từ cụ thể) · [VnReview](https://vnreview.vn/threads/6-prompt-bat-chatgpt-claude-ai-viet-nhu-nguoi-danh-cho-nganh-marketing-va-truyen-thong.83181/) · [QuanTriMang](https://quantrimang.com/prompt-giup-ai-viet-lai-noi-dung-tu-nhien-214919) · [TinAI](https://tinai.vn/ung-dung-ai/truyen-thong-va-marketing/cach-dung-ai-viet-content-chuan-seo-len-top-google.html) · [Mực Tím – Tuổi Trẻ](https://muctim.tuoitre.vn/nhung-cach-tan-dung-chatgpt-de-hoc-ngoai-ngu-101240829223938035.htm) · [Cặp quan hệ từ – HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html) · [Quan hệ từ – KidsUp](https://www.kidsup.net/quan-he-tu-la-gi/) · [Đề – Thuyết – Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/) · [Từ Hán-Việt và thuần Việt – RDSIC](https://rdsic.edu.vn/blog/blog-2/tu-han-viet-va-tu-thuan-viet-vi-cb.html) · [Biền ngẫu – Từ điển wiki](https://tudienwiki.com/bien-ngau/) · [Đối chiếu câu bị động Anh – Việt – Studocu](https://www.studocu.vn/vn/document/truong-dai-hoc-khoa-hoc-xa-hoi-va-nhan-van/ngon-ngu-hoc/doi-chieu-cau-bi-dong-trong-tieng-anh-va-tieng-viet/86106287) (tài liệu sinh viên, độ tin cậy trung bình)
 
 ### Nguồn còn thiếu
 
 Hai nguồn hạng C đang gánh nội dung vốn thuộc hạng A và cần được thay bằng nguồn gốc:
 
-- **Lý thuyết đề - thuyết** (V3, V13) hiện dẫn một trang trình bày lại công trình của Cao Xuân Hạo. Cần trích trực tiếp công trình gốc.
-- **Đối chiếu bị động Anh - Việt** (V16) hiện dẫn tài liệu sinh viên. Cần thay bằng nghiên cứu công bố.
+- **Lý thuyết đề – thuyết** (V3, V13) hiện dẫn một trang trình bày lại công trình của Cao Xuân Hạo. Cần trích trực tiếp công trình gốc.
+- **Đối chiếu bị động Anh – Việt** (V16) hiện dẫn tài liệu sinh viên. Cần thay bằng nghiên cứu công bố.
 
 Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đây thay vì giấu đi.
 
@@ -250,7 +250,8 @@ Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đ
 
 ## Lịch sử phiên bản
 
-- **0.1.0** — Bản đầu. 19 pattern lõi, 6 pattern typography, 2 profile với 21 pattern, 2 file tham chiếu. Cổng thể loại chạy trước mọi pattern. Ba chỗ đi ngược bản tiếng Anh: quy tắc lặp từ, en dash, ngoặc kép. Loại dấu thanh cũ/mới và i/y khỏi skill có chủ đích.
+- **0.1.1** – Tự áp skill lên chính văn bản của skill: bỏ toàn bộ em dash và các cụm dịch tính trong phần giải thích. Hiệu chỉnh từ vòng feedback thực tế đầu tiên: thêm quy tắc thanh ngữ vực (hạ giọng quá tay cũng là lỗi, như thổi phồng), V19 thêm chiều sửa chủ động (trả thuật ngữ bị dịch sạch về jargon: "đội ngũ kỹ thuật" → "team dev" trong tài liệu nội bộ IT), nới guard V9 và K2 cho tiếng Việt công sở (cụm mục đích và cụm "nâng cao hiệu quả X" có bổ ngữ cụ thể là bình thường trong báo cáo doanh nghiệp).
+- **0.1.0** – Bản đầu. 19 pattern lõi, 6 pattern typography, 2 profile với 21 pattern, 2 file tham chiếu. Cổng thể loại chạy trước mọi pattern. Ba chỗ đi ngược bản tiếng Anh: quy tắc lặp từ, en dash, ngoặc kép. Loại dấu thanh cũ/mới và i/y khỏi skill có chủ đích.
 
 ## Giấy phép
 
