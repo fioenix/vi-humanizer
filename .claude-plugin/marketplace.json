@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace-manifest.json",
+  "name": "vi-humanizer",
+  "owner": {
+    "name": "Fioenix",
+    "url": "https://github.com/fioenix"
+  },
+  "description": "Skill vi-humanizer, cài được dưới dạng plugin Claude Code.",
+  "plugins": [
+    {
+      "name": "vi-humanizer",
+      "source": "./",
+      "description": "Xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt.",
+      "license": "MIT",
+      "keywords": ["tieng-viet", "vietnamese", "writing", "editing", "translationese", "humanize", "prose", "style"]
+    }
+  ]
+}
