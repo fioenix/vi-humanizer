@@ -23,10 +23,10 @@ npx skills add fioenix/vi-humanizer --global
 Cập nhật:
 
 ```bash
-npx skills update vi-humanizer --global
+npx skills update vi-humanizer --global --yes
 ```
 
-Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo.
+Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo. Lưu ý: cờ `--global` phải khớp giữa lúc cài và lúc update. Cài global mà update thiếu `--global` thì CLI tìm trong lock của project hiện tại, không thấy, và báo lỗi `repository 'vi-humanizer' does not exist`.
 
 ### Claude Code plugin
 
