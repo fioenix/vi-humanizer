@@ -21,6 +21,7 @@ Một agent skill viết hoàn toàn bằng Markdown, không có bước build. 
 | `.claude-plugin/plugin.json` | Manifest plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Marketplace một repo |
 | `scripts/validate-package.py` | Kiểm tra đồng bộ, chạy trong CI |
+| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` cho Claude Desktop và claude.ai |
 
 ## Trục phân chia
 

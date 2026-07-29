@@ -1,0 +1,6 @@
+# Artifact đóng gói, sinh lại được bằng scripts/package-skill.sh
+dist/
+
+.DS_Store
+__pycache__/
+*.pyc
