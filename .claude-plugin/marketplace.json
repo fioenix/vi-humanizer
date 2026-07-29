@@ -1,18 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace-manifest.json",
-  "name": "humanizer",
+  "name": "vi-humanizer",
   "owner": {
-    "name": "blader",
-    "url": "https://github.com/blader"
+    "name": "Fioenix",
+    "url": "https://github.com/fioenix"
   },
-  "description": "The humanizer skill, installable as a Claude Code plugin.",
+  "description": "Skill vi-humanizer, cài được dưới dạng plugin Claude Code.",
   "plugins": [
     {
-      "name": "humanizer",
+      "name": "vi-humanizer",
       "source": "./",
-      "description": "Remove signs of AI-generated writing from text, making it sound more natural and human. Based on Wikipedia's \"Signs of AI writing\" guide.",
+      "description": "Xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt.",
       "license": "MIT",
-      "keywords": ["writing", "editing", "ai-detection", "humanize", "prose", "style"]
+      "keywords": ["tieng-viet", "vietnamese", "writing", "editing", "translationese", "humanize", "prose", "style"]
     }
   ]
 }

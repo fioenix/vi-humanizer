@@ -1,230 +1,257 @@
-# Humanizer
+# vi-humanizer
 
-[![skills.sh installs](https://skills.sh/b/blader/humanizer)](https://skills.sh/blader/humanizer)
+Agent skill xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt.
 
-A portable agent skill that removes signs of AI-generated writing from text, making it sound more natural and human. It is plain Markdown, so it can run in any harness that supports skill-style instructions.
+Đây **không** phải bản dịch của skill humanizer tiếng Anh. Phần lớn tell của văn bản AI tiếng Việt không tồn tại trong tiếng Anh, vì chúng là hậu quả của việc dịch **từ** tiếng Anh. Một skill viết bằng tiếng Anh về nguyên tắc không thể phát hiện lỗi dịch từ chính ngôn ngữ của nó.
 
-## Installation
+## Skill này phát hiện gì
+
+Phần lớn mô hình ngôn ngữ được huấn luyện chủ yếu trên tiếng Anh. Khi sinh tiếng Việt, chúng dựng khung câu theo tiếng Anh rồi thay từ vựng tiếng Việt vào. Tiếng Việt mã hoá bằng hư từ, tiểu từ và loại từ những thứ tiếng Anh mã hoá bằng biến tố, ngữ điệu và mạo từ. Không có gì trong câu nguồn ánh xạ sang lớp đó, nên nó bị bỏ trống.
+
+Kết quả là câu đúng ngữ pháp bề mặt nhưng cụt, hẫng, lạnh, dừng lại trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu.
+
+**Lưu ý quan trọng về định vị:** skill này phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Đừng dùng kết quả của nó như bằng chứng ai đó dùng AI.
+
+## Cài đặt
 
 ### Skills CLI
 
-Install globally with the cross-agent skills CLI so Humanizer is available in every project:
-
 ```bash
-npx skills add blader/humanizer --global
+npx skills add fioenix/vi-humanizer --global
 ```
 
-Update an existing install:
+Cập nhật:
 
 ```bash
-npx skills update humanizer --global
+npx skills update vi-humanizer --global
 ```
 
-To install globally into every supported agent harness:
-
-```bash
-npx skills add blader/humanizer --global --agent '*'
-```
-
-To target one configured harness, pass its agent name:
-
-```bash
-npx skills add blader/humanizer --global --agent <agent-name>
-```
-
-Omit `--global` for a project-local install that can be committed and shared with collaborators. Start a new agent session or reload skills after installation.
+Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo.
 
 ### Claude Code plugin
 
-Claude Code users can also install Humanizer as a plugin:
-
 ```
-/plugin marketplace add blader/humanizer
-/plugin install humanizer@humanizer
+/plugin marketplace add fioenix/vi-humanizer
+/plugin install vi-humanizer@vi-humanizer
 ```
 
-The skill is then invoked as `/humanizer:humanizer`.
+Gọi bằng `/vi-humanizer:vi-humanizer`.
 
-### Manual
+### Thủ công
 
-Any agent harness can use the skill directly because the runtime artifact is `SKILL.md`. Install it wherever your harness expects skill directories, or copy `SKILL.md` into an existing skill folder.
-
-For example:
+Runtime artifact là `SKILL.md` cùng thư mục `profiles/` và `references/`. Chép cả cây thư mục vào chỗ harness của bạn tìm skill.
 
 ```bash
-git clone https://github.com/blader/humanizer.git /path/to/your/skills/humanizer
+git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
 ```
 
-Or, if you already have this repo cloned:
-
-```bash
-mkdir -p /path/to/your/skills/humanizer
-cp SKILL.md /path/to/your/skills/humanizer/
-```
-
-## Usage
-
-Invoke the skill however your agent harness exposes installed skills. Common forms include a slash command or a direct request:
+## Dùng thế nào
 
 ```
-/humanizer
+/vi-humanizer
 
-[paste your text here]
+[dán văn bản vào đây]
 ```
 
-```
-Please humanize this text: [your text]
-```
-
-Point it at a file and the skill rewrites it in place:
+Trỏ vào file thì skill sửa tại chỗ:
 
 ```
-Humanize the prose in docs/launch-post.md
+Humanize phần văn xuôi trong docs/bai-viet.md
 ```
 
-### Voice Calibration
-
-To match your personal writing style, provide a sample of your own writing:
+### Hiệu chỉnh theo giọng của bạn
 
 ```
-/humanizer
+/vi-humanizer
 
-Here's a sample of my writing for voice matching:
-[paste 2-3 paragraphs of your own writing]
+Đây là mẫu văn của tôi để bạn bắt giọng:
+[2-3 đoạn bạn tự viết]
 
-Now humanize this text:
-[paste AI text to humanize]
+Giờ sửa đoạn này:
+[văn bản cần sửa]
 ```
 
-The skill will analyze your sentence rhythm, word choices, and quirks, then apply them to the rewrite instead of producing generic "clean" output.
+Mẫu văn **thắng mọi quy tắc trong skill**. Một người viết đúng chuẩn của họ không phải là một người viết sai.
 
-## Overview
+## Kiến trúc
 
-Based on [Wikipedia's "Signs of AI writing"](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) guide, maintained by WikiProject AI Cleanup. This comprehensive guide comes from observations of thousands of instances of AI-generated text.
+Skill chia theo trục **lỗi ngôn ngữ** và **lỗi giọng**, không chia theo chuyên đề.
 
-The skill also includes a final "obviously AI generated" audit pass and a second rewrite, to catch lingering AI-isms in the first draft.
+- **Lỗi ngôn ngữ** sai ở cấp hư từ và cấu trúc câu. Là lỗi bất kể văn bản thuộc thể loại nào. Sửa chúng không đụng tới giọng người viết. Nhóm này nằm trong `SKILL.md`.
+- **Lỗi giọng** phụ thuộc hoàn toàn vào register. Cùng một cụm là tell chí mạng ở blog và là chuẩn mực bắt buộc ở công văn. Nhóm này nằm trong `profiles/`.
 
-Rewrites follow a no-fabrication rule: they never add facts, names, dates, or citations that aren't in the source text. Specificity has to come from the source or the author, not from the rewrite.
+```
+SKILL.md                            cổng thể loại, lõi V1-V19, typography T1-T6, nhận diện
+profiles/blog-ca-nhan.md            B1-B17 + giọng và cá tính
+profiles/ky-thuat-doanh-nghiep.md   K1-K4 + lệnh cấm và điều chỉnh ngưỡng
+references/han-viet-thuan-viet.md   bảng tra ~130 dòng
+references/bang-tra-cuu.md          bổ ngữ kết quả, cặp hô ứng, loại từ, checklist
+```
 
-### Key Insight from Wikipedia
+Trước khi áp bất kỳ pattern nào, skill chạy một **cổng thể loại**. Sáu nhóm văn bản bị chặn hoàn toàn: pháp quy và hợp đồng, cổ phong và nghi lễ, tài liệu API và changelog, thơ, bản dịch có chủ đích, trích dẫn nguyên văn. Ở những thể loại đó, danh hoá, bị động và nhịp đối xứng là **yêu cầu thể loại**, không phải lỗi.
 
-> "LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely result that applies to the widest variety of cases."
+## Bộ pattern
 
-## 33 Patterns Detected (with Before/After Examples)
+### Lõi — lỗi ngôn ngữ (V1–V19)
 
-### Content Patterns
+Hư từ rụng. Đây là nhóm không có tương đương trong bản tiếng Anh.
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 1 | **Significance inflation** | "marking a pivotal moment in the evolution of..." | "was established in 1989 as part of a wider decentralization" |
-| 2 | **Notability name-dropping** | "cited in NYT, BBC, FT, and The Hindu" | Trim the list; keep only sourced context |
-| 3 | **Superficial -ing analyses** | "symbolizing... reflecting... showcasing..." | Remove, or keep only what the source supports |
-| 4 | **Promotional language** | "nestled within the breathtaking region" | "is a town in the Gonder region" |
-| 5 | **Vague attributions** | "Experts believe it plays a crucial role" | Name a real source or cut the claim |
-| 6 | **Formulaic challenges** | "Despite challenges... continues to thrive" | Keep the sourced facts; cut the boosterism |
+| # | Pattern | Ví dụ |
+|---|---|---|
+| V1 | Thiếu bổ ngữ kết quả và hướng | "không giải quyết vấn đề" → "không giải quyết **được** vấn đề" |
+| V2 | Cặp liên từ hô ứng chỉ còn một vế | "Vì A, B" → "A **nên** B" |
+| V3 | Thiếu "là / thì / mà" ở ranh giới đề - thuyết | "Cách đơn giản nhất tăng số worker" → "... **là** tăng số worker" |
+| V4 | Rụng dấu thời - thể, hoặc rắc quá đều | thiếu hẳn "rồi / vẫn / còn / mới / chưa" trong đoạn kể việc |
+| V5 | Thiếu hoặc sai loại từ | "mua xe mới" → "mua **một chiếc** xe mới" |
+| V6 | Khung hỏi và cầu khiến sai | "Bạn có kế hoạch tuần sau?" → "Tuần sau anh có kế hoạch **gì chưa**?" |
 
-### Language Patterns
+Khuôn tiếng Anh áp thẳng.
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 7 | **AI vocabulary** | "Actually... additionally... testament... landscape... showcasing" | "also... remain common" |
-| 8 | **Copula avoidance** | "serves as... features... boasts" | "is... has" |
-| 9 | **Negative parallelisms / tailing negations** | "It's not just X, it's Y", "..., no guessing" | State the point directly |
-| 10 | **Rule of three** | "innovation, inspiration, and insights" | Use natural number of items |
-| 11 | **Synonym cycling** | "protagonist... main character... central figure... hero" | "protagonist" (repeat when clearest) |
-| 12 | **False ranges** | "from the Big Bang to dark matter" | List topics directly |
-| 13 | **Passive voice / subjectless fragments** | "No configuration file needed" | Name the actor when it helps clarity |
+| # | Pattern | Ví dụ |
+|---|---|---|
+| V7 | "của" thừa theo khuôn "of" | "hiệu suất của hệ thống" → "hiệu suất hệ thống" |
+| V8 | "các / những" rắc theo dấu số nhiều | "các thông tin", "các dữ liệu" |
+| V9 | Cụm giới từ nặng dịch một-một | "Với sự hỗ trợ từ đối tác" → "Đối tác hỗ trợ nên..." |
+| V10 | "một cách + tính từ", trạng ngữ Tây hoá | "xử lý một cách nhanh chóng" → "xử lý nhanh" |
+| V11 | Khung giả chủ ngữ "Điều... là" | "Điều quan trọng cần lưu ý là..." |
+| V12 | Trạng từ nối đầu câu ở mật độ tiếng Anh | "Hơn nữa, ... Ngoài ra, ... Bên cạnh đó, ..." |
+| V13 | Khung SVO cứng, không đưa đề lên đầu | "Tôi đã đọc cuốn sách này" → "Cuốn sách này tôi đọc rồi" |
+| V14 | Danh ngữ trần đứng làm câu | "Một hệ thống được thiết kế để..." |
 
-### Style Patterns
+Chuỗi danh hoá. Quét theo cụm ba tầng, không quét lẻ.
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 14 | **Em/en dashes** | "institutions—not the people—yet this continues—" | Cut them: periods, commas, colons, or parentheses |
-| 15 | **Boldface overuse** | "**OKRs**, **KPIs**, **BMC**" | "OKRs, KPIs, BMC" |
-| 16 | **Inline-header lists** | "**Performance:** Performance improved" | Convert to prose |
-| 17 | **Title Case Headings** | "Strategic Negotiations And Partnerships" | "Strategic negotiations and partnerships" |
-| 18 | **Emojis** | "🚀 Launch Phase: 💡 Key Insight:" | Remove emojis |
-| 19 | **Curly quotes** | `said “the project”` | `said "the project"` |
-| 26 | **Hyphenated word pairs** | “cross-functional, data-driven, client-facing” | Drop hyphens on common word pairs |
-| 27 | **Persuasive authority tropes** | "At its core, what matters is..." | State the point directly |
-| 28 | **Signposting announcements** | "Let's dive in", "Here's what you need to know" | Start with the content |
-| 29 | **Fragmented headers** | "## Performance" + "Speed matters." | Let the heading do the work |
-| 30 | **Diff-anchored writing** | "This function was added to replace..." | Describe what it does, not what changed |
-| 31 | **Manufactured punchlines / staccato drama** | "It had no preference. No prior. No nostalgia." | Use varied sentence lengths and concrete claims |
-| 32 | **Aphorism formulas** | "Symmetry is the language of trust" | Replace the formula with the actual claim |
-| 33 | **Conversational rhetorical openers** | "Honestly? It depends..." | Remove the fake-candid setup |
+| # | Pattern | Ví dụ |
+|---|---|---|
+| V15 | Danh hoá thừa và động từ rỗng đỡ | "tiến hành thực hiện việc rà soát" → "rà soát" |
+| V16 | Bị động calque "được / bị ... bởi" | "được hoàn thành bởi phòng kế toán" → "phòng kế toán hoàn thành" |
+| V17 | Né hệ từ: "đóng vai trò là", "sở hữu" | "đóng vai trò là trung tâm" → "là trung tâm" |
+| V18 | Câu nhiều tầng lồng, lạm dụng "mà", "điều này" | cắt thành câu riêng |
 
-### Communication Patterns
+Song ngữ.
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 20 | **Chatbot artifacts** | "I hope this helps! Let me know if..." | Remove entirely |
-| 21 | **Cutoff disclaimers** | "While details are limited in available sources..." | Find sources or remove |
-| 22 | **Sycophantic tone** | "Great question! You're absolutely right!" | Respond directly |
+| # | Pattern | Ví dụ |
+|---|---|---|
+| V19 | Chêm tiếng Anh sai mật độ hoặc sai kiểu | "điện toán đám mây" ở chỗ dân trong ngành nói "cloud" |
 
-### Filler and Hedging
+### Typography (T1–T6)
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 23 | **Filler phrases** | "In order to", "Due to the fact that" | "To", "Because" |
-| 24 | **Excessive hedging** | "could potentially possibly" | "may" |
-| 25 | **Generic conclusions** | "The future looks bright" | Specific plans or facts |
+Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typography đơn độc không đủ làm bằng chứng.
 
-## Full Example
+| # | Pattern | Khác gì bản tiếng Anh |
+|---|---|---|
+| T1 | Viết hoa kiểu marketing | Tiếng Việt không có Title Case, nên đây là tell **mạnh hơn** |
+| T2 | Em dash và gạch ngang chú thích giữa câu | **Hẹp hơn hẳn.** Chỉ cấm `—`. `–` là gạch ngang chuẩn tiếng Việt |
+| T3 | Ngoặc kép không nhất quán | **Đảo hành vi.** Không ép về ngoặc thẳng, chỉ kiểm nhất quán |
+| T4 | Dấu phẩy Oxford, chấm phẩy nối mệnh đề | Mới. Tiếng Việt không có Oxford comma |
+| T5 | Lạm dụng markdown | Thêm ba nét riêng của tiếng Việt |
+| T6 | Emoji | Giữ nguyên |
 
-*(Illustration note: the rewrite below adds specifics, like the month and the neighborhoods, that stand in for details the author would supply. In a real session those come from the user; the skill asks rather than invents.)*
+### Profile blog, cá nhân, công việc, marketing (B1–B17)
 
-**Before (AI-sounding):**
-> I recently spent five unforgettable days in Lisbon, and let me tell you — this city completely stole my heart. From the moment I arrived, I knew I was somewhere truly special.
->
-> Nestled along the banks of the Tagus River, Lisbon stands as a vibrant testament to Portugal's enduring spirit, where rich history and modern energy intertwine at every turn. Yes, the famous hills are challenging — my legs certainly felt it! — but every climb rewards you with breathtaking, panoramic views that make it all worthwhile.
->
-> No trip would be complete without riding the iconic Tram 28, winding through the city's most historic neighborhoods. And the food? Simply divine. The original pastéis de nata at Pastéis de Belém are a beloved national treasure, and savoring one still warm was a moment I will never forget.
->
-> But what truly makes Lisbon special isn't just the sights — it's the feeling. Wander a few steps off the main squares and you'll discover a quieter, more authentic side: sun-drenched alleys, charming tiled facades, and friendly locals going about their daily lives, inviting you to slow down and savor every moment.
->
-> Of course, the must-see São Jorge Castle offers stunning views over the rooftops below. The queues can be long, but the experience is absolutely worth it for any history buff or curious traveler.
->
-> Would I go back? Absolutely. Lisbon isn't just a place to visit — it's a place to fall in love with, again and again. If you're dreaming of your next getaway, this is one destination that promises memories to last a lifetime. ✨
+| # | Pattern |
+|---|---|
+| B1 | Sáo ngữ tôn vinh tầm quan trọng |
+| B2 | Ẩn dụ kho sẵn và calque thành ngữ tiếng Anh |
+| B3 | Mở bài dẫn dắt vòng vo |
+| B4 | Kết bài lạc quan sáo rỗng |
+| B5 | Song hành phủ định "không chỉ... mà còn" |
+| B6 | Nghi vấn tu từ mở đoạn kiểu SEO |
+| B7 | Tụng ca địa phương và doanh nghiệp |
+| B8 | Danh xưng phóng đại |
+| B9 | Hán-Việt hoá tên gọi đời thường |
+| B10 | Thành ngữ dùng lệch và mật độ thành ngữ bất thường |
+| B11 | Nhịp ba cân âm tiết và biền ngẫu giả |
+| B12 | Cụm bốn âm tiết Hán-Việt tự chế |
+| B13 | Nhịp câu đều đặn bất thường |
+| B14 | Rụng tiểu từ tình thái cuối câu |
+| B15 | Xưng hô lơ lửng và phẳng |
+| B16 | Giả thân mật |
+| B17 | Trộn register không chủ đích |
 
-**After (Humanized):**
-> I spent five days in Lisbon last October and still have mixed feelings about it. Beautiful, yes. Also harder on the knees than anyone warned me.
->
-> The hills are the whole story and somehow never make the brochures. My hotel was up in Alfama, which photographs beautifully and translates, in practice, to climbing what felt like a six-story staircase every time I wanted coffee. By the second day my calves had opinions. I started planning each walk around which way was downhill, which is a strange way to see a city but probably an honest one.
->
-> Everyone says to ride Tram 28, so I did, wedged against a stranger's backpack for forty minutes while three tour groups filmed the same corner. I would walk the route next time, or go before breakfast. The custard tarts, though, earn the fuss. I had one at a plain little place in Graça, still warm, and for about thirty seconds I understood why people build trips around pastry.
->
-> What I did not expect was how quiet the city gets away from the main squares. Two blocks uphill from any plaza it turns into laundry lines, chipped tile, open windows, and old men watching football with the sound turned up. That is the Lisbon I keep thinking about, not the castle.
->
-> The castle is fine. The view is great, the queue is long, and I spent more time shuffling toward the entrance than looking at anything once I got inside. If I had only two days, I would trade it for an afternoon of getting lost.
->
-> I would go back, but in spring and with better shoes. Lisbon does not bend over backward to make things easy for you. I think I liked that, even when my legs disagreed.
+### Profile kỹ thuật, doanh nghiệp, học thuật (K1–K4)
 
-## References
+| # | Pattern |
+|---|---|
+| K1 | Viết theo diff thay vì mô tả hiện trạng |
+| K2 | Sáo ngữ thể chế rỗng ngoài văn bản pháp quy |
+| K3 | Bộ đề mục Hán-Việt đối xứng rỗng |
+| K4 | Câu dẫn nhập rỗng sau đề mục |
 
-- [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) - Primary source
-- [WikiProject AI Cleanup](https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup) - Maintaining organization
+Phần lớn profile này là **lệnh cấm**, không phải pattern: cấm chèn tiểu từ, cấm thêm giọng, cấm tạo chuỗi đồng nghĩa cho thuật ngữ, cấm thuần Việt hoá thuật ngữ Hán-Việt.
 
-## Version History
+## Ba chỗ skill này đi ngược bản tiếng Anh
 
-- **2.9.1** - Improved distribution and portability: removed nonportable frontmatter and tool preapprovals, made global installation the documented default, added package validation, and removed the duplicated long-form example from the runtime prompt. No change to the 33 patterns.
-- **2.9.0** - Added a no-fabrication rule: rewrites may not invent facts, names, dates, or citations not present in the source, and every example that modeled invented specifics was re-cut to use only source information (fixes #187). Replaced paragraph-count parity with an information-over-shape rule, made a user's voice sample outrank the em dash ban, and added invocation modes (pasted text / file / embedded). No change to the 33 patterns.
-- **2.8.3** - Moved the skill version from the unsupported top-level frontmatter key to `metadata.version` for Agent Skills and Claude compatibility. No change to the 33 patterns.
-- **2.8.2** - Replaced the full before/after example with a first-person Lisbon trip recap. The after now keeps the same topic, perspective, and rough length as the before while removing the AI tells without becoming clipped or slogan-like. No change to the 33 patterns.
-- **2.8.1** - Added cross-agent installation docs, optional Claude Code plugin packaging, and a compact secondhand-text false-positive guard. No change to the 33 patterns.
-- **2.8.0** - Added style/cadence patterns #31-33 for manufactured punchlines, aphorism formulas, and conversational rhetorical openers; expanded #20 to catch offer-to-continue chatbot closers. 33 patterns total.
-- **2.7.0** - Added pattern #30 (diff-anchored writing); made em/en dashes a hard cut rather than "overuse"; expanded #21 to cover speculative gap-filling ("maintains a low profile"). 30 patterns total.
-- **2.6.0** - Cleanup pass: consolidated the duplicated workflow sections, gated the personality guidance to content where voice is wanted, removed the model-fingerprinting subsection, and condensed the worked example. No change to the 29 patterns.
-- **2.5.1** - Added a passive-voice / subjectless-fragment rule, raising the total to 29 patterns
-- **2.5.0** - Added patterns for persuasive framing, signposting, and fragmented headers; expanded negative parallelisms to cover tailing negations; tightened wording around em dash overuse; fixed frontmatter wording to use "filler phrases"
-- **2.4.0** - Added voice calibration: match the user's personal writing style from samples
-- **2.3.0** - Added pattern #25: hyphenated word pair overuse
-- **2.2.0** - Added a final "obviously AI generated" audit + second-pass rewrite prompts
-- **2.1.1** - Fixed pattern #18 example (curly quotes vs straight quotes)
-- **2.1.0** - Added before/after examples for all 24 patterns
-- **2.0.0** - Complete rewrite based on raw Wikipedia article content
-- **1.0.0** - Initial release
+**1. Không bao giờ sửa câu chỉ vì nó lặp từ.** Bản tiếng Anh coi lặp danh từ là lỗi văn phong và chữa bằng từ đồng nghĩa. Tiếng Việt đơn lập, không có đại từ hồi chỉ tiện dụng như *it / they*, nên lặp nguyên danh từ là **phương thức liên kết chuẩn mực**. Mang ngưỡng chống lặp của tiếng Anh sang là chủ động tạo ra dịch tính. Thứ phải cắt là chuỗi đồng nghĩa (*doanh nghiệp → công ty → tổ chức → đơn vị*), không phải chuỗi lặp.
 
-## License
+**2. Không cấm en dash.** Bản tiếng Anh cấm cả `—` và `–`. Trong tiếng Việt, `–` là gạch ngang chuẩn với bốn chức năng hợp lệ: lời thoại, liệt kê đầu dòng, cặp tên riêng (*quan hệ Việt – Trung*), khoảng (*2020 – 2025*). Bê nguyên quy tắc đó sang sẽ phá địa danh và mọi lời thoại — hỏng nội dung, không phải hỏng phong cách.
+
+**3. Không ép ngoặc kép về dạng thẳng.** Word, Google Docs và macOS đều tự bo cong, và đây là công cụ soạn thảo mặc định ở Việt Nam. Ép về ngoặc thẳng sẽ sửa hàng loạt văn bản người thật gõ. Chỉ kiểm tra nhất quán nội bộ.
+
+## Hai thứ bị loại khỏi skill có chủ đích
+
+**Dấu thanh kiểu cũ và kiểu mới** (*hòa / hoà*) và **quy tắc i/y** (*kỹ / kĩ*, *tỷ / tỉ*). QĐ 1989/QĐ-BGDĐT 2018 Điều 8 và 9 chỉ áp cho sách giáo khoa phổ thông; báo chí, doanh nghiệp và pháp quy dùng kiểu còn lại áp đảo. Đây là tranh chấp chuẩn mực giữa hai giới, không liên quan gì tới AI. Thêm nữa Điều 9.2 loại trừ tên riêng (*Nguyễn Vỹ*, *Thy Ngọc*), nên mọi quy tắc i/y tự động đều có nguy cơ sửa sai tên người.
+
+Chỉ giữ lại dưới dạng kiểm tra nhất quán nội bộ. Nguyên tắc: **nhất quán nội bộ, không áp chuẩn ngoài.**
+
+## Một tín hiệu chạy ngược chiều
+
+**Khoảng trắng trước dấu câu là bằng chứng người thật viết, không phải tell AI.** Mô hình gần như không sinh lỗi này; người gõ nhanh trên điện thoại thì có. Skill khai báo chiều tín hiệu này tường minh, vì để agent tự suy thì nó sẽ vừa kết luận ngược vừa sửa mất bằng chứng.
+
+## Nền tảng bằng chứng
+
+Không tồn tại nghiên cứu định lượng nào về dấu hiệu văn bản AI trong tiếng Việt ở cấp từ vựng hay cú pháp. Các công trình hiện có về phát hiện văn bản AI tiếng Việt chỉ dùng đặc trưng phân bố xác suất, không liệt kê pattern ngôn ngữ học nào.
+
+Khoảng một phần ba pattern trong skill có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, dựa trên đối chiếu ngữ pháp Anh - Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, và phần lớn được dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
+
+Mọi ngưỡng số trong skill là **chưa hiệu chuẩn trên corpus**. Việc bắt buộc cho v0.2: kiểm chứng trên corpus văn bản AI tiếng Việt thật.
+
+## Nguồn tham khảo
+
+Phân hạng theo độ tin cậy. Trộn nguồn quy phạm với bài blog rồi trình bày như nhau là bịa uy tín.
+
+### Hạng A — quy phạm và học thuật
+
+| Nguồn | Dùng cho |
+|---|---|
+| [Nghị định 30/2020/NĐ-CP, Phụ lục II](https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/bieu-mau/55095/tong-hop-cac-phu-luc-ve-van-ban-hanh-chinh-moi-nhat-ban-hanh-kem-theo-nghi-dinh-30-2020) | Chuẩn viết hoa tên cơ quan tổ chức. Căn cứ cho T1 |
+| [Quyết định 1989/QĐ-BGDĐT 2018](https://thuvienphapluat.vn/van-ban/Giao-duc/Quyet-dinh-1989-QD-BGDDT-2018-quy-dinh-chinh-ta-Chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-445355.aspx) · [bản đối chiếu](https://hoatieu.vn/phap-luat/quyet-dinh-1989-qd-bgddt-2018-quy-dinh-chinh-ta-chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-214530) | Điều 8 và 9. Căn cứ để **loại** dấu thanh và i/y khỏi skill |
+| [ViDetect — arXiv:2405.03206](https://arxiv.org/abs/2405.03206) | Phát hiện văn bản AI tiếng Việt. **Không** cung cấp pattern ngôn ngữ học nào; dẫn để chứng minh khoảng trống nghiên cứu |
+| [VietBinoculars — arXiv:2509.26189](https://arxiv.org/pdf/2509.26189) | Như trên |
+| [A Survey on Zero Pronoun Translation — arXiv:2305.10196](https://arxiv.org/pdf/2305.10196) | Cơ sở cho quy tắc đảo chiều về đại từ hồi chỉ và pro-drop |
+| [Nghiên cứu dịch câu bị động Anh - Việt — i-jte.org](https://i-jte.org/index.php/journal/article/view/90) | V16. Lưu ý: khảo sát người dịch, không phải mô hình |
+| [Danh hoá động từ trong danh ngữ — Tạp chí Giáo dục](https://tcgd.tapchigiaoduc.edu.vn/index.php/tapchi/article/view/4322) | V15 |
+| [Cú pháp tiếng Việt nhìn từ ngữ pháp chức năng — VJOL](https://vjol.info.vn/index.php/tdm/article/download/93747/79245/) | V13, cấu trúc đề - thuyết |
+| [Tình thái từ — VOER](https://voer.edu.vn/c/tinh-thai-tu/4491bb06/712ccc96) | B14 |
+| [Tiểu từ tình thái và tính lịch sự — VUSTA](https://vusta.vn/mot-so-tieu-tu-tinh-thai-bieu-dat-tinh-lich-su-trong-hanh-dong-ngo-loi-bang-tieng-viet-p72715.html) | B14 |
+| [Loại từ CON và CÁI — ngonngu.org](http://ngonngu.org/Con_Cai.htm) | V5 |
+
+### Hạng B — bách khoa và báo ngành
+
+[Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (nguồn của skill tiếng Anh gốc) · [Null anaphora](https://en.wikipedia.org/wiki/Null_anaphora) · [Loại từ](https://vi.wikipedia.org/wiki/Lo%E1%BA%A1i_t%E1%BB%AB) · [Dấu gạch ngang](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_g%E1%BA%A1ch_ngang) · [Dấu ngoặc kép](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_ngo%E1%BA%B7c_k%C3%A9p) · [Quy tắc đặt dấu thanh](https://vi.wikipedia.org/wiki/Quy_t%E1%BA%AFc_%C4%91%E1%BA%B7t_d%E1%BA%A5u_thanh_c%E1%BB%A7a_ch%E1%BB%AF_Qu%E1%BB%91c_ng%E1%BB%AF) · [Từ thuần Việt](https://vi.wikipedia.org/wiki/T%E1%BB%AB_thu%E1%BA%A7n_Vi%E1%BB%87t) · [Phân biệt gạch ngang và gạch nối — Giáo dục TP.HCM](https://giaoduc.edu.vn/phan-biet-dau-gach-ngang-va-gach-noi/) · [Chuyển đổi từ Hán-Việt sang thuần Việt — Người Hà Nội](https://nguoihanoi.vn/chuyen-doi-tu-han-viet-sang-tu-thuan-viet-73914.html)
+
+### Hạng C — cộng đồng, chưa kiểm chứng
+
+Dùng để xác nhận hiện tượng tồn tại, **không** dùng làm căn cứ quy phạm. Phần lớn là bài hướng dẫn prompt của giới marketing.
+
+[Brands Vietnam — dấu hiệu nội dung viết bởi AI](https://help.brandsvietnam.com/vi/article/dau-hieu-nhan-biet-noi-dung-duoc-viet-boi-ai-3zy07d/) (nguồn tiếng Việt duy nhất liệt kê cụm từ cụ thể) · [VnReview](https://vnreview.vn/threads/6-prompt-bat-chatgpt-claude-ai-viet-nhu-nguoi-danh-cho-nganh-marketing-va-truyen-thong.83181/) · [QuanTriMang](https://quantrimang.com/prompt-giup-ai-viet-lai-noi-dung-tu-nhien-214919) · [TinAI](https://tinai.vn/ung-dung-ai/truyen-thong-va-marketing/cach-dung-ai-viet-content-chuan-seo-len-top-google.html) · [Mực Tím — Tuổi Trẻ](https://muctim.tuoitre.vn/nhung-cach-tan-dung-chatgpt-de-hoc-ngoai-ngu-101240829223938035.htm) · [Cặp quan hệ từ — HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html) · [Quan hệ từ — KidsUp](https://www.kidsup.net/quan-he-tu-la-gi/) · [Đề - Thuyết — Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/) · [Từ Hán-Việt và thuần Việt — RDSIC](https://rdsic.edu.vn/blog/blog-2/tu-han-viet-va-tu-thuan-viet-vi-cb.html) · [Biền ngẫu — Từ điển wiki](https://tudienwiki.com/bien-ngau/) · [Đối chiếu câu bị động Anh - Việt — Studocu](https://www.studocu.vn/vn/document/truong-dai-hoc-khoa-hoc-xa-hoi-va-nhan-van/ngon-ngu-hoc/doi-chieu-cau-bi-dong-trong-tieng-anh-va-tieng-viet/86106287) (tài liệu sinh viên, độ tin cậy trung bình)
+
+### Nguồn còn thiếu
+
+Hai nguồn hạng C đang gánh nội dung vốn thuộc hạng A và cần được thay bằng nguồn gốc:
+
+- **Lý thuyết đề - thuyết** (V3, V13) hiện dẫn một trang trình bày lại công trình của Cao Xuân Hạo. Cần trích trực tiếp công trình gốc.
+- **Đối chiếu bị động Anh - Việt** (V16) hiện dẫn tài liệu sinh viên. Cần thay bằng nghiên cứu công bố.
+
+Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đây thay vì giấu đi.
+
+## Lời cảm ơn
+
+Ý tưởng đóng gói, hợp đồng bảo trì và cấu trúc "before / after / không được flag khi" học từ [blader/humanizer](https://github.com/blader/humanizer), skill humanizer tiếng Anh dựa trên hướng dẫn của WikiProject AI Cleanup. Bộ pattern tiếng Việt được xây mới hoàn toàn.
+
+## Lịch sử phiên bản
+
+- **0.1.0** — Bản đầu. 19 pattern lõi, 6 pattern typography, 2 profile với 21 pattern, 2 file tham chiếu. Cổng thể loại chạy trước mọi pattern. Ba chỗ đi ngược bản tiếng Anh: quy tắc lặp từ, en dash, ngoặc kép. Loại dấu thanh cũ/mới và i/y khỏi skill có chủ đích.
+
+## Giấy phép
 
 MIT

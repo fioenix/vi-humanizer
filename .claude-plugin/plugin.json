@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "humanizer",
-  "description": "Remove signs of AI-generated writing from text, making it sound more natural and human. Based on Wikipedia's \"Signs of AI writing\" guide.",
-  "version": "2.9.1",
+  "name": "vi-humanizer",
+  "description": "Xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt. Bắt các lỗi mà mô hình ngôn ngữ để lại khi dựng khung câu theo tiếng Anh rồi thay từ tiếng Việt vào.",
+  "version": "0.1.0",
   "author": {
-    "name": "blader",
-    "url": "https://github.com/blader"
+    "name": "Fioenix",
+    "url": "https://github.com/fioenix"
   },
-  "homepage": "https://github.com/blader/humanizer",
-  "repository": "https://github.com/blader/humanizer",
+  "homepage": "https://github.com/fioenix/vi-humanizer",
+  "repository": "https://github.com/fioenix/vi-humanizer",
   "license": "MIT",
-  "keywords": ["writing", "editing", "ai-detection", "humanize", "prose", "style"]
+  "keywords": ["tieng-viet", "vietnamese", "writing", "editing", "translationese", "humanize", "prose", "style"]
 }
