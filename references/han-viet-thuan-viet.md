@@ -1,6 +1,6 @@
 # Bảng tra: Hán-Việt ↔ thuần Việt
 
-Dùng cho V15 và V17 trong `SKILL.md`, và B9 trong `profiles/blog-ca-nhan.md`.
+Dùng cho V15 và V17 trong `SKILL.md`, cho B9 trong `profiles/blog-ca-nhan.md`.
 
 > **Cảnh báo bắt buộc đọc trước.** Bảng này **không phải danh sách find-and-replace.** Cột thứ ba là phần chịu lực. Chạy hai cột đầu như tìm-và-thay sẽ biến hợp đồng thành văn nói và biến bệnh án thành lời kể. Nếu điều kiện ở cột ba đúng thì không được sửa, bất kể văn bản nghe trang trọng đến đâu.
 

@@ -53,3 +53,25 @@ Bộ nhớ bằng chứng của skill. Mỗi quan sát một entry, ghi trước
 **Phân loại:** cả năm mục đều là **lỗi thật của văn bản**, không phải lỗi guard của skill. Skill bắn đúng, không bắn thừa. Không sửa pattern nào.
 
 **Quan sát đáng ghi:** phần lớn công việc trong lượt này không phải sửa câu mà là vá nội dung đã lệch so với repo (cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời khi repo đang ở 0.2.0). Skill không bắt được loại lỗi này vì nó chỉ soi ngôn ngữ, không đối chiếu văn bản với thực tế. Nếu muốn agent tự bảo trì README, cần một bước kiểm tra riêng: đối chiếu mọi phát biểu về cấu trúc repo với cây thư mục thật. Chưa đủ cơ sở để thành pattern, ghi lại để theo dõi.
+
+---
+
+## 2026-07-30 · toàn bộ file nội dung của repo (tài liệu kỹ thuật)
+
+**Nguồn:** chạy skill lên cả 8 file văn xuôi theo yêu cầu người dùng. Self-application, bằng chứng yếu hơn bản vàng.
+
+**Phát hiện chính, và là lỗi guard thật:** T4 dính **25 chỗ trên 6 file**. Đây không phải lỗi lẻ tẻ mà là một thói quen hệ thống: dấu phẩy trước *và*, mang thẳng từ `, and` tiếng Anh sang.
+
+Quan trọng hơn con số: **phần lớn không phải Oxford comma.** Chỉ khoảng một phần ba là liệt kê ba phần tử. Hai phần ba còn lại là *comma-and nối hai mệnh đề độc lập*, một lỗi khác hẳn mà T4 bản cũ **không mô tả**. T4 chỉ nói "dấu phẩy trước *và* trong liệt kê", nên agent quét đúng regex nhưng không biết phải làm gì với đa số hit.
+
+| Phân loại | Quyết định |
+|---|---|
+| Lỗi guard: T4 thiếu hẳn nhánh comma-and nối mệnh đề | Sửa ở v0.2.2. Tách T4 thành hai nhánh (a) và (b), thêm bảng chọn hư từ theo quan hệ: *nên* cho nhân quả, *mà* cho tương phản, *còn… thì* cho đối lập cục bộ, *rồi* cho nối tiếp |
+
+n=1 nhưng lỗi gọi tên được và tái diễn 15+ lần trong cùng một corpus, nên đủ ngưỡng.
+
+**Các pattern khác:** V9, V12, V18 sạch hoàn toàn. V15 và V17 chỉ dính trong phần định nghĩa pattern và bảng Hán-Việt, đúng ngoại lệ văn bản thứ cấp. V16 sạch. T2 chỉ còn mention trong backtick.
+
+**Cổng thể loại từ chối sửa 24 chỗ**, tất cả đều đúng: ví dụ trong phần định nghĩa pattern, trích dẫn trong chính log này, và mục Lịch sử phiên bản của README.
+
+**Việc lặp lại đã được đóng gói:** lượt này phải dựng lại bộ lệnh grep từ đầu, giống hệt lượt review README hôm trước. Đã viết thành `scripts/scan-tells.sh` để lần sau chạy một lệnh. Script chỉ lo nhóm quét máy được, không thay được việc đọc.
