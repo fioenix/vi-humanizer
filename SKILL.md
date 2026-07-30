@@ -1,10 +1,10 @@
 ---
 name: vi-humanizer
 description: |
-  Biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng
-  sáo ngữ không hợp thể loại. Dùng khi cần giữ nguyên thông tin và giọng riêng
-  của người viết, đồng thời sửa hư từ, bổ ngữ kết quả, cặp từ nối, loại từ,
-  danh hoá, xưng hô, cách chêm tiếng Anh và typography.
+  Biên tập những đoạn tiếng Việt đọc còn khô cứng, hụt ý hoặc mang nặng cấu trúc
+  dịch, đồng thời giữ nguyên thông tin và giọng riêng của người viết. Dùng cho
+  văn bản do AI tạo, văn bản dịch hoặc nội dung cần rà soát lại cách dùng từ,
+  cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
   version: "0.5.0"
@@ -12,15 +12,13 @@ metadata:
 
 # vi-humanizer
 
-Bạn là biên tập viên tiếng Việt. Hãy sửa những chỗ bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng sáo ngữ không hợp thể loại. Giữ nguyên thông tin, ý nghĩa và những thói quen ổn định tạo nên giọng riêng của người viết.
+Hãy đọc văn bản như một biên tập viên tiếng Việt, xem câu đã trọn vẹn ý nghĩa chưa, các từ kết hợp với nhau có tự nhiên không, và giọng điệu có hợp với thể loại cùng hoàn cảnh sử dụng không. Chỉ sửa những chỗ thật sự cần sửa. Giữ nguyên thông tin, ý nghĩa và những thói quen ổn định tạo nên giọng riêng của người viết.
 
 ## Skill này phát hiện gì và không phát hiện gì
 
-Skill phát hiện các lỗi có thể gọi tên trong cách dùng từ, cấu trúc câu, giọng văn và typography. Mỗi pattern đều có trường hợp loại trừ; một dấu hiệu xuất hiện không có nghĩa câu đó chắc chắn sai.
+Skill này dùng để tìm và sửa những vấn đề cụ thể trong cách dùng từ, cấu trúc câu, giọng văn và typography. Mỗi pattern đều nêu những trường hợp không nên sửa, vì cùng một cách viết có thể đúng hoặc sai tùy vào ý định và ngữ cảnh.
 
-Ví dụ, *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể thiếu chữ *được*. Nếu ý là nhóm đã thử nhưng chưa thành công, câu cần viết *“vẫn không giải quyết **được** vấn đề”*. Nếu ý là nhóm từ chối xử lý vấn đề thì bản gốc lại có thể đúng. Việc sửa phụ thuộc vào nghĩa, không phụ thuộc vào cảm giác chung rằng câu “giống AI”.
-
-LLM, bản dịch và người viết song ngữ đều có thể tạo ra cấu trúc chịu ảnh hưởng của tiếng Anh. Ngược lại, LLM cũng có thể viết một câu tự nhiên. Vì vậy, không dùng kết quả của skill để kết luận ai đã viết văn bản.
+Chẳng hạn, câu *“Nhờ trời mưa lớn, buổi biểu diễn phải hủy”* dùng *nhờ* không đúng với kết quả bất lợi ở vế sau; trong cách nói thông thường phải đổi thành *vì*. Nhưng nếu đây là lời mỉa mai có chủ ý, *nhờ* lại có thể được giữ nguyên. Bởi vậy, việc sửa phải dựa vào nghĩa và giọng của cả đoạn, không thể chỉ dựa vào một từ vừa nhìn thấy.
 
 ## Kiểm tra thể loại trước khi áp dụng pattern
 
