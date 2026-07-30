@@ -14,7 +14,7 @@ Một agent skill viết hoàn toàn bằng Markdown, không có bước build. 
 |---|---|
 | `SKILL.md` | Cổng thể loại, quy trình, lõi V1–V19, typography T1–T6, phần nhận diện. **Nguồn sự thật.** |
 | `profiles/blog-ca-nhan.md` | B1–B17, lỗi giọng cho văn có giọng |
-| `profiles/ky-thuat-doanh-nghiep.md` | K1–K4, chủ yếu là lệnh cấm và điều chỉnh ngưỡng |
+| `profiles/ky-thuat-doanh-nghiep.md` | K1–K5, chủ yếu là lệnh cấm và điều chỉnh ngưỡng |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt ↔ thuần Việt |
 | `references/bang-tra-cuu.md` | Bổ ngữ kết quả, cặp hô ứng, loại từ, tiểu từ, checklist |
 | `calibration/LOG.md` | Bộ nhớ bằng chứng cho vòng tự hiệu chuẩn. Ghi trước, sửa skill sau |
