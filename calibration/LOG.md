@@ -101,3 +101,55 @@ Câu bị chê "tối nghĩa" nhất là *"Tiếng Việt mã hoá bằng hư t�
 Tên tạm: **bổ ngữ trực tiếp bị đẩy ra sau cụm phương tiện dài**. Dấu hiệu: `động từ + bằng/với/thông qua + chuỗi ≥3 thành phần + rồi mới tới bổ ngữ`. Cách sửa: kéo bổ ngữ về sát động từ rồi tách cụm phương tiện thành mệnh đề riêng.
 
 **Quyết định: chưa thêm.** Giao thức yêu cầu pattern mới cần n≥3 mẫu độc lập, hiện mới có n=1. Ghi lại để đối chiếu khi gặp mẫu thứ hai và thứ ba. Ba khoảng trống ở trên thì thêm được vì chúng là *lỗi guard*, ngưỡng n=1 khi lỗi gọi tên được.
+
+---
+
+## 2026-07-30 · phần mở đầu README, vòng hai (bản vàng của người bản ngữ)
+
+**Nguồn:** Fioenix tự viết lại phần mở đầu, dùng **chính câu tôi vừa commit ở v0.3.0** làm ví dụ xấu. Bằng chứng loại 1, mạnh nhất.
+
+**Câu bị bắt:** *"Câu trên đúng ngữ pháp mà đọc lên thấy hụt."*
+
+Hai lỗi trong một câu bảy chữ, cả hai đều nằm ngoài tầm bắt của bộ pattern lúc đó.
+
+### Phát hiện 1: từ ghép bị cắt còn một âm tiết
+
+Nhận xét nguyên văn: *"từ 'hụt' là một từ rất hiếm khi xuất hiện như một từ đơn, thông thường nó phải là một thành phần trong từ ghép như hụt hẫng, hụt hơi, thiếu hụt"*.
+
+Đây là phát biểu về tiếng Việt, không phải về sở thích, và kiểm chứng được bằng khả năng đứng đơn của âm tiết. Cùng cơ chế với V1: model dịch phần đầu rồi dừng, chỉ khác vị trí. V1 rụng bổ ngữ sau động từ, cái này rụng nửa sau của từ ghép.
+
+**Quyết định:** thêm **V20. Từ ghép bị cắt còn một âm tiết**, đặt ở cuối thay vì chèn giữa để không phải đánh số lại 17 pattern. Trỏ chéo với V1.
+
+### Phát hiện 2: over-correction do chính bản vá T4 gây ra
+
+Nhận xét: *"Từ 'mà' và 'nhưng' tuy gần nghĩa nhưng cách dùng phổ biến không giống nhau"*.
+
+Truy ngược thì đây là **vết thương tự gây**. Bản vá T4 ở v0.2.2 đưa danh sách thay thế `nên / mà / còn…thì / rồi` **mà bỏ sót *nhưng***, liên từ đối lập mặc định của văn viết. Agent gom mọi quan hệ tương phản về *mà*. Đo lại toàn repo trước khi sửa:
+
+| File | *mà* | *nhưng* |
+|---|---|---|
+| SKILL.md | 46 | 8 |
+| README.md | 14 | 4 |
+| profiles/ky-thuat-doanh-nghiep.md | 7 | 1 |
+
+Gần 6:1 nghiêng về *mà*. Bản vá xoá một tell rồi dựng lên một tell khác: sự đồng nhất từ vựng.
+
+**Đây là lỗi cấp phương pháp, không phải lỗi cấp pattern.** Skill giàu phần *phát hiện* mà nghèo phần *thay bằng gì*. Mỗi pattern có "Dấu hiệu" dài còn "Sửa" thì thường chỉ là một danh sách ngắn, nên agent chọn mục đầu rồi dùng mãi.
+
+**Ba bản vá phương pháp:**
+
+1. **Cặp thay thế phải có điều kiện chọn, không phải danh sách phẳng.** T4 giờ là bảng có cột "ghi chú chọn từ", nêu rõ *nhưng* là mặc định còn *mà* hẹp hơn nhiều.
+2. **Mỗi pattern có nguy cơ over-correction phải tự khai báo phanh.** T4 thêm mục "Phanh over-correction" kèm phép đếm cụ thể. Mục "Mật độ khi sửa" thêm dòng về tỉ lệ giữa các lựa chọn thay thế, không chỉ tổng số.
+3. **Thêm bước 6 vào Quy trình: soi lại chính bản sửa của mình.** Đếm từ thay thế dùng nhiều nhất, lệch hẳn về một phía là chữa quá tay.
+
+### Phát hiện 3: giao thức thiếu một loại bằng chứng
+
+Cả hai phát hiện trên đều là người bản ngữ nêu quy tắc ngôn ngữ học kèm instance, mà giao thức chỉ có ba loại nguồn: bản vàng, văn bản người bản ngữ, nhận xét về pattern. Không loại nào mô tả đúng trường hợp này.
+
+**Thêm loại 4 vào `AGENTS.md`:** người bản ngữ nêu quy tắc ngôn ngữ học kèm ít nhất một instance. Khác "sở thích cá nhân" ở chỗ đây là phát biểu về *tiếng Việt* chứ không phải về *thị hiếu*. n=1 đủ để thêm pattern mới, với điều kiện quy tắc kiểm chứng được độc lập. Đây là lý do V20 vào được ngay dù chỉ có một instance.
+
+### Ba chỗ tôi sửa khi áp bản của Fioenix
+
+- *"hụt hẫn"* → *"hụt hẫng"* và *"gần nghĩ"* → *"gần nghĩa"*: lỗi gõ.
+- *"sáo ngữ (kiểu viết lặp đi lặp lại)"*: bỏ phần chú giải. Sáo ngữ là cụm mòn sáo rỗng chứ không phải lặp lại, và bản thân skill có quy tắc đảo chiều nói lặp từ trong tiếng Việt là chuẩn mực. Giữ chú giải này sẽ mâu thuẫn.
+- *"hướng dẫn AI viết thuần Việt hơn"* → *"viết tiếng Việt tự nhiên hơn"*: quy tắc "Đúng thanh ngữ vực" nói đích đến không phải nôm na nhất có thể, nên đặt chữ *thuần Việt* ở câu định vị sẽ cấp phép cho đúng lỗi mà v0.1.1 đã vá. Cần Fioenix xác nhận.
