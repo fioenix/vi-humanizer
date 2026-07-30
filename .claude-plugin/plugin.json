@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "vi-humanizer",
   "description": "Biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng sáo ngữ không hợp thể loại, đồng thời giữ giọng riêng của người viết.",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "author": {
     "name": "Fioenix",
     "url": "https://github.com/fioenix"
