@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.5.1"
+  version: "0.5.2"
 ---
 
 # vi-humanizer
@@ -206,12 +206,12 @@ Các pattern V1–V20 được kiểm tra trước các pattern trong profile. C
 **Sửa:** *"Kho trung tâm đóng vai trò là điểm trung chuyển và sở hữu diện tích 12.000 m²"* → *"Kho trung tâm là điểm trung chuyển, rộng 12.000 m²"*.
 **Không flag:** *đóng vai trò* đang phân biệt chức năng với danh tính; *sở hữu* nói đến quyền tài sản thật (*công ty sở hữu 51% cổ phần*); *mang lại* nêu một kết quả hoặc lợi ích thật chứ không thay cho *là* hoặc *có*.
 
-### V18. Câu lồng nhiều tầng, "mà" và "điều này" không rõ
+### V18. Chủ thể hoặc điểm quy chiếu không rõ giữa các mệnh đề
 
-**Dấu hiệu:** một câu chứa nhiều lớp chú thích và mệnh đề phụ; lặp *mà* để nối các lớp; hoặc dùng *, điều này / việc này + động từ* để gắn thêm một kết quả. *Vốn là / vốn được* chen giữa chủ ngữ và động từ cũng là dấu hiệu cần xem lại.
-**Vì sao:** khi nhiều quan hệ bị dồn vào một câu, đại từ như *điều này* có thể không còn trỏ rõ vào ý nào. Tách câu giúp mỗi quan hệ có chủ thể và điểm quy chiếu rõ hơn.
-**Sửa:** *"Hệ thống mới, vốn chạy trên nền tảng đám mây mà công ty đầu tư từ năm 2024, cho phép đồng bộ tồn kho theo thời gian thực, điều này giúp giảm bán vượt tồn"* → *"Hệ thống mới chạy trên nền tảng đám mây. Công ty đầu tư nền tảng này từ năm 2024. Việc đồng bộ tồn kho theo thời gian thực giúp giảm tình trạng bán vượt tồn."* Khi tách, giữ nguyên chủ thể và quan hệ nhân quả của bản gốc.
-**Không flag:** *mà* dùng đúng để đối lập (*"Rẻ mà bền"*) hoặc làm tiểu từ (*"Tôi đã nói rồi mà"*); câu dài nhưng các quan hệ vẫn rõ; pháp quy và hợp đồng cần giữ một câu để xác định phạm vi. Không đặt ngưỡng độ dài chung cho mọi câu.
+**Dấu hiệu:** một câu chứa nhiều lớp chú thích và mệnh đề phụ; lặp *mà* để nối các lớp; hoặc dùng *, điều này / việc này + động từ* để gắn thêm một kết quả nhưng không rõ cụm đó trỏ vào ý nào. Cũng cần xem lại khi hai vế đang cùng nói về một đối tượng nhưng vế đầu lược chủ thể, đến vế sau mới nêu đối tượng ấy làm chủ thể. *Vốn là / vốn được* chen giữa chủ ngữ và động từ cũng là dấu hiệu.
+**Vì sao:** tiếng Việt cho phép lược chủ thể khi người đọc có thể xác định ngay chủ thể từ câu trước hoặc từ vế liền kề. Nếu không, liên từ vẫn nối được hai ý nhưng người đọc không biết hành động ở vế đầu thuộc về ai. Với câu lồng nhiều tầng, đại từ như *điều này* cũng dễ mất điểm quy chiếu.
+**Sửa:** xác định chủ thể và vị ngữ của từng vế trước khi đổi liên từ hoặc tách câu. Nếu hai vế cùng một chủ thể, đưa chủ thể đó lên trước cả hai vị ngữ: *"Nói được nguyên lý mà bản kế hoạch vẫn thiếu bước thực hiện"* → *"Bản kế hoạch nêu được nguyên lý nhưng vẫn thiếu bước thực hiện"*. Chỉ sửa như vậy khi ngữ cảnh cho thấy *bản kế hoạch* là chủ thể của cả hai vế; nếu một người nêu nguyên lý còn bản kế hoạch thiếu bước thực hiện thì phải nêu rõ hai chủ thể, không tự gộp. Với câu lồng nhiều tầng, tách câu nhưng giữ nguyên chủ thể và quan hệ nhân quả.
+**Không flag:** chủ thể lược đi đã rõ từ câu trước; hai vế có chủ thể khác nhau nhưng đều được nêu rõ; các cấu trúc tự nhiên như *"Đến nơi thì trời đã tối"*; *mà* dùng đúng để đối lập (*"Rẻ mà bền"*) hoặc làm tiểu từ (*"Tôi đã nói rồi mà"*); câu dài nhưng các quan hệ vẫn rõ; pháp quy và hợp đồng cần giữ một câu để xác định phạm vi.
 
 ## Chêm tiếng Anh không hợp ngữ cảnh
 
@@ -233,13 +233,13 @@ Các pattern V1–V20 được kiểm tra trước các pattern trong profile. C
 
 1. Tiếng đang dùng hầu như không đứng riêng với nghĩa đó: *rườm* thay cho *rườm rà*, *bỡ* thay cho *bỡ ngỡ*, *chới* thay cho *chới với*.
 2. Tiếng có thể đứng riêng nhưng mang nghĩa khác trong câu: *hụt* thay cho *hụt hẫng*.
-3. Tiếng có nghĩa gần đúng nhưng văn cảnh cần cách kết hợp đầy đủ hơn: trong hướng dẫn biên tập, *"Chỉ được rà typography"* cần thành *"Chỉ được rà soát typography"* nếu ý là kiểm tra kỹ từng chi tiết.
+3. Tiếng có nghĩa gần đúng nhưng không kết hợp tự nhiên với những từ xung quanh trong nghĩa đang dùng. Trong hướng dẫn biên tập, *"Chỉ được rà typography"* cần thành *"Chỉ được rà soát typography"* nếu ý là kiểm tra kỹ từng chi tiết. Nếu muốn nói các đầu việc thiếu liên kết với nhau, *"danh sách việc rời"* cần thành *"danh sách các đầu việc rời rạc"*.
 
-**Vì sao:** câu có thể vẫn đúng cấu trúc dù thiếu một tiếng, nên lỗi này dễ lọt qua kiểm tra chính tả. Phần thiếu nằm ở nghĩa của từ hoặc cách kết hợp từ trong văn cảnh.
+**Vì sao:** câu có thể vẫn đúng cấu trúc dù thiếu một tiếng, nên lỗi này dễ lọt qua kiểm tra chính tả. Một tiếng có thể là từ độc lập trong cấu trúc này nhưng không dùng được với cùng nghĩa hoặc cùng vai trò trong cấu trúc khác. Vì vậy, việc từ đó có tồn tại khi đứng riêng chưa đủ để kết luận cách dùng hiện tại là đúng.
 
-**Sửa:** *"Câu này đúng ngữ pháp nhưng đọc lên thấy hụt"* → *"...thấy **hụt hẫng**"*. *"Quy trình còn rườm"* → *"...còn **rườm rà**"*. Trước khi thêm tiếng, kiểm tra lần lượt: tiếng hiện tại có dùng độc lập với đúng nghĩa này không; thêm tiếng có làm đúng nghĩa và đúng cách kết hợp từ không; văn bản có đang cố ý viết rút gọn không. Không chắc thì để nguyên.
+**Sửa:** *"Câu này đúng ngữ pháp nhưng đọc lên thấy hụt"* → *"...thấy **hụt hẫng**"*. *"Quy trình còn rườm"* → *"...còn **rườm rà**"*. Trước khi thêm tiếng, kiểm tra lần lượt: tiếng hiện tại có dùng độc lập với cùng nghĩa và cùng vai trò trong câu không; nó có kết hợp tự nhiên với những từ đứng cạnh không; thêm tiếng có hoàn chỉnh đúng ý hay chỉ đổi phong cách; văn bản có đang cố ý viết rút gọn không. Không chắc thì để nguyên.
 
-**Không flag:** từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag.
+**Không flag:** từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rời* trong *rời công ty, rời vị trí, tách rời, bộ phận rời*; giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag.
 
 ---
 
