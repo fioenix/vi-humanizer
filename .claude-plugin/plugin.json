@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "vi-humanizer",
-  "description": "Xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt. Bắt các lỗi mà mô hình ngôn ngữ để lại khi dựng khung câu theo tiếng Anh rồi thay từ tiếng Việt vào.",
-  "version": "0.4.0",
+  "description": "Biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng sáo ngữ không hợp thể loại, đồng thời giữ giọng riêng của người viết.",
+  "version": "0.5.0",
   "author": {
     "name": "Fioenix",
     "url": "https://github.com/fioenix"

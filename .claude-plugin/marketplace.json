@@ -5,12 +5,12 @@
     "name": "Fioenix",
     "url": "https://github.com/fioenix"
   },
-  "description": "Skill vi-humanizer, cài được dưới dạng plugin Claude Code.",
+  "description": "Plugin Claude Code dùng để biên tập văn bản tiếng Việt theo thể loại và giọng người viết.",
   "plugins": [
     {
       "name": "vi-humanizer",
       "source": "./",
-      "description": "Xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt.",
+      "description": "Sửa lỗi dịch sát, thiếu từ, sai cấu trúc và sáo ngữ trong văn bản tiếng Việt.",
       "license": "MIT",
       "keywords": ["tieng-viet", "vietnamese", "writing", "editing", "translationese", "humanize", "prose", "style"]
     }

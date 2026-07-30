@@ -1,4 +1,4 @@
-name: Validate package
+name: Kiểm tra gói
 
 on:
   pull_request:
@@ -19,11 +19,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate synchronized package metadata
+      - name: Kiểm tra metadata và bảng pattern
         run: python3 scripts/validate-package.py
-      - name: Verify Agent Skills discovery
+      - name: Kiểm tra Skills CLI nhận diện skill
         run: npx --yes skills@1.5.20 add . --list
-      - name: Validate Claude Code marketplace
+      - name: Kiểm tra marketplace Claude Code
         run: |
           npm install --global @anthropic-ai/claude-code
           claude plugin validate .

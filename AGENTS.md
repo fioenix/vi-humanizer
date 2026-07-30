@@ -1,86 +1,95 @@
 # AGENTS.md
 
-Hướng dẫn cho AI coding agent làm việc trong repo này.
+Hướng dẫn dành cho agent làm việc trong repo này.
 
-## Repo này là gì
+## Repo này chứa gì
 
-Một agent skill viết hoàn toàn bằng Markdown, không có bước build. Runtime artifact là `SKILL.md` cùng ba thư mục nó trỏ tới: `profiles/`, `references/` và `calibration/`.
+Đây là một agent skill viết bằng Markdown, không có bước build. `SKILL.md` là tài liệu điều khiển chính; các profile và bảng tra bổ sung quy tắc theo thể loại hoặc cung cấp ví dụ chi tiết.
 
-Đây **không** phải bản dịch của skill humanizer tiếng Anh. Phần lớn pattern ở đây bắt lỗi dịch **từ** tiếng Anh sang tiếng Việt, thứ mà một skill viết bằng tiếng Anh về nguyên tắc không phát hiện được. Ba pattern đi ngược hẳn bản gốc (quy tắc lặp từ, en dash, ngoặc kép), đọc phần "Ba chỗ skill này đi ngược bản tiếng Anh" trong README trước khi sửa chúng.
+Skill được viết riêng cho tiếng Việt, không phải bản dịch của một skill tiếng Anh. Nhiều lỗi trong repo xuất hiện khi cấu trúc tiếng Anh được giữ nguyên rồi thay bằng từ tiếng Việt. Vì vậy, đừng nhập một quy tắc từ skill tiếng Anh vào đây nếu chưa kiểm tra xem nó có đúng với tiếng Việt hay không.
 
-## Các file
+## Vai trò của từng file
 
 | File | Vai trò |
 |---|---|
-| `SKILL.md` | Cổng thể loại, quy trình, lõi V1–V20, typography T1–T6, phần nhận diện. **Nguồn sự thật.** |
-| `profiles/blog-ca-nhan.md` | B1–B17, lỗi giọng cho văn có giọng |
-| `profiles/ky-thuat-doanh-nghiep.md` | K1–K5, chủ yếu là lệnh cấm và điều chỉnh ngưỡng |
-| `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt ↔ thuần Việt |
-| `references/bang-tra-cuu.md` | Bổ ngữ kết quả, cặp hô ứng, loại từ, tiểu từ, checklist |
-| `calibration/LOG.md` | Bộ nhớ bằng chứng cho vòng tự hiệu chuẩn. Ghi trước, sửa skill sau |
-| `README.md` | Cho người đọc: cài đặt, bảng pattern, nguồn tham khảo, lịch sử phiên bản |
-| `.claude-plugin/plugin.json` | Manifest plugin Claude Code |
-| `.claude-plugin/marketplace.json` | Marketplace một repo |
-| `scripts/validate-package.py` | Kiểm tra đồng bộ, chạy trong CI |
-| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` cho Claude Desktop và claude.ai |
-| `scripts/scan-tells.sh` | Quét các pattern regex được trên chính văn bản của repo |
+| `SKILL.md` | Kiểm tra thể loại, quy trình, V1–V20, T1–T6 và cách trả kết quả. **Đây là nguồn chuẩn.** |
+| `profiles/blog-ca-nhan.md` | B1–B17 cho blog, bài cá nhân, nội dung công việc và marketing |
+| `profiles/ky-thuat-doanh-nghiep.md` | K1–K5 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
+| `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
+| `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
+| `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
+| `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
+| `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
+| `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
+| `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
+| `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
+| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` |
+| `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
 
-## Trục phân chia
+## Ranh giới giữa quy tắc chung và profile
 
-Đây là quyết định kiến trúc quan trọng nhất của repo. Đừng phá nó khi thêm pattern.
+Đây là quyết định kiến trúc quan trọng nhất của repo.
 
-- **Lỗi ngôn ngữ** sai ở cấp hư từ và cấu trúc câu, là lỗi bất kể văn bản thuộc thể loại nào. Sửa chúng không đụng tới giọng người viết. → `SKILL.md`
-- **Lỗi giọng** phụ thuộc hoàn toàn vào register. → `profiles/`
+- V1–V20 trong `SKILL.md` kiểm tra cách dùng từ và cấu trúc câu. Chúng chỉ chạy trên các thể loại được phép biên tập, đồng thời phải tuân theo mục **Không flag** của từng pattern.
+- B1–B17 và K1–K5 phụ thuộc vào thể loại, người đọc và giọng văn. Chúng nằm trong `profiles/`.
 
-Nếu một pattern mới có thể là lỗi ở blog nhưng là chuẩn ở công văn, nó thuộc profile, không thuộc lõi.
+Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V20 như một lỗi áp dụng cho mọi văn bản.
 
 ## Hợp đồng bảo trì
 
-- **Đánh số pattern.** Bốn tiền tố, mỗi tiền tố đánh số liên tục từ 1 và do đúng một file sở hữu: `V` và `T` trong `SKILL.md`, `B` trong profile blog, `K` trong profile kỹ thuật. Thêm, bớt hay đánh số lại thì phải cập nhật bảng pattern trong README trong cùng một thay đổi. Giữ số hiệu ổn định trừ khi cố ý đánh số lại.
-- **Version.** Ba nơi phải khớp: `metadata.version` trong `SKILL.md`, mục đầu tiên của Lịch sử phiên bản trong `README.md` và `version` trong `plugin.json`. Giữ version dưới `metadata`; khoá `version` ở cấp cao nhất của frontmatter không portable giữa các harness. `marketplace.json` cố ý không có version để `plugin.json` là nguồn duy nhất.
-- **Ngân sách dòng.** `SKILL.md` tối đa 550 dòng, profile blog 320, profile kỹ thuật 220. Ngân sách buộc pattern phải cô đặc. `references/` không giới hạn vì là bảng tra.
-- **Nguồn.** Mọi pattern mới có nguồn thì thêm nguồn vào README kèm phân hạng. Không có nguồn thì nói rõ là suy luận. **Không bịa nguồn, không bịa số liệu tần suất.**
-- **Kiểm tra trước khi publish:** `python3 scripts/validate-package.py`, `npx skills add . --list`, `claude plugin validate .`
+- **Số hiệu pattern:** bốn tiền tố `V`, `T`, `B`, `K` đều bắt đầu từ 1 và tăng liên tục. `V` và `T` thuộc `SKILL.md`; `B` thuộc profile blog; `K` thuộc profile kỹ thuật. Khi thêm, bỏ hoặc đổi số, phải cập nhật bảng pattern trong `README.md` cùng lúc.
+- **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất của phần Lịch sử phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
+- **Giới hạn dòng:** `SKILL.md` tối đa 550 dòng, profile blog tối đa 320 dòng, profile kỹ thuật tối đa 220 dòng. Các file trong `references/` không bị giới hạn.
+- **Nguồn:** khi thêm pattern dựa trên tài liệu bên ngoài, phải thêm nguồn vào `README.md` và ghi đúng mức độ tin cậy. Nếu chỉ là suy luận, phải nói rõ là suy luận. Không tự tạo nguồn hoặc số liệu tần suất.
+- **Kiểm tra trước khi phát hành:** chạy `python3 scripts/validate-package.py`, `npx skills add . --list` và `claude plugin validate .`.
 
-## Khi sửa nội dung skill
+## Khi sửa nội dung
 
-- Giữ YAML frontmatter hợp lệ, đúng thụt lề.
-- Phần dưới frontmatter là sản phẩm. Sửa nó như sửa một tài liệu hướng dẫn cẩn thận, không phải như sửa code.
-- Mỗi pattern giữ đủ bốn phần: **Dấu hiệu**, **Vì sao**, **Sửa**, **Không flag**. Phần "Không flag" quan trọng ngang phần phát hiện: nó chặn skill phá văn bản người thật viết.
-- Văn trong skill phải qua được chính skill này. Không em dash, không "một cách + tính từ" thừa, không hạ giọng quá tay. Trước khi commit, tự soi lại phần văn mình vừa viết bằng đúng bộ pattern trong đó.
-- Ví dụ Before/After phải là tiếng Việt tự nhiên. Không dịch ví dụ từ skill tiếng Anh.
-- Ví dụ minh hoạ tránh dùng tên đơn vị hành chính đã sáp nhập theo NQ 202/2025/QH15 (hiệu lực 01/07/2025).
+- Giữ YAML frontmatter hợp lệ và đúng thụt lề.
+- Mỗi pattern phải có đủ bốn mục: **Dấu hiệu**, **Vì sao**, **Sửa**, **Không flag**. Mục cuối ngăn skill sửa nhầm văn bản vốn đã đúng nên quan trọng ngang phần phát hiện.
+- Ví dụ trước và sau khi sửa phải là tiếng Việt tự nhiên. Không dịch nguyên ví dụ từ skill tiếng Anh.
+- Không dùng ngưỡng số làm điều kiện kết luận nếu ngưỡng đó chưa được kiểm chứng trên một bộ ngữ liệu phù hợp.
+- Không biến lựa chọn phong cách thành lỗi ngôn ngữ. Chỉ đưa một cách viết vào quy tắc chung khi có thể chỉ ra điều gì sai và xác định được trường hợp cần loại trừ.
+- Tự rà lại phần vừa viết bằng chính `SKILL.md`. Chú ý câu thiếu từ, câu bị nén thành nhãn cấu hình, thuật ngữ tiếng Anh không cần thiết và cách diễn đạt hạ giọng quá mức.
+- Ví dụ minh hoạ không dùng tên đơn vị hành chính đã sáp nhập theo Nghị quyết 202/2025/QH15, có hiệu lực từ ngày 01/07/2025.
 
-## Nâng cấp từ sử dụng thật (giao thức cho agent tự bảo trì)
+## Học từ phản hồi thực tế
 
-Skill này được thiết kế để một agent chạy lâu dài (ví dụ Hermes) tự nâng cấp nó dựa trên cách người thật viết và sửa. Giao thức:
+Phản hồi của người dùng có thể giúp sửa skill, nhưng không phải khác biệt nào cũng được đưa vào quy tắc chung.
 
-**Nguồn bằng chứng, xếp theo độ mạnh:**
-1. **Bản vàng**: người dùng sửa lại output của skill. Đây là bằng chứng mạnh nhất.
-2. Văn bản người bản ngữ tự viết trong công việc, thu được khi skill được gọi.
+**Nguồn bằng chứng, xếp từ mạnh đến yếu:**
+
+1. Bản do người dùng viết lại từ kết quả của skill.
+2. Văn bản do người bản ngữ tự viết trong một tình huống sử dụng thật.
 3. Nhận xét trực tiếp của người dùng về một pattern.
-4. **Người bản ngữ nêu một quy tắc ngôn ngữ học, kèm ít nhất một instance.** Khác hẳn ba loại trên: đây là phát biểu về *tiếng Việt*, không phải về *sở thích*. Ví dụ: "chữ *hụt* rất hiếm khi đứng đơn, bình thường nó là một nửa của từ ghép". Loại này **n=1 đủ để thêm pattern mới**, với điều kiện quy tắc kiểm chứng được độc lập bằng từ điển hoặc bằng khả năng đứng đơn của âm tiết. Kiểm chứng trước, đừng tin ngay.
+4. Quy tắc tiếng Việt do người bản ngữ nêu ra, kèm ít nhất một ví dụ và có thể kiểm tra độc lập.
 
-**Phân loại trước khi đụng vào skill.** Mỗi khác biệt giữa output và bản vàng rơi vào đúng một trong ba loại:
+Trước khi sửa skill, phải xếp quan sát vào đúng nhóm:
 
-| Loại | Nhận biết | Hành động | Ngưỡng |
-|---|---|---|---|
-| Sở thích cá nhân | Cả hai bản đều là tiếng Việt tự nhiên, khác biệt là lựa chọn phong cách | Ghi vào voice memory của agent. **Không sửa skill** | Không bao giờ vào skill |
-| Lỗi guard | Skill sửa sai chỗ người thật viết đúng, hoặc bỏ sót chỗ lộ rõ | Nới hoặc siết guard của pattern có sẵn | n=1 đủ, nếu người sửa là người bản ngữ và lỗi gọi tên được |
-| Pattern mới | Một tell lặp lại mà chưa pattern nào bắt | Thêm pattern, đúng khung bốn phần | n≥3 mẫu độc lập, khác văn bản, khác ngày |
+| Nhóm | Cách nhận biết | Nơi xử lý |
+|---|---|---|
+| Sở thích cá nhân | Cả hai cách viết đều tự nhiên; khác nhau ở nhịp câu, xưng hô, mức trang trọng hoặc cách dùng từ | Memory hoặc knowledge base của agent, tách theo đúng người dùng |
+| Pattern sửa nhầm hoặc bỏ sót | Quy tắc chung sửa một câu vốn đúng, hoặc bỏ qua một lỗi có thể gọi tên | `calibration/LOG.md`, rồi điều chỉnh **Không flag** hoặc phần phát hiện |
+| Hiện tượng mới | Một lỗi chưa có pattern nào mô tả và xuất hiện trong nhiều mẫu độc lập | `calibration/LOG.md`, rồi cân nhắc thêm pattern |
 
-**Ghi log trước, sửa sau.** Mỗi quan sát ghi một entry vào `calibration/LOG.md`: ngày, register, đoạn trước, bản vàng, khác biệt gọi tên được, pattern liên quan, phân loại, quyết định. Log là bộ nhớ bằng chứng của skill; sửa skill mà không có entry tương ứng là bịa.
+### Hồ sơ văn phong cá nhân
 
-**Nhãn độ tin cậy mới.** Pattern hoặc guard sinh ra từ giao thức này gắn nhãn "Quan sát từ sử dụng (n=…)" thay vì "Suy luận từ cơ chế LLM". Đây là nhãn mạnh hơn suy luận nhưng yếu hơn corpus. Còn n thì phải là số đếm được trong log.
+Không ghi sở thích của một người vào `calibration/LOG.md`. Nếu nền tảng có memory hoặc knowledge base và chính sách lưu trữ cho phép, agent có thể lưu một hồ sơ ngắn cho đúng người dùng, gồm những đặc tính cần thiết để giữ giọng: cách xưng hô, nhịp câu, mức dùng từ Hán-Việt, cách chêm tiếng Anh, viết hoa và dấu câu.
 
-**Kỷ luật đóng gói giữ nguyên.** Mỗi lần sửa: chạy validator, bump version ba nơi, thêm dòng changelog nói rõ sửa gì và từ bằng chứng nào. Không gộp nhiều thay đổi không liên quan vào một version.
+Mỗi đặc tính cần có phạm vi áp dụng và một ví dụ ngắn. Không chép nguyên văn bản, không lưu dữ kiện cá nhân không liên quan, không dùng hồ sơ của người này cho người khác. Yêu cầu trong lượt hiện tại luôn được ưu tiên hơn memory cũ.
 
-**Cảnh báo bias.** Học từ một nhóm người dùng làm skill lệch về register của nhóm đó. Với fork nội bộ thì đó là tính năng, không phải lỗi, nhưng phải ghi nhận trong changelog để người cài từ ngoài biết skill đã được tune cho tổ chức nào.
+Trước khi dùng skill, agent nên nạp lại hồ sơ của đúng người dùng nếu xác định được danh tính. Không có hồ sơ hoặc không chắc người dùng là ai thì tiếp tục biên tập theo thể loại, không tự suy đoán.
 
-**Phần agent phải tự lo, skill không làm được:** skill chỉ thấy các lượt nó được gọi. Muốn học từ chat thường ngày, agent cần một chỉ dẫn ở tầng memory/system prompt của chính nó, đại ý: "Khi thấy người dùng viết hoặc sửa văn bản tiếng Việt theo cách mâu thuẫn với vi-humanizer, ghi một entry vào calibration/LOG.md của repo skill."
+### Nhật ký hiệu chuẩn dùng chung
 
-## Việc còn tồn
+`calibration/LOG.md` chỉ ghi bằng chứng có thể làm thay đổi quy tắc dùng chung. Mỗi mục cần có ngày, thể loại, đoạn trước khi sửa, bản đối chiếu, tên khác biệt, pattern liên quan, cách phân loại và quyết định.
 
-- Ngưỡng số trong skill chưa hiệu chuẩn trên corpus văn bản AI tiếng Việt thật. Đây là việc lớn nhất còn nợ.
-- Hai nguồn hạng C đang gánh nội dung hạng A, xem mục "Nguồn còn thiếu" trong README.
-- Skill không đối chiếu được phát biểu về cấu trúc repo với cây thư mục thật, nên phần mô tả kiến trúc trong README và AGENTS.md phải soát tay mỗi khi thêm file.
+Ghi bằng chứng trước khi sửa quy tắc. Một trường hợp sửa nhầm có thể đủ để bổ sung trường hợp loại trừ nếu lỗi được gọi tên rõ và có thể kiểm tra lại. Pattern mới cần nhiều mẫu độc lập, trừ khi người bản ngữ nêu một quy tắc ngôn ngữ có thể kiểm chứng ngay bằng nguồn đáng tin cậy.
+
+Không dùng quan sát của một cá nhân để âm thầm điều chỉnh skill theo giọng của họ hoặc của tổ chức họ. Nếu một bản fork cố ý phục vụ riêng một tổ chức, phải nói rõ phạm vi đó trong changelog và không trình bày nó như quy tắc chung của tiếng Việt.
+
+## Những việc còn thiếu
+
+- Repo chưa có bộ ngữ liệu đủ để đặt ngưỡng tần suất cho các dấu hiệu. Số lần xuất hiện chỉ dùng để tìm chỗ cần đọc kỹ hơn.
+- Một số nguồn trong README vẫn là nguồn trình bày lại. Xem mục “Nguồn còn thiếu” trước khi nâng mức độ tin cậy.
+- Skill không tự kiểm tra được những phát biểu về cấu trúc repo. Mỗi khi thêm, đổi tên hoặc xoá file, phải đối chiếu lại `README.md` và `AGENTS.md` với cây thư mục thật.
