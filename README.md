@@ -1,10 +1,14 @@
 # vi-humanizer
 
-`vi-humanizer` là agent skill dùng để biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc mang sáo ngữ không phù hợp với thể loại.
+Các AI agents hiện tại có thể viết những đoạn tiếng Việt trôi chảy và đúng ngữ pháp. Tuy vậy, văn phong của chúng vẫn thường có những chỗ người Việt Nam hiếm khi mắc phải: câu giữ nguyên khung tiếng Anh, hư từ hoặc loại từ bị bỏ sót, thuật ngữ quen thuộc bị dịch thành một cách gọi xa lạ, giọng văn thay đổi giữa các đoạn, còn phần mở đầu và kết luận thì đầy những câu sáo rỗng. Từng lỗi riêng lẻ rất nhỏ, nhưng khi xuất hiện cùng nhau, chúng khiến văn bản trở nên khô cứng, thiếu tự nhiên hoặc không đúng với giọng văn của người thật.
 
-Ví dụ, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể sai với ý người viết. Nếu ý là đã thử nhưng chưa thành công, câu cần *“vẫn không giải quyết **được** vấn đề”*. Chữ *được* không làm câu trau chuốt hơn; nó hoàn tất nghĩa kết quả của động từ.
+Một yêu cầu chung chung như “viết lại cho tự nhiên hơn” thường không giải quyết được vấn đề này. AI có thể thay cả câu, hạ giọng văn hoặc thêm chi tiết để bản mới nghe mượt hơn, nhưng đồng thời làm lệch ý và mất giọng của tác giả. `vi-humanizer` được tạo ra để biên tập theo một nguyên tắc khác: xác định thể loại và người đọc trước, gọi tên từng lỗi cần sửa, rồi chỉ thay phần thực sự có vấn đề. Blog vẫn được giữ cá tính; README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
 
-Skill tập trung vào những lỗi như vậy. Nó không dùng vài dấu hiệu bề mặt để kết luận văn bản do AI viết, cũng không thay toàn bộ giọng tác giả bằng một kiểu “tự nhiên” chung cho mọi người.
+Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉnh tài liệu dịch từ tiếng Anh, sửa nội dung do người viết song ngữ soạn hoặc kiểm tra lại một bài tiếng Việt đang đọc chưa thuận miệng. Chẳng hạn, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể thiếu chữ *được*. Nếu ý là đã thử nhưng chưa thành công thì câu văn đúng là *“vẫn không giải quyết **được** vấn đề”*. Chữ *được* không phải thành phần vô ích; nó là một từ phổ biến trong tiếng Việt, mang hàm ý hoàn tất nghĩa kết quả của động từ.
+
+`vi-humanizer` không phải công cụ phát hiện AI. Những lỗi trên cũng xuất hiện trong bản dịch và văn bản do người thật viết, còn LLM vẫn có thể tạo ra một câu hoàn toàn tự nhiên. Mục tiêu của skill là làm cho văn bản đúng nghĩa, đúng thể loại và vẫn giữ được giọng riêng của người viết, không phải đoán xem là con người hay AI đã tạo ra nó.
+
+*P/S:* Bản thân skill này cũng được viết bởi AI và tự trong vòng lặp nâng cấp chính nó, nên không tránh khỏi đôi chỗ nhỏ vẫn còn "rất AI", nhưng ít nhất toàn bộ lối hành văn tự nhiên và "con người" hơn đáng kể.
 
 ## Phạm vi
 
