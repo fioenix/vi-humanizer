@@ -1,16 +1,18 @@
 # vi-humanizer
 
-*"Hệ thống này không giải quyết vấn đề tồn kho."*
+*"Câu này đúng ngữ pháp mà đọc lên thấy hụt."*
 
-Câu trên đúng ngữ pháp mà đọc lên thấy hụt. Thiếu một chữ: *"không giải quyết **được** vấn đề tồn kho"*. Bỏ *được* thì câu nghiêng sang nghĩa từ chối giải quyết. Mô hình dựng khung câu theo tiếng Anh rồi thay từ tiếng Việt vào, mà tiếng Anh không có chỗ cho chữ đó bám, nên nó rụng.
+Câu trên chỉ cần đọc lên là biết máy viết. Người Việt không kết câu bằng một âm tiết cụt như vậy. Viết tự nhiên thì nó phải đại loại là *"Câu này đúng ngữ pháp nhưng đọc lên thấy hụt hẫng"*.
 
-vi-humanizer là agent skill xoá dấu vết dịch máy trong tiếng Việt: những chữ rụng kiểu đó, cùng sáo ngữ và lỗi typography. Nó **không** phải bản dịch của skill humanizer tiếng Anh. Chữ *được* không có tương đương tiếng Anh, nên skill tiếng Anh không có khái niệm nào để gọi tên chỗ thiếu ấy.
+Hai chỗ lệch, cả hai đều nhỏ đến mức khó gọi tên. Chữ *hụt* rất hiếm khi đứng đơn ở nghĩa này, bình thường nó là một nửa của từ ghép: *hụt hẫng*, *hụt hơi*, *thiếu hụt*. Còn *mà* với *nhưng* thì gần nghĩa nhau, nhưng *nhưng* mới là lựa chọn mặc định của văn viết, *mà* nghiêng về khẩu ngữ.
+
+vi-humanizer là agent skill hướng dẫn AI viết tiếng Việt tự nhiên hơn: những từ ghép bị cắt cụt kiểu đó, những hư từ rụng mất, cùng sáo ngữ và lỗi typography. Nó **không** phải bản dịch của skill humanizer tiếng Anh, vì phần lớn lỗi ở đây sinh ra từ chính việc dịch từ tiếng Anh sang.
 
 ## Skill này phát hiện gì
 
-Chữ *được* thuộc lớp hư từ, lớp mà tiếng Việt bắt buộc có còn tiếng Anh thì không. Hàng loạt chỗ trống khác cùng cơ chế: *"Vì hệ thống chưa có cache, thời gian phản hồi tăng gấp ba"* mở bằng *Vì* mà không có vế *nên*; *"Cách xử lý đơn giản nhất tăng số worker"* thiếu chữ *là* nên hai danh ngữ dính liền.
+Cùng cơ chế đó lặp lại ở nhiều chỗ khác. *"Hệ thống này không giải quyết vấn đề tồn kho"* thiếu chữ *được*, mà bỏ *được* thì câu nghiêng sang nghĩa từ chối giải quyết. *"Vì hệ thống chưa có cache, thời gian phản hồi tăng gấp ba"* mở bằng *Vì* mà không có vế *nên*. *"Cách xử lý đơn giản nhất tăng số worker"* thiếu chữ *là* nên hai danh ngữ dính liền.
 
-Cả trang như vậy thì đúng ngữ pháp bề mặt mà cụt, hẫng, lạnh, dừng trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu. Skill gọi tên từng chỗ rồi trả lại chữ đã rụng.
+Model dựng khung câu theo tiếng Anh rồi thay từ vựng tiếng Việt vào. Câu nguồn không có chỗ cho những chữ đó bám nên chúng rụng, để lại câu đúng ngữ pháp bề mặt nhưng cụt, hẫng, lạnh, dừng trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu. Skill gọi tên từng chỗ rồi trả lại chữ đã rụng.
 
 **Lưu ý quan trọng về định vị:** skill này phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Đừng dùng kết quả như bằng chứng ai đó dùng AI.
 
@@ -101,7 +103,7 @@ Skill chia theo trục **lỗi ngôn ngữ** và **lỗi giọng**, không chia 
 - **Lỗi giọng** phụ thuộc hoàn toàn vào register. Cùng một cụm là tell chí mạng ở blog và là chuẩn mực bắt buộc ở công văn. Nhóm này nằm trong `profiles/`.
 
 ```
-SKILL.md                            cổng thể loại, lõi V1-V19, typography T1-T6, nhận diện
+SKILL.md                            cổng thể loại, lõi V1-V20, typography T1-T6, nhận diện
 profiles/blog-ca-nhan.md            B1-B17 + giọng và cá tính
 profiles/ky-thuat-doanh-nghiep.md   K1-K5 + lệnh cấm và điều chỉnh ngưỡng
 references/han-viet-thuan-viet.md   bảng tra 111 dòng + năm phép thử
@@ -116,7 +118,7 @@ Trước khi áp bất kỳ pattern nào, skill chạy một **cổng thể lo�
 
 ## Bộ pattern
 
-### Lõi: lỗi ngôn ngữ (V1–V19)
+### Lõi: lỗi ngôn ngữ (V1–V20)
 
 Hư từ rụng. Đây là nhóm không có tương đương trong bản tiếng Anh.
 
@@ -157,6 +159,12 @@ Song ngữ.
 |---|---|---|
 | V19 | Chêm tiếng Anh sai mật độ hoặc sai kiểu | "điện toán đám mây" ở chỗ dân trong ngành nói "cloud" |
 
+Từ ghép.
+
+| # | Pattern | Ví dụ |
+|---|---|---|
+| V20 | Từ ghép bị cắt còn một âm tiết | "đọc lên thấy hụt" → "thấy **hụt hẫng**" |
+
 ### Typography (T1–T6)
 
 Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typography đơn độc không đủ làm bằng chứng.
@@ -166,7 +174,7 @@ Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typograph
 | T1 | Viết hoa kiểu marketing | Tiếng Việt không có Title Case, nên đây là tell **mạnh hơn** |
 | T2 | Em dash và gạch ngang chú thích giữa câu | **Hẹp hơn hẳn.** Chỉ cấm `—`. `–` là gạch ngang chuẩn tiếng Việt |
 | T3 | Ngoặc kép không nhất quán | **Đảo hành vi.** Không ép về ngoặc thẳng, chỉ kiểm nhất quán |
-| T4 | Dấu phẩy Oxford và comma-and nối mệnh đề | Mới. Tiếng Việt không có Oxford comma. Nối mệnh đề thì dùng hư từ chứ không dùng *và* |
+| T4 | Dấu phẩy Oxford và comma-and nối mệnh đề | Mới. Tiếng Việt không có Oxford comma. Nối mệnh đề thì dùng hư từ, mặc định là *nhưng* |
 | T5 | Lạm dụng markdown | Thêm ba nét riêng của tiếng Việt |
 | T6 | Emoji | Giữ nguyên |
 
@@ -293,6 +301,7 @@ Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đ
 
 ## Lịch sử phiên bản
 
+- **0.4.0** – Bản vàng của người bản ngữ bắt hai lỗi trong đúng câu mở đầu vừa commit ở 0.3.0. Thêm **V20. Từ ghép bị cắt còn một âm tiết** (*hụt* thay vì *hụt hẫng*), anh em với V1 vì cùng cơ chế dịch phần đầu rồi dừng. Quan trọng hơn: bản vá T4 ở 0.2.2 nêu *mà* mà bỏ sót *nhưng*, khiến cả repo lệch gần 6:1 về *mà*, tức là xoá một tell rồi dựng lên một tell khác. Ba bản vá cấp phương pháp: cặp thay thế phải có điều kiện chọn chứ không phải danh sách phẳng, mỗi pattern có nguy cơ over-correction phải tự khai báo phanh, và Quy trình thêm bước 6 soi lại chính bản sửa của mình. Giao thức hiệu chuẩn thêm loại bằng chứng thứ tư: người bản ngữ nêu quy tắc ngôn ngữ học kèm instance, n=1 đủ nếu quy tắc kiểm chứng được.
 - **0.3.0** – Viết lại phần mở đầu README sau nhận xét "khô cứng, vô hồn, tối nghĩa". Bản mới mở bằng một câu lỗi thật rồi mới giải thích, thay vì mô tả hiện tượng bằng danh từ trừu tượng. Ba lỗi guard lộ ra từ lượt này, đều đã sửa: V14 trong profile kỹ thuật nới quá rộng nên câu mở đầu README cũ là danh ngữ trần mà sống sót qua hai lần chạy skill, giờ nới theo vị trí chứ không theo tài liệu; thêm **K4. Mô tả hiện tượng mà không đưa hiện tượng ra**, phanh đối xứng với quy tắc thanh ngữ vực, vì trung tính nói về giọng còn trừu tượng nói về độ cụ thể; mở ngoại lệ hẹp cho ngưỡng 15% khi cách chữa duy nhất là bổ sung ví dụ, với guard là ví dụ phải có sẵn trong repo chứ không sáng tác. K4 cũ đổi số thành K5.
 - **0.2.2** – Chạy skill lên toàn bộ 8 file nội dung của repo. Phát hiện T4 dính 25 chỗ trên 6 file, mà hai phần ba trong đó là comma-and nối hai mệnh đề độc lập chứ không phải Oxford comma. T4 bản cũ không mô tả nhánh này nên agent quét đúng regex mà không biết sửa thế nào. Tách T4 thành hai nhánh, thêm bảng chọn hư từ theo quan hệ (*nên* nhân quả, *mà* tương phản, *còn… thì* đối lập cục bộ, *rồi* nối tiếp). Thêm `scripts/scan-tells.sh` để tự soi bằng một lệnh thay vì dựng lại grep mỗi lần.
 - **0.2.1** – Chạy chính skill lên README. Sửa bốn lỗi ngôn ngữ (một em dash chú thích giữa câu vi phạm T2, "kết quả của nó" theo V7, "được xây mới" theo V16, một mệnh đề quan hệ thiếu ranh giới theo V3) và vá phần nội dung đã lệch so với repo: cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng Hán-Việt ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời. Thêm mục về vòng tự hiệu chuẩn (tính năng chính của 0.2.0 nhưng chưa có trong README) và cách cài một lệnh cho mọi harness bằng `--agent '*'`.

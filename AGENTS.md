@@ -12,7 +12,7 @@ Một agent skill viết hoàn toàn bằng Markdown, không có bước build. 
 
 | File | Vai trò |
 |---|---|
-| `SKILL.md` | Cổng thể loại, quy trình, lõi V1–V19, typography T1–T6, phần nhận diện. **Nguồn sự thật.** |
+| `SKILL.md` | Cổng thể loại, quy trình, lõi V1–V20, typography T1–T6, phần nhận diện. **Nguồn sự thật.** |
 | `profiles/blog-ca-nhan.md` | B1–B17, lỗi giọng cho văn có giọng |
 | `profiles/ky-thuat-doanh-nghiep.md` | K1–K5, chủ yếu là lệnh cấm và điều chỉnh ngưỡng |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt ↔ thuần Việt |
@@ -59,6 +59,7 @@ Skill này được thiết kế để một agent chạy lâu dài (ví dụ He
 1. **Bản vàng**: người dùng sửa lại output của skill. Đây là bằng chứng mạnh nhất.
 2. Văn bản người bản ngữ tự viết trong công việc, thu được khi skill được gọi.
 3. Nhận xét trực tiếp của người dùng về một pattern.
+4. **Người bản ngữ nêu một quy tắc ngôn ngữ học, kèm ít nhất một instance.** Khác hẳn ba loại trên: đây là phát biểu về *tiếng Việt*, không phải về *sở thích*. Ví dụ: "chữ *hụt* rất hiếm khi đứng đơn, bình thường nó là một nửa của từ ghép". Loại này **n=1 đủ để thêm pattern mới**, với điều kiện quy tắc kiểm chứng được độc lập bằng từ điển hoặc bằng khả năng đứng đơn của âm tiết. Kiểm chứng trước, đừng tin ngay.
 
 **Phân loại trước khi đụng vào skill.** Mỗi khác biệt giữa output và bản vàng rơi vào đúng một trong ba loại:
 
