@@ -1,189 +1,174 @@
 # vi-humanizer
 
-*"Câu này đúng ngữ pháp mà đọc lên thấy hụt."*
+`vi-humanizer` là agent skill dùng để biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc mang sáo ngữ không phù hợp với thể loại.
 
-Câu trên chỉ cần đọc lên là biết máy viết. Người Việt không kết câu bằng một âm tiết cụt như vậy. Viết tự nhiên thì nó phải đại loại là *"Câu này đúng ngữ pháp nhưng đọc lên thấy hụt hẫng"*.
+Ví dụ, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể sai với ý người viết. Nếu ý là đã thử nhưng chưa thành công, câu cần *“vẫn không giải quyết **được** vấn đề”*. Chữ *được* không làm câu trau chuốt hơn; nó hoàn tất nghĩa kết quả của động từ.
 
-Hai chỗ lệch, cả hai đều nhỏ đến mức khó gọi tên. Chữ *hụt* rất hiếm khi đứng đơn ở nghĩa này, bình thường nó là một nửa của từ ghép: *hụt hẫng*, *hụt hơi*, *thiếu hụt*. Còn *mà* với *nhưng* thì gần nghĩa nhau, nhưng *nhưng* mới là lựa chọn mặc định của văn viết, *mà* nghiêng về khẩu ngữ.
+Skill tập trung vào những lỗi như vậy. Nó không dùng vài dấu hiệu bề mặt để kết luận văn bản do AI viết, cũng không thay toàn bộ giọng tác giả bằng một kiểu “tự nhiên” chung cho mọi người.
 
-vi-humanizer là agent skill hướng dẫn AI viết tiếng Việt tự nhiên hơn: những từ ghép bị cắt cụt kiểu đó, những hư từ rụng mất, cùng sáo ngữ và lỗi typography. Nó **không** phải bản dịch của skill humanizer tiếng Anh, vì phần lớn lỗi ở đây sinh ra từ chính việc dịch từ tiếng Anh sang.
+## Phạm vi
 
-## Skill này phát hiện gì
+Skill xử lý ba lớp:
 
-Cùng cơ chế đó lặp lại ở nhiều chỗ khác. *"Hệ thống này không giải quyết vấn đề tồn kho"* thiếu chữ *được*, mà bỏ *được* thì câu nghiêng sang nghĩa từ chối giải quyết. *"Vì hệ thống chưa có cache, thời gian phản hồi tăng gấp ba"* mở bằng *Vì* mà không có vế *nên*. *"Cách xử lý đơn giản nhất tăng số worker"* thiếu chữ *là* nên hai danh ngữ dính liền.
+- V1–V20 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ hoặc đặt trạng ngữ gây mơ hồ.
+- B1–B17 và K1–K5 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
+- T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V20.
 
-Model dựng khung câu theo tiếng Anh rồi thay từ vựng tiếng Việt vào. Câu nguồn không có chỗ cho những chữ đó bám nên chúng rụng, để lại câu đúng ngữ pháp bề mặt nhưng cụt, hẫng, lạnh, dừng trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu. Skill gọi tên từng chỗ rồi trả lại chữ đã rụng.
+Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
 
-**Lưu ý quan trọng về định vị:** skill này phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Đừng dùng kết quả như bằng chứng ai đó dùng AI.
+Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
 
 ## Cài đặt
 
 ### Skills CLI
 
+Cài toàn cục:
+
 ```bash
 npx skills add fioenix/vi-humanizer --global
 ```
 
-Cập nhật:
+Cài cho mọi agent mà Skills CLI hỗ trợ:
 
 ```bash
-npx skills update vi-humanizer --global --yes
+npx skills add fioenix/vi-humanizer \
+  --skill vi-humanizer \
+  --agent '*' \
+  --global \
+  --yes
 ```
 
-Cài cho mọi agent harness trên máy trong một lệnh:
+Bỏ `--global` nếu muốn cài trong phạm vi dự án. Có thể xem skill mà CLI tìm được trước khi cài:
 
 ```bash
-npx skills add fioenix/vi-humanizer --skill vi-humanizer --global --agent '*' --yes
+npx skills add fioenix/vi-humanizer --list
 ```
 
-Lệnh này đặt một bản duy nhất ở `~/.agents/skills/vi-humanizer` rồi symlink cho khoảng 70 harness, nên về sau chỉ cần update một lần là mọi agent cùng lên bản mới. Vài harness không hỗ trợ cài global (Eve, PromptScript) sẽ báo lỗi và bị bỏ qua, phần còn lại vẫn cài bình thường.
-
-Bỏ `--global` để cài trong phạm vi dự án và commit cùng repo. Lưu ý: cờ `--global` phải khớp giữa lúc cài và lúc update. Cài global mà update thiếu `--global` thì CLI tìm trong lock của project hiện tại, không thấy nên báo lỗi `repository 'vi-humanizer' does not exist`.
+Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn. Cờ `--agent '*'` chọn mọi agent được hỗ trợ; cờ `--copy` buộc CLI sao chép file thay vì tạo liên kết tượng trưng.
 
 ### Claude Code plugin
 
-```
+```text
 /plugin marketplace add fioenix/vi-humanizer
 /plugin install vi-humanizer@vi-humanizer
 ```
 
-Gọi bằng `/vi-humanizer:vi-humanizer`.
+Sau khi cài, gọi skill bằng `/vi-humanizer:vi-humanizer`.
 
 ### Claude Desktop và claude.ai
 
-Hai chỗ này không đọc thư mục skill trên máy, chúng cần một file `.skill` để upload. Đóng gói bằng:
+Tạo file `.skill` bằng lệnh:
 
 ```bash
 ./scripts/package-skill.sh
 ```
 
-Ra `dist/vi-humanizer.skill`, kéo thả vào Claude Desktop hoặc upload trong phần Skills của claude.ai. Gói chỉ chứa phần runtime (`SKILL.md`, `profiles/`, `references/`, `calibration/`); README, AGENTS.md và manifest plugin không nằm trong đó.
+Kết quả nằm ở `dist/vi-humanizer.skill`. Gói gồm `SKILL.md`, `profiles/`, `references/` và `calibration/`; các file dành cho người bảo trì repo không được đưa vào gói.
 
-### Thủ công
+### Cài thủ công
 
-Runtime artifact là `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration/`. Chép cả cây thư mục vào thư mục skill của harness.
+Chép `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration/` vào thư mục skill của agent:
 
 ```bash
 git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
 ```
 
-## Dùng thế nào
+## Cách dùng
 
-```
+```text
 /vi-humanizer
 
-[dán văn bản vào đây]
+[văn bản cần biên tập]
 ```
 
-Trỏ vào file thì skill sửa tại chỗ:
+Khi cần sửa file, nêu rõ phạm vi:
 
+```text
+Dùng vi-humanizer để sửa phần văn xuôi trong docs/bai-viet.md.
+Giữ nguyên code, bảng tham số và các trích dẫn.
 ```
-Humanize phần văn xuôi trong docs/bai-viet.md
-```
 
-### Hiệu chỉnh theo giọng của bạn
+### Giữ giọng của một người cụ thể
 
-```
-/vi-humanizer
+Có thể đưa mẫu văn ngay trong yêu cầu:
 
-Đây là mẫu văn của tôi để bạn bắt giọng:
-[2-3 đoạn bạn tự viết]
+```text
+Đây là hai đoạn tôi tự viết:
+[mẫu văn]
 
-Giờ sửa đoạn này:
+Hãy sửa đoạn dưới theo cùng cách xưng hô, nhịp câu và mức độ trang trọng:
 [văn bản cần sửa]
 ```
 
-Mẫu văn **thắng mọi quy tắc trong skill**. Một người viết đúng chuẩn của họ không phải là một người viết sai.
+Mẫu văn chỉ được ưu tiên đối với thói quen xuất hiện nhất quán, như cách xưng hô, nhịp câu, cách chêm tiếng Anh hoặc dùng dấu câu. Nó không hợp thức hoá lỗi ngôn ngữ rõ ràng và không vượt qua bốn quy tắc chốt chặn trong `SKILL.md`.
+
+Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phong của đúng người dùng trước khi sửa. Hồ sơ này phải tách riêng theo người, chỉ lưu đặc tính cần thiết cho việc giữ giọng và luôn nhường chỗ cho yêu cầu hiện tại.
 
 ## Kiến trúc
 
-Skill chia theo trục **lỗi ngôn ngữ** và **lỗi giọng**, không chia theo chuyên đề.
+`SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
 
-- **Lỗi ngôn ngữ** sai ở cấp hư từ và cấu trúc câu. Là lỗi bất kể văn bản thuộc thể loại nào. Sửa chúng không đụng tới giọng người viết. Nhóm này nằm trong `SKILL.md`.
-- **Lỗi giọng** phụ thuộc hoàn toàn vào register. Cùng một cụm là tell chí mạng ở blog và là chuẩn mực bắt buộc ở công văn. Nhóm này nằm trong `profiles/`.
-
-```
-SKILL.md                            cổng thể loại, lõi V1-V20, typography T1-T6, nhận diện
-profiles/blog-ca-nhan.md            B1-B17 + giọng và cá tính
-profiles/ky-thuat-doanh-nghiep.md   K1-K5 + lệnh cấm và điều chỉnh ngưỡng
-references/han-viet-thuan-viet.md   bảng tra 111 dòng + năm phép thử
-references/bang-tra-cuu.md          bổ ngữ kết quả, cặp hô ứng, loại từ, checklist
-calibration/LOG.md                  bộ nhớ bằng chứng cho vòng tự hiệu chuẩn
-scripts/validate-package.py         kiểm đồng bộ, chạy trong CI
-scripts/package-skill.sh            đóng gói dist/vi-humanizer.skill
-scripts/scan-tells.sh               tự soi repo bằng nhóm pattern quét máy được
+```text
+SKILL.md                            quy trình, V1–V20, T1–T6 và cách trả kết quả
+profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhân
+profiles/ky-thuat-doanh-nghiep.md   K1–K5 và giới hạn của văn kỹ thuật, học thuật
+references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
+references/bang-tra-cuu.md          bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
+calibration/LOG.md                  bằng chứng dùng để sửa quy tắc chung
+agents/openai.yaml                  tên hiển thị và lời gọi mặc định
+scripts/validate-package.py         kiểm tra tính đồng bộ của gói
+scripts/package-skill.sh            tạo dist/vi-humanizer.skill
+scripts/scan-tells.sh               tìm những chỗ có thể rà bằng biểu thức chính quy
 ```
 
-Trước khi áp bất kỳ pattern nào, skill chạy một **cổng thể loại**. Sáu nhóm văn bản bị chặn hoàn toàn: pháp quy và hợp đồng, cổ phong và nghi lễ, tài liệu API và changelog, thơ, bản dịch có chủ đích, trích dẫn nguyên văn. Ở những thể loại đó, danh hoá, bị động và nhịp đối xứng là **yêu cầu thể loại**, không phải lỗi.
+Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong, nghi lễ, code, schema, bảng tham số và trích dẫn nguyên văn có những quy ước riêng nên bị loại khỏi phần biên tập tương ứng. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
 
-## Bộ pattern
+## Danh mục pattern
 
-### Lõi: lỗi ngôn ngữ (V1–V20)
+### Cách dùng từ và cấu trúc câu (V1–V20)
 
-Hư từ rụng. Đây là nhóm không có tương đương trong bản tiếng Anh.
-
-| # | Pattern | Ví dụ |
+| # | Pattern | Ví dụ hoặc phép kiểm tra |
 |---|---|---|
-| V1 | Thiếu bổ ngữ kết quả và hướng | "không giải quyết vấn đề" → "không giải quyết **được** vấn đề" |
-| V2 | Cặp liên từ hô ứng chỉ còn một vế | "Vì A, B" → "A **nên** B" |
-| V3 | Thiếu "là / thì / mà" ở ranh giới đề – thuyết | "Cách đơn giản nhất tăng số worker" → "... **là** tăng số worker" |
-| V4 | Rụng dấu thời – thể, hoặc rắc quá đều | thiếu hẳn "rồi / vẫn / còn / mới / chưa" trong đoạn kể việc |
-| V5 | Thiếu hoặc sai loại từ | "mua xe mới" → "mua **một chiếc** xe mới" |
-| V6 | Khung hỏi và cầu khiến sai | "Bạn có kế hoạch tuần sau?" → "Tuần sau anh có kế hoạch **gì chưa**?" |
-
-Khuôn tiếng Anh áp thẳng.
-
-| # | Pattern | Ví dụ |
-|---|---|---|
-| V7 | "của" thừa theo khuôn "of" | "hiệu suất của hệ thống" → "hiệu suất hệ thống" |
-| V8 | "các / những" rắc theo dấu số nhiều | "các thông tin", "các dữ liệu" |
-| V9 | Cụm giới từ nặng dịch một-một | "Với sự hỗ trợ từ đối tác" → "Đối tác hỗ trợ nên..." |
-| V10 | "một cách + tính từ", trạng ngữ Tây hoá | "xử lý một cách nhanh chóng" → "xử lý nhanh" |
-| V11 | Khung giả chủ ngữ "Điều... là" | "Điều quan trọng cần lưu ý là..." |
-| V12 | Trạng từ nối đầu câu ở mật độ tiếng Anh | "Hơn nữa, ... Ngoài ra, ... Bên cạnh đó, ..." |
-| V13 | Khung SVO cứng, không đưa đề lên đầu | "Tôi đã đọc cuốn sách này" → "Cuốn sách này tôi đọc rồi" |
-| V14 | Danh ngữ trần đứng làm câu | "Một hệ thống được thiết kế để..." |
-
-Chuỗi danh hoá. Quét theo cụm ba tầng, không quét lẻ.
-
-| # | Pattern | Ví dụ |
-|---|---|---|
-| V15 | Danh hoá thừa và động từ rỗng đỡ | "tiến hành thực hiện việc rà soát" → "rà soát" |
-| V16 | Bị động calque "được / bị ... bởi" | "được hoàn thành bởi phòng kế toán" → "phòng kế toán hoàn thành" |
-| V17 | Né hệ từ: "đóng vai trò là", "sở hữu" | "đóng vai trò là trung tâm" → "là trung tâm" |
-| V18 | Câu nhiều tầng lồng, lạm dụng "mà", "điều này" | cắt thành câu riêng |
-
-Song ngữ.
-
-| # | Pattern | Ví dụ |
-|---|---|---|
-| V19 | Chêm tiếng Anh sai mật độ hoặc sai kiểu | "điện toán đám mây" ở chỗ dân trong ngành nói "cloud" |
-
-Từ ghép.
-
-| # | Pattern | Ví dụ |
-|---|---|---|
-| V20 | Từ ghép bị cắt còn một âm tiết | "đọc lên thấy hụt" → "thấy **hụt hẫng**" |
+| V1 | Thiếu bổ ngữ kết quả và bổ ngữ hướng | *không giải quyết vấn đề* → *không giải quyết **được** vấn đề* khi ý là chưa thành công |
+| V2 | Cặp liên từ bị thiếu từ ở vế sau | *Vì A, B* → *Vì A **nên** B* nếu câu cần nói rõ quan hệ nhân quả |
+| V3 | Thiếu "là" trong câu định nghĩa hoặc lựa chọn | *Cách đơn giản nhất tăng worker* → *Cách đơn giản nhất **là** tăng worker* |
+| V4 | Thiếu hoặc lạm dụng từ chỉ thời gian và trạng thái | Xem câu có cần *đã, đang, rồi, vẫn, chưa* để phân biệt diễn biến hay không |
+| V5 | Thiếu hoặc sai loại từ | *nuôi ba mèo* → *nuôi ba **con** mèo* |
+| V6 | Câu hỏi hoặc lời nhờ không đúng ý định giao tiếp | Phân biệt câu hỏi có hoặc không với câu hỏi cần nội dung cụ thể |
+| V7 | "của" thừa trong cụm danh từ | *hiệu suất của hệ thống* → *hiệu suất hệ thống* nếu không có quan hệ sở hữu |
+| V8 | "các" và "những" được thêm theo dấu số nhiều | Bỏ khi số nhiều đã rõ và phạm vi không đổi |
+| V9 | Cụm giới từ dài do dịch sát | *trong quá trình kiểm tra* → *khi kiểm tra* nếu nghĩa giữ nguyên |
+| V10 | Trạng ngữ đặt ở vị trí gây khó hiểu | Chuyển vị trí khi người đọc không biết trạng ngữ bổ nghĩa cho hành động nào |
+| V11 | Câu dẫn không mang thêm thông tin | Bỏ *Điều quan trọng cần lưu ý là* nếu phần sau tự đứng được |
+| V12 | Lặp từ nối ở đầu câu | Xem lại chuỗi câu cùng mở bằng *Ngoài ra, Tuy nhiên, Do đó* |
+| V13 | Đoạn văn lặp cứng một kiểu mở câu | Chỉ sửa ở cấp đoạn khi khuôn lặp làm đứt mạch thông tin |
+| V14 | Danh ngữ đứng riêng như một câu | *Một giải pháp linh hoạt cho nhiều kho.* → viết thành câu hoặc dùng làm heading đúng chức năng |
+| V15 | Danh hoá thừa và động từ ít nội dung | *tiến hành thực hiện việc rà soát* → *rà soát* |
+| V16 | Câu bị động dịch sát "được / bị ... bởi" | *được hoàn thành bởi phòng kế toán* → *phòng kế toán hoàn thành* khi tác nhân là trọng tâm |
+| V17 | Dùng cụm dài thay cho "là" hoặc "có" | *đóng vai trò là trung tâm* → *là trung tâm* nếu không cần nhấn chức năng |
+| V18 | Câu lồng nhiều tầng, "mà" và "điều này" không rõ | Tách câu nhưng giữ nguyên chủ thể và quan hệ nhân quả |
+| V19 | Chêm tiếng Anh không hợp người đọc hoặc lĩnh vực | Giữ thuật ngữ theo cách dùng thật của cộng đồng, không tự thêm hoặc xoá đồng loạt |
+| V20 | Từ hoặc cụm từ bị thiếu một tiếng | *đọc lên thấy hụt* → *đọc lên thấy **hụt hẫng*** khi đúng với ý câu |
 
 ### Typography (T1–T6)
 
-Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typography đơn độc không đủ làm bằng chứng.
+| # | Pattern |
+|---|---|
+| T1 | Viết hoa theo kiểu tiêu đề tiếng Anh |
+| T2 | Em dash và gạch ngang chú thích giữa câu |
+| T3 | Ngoặc kép không nhất quán |
+| T4 | Dấu phẩy đứng trước "và" |
+| T5 | Định dạng thay cho cấu trúc câu |
+| T6 | Emoji |
 
-| # | Pattern | Khác gì bản tiếng Anh |
-|---|---|---|
-| T1 | Viết hoa kiểu marketing | Tiếng Việt không có Title Case, nên đây là tell **mạnh hơn** |
-| T2 | Em dash và gạch ngang chú thích giữa câu | **Hẹp hơn hẳn.** Chỉ cấm `—`. `–` là gạch ngang chuẩn tiếng Việt |
-| T3 | Ngoặc kép không nhất quán | **Đảo hành vi.** Không ép về ngoặc thẳng, chỉ kiểm nhất quán |
-| T4 | Dấu phẩy Oxford và comma-and nối mệnh đề | Mới. Tiếng Việt không có Oxford comma. Nối mệnh đề thì dùng hư từ, mặc định là *nhưng* |
-| T5 | Lạm dụng markdown | Thêm ba nét riêng của tiếng Việt |
-| T6 | Emoji | Giữ nguyên |
+Typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern V1–V20. Quy tắc này tránh việc skill thay đổi dấu câu hoặc định dạng chỉ vì sở thích.
 
-### Profile blog, cá nhân, công việc, marketing (B1–B17)
+### Blog, bài cá nhân, nội dung công việc và marketing (B1–B17)
 
 | # | Pattern |
 |---|---|
 | B1 | Sáo ngữ tôn vinh tầm quan trọng |
-| B2 | Ẩn dụ kho sẵn và calque thành ngữ tiếng Anh |
+| B2 | Ẩn dụ có sẵn và thành ngữ dịch sát từ tiếng Anh |
 | B3 | Mở bài dẫn dắt vòng vo |
 | B4 | Kết bài lạc quan sáo rỗng |
 | B5 | Song hành phủ định "không chỉ... mà còn" |
@@ -198,9 +183,9 @@ Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typograph
 | B14 | Rụng tiểu từ tình thái cuối câu |
 | B15 | Xưng hô lơ lửng và phẳng |
 | B16 | Giả thân mật |
-| B17 | Trộn register không chủ đích |
+| B17 | Trộn mức độ trang trọng không chủ đích |
 
-### Profile kỹ thuật, doanh nghiệp, học thuật (K1–K5)
+### Tài liệu kỹ thuật, doanh nghiệp và học thuật (K1–K5)
 
 | # | Pattern |
 |---|---|
@@ -210,104 +195,103 @@ Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typograph
 | K4 | Mô tả hiện tượng mà không đưa hiện tượng ra |
 | K5 | Câu dẫn nhập rỗng sau đề mục |
 
-Phần lớn profile này là **lệnh cấm**, không phải pattern: cấm chèn tiểu từ, cấm thêm giọng, cấm tạo chuỗi đồng nghĩa cho thuật ngữ, cấm thuần Việt hoá thuật ngữ Hán-Việt.
+Profile này còn yêu cầu không thêm tiểu từ, ý kiến hoặc ngôi thứ nhất; không thay thuật ngữ chỉ để tránh lặp; không thuần Việt hoá thuật ngữ đã được định nghĩa.
 
-## Ba chỗ skill này đi ngược bản tiếng Anh
+## Những điểm khác với skill humanizer tiếng Anh
 
-**1. Không bao giờ sửa câu chỉ vì nó lặp từ.** Bản tiếng Anh coi lặp danh từ là lỗi văn phong và chữa bằng từ đồng nghĩa. Tiếng Việt đơn lập, không có đại từ hồi chỉ tiện dụng như *it / they*, nên lặp nguyên danh từ là **phương thức liên kết chuẩn mực**. Mang ngưỡng chống lặp của tiếng Anh sang là chủ động tạo ra dịch tính. Thứ phải cắt là chuỗi đồng nghĩa (*doanh nghiệp → công ty → tổ chức → đơn vị*), không phải chuỗi lặp.
+**Lặp từ không tự động là lỗi.** Trong tài liệu kỹ thuật, một thuật ngữ cần được gọi nhất quán. Ở văn xuôi, việc lặp danh từ cũng có thể giúp người đọc biết câu sau vẫn nói về cùng đối tượng. Chỉ thay khi bản thân từ đang sai hoặc chuỗi đồng nghĩa làm đối tượng bị đổi tên liên tục.
 
-**2. Không cấm en dash.** Bản tiếng Anh cấm cả `—` và `–`. Trong tiếng Việt, `–` là gạch ngang chuẩn với bốn chức năng hợp lệ: lời thoại, liệt kê đầu dòng, cặp tên riêng (*quan hệ Việt – Trung*), khoảng (*2020 – 2025*). Bê nguyên quy tắc đó sang sẽ phá địa danh và mọi lời thoại, tức là hỏng nội dung chứ không phải hỏng phong cách.
+**En dash không bị cấm.** Dấu `–` có những chức năng hợp lệ trong tiếng Việt, như lời thoại, gạch đầu dòng, quan hệ giữa hai tên riêng và khoảng thời gian. T2 chỉ xem xét em dash `—` cùng các dấu ngang được dùng để chèn chú thích giữa câu.
 
-**3. Không ép ngoặc kép về dạng thẳng.** Word, Google Docs và macOS đều tự bo cong, mà đây lại là công cụ soạn thảo mặc định ở Việt Nam. Ép về ngoặc thẳng sẽ sửa hàng loạt văn bản người thật gõ. Chỉ kiểm tra nhất quán nội bộ.
+**Ngoặc kép không bị ép về một hình dạng duy nhất.** Word, Google Docs và hệ điều hành có thể tự chuyển ngoặc thẳng thành ngoặc cong. T3 kiểm tra sự nhất quán trong cùng văn bản, không sửa theo sở thích của công cụ.
 
-## Hai thứ bị loại khỏi skill có chủ đích
+## Những khác biệt chính tả không dùng để suy đoán tác giả
 
-**Dấu thanh kiểu cũ và kiểu mới** (*hòa / hoà*) và **quy tắc i/y** (*kỹ / kĩ*, *tỷ / tỉ*). QĐ 1989/QĐ-BGDĐT 2018 Điều 8 và 9 chỉ áp cho sách giáo khoa phổ thông; báo chí, doanh nghiệp và pháp quy dùng kiểu còn lại áp đảo. Đây là tranh chấp chuẩn mực giữa hai giới, không liên quan gì tới AI. Thêm nữa Điều 9.2 loại trừ tên riêng (*Nguyễn Vỹ*, *Thy Ngọc*), nên mọi quy tắc i/y tự động đều có nguy cơ sửa sai tên người.
+Skill không tự động chọn giữa dấu thanh kiểu cũ và mới, như *hòa / hoà*, hoặc giữa *i / y*, như *kĩ / kỹ*. Đây là khác biệt chuẩn chính tả và quy ước xuất bản. Skill chỉ giữ cách viết nhất quán trong phạm vi văn bản, trừ khi người dùng yêu cầu theo một chuẩn cụ thể.
 
-Chỉ giữ lại dưới dạng kiểm tra nhất quán nội bộ. Nguyên tắc: **nhất quán nội bộ, không áp chuẩn ngoài.**
+Khoảng trắng trước dấu câu, lỗi gõ và biến thể chính tả cũng không được dùng làm bằng chứng về tác giả. Có thể sửa chúng khi người dùng yêu cầu làm sạch văn bản, nhưng không suy ra ai đã viết.
 
-## Một tín hiệu chạy ngược chiều
+## Memory cá nhân và nhật ký hiệu chuẩn
 
-**Khoảng trắng trước dấu câu là bằng chứng người thật viết, không phải tell AI.** Mô hình gần như không sinh lỗi này; người gõ nhanh trên điện thoại thì có. Skill khai báo chiều tín hiệu này tường minh, vì để agent tự suy thì nó sẽ vừa kết luận ngược vừa sửa mất bằng chứng.
+Hai cơ chế này phục vụ hai mục đích khác nhau.
 
-## Skill tự hiệu chuẩn từ sử dụng thật
+### Memory hoặc knowledge base của agent
 
-Skill được thiết kế để một agent chạy lâu dài tự nâng cấp nó dựa trên cách người thật viết và sửa. Khi người dùng sửa lại bản rewrite, bản của họ là bản vàng: agent so hai bản, gọi tên pattern nào bắn sai và guard nào thiếu, ghi vào `calibration/LOG.md`, rồi mới đề xuất sửa skill.
+Đây là nơi phù hợp để lưu đặc tính riêng của một người dùng, nếu nền tảng và chính sách lưu trữ cho phép. Hồ sơ nên ngắn và chỉ chứa thông tin cần cho việc giữ giọng:
 
-Chỗ dễ hỏng nhất là gộp mọi khác biệt vào một rọ, nên giao thức bắt phân loại ba đường trước:
+- cách xưng hô;
+- nhịp và độ dài câu thường dùng;
+- mức dùng từ Hán-Việt;
+- cách chêm tiếng Anh;
+- thói quen viết hoa và dấu câu;
+- phạm vi áp dụng cùng một ví dụ ngắn.
 
-| Loại khác biệt | Đi đâu | Ngưỡng bằng chứng |
-|---|---|---|
-| Sở thích cá nhân | Voice memory của agent, **không vào skill** | không bao giờ |
-| Lỗi guard | Nới hoặc siết guard của pattern có sẵn | n=1 nếu lỗi gọi tên được |
-| Pattern mới | Thêm pattern, đúng khung bốn phần | n≥3 mẫu độc lập |
+Agent phải xác định đúng người trước khi nạp hồ sơ, không dùng hồ sơ của người này cho người khác và không lưu dữ kiện cá nhân không liên quan. Yêu cầu hiện tại luôn được ưu tiên hơn memory cũ.
 
-Không có entry trong log thì không được sửa skill: log là bộ nhớ bằng chứng, sửa mà không có nó là bịa. Pattern sinh ra theo đường này gắn nhãn "Quan sát từ sử dụng (n=…)", mạnh hơn suy luận nhưng yếu hơn corpus.
+### `calibration/LOG.md`
 
-Một hệ quả cần nói rõ: skill cài cho agent nào thì sẽ dần tune theo giọng của tổ chức đó. Với fork nội bộ thì đó là tính năng, nhưng ai cài từ ngoài cần biết. Giao thức đầy đủ nằm trong `AGENTS.md`.
+Đây là nhật ký bằng chứng dùng để bảo trì quy tắc chung của skill, không phải hồ sơ cá nhân. Chỉ ghi vào log khi phản hồi cho thấy:
 
-Ranh giới của cơ chế này: skill chỉ thấy những lượt nó được gọi. Muốn agent học từ chat thường ngày, phải thêm một chỉ dẫn ở tầng memory của chính agent, skill không tự làm được.
+- một pattern sửa nhầm câu vốn đúng;
+- mục **Không flag** còn thiếu trường hợp loại trừ;
+- skill bỏ sót một lỗi có thể gọi tên;
+- người bản ngữ nêu một quy tắc tiếng Việt có thể kiểm tra độc lập.
 
-## Nền tảng bằng chứng
+Khác biệt chỉ thuộc sở thích cá nhân không được đưa vào log. Nhờ ranh giới này, skill không âm thầm học giọng của một người rồi áp lên mọi người dùng khác.
 
-Không tồn tại nghiên cứu định lượng nào về dấu hiệu văn bản AI trong tiếng Việt ở cấp từ vựng hay cú pháp. Các công trình hiện có về phát hiện văn bản AI tiếng Việt chỉ dùng đặc trưng phân bố xác suất, không liệt kê pattern ngôn ngữ học nào.
+Quy trình đầy đủ nằm trong `AGENTS.md`.
 
-Khoảng một phần ba pattern trong skill có nguồn dẫn được; phần còn lại là **suy luận từ cơ chế sinh văn bản**, dựa trên đối chiếu ngữ pháp Anh – Việt. Nguồn quy phạm chắc chắn nhất nằm ở nhóm typography, mà phần lớn lại dùng để **loại bỏ** quy tắc khỏi skill chứ không phải để thêm vào.
+## Mức độ tin cậy và nguồn
 
-Mọi ngưỡng số trong skill là **chưa hiệu chuẩn trên corpus**. Đây là việc chính còn nợ: kiểm chứng trên corpus văn bản AI tiếng Việt thật. Trong lúc chưa có corpus, vòng hiệu chuẩn từ sử dụng thật đang gánh phần này.
+Mỗi quy tắc phải chỉ rõ nó dựa trên tài liệu, quan sát có bản đối chiếu trong `calibration/LOG.md` hay suy luận từ khác biệt giữa tiếng Anh và tiếng Việt. Repo chưa có bộ ngữ liệu đủ để đặt ngưỡng tần suất, nên số lần xuất hiện chỉ giúp tìm chỗ cần đọc lại.
 
-## Nguồn tham khảo
+### Nguồn quy phạm và học thuật
 
-Phân hạng theo độ tin cậy. Trộn nguồn quy phạm với bài blog rồi trình bày như nhau là bịa uy tín.
-
-### Hạng A: quy phạm và học thuật
-
-| Nguồn | Dùng cho |
+| Nguồn | Nội dung được dùng |
 |---|---|
-| [Nghị định 30/2020/NĐ-CP, Phụ lục II](https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/bieu-mau/55095/tong-hop-cac-phu-luc-ve-van-ban-hanh-chinh-moi-nhat-ban-hanh-kem-theo-nghi-dinh-30-2020) | Chuẩn viết hoa tên cơ quan tổ chức. Căn cứ cho T1 |
-| [Quyết định 1989/QĐ-BGDĐT 2018](https://thuvienphapluat.vn/van-ban/Giao-duc/Quyet-dinh-1989-QD-BGDDT-2018-quy-dinh-chinh-ta-Chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-445355.aspx) · [bản đối chiếu](https://hoatieu.vn/phap-luat/quyet-dinh-1989-qd-bgddt-2018-quy-dinh-chinh-ta-chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-214530) | Điều 8 và 9. Căn cứ để **loại** dấu thanh và i/y khỏi skill |
-| [ViDetect – arXiv:2405.03206](https://arxiv.org/abs/2405.03206) | Phát hiện văn bản AI tiếng Việt. **Không** cung cấp pattern ngôn ngữ học nào; dẫn để chứng minh khoảng trống nghiên cứu |
-| [VietBinoculars – arXiv:2509.26189](https://arxiv.org/pdf/2509.26189) | Như trên |
-| [A Survey on Zero Pronoun Translation – arXiv:2305.10196](https://arxiv.org/pdf/2305.10196) | Cơ sở cho quy tắc đảo chiều về đại từ hồi chỉ và pro-drop |
-| [Nghiên cứu dịch câu bị động Anh – Việt – i-jte.org](https://i-jte.org/index.php/journal/article/view/90) | V16. Lưu ý: khảo sát người dịch, không phải mô hình |
-| [Danh hoá động từ trong danh ngữ – Tạp chí Giáo dục](https://tcgd.tapchigiaoduc.edu.vn/index.php/tapchi/article/view/4322) | V15 |
-| [Cú pháp tiếng Việt nhìn từ ngữ pháp chức năng – VJOL](https://vjol.info.vn/index.php/tdm/article/download/93747/79245/) | V13, cấu trúc đề – thuyết |
-| [Tình thái từ – VOER](https://voer.edu.vn/c/tinh-thai-tu/4491bb06/712ccc96) | B14 |
-| [Tiểu từ tình thái và tính lịch sự – VUSTA](https://vusta.vn/mot-so-tieu-tu-tinh-thai-bieu-dat-tinh-lich-su-trong-hanh-dong-ngo-loi-bang-tieng-viet-p72715.html) | B14 |
-| [Loại từ CON và CÁI – ngonngu.org](http://ngonngu.org/Con_Cai.htm) | V5 |
+| [Nghị định 30/2020/NĐ-CP, Phụ lục II](https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/bieu-mau/55095/tong-hop-cac-phu-luc-ve-van-ban-hanh-chinh-moi-nhat-ban-hanh-kem-theo-nghi-dinh-30-2020) | Cách viết hoa tên cơ quan trong văn bản hành chính, dùng cho T1 |
+| [Quyết định 1989/QĐ-BGDĐT năm 2018](https://thuvienphapluat.vn/van-ban/Giao-duc/Quyet-dinh-1989-QD-BGDDT-2018-quy-dinh-chinh-ta-Chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-445355.aspx) | Điều 8 và 9, dùng để xác định phạm vi của dấu thanh và i/y |
+| [ViDetect, arXiv:2405.03206](https://arxiv.org/abs/2405.03206) | Nghiên cứu phát hiện văn bản AI tiếng Việt; không dùng làm danh sách pattern ngôn ngữ |
+| [VietBinoculars, arXiv:2509.26189](https://arxiv.org/abs/2509.26189) | Nghiên cứu phát hiện văn bản AI tiếng Việt; không dùng làm danh sách pattern ngôn ngữ |
+| [A Survey on Zero Pronoun Translation, arXiv:2305.10196](https://arxiv.org/abs/2305.10196) | Tham khảo về lược đại từ và dịch thuật |
+| [Nghiên cứu dịch câu bị động Anh–Việt](https://i-jte.org/index.php/journal/article/view/90) | Tham khảo cho V16; đối tượng nghiên cứu là người dịch |
+| [Danh hoá động từ trong danh ngữ](https://tcgd.tapchigiaoduc.edu.vn/index.php/tapchi/article/view/4322) | Tham khảo cho V15 |
+| [Cú pháp tiếng Việt nhìn từ ngữ pháp chức năng](https://vjol.info.vn/index.php/tdm/article/download/93747/79245/) | Tham khảo cho cấu trúc đề–thuyết ở V13 |
+| [Tình thái từ](https://voer.edu.vn/c/tinh-thai-tu/4491bb06/712ccc96) và [tiểu từ tình thái trong hành động ngỏ lời](https://vusta.vn/mot-so-tieu-tu-tinh-thai-bieu-dat-tinh-lich-su-trong-hanh-dong-ngo-loi-bang-tieng-viet-p72715.html) | Tham khảo cho B14 |
+| [Loại từ CON và CÁI](http://ngonngu.org/Con_Cai.htm) | Tham khảo cho V5 |
 
-### Hạng B: bách khoa và báo ngành
+### Nguồn trình bày lại và nguồn cộng đồng
 
-[Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (nguồn của skill tiếng Anh gốc) · [Null anaphora](https://en.wikipedia.org/wiki/Null_anaphora) · [Loại từ](https://vi.wikipedia.org/wiki/Lo%E1%BA%A1i_t%E1%BB%AB) · [Dấu gạch ngang](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_g%E1%BA%A1ch_ngang) · [Dấu ngoặc kép](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_ngo%E1%BA%B7c_k%C3%A9p) · [Quy tắc đặt dấu thanh](https://vi.wikipedia.org/wiki/Quy_t%E1%BA%AFc_%C4%91%E1%BA%B7t_d%E1%BA%A5u_thanh_c%E1%BB%A7a_ch%E1%BB%AF_Qu%E1%BB%91c_ng%E1%BB%AF) · [Từ thuần Việt](https://vi.wikipedia.org/wiki/T%E1%BB%AB_thu%E1%BA%A7n_Vi%E1%BB%87t) · [Phân biệt gạch ngang và gạch nối – Giáo dục TP.HCM](https://giaoduc.edu.vn/phan-biet-dau-gach-ngang-va-gach-noi/) · [Chuyển đổi từ Hán-Việt sang thuần Việt – Người Hà Nội](https://nguoihanoi.vn/chuyen-doi-tu-han-viet-sang-tu-thuan-viet-73914.html)
+Những nguồn dưới đây giúp tìm thuật ngữ hoặc ghi nhận hiện tượng, không được dùng riêng làm căn cứ quy phạm:
 
-### Hạng C: cộng đồng, chưa kiểm chứng
-
-Dùng để xác nhận hiện tượng tồn tại, **không** dùng làm căn cứ quy phạm. Phần lớn là bài hướng dẫn prompt của giới marketing.
-
-[Brands Vietnam – dấu hiệu nội dung viết bởi AI](https://help.brandsvietnam.com/vi/article/dau-hieu-nhan-biet-noi-dung-duoc-viet-boi-ai-3zy07d/) (nguồn tiếng Việt duy nhất liệt kê cụm từ cụ thể) · [VnReview](https://vnreview.vn/threads/6-prompt-bat-chatgpt-claude-ai-viet-nhu-nguoi-danh-cho-nganh-marketing-va-truyen-thong.83181/) · [QuanTriMang](https://quantrimang.com/prompt-giup-ai-viet-lai-noi-dung-tu-nhien-214919) · [TinAI](https://tinai.vn/ung-dung-ai/truyen-thong-va-marketing/cach-dung-ai-viet-content-chuan-seo-len-top-google.html) · [Mực Tím – Tuổi Trẻ](https://muctim.tuoitre.vn/nhung-cach-tan-dung-chatgpt-de-hoc-ngoai-ngu-101240829223938035.htm) · [Cặp quan hệ từ – HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html) · [Quan hệ từ – KidsUp](https://www.kidsup.net/quan-he-tu-la-gi/) · [Đề – Thuyết – Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/) · [Từ Hán-Việt và thuần Việt – RDSIC](https://rdsic.edu.vn/blog/blog-2/tu-han-viet-va-tu-thuan-viet-vi-cb.html) · [Biền ngẫu – Từ điển wiki](https://tudienwiki.com/bien-ngau/) · [Đối chiếu câu bị động Anh – Việt – Studocu](https://www.studocu.vn/vn/document/truong-dai-hoc-khoa-hoc-xa-hoi-va-nhan-van/ngon-ngu-hoc/doi-chieu-cau-bi-dong-trong-tieng-anh-va-tieng-viet/86106287) (tài liệu sinh viên, độ tin cậy trung bình)
+- [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+- [Wikipedia: Loại từ](https://vi.wikipedia.org/wiki/Lo%E1%BA%A1i_t%E1%BB%AB)
+- [Wikipedia: Dấu gạch ngang](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_g%E1%BA%A1ch_ngang)
+- [Wikipedia: Dấu ngoặc kép](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_ngo%E1%BA%B7c_k%C3%A9p)
+- [Phân biệt gạch ngang và gạch nối, Giáo dục TP.HCM](https://giaoduc.edu.vn/phan-biet-dau-gach-ngang-va-gach-noi/)
+- [Brands Vietnam: dấu hiệu nội dung viết bởi AI](https://help.brandsvietnam.com/vi/article/dau-hieu-nhan-biet-noi-dung-duoc-viet-boi-ai-3zy07d/)
+- [Cặp quan hệ từ, HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html)
+- [Đề–thuyết, Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/)
 
 ### Nguồn còn thiếu
 
-Hai nguồn hạng C đang gánh nội dung vốn thuộc hạng A và cần được thay bằng nguồn gốc:
-
-- **Lý thuyết đề – thuyết** (V3, V13) hiện dẫn một trang trình bày lại công trình của Cao Xuân Hạo. Cần trích trực tiếp công trình gốc.
-- **Đối chiếu bị động Anh – Việt** (V16) hiện dẫn tài liệu sinh viên. Cần thay bằng nghiên cứu công bố.
-
-Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đây thay vì giấu đi.
+- V3 và V13 cần thêm nguồn gốc về lý thuyết đề–thuyết thay cho các bài trình bày lại.
+- V16 cần thêm nghiên cứu công bố trực tiếp về đối chiếu câu bị động Anh–Việt.
 
 ## Lời cảm ơn
 
-Ý tưởng đóng gói, hợp đồng bảo trì và cấu trúc "before / after / không được flag khi" học từ [blader/humanizer](https://github.com/blader/humanizer), skill humanizer tiếng Anh dựa trên hướng dẫn của WikiProject AI Cleanup. Bộ pattern tiếng Việt thì xây mới hoàn toàn.
+Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tham khảo [blader/humanizer](https://github.com/blader/humanizer) cùng hướng dẫn của WikiProject AI Cleanup. Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
-- **0.4.0** – Bản vàng của người bản ngữ bắt hai lỗi trong đúng câu mở đầu vừa commit ở 0.3.0. Thêm **V20. Từ ghép bị cắt còn một âm tiết** (*hụt* thay vì *hụt hẫng*), anh em với V1 vì cùng cơ chế dịch phần đầu rồi dừng. Quan trọng hơn: bản vá T4 ở 0.2.2 nêu *mà* mà bỏ sót *nhưng*, khiến cả repo lệch gần 6:1 về *mà*, tức là xoá một tell rồi dựng lên một tell khác. Ba bản vá cấp phương pháp: cặp thay thế phải có điều kiện chọn chứ không phải danh sách phẳng, mỗi pattern có nguy cơ over-correction phải tự khai báo phanh, và Quy trình thêm bước 6 soi lại chính bản sửa của mình. Giao thức hiệu chuẩn thêm loại bằng chứng thứ tư: người bản ngữ nêu quy tắc ngôn ngữ học kèm instance, n=1 đủ nếu quy tắc kiểm chứng được.
-- **0.3.0** – Viết lại phần mở đầu README sau nhận xét "khô cứng, vô hồn, tối nghĩa". Bản mới mở bằng một câu lỗi thật rồi mới giải thích, thay vì mô tả hiện tượng bằng danh từ trừu tượng. Ba lỗi guard lộ ra từ lượt này, đều đã sửa: V14 trong profile kỹ thuật nới quá rộng nên câu mở đầu README cũ là danh ngữ trần mà sống sót qua hai lần chạy skill, giờ nới theo vị trí chứ không theo tài liệu; thêm **K4. Mô tả hiện tượng mà không đưa hiện tượng ra**, phanh đối xứng với quy tắc thanh ngữ vực, vì trung tính nói về giọng còn trừu tượng nói về độ cụ thể; mở ngoại lệ hẹp cho ngưỡng 15% khi cách chữa duy nhất là bổ sung ví dụ, với guard là ví dụ phải có sẵn trong repo chứ không sáng tác. K4 cũ đổi số thành K5.
-- **0.2.2** – Chạy skill lên toàn bộ 8 file nội dung của repo. Phát hiện T4 dính 25 chỗ trên 6 file, mà hai phần ba trong đó là comma-and nối hai mệnh đề độc lập chứ không phải Oxford comma. T4 bản cũ không mô tả nhánh này nên agent quét đúng regex mà không biết sửa thế nào. Tách T4 thành hai nhánh, thêm bảng chọn hư từ theo quan hệ (*nên* nhân quả, *mà* tương phản, *còn… thì* đối lập cục bộ, *rồi* nối tiếp). Thêm `scripts/scan-tells.sh` để tự soi bằng một lệnh thay vì dựng lại grep mỗi lần.
-- **0.2.1** – Chạy chính skill lên README. Sửa bốn lỗi ngôn ngữ (một em dash chú thích giữa câu vi phạm T2, "kết quả của nó" theo V7, "được xây mới" theo V16, một mệnh đề quan hệ thiếu ranh giới theo V3) và vá phần nội dung đã lệch so với repo: cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng Hán-Việt ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời. Thêm mục về vòng tự hiệu chuẩn (tính năng chính của 0.2.0 nhưng chưa có trong README) và cách cài một lệnh cho mọi harness bằng `--agent '*'`.
-- **0.2.0** – Giao thức tự nâng cấp cho agent chạy lâu dài: vòng phản hồi trong SKILL.md (bản người dùng sửa lại là bản vàng), giao thức hiệu chuẩn trong AGENTS.md (phân loại sở thích cá nhân / lỗi guard / pattern mới, ngưỡng bằng chứng, nhãn "Quan sát từ sử dụng"), và `calibration/LOG.md` làm bộ nhớ bằng chứng với entry mẫu đầu tiên. Skill cài cho agent nào thì sẽ dần tune theo cách viết của tổ chức đó; changelog phải ghi nhận điều này.
-- **0.1.1** – Tự áp skill lên chính văn bản của skill: bỏ toàn bộ em dash và các cụm dịch tính trong phần giải thích. Hiệu chỉnh từ vòng feedback thực tế đầu tiên: thêm quy tắc thanh ngữ vực (hạ giọng quá tay cũng là lỗi, như thổi phồng), V19 thêm chiều sửa chủ động (trả thuật ngữ bị dịch sạch về jargon: "đội ngũ kỹ thuật" → "team dev" trong tài liệu nội bộ IT), nới guard V9 và K2 cho tiếng Việt công sở (cụm mục đích và cụm "nâng cao hiệu quả X" có bổ ngữ cụ thể là bình thường trong báo cáo doanh nghiệp).
-- **0.1.0** – Bản đầu. 19 pattern lõi, 6 pattern typography, 2 profile với 21 pattern, 2 file tham chiếu. Cổng thể loại chạy trước mọi pattern. Ba chỗ đi ngược bản tiếng Anh: quy tắc lặp từ, en dash, ngoặc kép. Loại dấu thanh cũ/mới và i/y khỏi skill có chủ đích.
+- **0.5.0** – Viết lại toàn bộ tài liệu theo `SKILL.md`; bỏ các ngưỡng chưa hiệu chỉnh và những kết luận tuyệt đối; tách hồ sơ văn phong cá nhân sang memory hoặc knowledge base của agent; xác định `calibration/LOG.md` chỉ là nhật ký bằng chứng cho quy tắc dùng chung; đồng bộ lại profile, bảng tra, manifest và script quét.
+- **0.4.0** – Thêm V20 để xử lý từ hoặc cụm từ bị thiếu một tiếng; sửa quy trình tự kiểm tra để tránh dùng lặp một cách chữa; mở rộng giao thức tiếp nhận quy tắc tiếng Việt do người bản ngữ nêu ra.
+- **0.3.0** – Viết lại phần mở đầu README; bổ sung K4 về đoạn giải thích thiếu ví dụ và đổi pattern câu dẫn nhập thành K5.
+- **0.2.2** – Mở rộng T4 cho dấu phẩy đứng trước *và*; thêm `scripts/scan-tells.sh`.
+- **0.2.1** – Tự áp skill lên README; sửa lỗi diễn đạt và đồng bộ phần mô tả cấu trúc repo.
+- **0.2.0** – Thêm giao thức hiệu chuẩn bằng phản hồi thực tế và `calibration/LOG.md`.
+- **0.1.1** – Bổ sung các trường hợp loại trừ cho văn bản doanh nghiệp và thuật ngữ nội bộ.
+- **0.1.0** – Bản đầu gồm V1–V19, T1–T6, B1–B17, K1–K4 và hai file tham chiếu.
 
 ## Giấy phép
 

@@ -1,14 +1,14 @@
-# Bảng tra: hư từ và cấu trúc
+# Bảng tra hư từ và cấu trúc câu
 
-Bảng chi tiết cho các pattern lõi trong `SKILL.md`. Nạp khi cần tra cụ thể, không cần đọc toàn bộ.
+File này bổ sung ví dụ cho một số pattern trong `SKILL.md`. Chỉ đọc mục liên quan khi cần tra cứu; mọi quyết định sửa vẫn phải theo phần **Không flag** của pattern gốc.
 
 ---
 
 ## Bổ ngữ kết quả và bổ ngữ hướng (V1)
 
-Tiếng Anh mã hoá kết quả bằng cặp động từ riêng hoặc bằng particle. Tiếng Việt mã hoá bằng một bổ ngữ bám ngay sau động từ. Model dịch động từ chính rồi dừng, phần kết quả rơi mất.
+Tiếng Anh có thể phân biệt hành động và kết quả bằng hai động từ khác nhau hoặc bằng particle. Tiếng Việt thường dùng một từ đứng sau động từ để nói rõ kết quả hoặc hướng. Khi dịch sát động từ chính, từ đi kèm này dễ bị bỏ sót.
 
-| Model viết | Tiếng Việt cần | Tiếng Anh nguồn |
+| Câu cần xem lại | Cách viết đủ nghĩa | Nghĩa tiếng Anh thường gặp |
 |---|---|---|
 | không giải quyết vấn đề | không giải quyết **được** vấn đề | cannot solve |
 | tìm nguyên nhân | tìm **ra** nguyên nhân | find (vs. look for) |
@@ -33,19 +33,19 @@ Tiếng Anh mã hoá kết quả bằng cặp động từ riêng hoặc bằng 
 | mất | tiêu hao, biến mất |
 | lên, xuống, vào, ra, đi, lại, tới | hướng |
 
-**Nhóm động từ rơi rụng nhiều nhất:** nghe, nhìn, tìm, nhớ, hiểu, biết. Tiếng Anh phân biệt chúng bằng cặp động từ khác nhau (look/see, listen/hear) chứ không bằng phụ tố, nên không có gì trong câu nguồn kích hoạt bổ ngữ tiếng Việt.
+**Nhóm động từ cần xem kỹ:** *nghe, nhìn, tìm, nhớ, hiểu, biết*. Tiếng Anh thường phân biệt các nghĩa như *look/see* hoặc *listen/hear* bằng động từ khác nhau, còn tiếng Việt có thể cần *thấy, ra, được* đứng sau động từ.
 
-**Ở câu phủ định, bổ ngữ gần như bắt buộc.** *"Không giải quyết vấn đề"* nghe như từ chối giải quyết; *"không giải quyết được vấn đề"* mới là ý thật.
+**Câu phủ định dễ đổi nghĩa khi thiếu bổ ngữ.** *“Không giải quyết vấn đề”* có thể được hiểu là không thực hiện việc giải quyết; *“không giải quyết được vấn đề”* nói đến việc đã cố nhưng chưa thành công. Chỉ thêm *được* khi ngữ cảnh mang nghĩa thứ hai.
 
-**Đừng nhồi.** Chỉ thêm ở chỗ ngữ cảnh thật sự hàm ý kết quả. Câu mô tả hành động lặp lại, thói quen, năng lực chung hoặc chức năng hệ thống thì động từ đứng trơ là đúng.
+**Không thêm theo khuôn.** Chỉ bổ sung khi ngữ cảnh thật sự nói đến kết quả. Trong câu mô tả hành động lặp lại, thói quen, năng lực chung hoặc chức năng hệ thống, động từ không cần từ chỉ kết quả.
 
 ---
 
-## Cặp liên từ hô ứng (V2)
+## Cặp từ nối tương ứng (V2)
 
-Tiếng Anh đánh dấu một đầu quan hệ và dùng dấu phẩy làm ranh giới. Tiếng Việt đánh dấu cả hai đầu.
+Tiếng Việt thường dùng hai từ ở hai vế để làm rõ quan hệ nhân quả, điều kiện, nhượng bộ hoặc tăng tiến. Tuy vậy, một đầu của cặp vẫn có thể được lược bỏ nếu quan hệ đã rõ.
 
-| Vế đầu | Vế sau bắt buộc hoặc mặc định |
+| Vế đầu | Từ thường dùng ở vế sau |
 |---|---|
 | Vì, Bởi vì, Do, Nhờ | nên, mà |
 | Tuy, Mặc dù, Dù | nhưng, vẫn |
@@ -56,23 +56,23 @@ Tiếng Anh đánh dấu một đầu quan hệ và dùng dấu phẩy làm ranh
 | Vừa | vừa |
 | Bao nhiêu | bấy nhiêu |
 
-**Dấu hiệu phụ:** chỗ đáng lẽ có vế sau lại là một **dấu phẩy trơ**. Dấu phẩy đó chính là dấu vết của comma sau mệnh đề phụ trong tiếng Anh.
+**Dấu hiệu cần xem lại:** câu mở bằng một từ trong cột trái, ngắt bằng dấu phẩy rồi đi thẳng sang vế sau khiến quan hệ bị hẫng hoặc mơ hồ. Bản thân dấu phẩy không phải lỗi.
 
-**Ba cách chữa, theo thứ tự tự nhiên giảm dần:**
+**Ba cách sửa có thể dùng:**
 
-1. **Bỏ vế đầu, giữ vế sau.** Tiếng Việt cho phép đề điều kiện đứng trần. *"Nếu tình trạng này kéo dài, chúng tôi phải mở rộng"* → *"Tình trạng này kéo dài **thì** chúng tôi phải mở rộng."* Đây là lựa chọn model gần như không bao giờ đưa ra, nên nó vừa là cách sửa vừa là dấu hiệu nhận biết.
+1. **Bỏ từ mở đầu và giữ từ ở vế sau.** *“Nếu tình trạng này kéo dài, chúng tôi phải mở rộng”* → *“Tình trạng này kéo dài **thì** chúng tôi phải mở rộng.”*
 2. **Bổ sung vế sau** theo bảng trên.
 3. **Đổi sang liên từ nhẹ hơn.** *"Mặc dù A nhưng B"* → *"A mà B"*.
 
-**Với cặp nhượng bộ, gần như luôn cần thêm *vẫn* hoặc *còn* ở vế sau,** không chỉ *nhưng*. *"Tuy A nhưng B"* nghe hụt; *"Tuy A nhưng B vẫn..."* mới đóng ý.
+**Với quan hệ nhượng bộ,** *vẫn* hoặc *còn* có thể giúp nói rõ điều trái với dự kiến: *“Tuy trời mưa nhưng cửa hàng vẫn mở.”* Không thêm nếu vế sau đã hoàn chỉnh và quan hệ đã rõ.
 
-**Chỉ tính là tell khi lặp lại trong đoạn.** Một câu lẻ không nói lên gì. Nếu ba bốn câu liên tiếp đều theo khuôn "Liên từ + mệnh đề, mệnh đề" thì đó là dấu vết cấu trúc, phá khuôn bằng cách trộn ba cách chữa ở trên.
+Một câu lẻ có thể là cách lược từ tự nhiên. Khi cùng một khuôn xuất hiện nhiều lần, đọc từng câu để xác định quan hệ có bị thiếu hay không; không thay đổi chỉ để làm cấu trúc đa dạng.
 
 ---
 
 ## Loại từ (V5)
 
-Tiếng Anh cá thể hoá danh từ bằng mạo từ và số nhiều. Tiếng Việt dùng loại từ. Model ánh xạ *a* thành *một* rồi dừng, không biết tiếng Việt còn cần *một **chiếc** xe*.
+Tiếng Anh dùng mạo từ và số nhiều để xác định danh từ. Tiếng Việt có thể cần loại từ khi nói đến một cá thể cụ thể. Nếu chỉ dịch *a* thành *một*, câu có thể thiếu phần như *một **chiếc** xe*.
 
 | Loại từ | Dùng cho | Ví dụ |
 |---|---|---|
@@ -94,7 +94,7 @@ Tiếng Anh cá thể hoá danh từ bằng mạo từ và số nhiều. Tiếng
 
 Nếu (1) đúng và (2) là cá thể thì cần loại từ, bất kể (3).
 
-**Chiều ngược lại cũng là lỗi: xoá loại từ khi danh từ dùng ở nghĩa khái quát.** *"Xe là phương tiện chủ yếu ở đô thị"* không cần *chiếc*. Thêm vào đây là over-edit.
+**Không thêm loại từ khi danh từ mang nghĩa khái quát.** *“Xe là phương tiện chủ yếu ở đô thị”* không cần *chiếc*. Sửa theo hướng này sẽ làm câu sai nghĩa.
 
 **Không thêm loại từ cho:** danh từ trừu tượng (hiệu suất, chiến lược, rủi ro), danh từ khối (nước, thời gian, dữ liệu), thuật ngữ kỹ thuật (server, container, endpoint, API), danh mục và bảng biểu, tiêu đề. Cũng không thêm khi đã có số đếm cộng đơn vị đo ("ba gigabyte", "hai tiếng").
 
@@ -119,7 +119,7 @@ Chỉ dùng cho `profiles/blog-ca-nhan.md`. **Không bao giờ chèn vào văn b
 
 **Chỉ gắn tiểu từ ở câu mang hành động lời nói rõ rệt** (khuyên, nhờ, rủ, khẳng định, đồng tình, trấn an, hỏi lại), không phải mọi câu.
 
-**Mật độ: 1 trên 3–5 câu.** Dày hơn là nhại giọng.
+Không đặt mật độ chung cho mọi đoạn. Chỉ thêm tiểu từ vào câu có hành động lời nói rõ và phù hợp với mẫu văn; dùng lặp lại ở nhiều câu liên tiếp dễ thành nhại giọng.
 
 **Khi gắn tiểu từ, thường phải bỏ bớt trợ động từ nặng ở giữa câu** (*nên, hãy, sẽ*) vì tiểu từ đã gánh chức năng đó. Giữ cả hai thì câu bị lặp nghĩa tình thái.
 
@@ -148,36 +148,31 @@ Câu kết thúc bằng dấu hỏi mà **không có** từ để hỏi và **kh
 | nhé | nhẹ, lịch sự |
 | giúp, hộ, với | nhờ vả |
 
-**"Vui lòng" chỉ dùng cho thông báo hệ thống, giao diện phần mềm và biển báo.** Trong văn bản giữa người với người, thay bằng cấu trúc nhờ có xưng hô: *"Vui lòng gửi lại file trước 5 giờ"* → *"Anh gửi lại file cho em trước 5 giờ nhé."*
+**“Vui lòng” phù hợp với giao diện, biển báo, thông báo và thư từ trang trọng.** Trong một cuộc hội thoại thân mật, có thể đổi sang lời nhờ phù hợp với cách xưng hô đã có. Không tự gán *anh, chị, em* nếu chưa biết quan hệ giữa hai bên.
 
-Sau khi dựng lại khung hỏi, cân nhắc đưa xưng hô về cuối câu: *"Báo cáo xong chưa anh?"* Vị trí này rất tự nhiên trong hội thoại tiếng Việt và model không bao giờ chọn.
+Sau khi dựng lại câu hỏi, có thể đặt từ xưng hô ở cuối câu nếu đúng với mẫu hội thoại, chẳng hạn *“Báo cáo xong chưa anh?”* Đây là một lựa chọn tự nhiên, không phải khuôn bắt buộc.
 
 ---
 
-## Checklist chẩn đoán nhanh
+## Câu hỏi chẩn đoán nhanh
 
-Chạy theo thứ tự. Mỗi câu trả lời "có" là một điểm. Từ 4 điểm trở lên thì đoạn văn gần như chắc chắn có dịch tính cấu trúc, không chỉ là văn khô.
+Danh sách này dùng để tìm chỗ cần đọc lại, không dùng để chấm điểm hoặc kết luận văn bản do ai viết.
 
-**Đếm được, làm trước:**
+1. Câu mở bằng *vì, do, tuy, mặc dù, nếu, hễ, không những* có thiếu từ nối cần thiết ở vế sau không? → V2
+2. *Các* hoặc *những* có làm rõ phạm vi, hay chỉ lặp dấu số nhiều đã có sẵn? → V8
+3. Nhiều câu liên tiếp có cùng mở bằng *Hơn nữa, Ngoài ra, Tuy nhiên, Do đó, Bên cạnh đó* dù quan hệ đã rõ không? → V12
+4. Chữ *của* đang chỉ sở hữu hoặc nguồn gốc, hay chỉ nối hai danh từ có thể ghép trực tiếp? → V7
+5. Cụm *trong quá trình, với sự, trên cơ sở, nhằm mục đích, tại thời điểm* có thể rút gọn mà không đổi nghĩa không? → V9
+6. Câu hỏi có đúng loại thông tin người viết muốn nhận không? Lời nhờ có phù hợp với quan hệ và mức độ trang trọng không? → V6
+7. Trạng ngữ đang bổ nghĩa rõ cho hành động nào, hay vị trí của nó tạo hai cách hiểu? → V10
+8. Câu khuyên, nhờ hoặc rủ trong hội thoại có cứng hơn giọng chung của người viết không? → B14
+9. Trong đoạn kể việc, người đọc có phân biệt được việc đã xong, đang diễn ra và chưa xảy ra không? → V4
+10. Nhiều câu liên tiếp có lặp một kiểu mở câu khiến mạch thông tin bị đứt không? → V13
+11. Có danh ngữ nào được đặt dấu chấm như một câu trong phần văn xuôi không? → V14
+12. *Nó, điều này, việc này* có trỏ rõ về một đối tượng hoặc mệnh đề không? → V18
+13. Câu định nghĩa hoặc nêu lựa chọn có thiếu *là* không? → V3
+14. Động từ có thiếu từ chỉ kết quả hoặc hướng mà ngữ cảnh đang cần không? → V1
+15. Danh từ chỉ vật thể cụ thể sau số đếm có thiếu hoặc dùng sai loại từ không? → V5
+16. Cách xưng hô có thay đổi mà ngữ cảnh không giải thích được không? → B15
 
-1. Có câu nào mở đầu bằng *Vì / Do / Tuy / Mặc dù / Nếu / Hễ / Không những* mà thiếu vế hô ứng không? → V2
-2. Có câu nào chứa *các* từ ba lần trở lên? Có *các* đứng trước danh từ trừu tượng? → V8
-3. Số câu mở đầu bằng *Hơn nữa / Ngoài ra / Tuy nhiên / Do đó / Bên cạnh đó* có vượt một phần ba số câu trong đoạn không? → V12
-4. Có chuỗi *danh từ + của + danh từ* nào mà cả hai đều trừu tượng? Có hai *của* trong cùng một danh ngữ? → V7
-5. Có cụm *thông qua / trong quá trình / với sự / trên cơ sở / nhằm mục đích / tại thời điểm* đứng đầu câu không? → V9
-6. Có câu kết thúc bằng dấu hỏi mà không có từ để hỏi và không có khung hỏi? Có *Vui lòng* trong văn bản giữa người với người? → V6
-7. Có *một cách + tính từ* không? → V10
-8. Trong văn hội thoại hoặc email, có **bất kỳ** tiểu từ nào không? Đếm được số không là tín hiệu mạnh. → B14
-9. Trong một đoạn kể việc, có bao nhiêu từ thuộc nhóm *rồi / vẫn / còn / mới / sắp / chưa / từng*? Bằng không là dấu vết. → V4
-
-**Cần đọc mới thấy:**
-
-10. Đọc mười câu đầu. Bao nhiêu câu mở đầu bằng chủ thể hành động? Trên bốn phần sáu là dấu vết SVO. → V13
-11. Có câu nào chỉ là một danh ngữ, không vị ngữ, nằm giữa dòng văn xuôi? → V14
-12. Có *nó* hoặc *điều này* lặp từ hai lần trở lên trong ba câu liên tiếp? → quy tắc đảo chiều
-13. Có danh ngữ nào ghép hai danh từ liền nhau ở chỗ đáng lẽ phải có *là*? Có mệnh đề trạng ngữ mở đầu nối thẳng vào mệnh đề chính mà không có *thì*? → V3
-14. Có động từ nhận thức hoặc hành động nào đứng trơ trong ngữ cảnh hàm ý kết quả? → V1
-15. Danh từ chỉ vật thể cụ thể có đứng trần sau số đếm hoặc sau động từ? → V5
-16. Đếm số cặp xưng hô khác nhau trong cùng một văn bản. Trên một cặp mà không giải thích được là có vấn đề. → B15
-
-**Test cuối, làm bằng tai.** Đọc to đoạn văn. Đánh dấu mọi chỗ hụt hơi, mọi chỗ muốn ngắt mà chữ không cho ngắt, mọi chỗ câu kết thúc mà đầu vẫn còn chờ. Mỗi chỗ như vậy là một hư từ bị thiếu. Test này bắt được những gì mười sáu câu hỏi trên bỏ sót.
+Cuối cùng, đọc thành tiếng để tìm chỗ khó ngắt hoặc chỗ câu kết thúc khi ý chưa khép lại. Đây chỉ là cách phát hiện thêm nghi vấn; phải đối chiếu với pattern và mục **Không flag** trước khi sửa.

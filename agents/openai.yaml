@@ -1,4 +1,4 @@
 interface:
   display_name: "vi-humanizer"
-  short_description: "Xoá dấu vết dịch máy trong văn bản tiếng Việt"
-  default_prompt: "Dùng $vi-humanizer để sửa đoạn này cho tự nhiên như người Việt viết, giữ nguyên thông tin và không thêm dữ kiện mới."
+  short_description: "Biên tập tiếng Việt theo đúng thể loại và giọng người viết"
+  default_prompt: "Dùng $vi-humanizer để biên tập đoạn này. Giữ nguyên thông tin, đúng thể loại và không làm mất giọng riêng của người viết."
