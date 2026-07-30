@@ -1,10 +1,10 @@
-# Bảng tra: Hán-Việt ↔ thuần Việt
+# Bảng tra từ Hán-Việt và từ thuần Việt
 
 Dùng cho V15 và V17 trong `SKILL.md`, cho B9 trong `profiles/blog-ca-nhan.md`.
 
-> **Cảnh báo bắt buộc đọc trước.** Bảng này **không phải danh sách find-and-replace.** Cột thứ ba là phần chịu lực. Chạy hai cột đầu như tìm-và-thay sẽ biến hợp đồng thành văn nói và biến bệnh án thành lời kể. Nếu điều kiện ở cột ba đúng thì không được sửa, bất kể văn bản nghe trang trọng đến đâu.
+> **Đọc trước khi dùng.** Đây không phải danh sách tìm và thay. Cột thứ ba nêu những trường hợp phải giữ từ Hán-Việt. Bỏ qua cột này có thể biến hợp đồng thành văn nói hoặc làm sai thuật ngữ trong bệnh án.
 
-Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm phần rất lớn vốn từ tiếng Việt. Mục tiêu là chỉnh **tỷ lệ** cho khớp thể loại và người đọc. Một bài blog kỹ thuật vẫn có hàng chục từ Hán-Việt và điều đó bình thường. Cái bất thường là khi mọi lựa chọn đều nghiêng về phía trang trọng, không có một chỗ nào người viết chọn từ nôm na.
+Mục tiêu không phải loại bỏ từ Hán-Việt mà là chọn từ phù hợp với thể loại, người đọc và mẫu văn. Một bài blog kỹ thuật vẫn có thể dùng nhiều từ Hán-Việt. Chỉ nên xem lại khi tác giả muốn giọng gần gũi nhưng bản sửa lại liên tục chọn cách gọi trang trọng hơn mức cần thiết.
 
 ---
 
@@ -20,9 +20,9 @@ Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm ph
 
 ---
 
-## Nhóm 1: động từ
+## Động từ
 
-| Hán-Việt bị lạm dụng | Thuần Việt tương đương | Khi nào PHẢI giữ Hán-Việt |
+| Hán-Việt bị lạm dụng | Thuần Việt tương đương | Khi cần giữ từ Hán-Việt |
 |---|---|---|
 | tiến hành, thực hiện | làm | Nghĩa vụ pháp lý: "thực hiện hợp đồng", "thực hiện quyền" |
 | triển khai | làm, bày ra, chạy, đưa vào dùng | Quản trị dự án và CNTT (deploy), quân sự |
@@ -63,9 +63,9 @@ Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm ph
 | từ trần, tạ thế, lâm chung | chết, mất, qua đời | Cáo phó, tang lễ, điếu văn, **bắt buộc giữ** |
 | giáo huấn | dạy bảo | Tôn giáo, văn bản đạo đức cổ |
 
-## Nhóm 2: danh từ và tính từ
+## Danh từ và tính từ
 
-| Hán-Việt bị lạm dụng | Thuần Việt tương đương | Khi nào PHẢI giữ Hán-Việt |
+| Hán-Việt bị lạm dụng | Thuần Việt tương đương | Khi cần giữ từ Hán-Việt |
 |---|---|---|
 | phương tiện di chuyển | xe | Luật Giao thông: "phương tiện giao thông cơ giới" |
 | thực phẩm | đồ ăn, thức ăn | An toàn thực phẩm, y tế, nhãn hàng hoá |
@@ -116,27 +116,27 @@ Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm ph
 | hành trình | chặng đường, chuyến đi | Du lịch (chuyến đi thật), UX ("hành trình khách hàng") |
 | trải nghiệm | cảm giác, lần dùng thử | UX và dịch vụ (thuật ngữ ngành) |
 
-## Nhóm 3: cụm từ thừa và khuôn câu
+## Cụm từ thừa và khuôn câu
 
-| Hán-Việt bị lạm dụng | Thuần Việt tương đương | Khi nào PHẢI giữ Hán-Việt |
+| Hán-Việt bị lạm dụng | Thuần Việt tương đương | Khi cần giữ từ Hán-Việt |
 |---|---|---|
-| tiến hành thực hiện | làm | Không bao giờ, đây là trùng nghĩa |
-| thực hiện việc kiểm tra | kiểm tra | Không bao giờ |
+| tiến hành thực hiện | làm | Chỉ giữ khi đây là trích dẫn nguyên văn; trong bản sửa, hai động từ này trùng chức năng |
+| thực hiện việc kiểm tra | kiểm tra | Giữ danh hoá khi câu cần nói về chính *việc kiểm tra* như một đối tượng |
 | công tác triển khai | việc làm, đợt làm | Báo cáo hành chính theo mẫu |
-| có sự thay đổi | thay đổi, khác đi | Không bao giờ |
+| có sự thay đổi | thay đổi, khác đi | Giữ khi câu đang xác nhận sự tồn tại của một thay đổi nhưng chưa nêu tác nhân |
 | mang tính chất | là | Học thuật khi phân loại: "mang tính chất bắt buộc" |
-| đóng vai trò quan trọng | quan trọng, cần | Không bao giờ ở dạng này |
+| đóng vai trò quan trọng | quan trọng, cần | Giữ khi câu phân biệt rõ vai trò với danh tính và phần sau nói cụ thể vai trò đó |
 | được xem là, được coi là | là | Khi đúng là nhận định của một bên, không phải sự thật |
-| được biết đến như là | là, người ta gọi là | Không bao giờ |
+| được biết đến như là | là, người ta gọi là | Giữ khi cần nói đây là cách gọi hoặc nhận định phổ biến, không phải tên chính thức |
 | trong khoảng thời gian | trong, suốt | Hợp đồng khi cần chính xác mốc |
-| với mục đích nhằm | để | Không bao giờ, trùng nghĩa |
+| với mục đích nhằm | để | Chỉ giữ trong trích dẫn nguyên văn; *mục đích* và *nhằm* đang lặp chức năng |
 | nhằm mục đích | để | Văn bản pháp lý nêu mục đích điều chỉnh |
 | trên thực tế | thật ra, thực ra | Đối lập với lý thuyết trong văn nghị luận |
 | về cơ bản | nói chung, đại khái | Khi thật sự phân biệt cái cốt lõi với chi tiết |
 | đáp ứng nhu cầu | đủ dùng, vừa ý, hợp | Hồ sơ thầu, tiêu chuẩn kỹ thuật |
 | nâng cao chất lượng | làm tốt hơn | Nghị quyết, kế hoạch ngành |
 | đẩy mạnh, tăng cường | làm nhiều hơn, siết chặt | Văn bản chỉ đạo, nghị quyết |
-| không thể phủ nhận rằng | rõ là, đúng là | Không bao giờ |
+| không thể phủ nhận rằng | rõ là, đúng là | Giữ trong lời dẫn hoặc lập luận khi người viết thật sự đang bác khả năng phủ nhận |
 | có thể khẳng định rằng | (cắt bỏ) | Văn nghị luận có lập luận đứng sau |
 | tựu trung lại | (cắt bỏ), tóm lại | Luận văn, báo cáo có mục kết luận |
 | trong bối cảnh | lúc, khi, giữa lúc | Khi mệnh đề bối cảnh có nội dung thật |
@@ -167,9 +167,9 @@ Mục tiêu không bao giờ là loại bỏ Hán-Việt. Hán-Việt chiếm ph
 
 ## Bốn rủi ro khi dùng bảng này
 
-1. **Phá văn bản chuyên ngành.** Chạy hai cột đầu như find-and-replace sẽ biến hợp đồng thành văn nói và bệnh án thành lời kể.
-2. **Tạo ra một giọng giả khác.** Thuần Việt hoá quá tay không cho ra văn tự nhiên mà cho ra thứ văn "dân dã diễn", cũng máy móc y hệt, chỉ đổi chiều. *"Nhóm rà soát lại toàn bộ dữ liệu"* tự nhiên hơn *"Nhóm tiến hành thực hiện việc rà soát"*, nhưng *"Nhóm soi lại đống dữ liệu"* đã lệch sang thái cực khác nếu đây là báo cáo gửi ban giám đốc. Đích đến là đúng thanh ngữ vực, không phải nôm na nhất có thể.
+1. **Làm sai văn bản chuyên ngành.** Thay hàng loạt theo hai cột đầu có thể biến hợp đồng thành văn nói hoặc làm mất nghĩa thuật ngữ trong bệnh án.
+2. **Tạo ra một giọng giả khác.** Thuần Việt hoá quá tay không làm văn bản tự nhiên hơn. *“Nhóm rà soát lại toàn bộ dữ liệu”* rõ hơn *“Nhóm tiến hành thực hiện việc rà soát”*, nhưng *“Nhóm soi lại đống dữ liệu”* lại quá suồng sã trong báo cáo gửi ban giám đốc. Đích đến là đúng thể loại và người đọc, không phải chọn cách nói nôm na nhất.
 3. **Mất phân biệt về mức độ lịch sự.** Thay *kính mời* bằng *mời*, *thân nhân* bằng *người nhà* trong thông báo bệnh viện gửi gia đình bệnh nhân có thể bị đọc là thiếu tôn trọng. Trước khi hạ mức trang trọng, phải xác định người viết đang nói với ai.
-4. **Xoá dấu vết cá nhân.** Có người viết Việt thật, đặc biệt thế hệ lớn tuổi hoặc người xuất thân từ khu vực nhà nước và học thuật, dùng mật độ Hán-Việt cao một cách tự nhiên và nhất quán. Nếu văn bản có mật độ Hán-Việt cao **nhưng đồng thời** có chi tiết cụ thể khó bịa, có cảm xúc lẫn lộn chưa gỡ, có tự sửa lời giữa câu, thì đó là giọng người. Giữ nguyên.
+4. **Làm mất giọng cá nhân.** Có người dùng nhiều từ Hán-Việt một cách tự nhiên và nhất quán, nhất là trong môi trường nhà nước hoặc học thuật. Nếu mẫu văn hoặc hồ sơ cá nhân cho thấy đây là thói quen ổn định, hãy giữ nguyên.
 
-**Nguyên tắc chốt:** cắt theo cụm, không cắt theo từ. Một từ Hán-Việt đứng lẻ hầu như không bao giờ là tell.
+**Nguyên tắc chốt:** xem xét cả cụm và ngữ cảnh, không kết luận từ một từ đứng riêng. Chỉ đổi khi cách gọi hiện tại lệch thể loại hoặc làm câu nặng mà không thêm nghĩa.

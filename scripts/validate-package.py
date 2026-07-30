@@ -18,9 +18,9 @@ LINE_BUDGETS = {
     "profiles/ky-thuat-doanh-nghiep.md": 220,
 }
 
-# Tiền tố pattern và file sở hữu nó. Mỗi tiền tố phải đánh số liên tục từ 1.
+# Tiền tố pattern và file sở hữu. Mỗi tiền tố phải đánh số liên tục từ 1.
 PATTERN_OWNERS = {
-    "V": "SKILL.md",   # lõi: lỗi ngôn ngữ
+    "V": "SKILL.md",   # lỗi dùng từ và cấu trúc câu
     "T": "SKILL.md",   # typography
     "B": "profiles/blog-ca-nhan.md",
     "K": "profiles/ky-thuat-doanh-nghiep.md",
@@ -62,7 +62,7 @@ if not frontmatter_match:
 else:
     frontmatter = frontmatter_match.group(1)
 
-    # Các khoá này không portable giữa các harness Agent Skills.
+    # Một số nền tảng Agent Skills không hỗ trợ các khoá này ở cấp cao nhất.
     for key in ("compatibility:", "allowed-tools:", "version:"):
         if re.search(rf"(?m)^{re.escape(key)}", frontmatter):
             fail(f"Khoá frontmatter không portable ở cấp cao nhất: {key[:-1]}")
@@ -133,4 +133,4 @@ if errors:
         print(f"LỖI: {message}", file=sys.stderr)
     raise SystemExit(1)
 
-print(f"Gói vi-humanizer v{skill_version} hợp lệ — {len(declared)} pattern")
+print(f"Gói vi-humanizer v{skill_version} hợp lệ, gồm {len(declared)} pattern")
