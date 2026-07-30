@@ -1,16 +1,12 @@
 # vi-humanizer
 
-*"Hệ thống này không giải quyết vấn đề tồn kho."*
-
-Câu trên đúng ngữ pháp mà đọc lên thấy hụt. Thiếu một chữ: *"không giải quyết **được** vấn đề tồn kho"*. Bỏ *được* thì câu nghiêng sang nghĩa từ chối giải quyết. Mô hình dựng khung câu theo tiếng Anh rồi thay từ tiếng Việt vào, mà tiếng Anh không có chỗ cho chữ đó bám, nên nó rụng.
-
-vi-humanizer là agent skill xoá dấu vết dịch máy trong tiếng Việt: những chữ rụng kiểu đó, cùng sáo ngữ và lỗi typography. Nó **không** phải bản dịch của skill humanizer tiếng Anh. Chữ *được* không có tương đương tiếng Anh, nên skill tiếng Anh không có khái niệm nào để gọi tên chỗ thiếu ấy.
+Agent skill giúp nội dung được AI viết chuẩn mực tiếng Việt hơn và hạn chế sáo rỗng.
 
 ## Skill này phát hiện gì
 
-Chữ *được* thuộc lớp hư từ, lớp mà tiếng Việt bắt buộc có còn tiếng Anh thì không. Hàng loạt chỗ trống khác cùng cơ chế: *"Vì hệ thống chưa có cache, thời gian phản hồi tăng gấp ba"* mở bằng *Vì* mà không có vế *nên*; *"Cách xử lý đơn giản nhất tăng số worker"* thiếu chữ *là* nên hai danh ngữ dính liền.
+Phần lớn LLM thông dụng được huấn luyện chủ yếu trên tiếng Anh. Khi viết tiếng Việt, chúng có vẻ như dựng khung câu từ theo tiếng Anh rồi thay từ vựng tiếng Việt vào. Tiếng Việt mã hoá bằng hư từ, tiểu từ và loại từ những thứ tiếng Anh mã hoá bằng biến tố, ngữ điệu và mạo từ. Không có gì trong câu nguồn ánh xạ sang lớp đó, nên nó bị bỏ trống.
 
-Cả trang như vậy thì đúng ngữ pháp bề mặt mà cụt, hẫng, lạnh, dừng trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu. Skill gọi tên từng chỗ rồi trả lại chữ đã rụng.
+Kết quả là câu đúng ngữ pháp bề mặt nhưng cụt, hẫng, lạnh, dừng lại trước khi ý đóng lại. Người Việt cảm được ngay nhưng thường không chỉ ra được sai ở đâu.
 
 **Lưu ý quan trọng về định vị:** skill này phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Đừng dùng kết quả như bằng chứng ai đó dùng AI.
 
@@ -103,7 +99,7 @@ Skill chia theo trục **lỗi ngôn ngữ** và **lỗi giọng**, không chia 
 ```
 SKILL.md                            cổng thể loại, lõi V1-V19, typography T1-T6, nhận diện
 profiles/blog-ca-nhan.md            B1-B17 + giọng và cá tính
-profiles/ky-thuat-doanh-nghiep.md   K1-K5 + lệnh cấm và điều chỉnh ngưỡng
+profiles/ky-thuat-doanh-nghiep.md   K1-K4 + lệnh cấm và điều chỉnh ngưỡng
 references/han-viet-thuan-viet.md   bảng tra 111 dòng + năm phép thử
 references/bang-tra-cuu.md          bổ ngữ kết quả, cặp hô ứng, loại từ, checklist
 calibration/LOG.md                  bộ nhớ bằng chứng cho vòng tự hiệu chuẩn
@@ -192,15 +188,14 @@ Chỉ sửa khi có ít nhất một pattern lõi cùng xuất hiện. Typograph
 | B16 | Giả thân mật |
 | B17 | Trộn register không chủ đích |
 
-### Profile kỹ thuật, doanh nghiệp, học thuật (K1–K5)
+### Profile kỹ thuật, doanh nghiệp, học thuật (K1–K4)
 
 | # | Pattern |
 |---|---|
 | K1 | Viết theo diff thay vì mô tả hiện trạng |
 | K2 | Sáo ngữ thể chế rỗng ngoài văn bản pháp quy |
 | K3 | Bộ đề mục Hán-Việt đối xứng rỗng |
-| K4 | Mô tả hiện tượng mà không đưa hiện tượng ra |
-| K5 | Câu dẫn nhập rỗng sau đề mục |
+| K4 | Câu dẫn nhập rỗng sau đề mục |
 
 Phần lớn profile này là **lệnh cấm**, không phải pattern: cấm chèn tiểu từ, cấm thêm giọng, cấm tạo chuỗi đồng nghĩa cho thuật ngữ, cấm thuần Việt hoá thuật ngữ Hán-Việt.
 
@@ -293,7 +288,6 @@ Cả hai cần tra cứu tài liệu in nên chưa làm được ngay. Ghi ra đ
 
 ## Lịch sử phiên bản
 
-- **0.3.0** – Viết lại phần mở đầu README sau nhận xét "khô cứng, vô hồn, tối nghĩa". Bản mới mở bằng một câu lỗi thật rồi mới giải thích, thay vì mô tả hiện tượng bằng danh từ trừu tượng. Ba lỗi guard lộ ra từ lượt này, đều đã sửa: V14 trong profile kỹ thuật nới quá rộng nên câu mở đầu README cũ là danh ngữ trần mà sống sót qua hai lần chạy skill, giờ nới theo vị trí chứ không theo tài liệu; thêm **K4. Mô tả hiện tượng mà không đưa hiện tượng ra**, phanh đối xứng với quy tắc thanh ngữ vực, vì trung tính nói về giọng còn trừu tượng nói về độ cụ thể; mở ngoại lệ hẹp cho ngưỡng 15% khi cách chữa duy nhất là bổ sung ví dụ, với guard là ví dụ phải có sẵn trong repo chứ không sáng tác. K4 cũ đổi số thành K5.
 - **0.2.2** – Chạy skill lên toàn bộ 8 file nội dung của repo. Phát hiện T4 dính 25 chỗ trên 6 file, mà hai phần ba trong đó là comma-and nối hai mệnh đề độc lập chứ không phải Oxford comma. T4 bản cũ không mô tả nhánh này nên agent quét đúng regex mà không biết sửa thế nào. Tách T4 thành hai nhánh, thêm bảng chọn hư từ theo quan hệ (*nên* nhân quả, *mà* tương phản, *còn… thì* đối lập cục bộ, *rồi* nối tiếp). Thêm `scripts/scan-tells.sh` để tự soi bằng một lệnh thay vì dựng lại grep mỗi lần.
 - **0.2.1** – Chạy chính skill lên README. Sửa bốn lỗi ngôn ngữ (một em dash chú thích giữa câu vi phạm T2, "kết quả của nó" theo V7, "được xây mới" theo V16, một mệnh đề quan hệ thiếu ranh giới theo V3) và vá phần nội dung đã lệch so với repo: cây thư mục thiếu `calibration/` và `scripts/`, số dòng bảng Hán-Việt ghi sai, mục "việc bắt buộc cho v0.2" đã lỗi thời. Thêm mục về vòng tự hiệu chuẩn (tính năng chính của 0.2.0 nhưng chưa có trong README) và cách cài một lệnh cho mọi harness bằng `--agent '*'`.
 - **0.2.0** – Giao thức tự nâng cấp cho agent chạy lâu dài: vòng phản hồi trong SKILL.md (bản người dùng sửa lại là bản vàng), giao thức hiệu chuẩn trong AGENTS.md (phân loại sở thích cá nhân / lỗi guard / pattern mới, ngưỡng bằng chứng, nhãn "Quan sát từ sử dụng"), và `calibration/LOG.md` làm bộ nhớ bằng chứng với entry mẫu đầu tiên. Skill cài cho agent nào thì sẽ dần tune theo cách viết của tổ chức đó; changelog phải ghi nhận điều này.

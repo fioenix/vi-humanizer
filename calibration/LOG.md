@@ -75,3 +75,29 @@ n=1 nhưng lỗi gọi tên được và tái diễn 15+ lần trong cùng một
 **Cổng thể loại từ chối sửa 24 chỗ**, tất cả đều đúng: ví dụ trong phần định nghĩa pattern, trích dẫn trong chính log này, và mục Lịch sử phiên bản của README.
 
 **Việc lặp lại đã được đóng gói:** lượt này phải dựng lại bộ lệnh grep từ đầu, giống hệt lượt review README hôm trước. Đã viết thành `scripts/scan-tells.sh` để lần sau chạy một lệnh. Script chỉ lo nhóm quét máy được, không thay được việc đọc.
+
+---
+
+## 2026-07-30 · phần mở đầu README (tài liệu kỹ thuật)
+
+**Nguồn:** nhận xét trực tiếp của Fioenix về output, kèm bản viết lại do một chuyên gia viết tài liệu kỹ thuật thực hiện. Nhận xét nguyên văn: phần mở đầu "rất khô cứng, vô hồn, tối nghĩa".
+
+Đây là nguồn bằng chứng loại 3 theo giao thức, nhưng nhận xét gọi tên được ba triệu chứng riêng biệt nên xử lý như bản vàng.
+
+**Ba khoảng trống, đều là lỗi guard, đều sửa:**
+
+| # | Khoảng trống | Bằng chứng | Sửa |
+|---|---|---|---|
+| 1 | Guard V14 trong profile kỹ thuật nới quá rộng | Câu mở đầu README cũ (*"Agent skill xoá dấu vết dịch máy và sáo ngữ trong văn bản tiếng Việt."*) là danh ngữ trần đứng làm câu trong văn xuôi, **sống sót qua hai lần chạy skill lên toàn repo** ở v0.2.1 và v0.2.2. Bảng ngưỡng ghi "Nới mạnh" đứng trước danh sách ngoại lệ, mà các ngoại lệ đó đều phi văn xuôi, nên agent đọc thành nới toàn cục | Nới theo **vị trí** chứ không theo tài liệu. Loại trừ tường minh câu mở đầu tài liệu và câu mở đầu mục |
+| 2 | Không pattern nào bắt văn trừu tượng thiếu instance | Cả bốn nhóm V, T, B, K đều thao tác trên câu đã có. B1–B4 bắt rỗng kiểu thổi phồng, còn rỗng kiểu trừu tượng thì không ai bắt. Profile K phát biểu "văn trung tính và phẳng chính là giọng người đúng ở đây", mà câu đó đọc được thành giấy phép cho văn trừu tượng | Thêm **K4. Mô tả hiện tượng mà không đưa hiện tượng ra**. Ranh giới cốt lõi: trung tính nói về *giọng*, trừu tượng nói về *độ cụ thể*, hai thứ khác nhau. K4 cũ đổi số thành K5 |
+| 3 | Ngưỡng 15% cấm đúng cách chữa duy nhất cho khoảng trống 2 | Chữa văn vô hồn là bổ sung instance, mà bổ sung instance thì gần như luôn vượt 15% và chạm quy tắc "Không bịa". Bản viết lại này vượt 24% chính vì lý do đó. Không mở ngoại lệ thì agent ở chế độ file chỉ còn cách cắt, mà cắt lại làm đoạn trừu tượng thêm | Ngoại lệ hẹp có guard: được vượt ngưỡng khi ví dụ **đã tồn tại ở nơi khác trong cùng tài liệu hoặc cùng repo**, tức chỉ kéo lên tuyến đầu chứ không sáng tác |
+
+**Skill đã có phanh chống hạ giọng quá tay (mục "Đúng thanh ngữ vực" thêm ở v0.1.1) nhưng chưa có phanh đối xứng chống trừu tượng hoá quá tay.** K4 lấp đúng chỗ đó.
+
+**Một ứng viên pattern lõi, KHÔNG thêm vì chưa đủ ngưỡng:**
+
+Câu bị chê "tối nghĩa" nhất là *"Tiếng Việt mã hoá bằng hư từ, tiểu từ và loại từ những thứ tiếng Anh mã hoá bằng biến tố, ngữ điệu và mạo từ."* Bổ ngữ trực tiếp bị đẩy ra sau một cụm phương tiện ba thành phần. Tiếng Anh dịch chuyển danh ngữ nặng ra sau khá thoải mái, tiếng Việt thì không. V10 chỉ lo trật tự trạng ngữ, V18 lo câu lồng và độ dài, không cái nào bắt chỗ này.
+
+Tên tạm: **bổ ngữ trực tiếp bị đẩy ra sau cụm phương tiện dài**. Dấu hiệu: `động từ + bằng/với/thông qua + chuỗi ≥3 thành phần + rồi mới tới bổ ngữ`. Cách sửa: kéo bổ ngữ về sát động từ rồi tách cụm phương tiện thành mệnh đề riêng.
+
+**Quyết định: chưa thêm.** Giao thức yêu cầu pattern mới cần n≥3 mẫu độc lập, hiện mới có n=1. Ghi lại để đối chiếu khi gặp mẫu thứ hai và thứ ba. Ba khoảng trống ở trên thì thêm được vì chúng là *lỗi guard*, ngưỡng n=1 khi lỗi gọi tên được.

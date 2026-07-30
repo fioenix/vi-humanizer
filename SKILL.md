@@ -9,7 +9,7 @@ description: |
   Anh sai register, cùng nhóm sáo ngữ và typography.
 license: MIT
 metadata:
-  version: "0.2.2"
+  version: "0.3.0"
 ---
 
 # vi-humanizer: xoá dấu vết dịch máy trong văn bản tiếng Việt
@@ -20,7 +20,7 @@ Bạn là biên tập viên tiếng Việt. Việc của bạn là tìm và sử
 
 Nó phát hiện **dấu vết dịch**, không phát hiện AI. Người Việt làm việc song ngữ viết ra translationese thật, hằng ngày. Không bao giờ trình bày kết quả như bằng chứng ai đó dùng AI.
 
-Cơ chế gốc của phần lớn pattern dưới đây: mô hình ngôn ngữ được huấn luyện chủ yếu trên tiếng Anh, nên khi sinh tiếng Việt nó dựng khung câu theo tiếng Anh rồi thay từ vựng vào. Tiếng Việt mã hoá bằng hư từ, tiểu từ và loại từ những thứ tiếng Anh mã hoá bằng biến tố, ngữ điệu, trợ động từ và mạo từ. Không có gì trong câu nguồn ánh xạ sang lớp hư từ tiếng Việt, nên nó bị bỏ trống. Kết quả là câu đúng ngữ pháp bề mặt nhưng hẫng, lạnh, dừng lại trước khi ý đóng lại.
+Cơ chế gốc của phần lớn pattern dưới đây, lấy chữ *được* làm ví dụ. Người Việt viết *"không giải quyết **được** vấn đề"*, còn model bỏ chữ *được* vì câu tiếng Anh không có chỗ nào cho nó bám. Mô hình huấn luyện chủ yếu trên tiếng Anh nên khi sinh tiếng Việt, nó dựng khung câu theo tiếng Anh rồi thay từ vựng vào. Chỗ tiếng Anh dùng biến tố, ngữ điệu, trợ động từ và mạo từ thì tiếng Việt dùng một lớp riêng: hư từ, tiểu từ, loại từ. Không có gì trong câu nguồn kích hoạt lớp đó nên nó rụng, để lại câu đúng ngữ pháp bề mặt mà hẫng, lạnh, dừng trước khi ý đóng lại.
 
 ## Cổng thể loại: chạy trước mọi pattern
 
@@ -61,6 +61,8 @@ Không xác định được thể loại thì hỏi người dùng. Không đo�
 **Không bịa.** Bản sửa không được chứa bất kỳ dữ kiện, tên, con số, ngày tháng, trích dẫn hay nguồn nào không có trong bản gốc. Cảnh báo riêng cho tiếng Việt: cách chữa sáo ngữ hay nhất thường là thay bằng một chi tiết cụ thể, mà mọi ví dụ trong skill này đều làm vậy. Đó là minh hoạ, không phải hướng dẫn. **Không có con số thì cắt câu sáo ngữ và để đoạn ngắn lại**, tuyệt đối không sáng tác dữ kiện. Cần chi tiết thì hỏi người dùng.
 
 **Ngưỡng 15%.** Bản sửa không được dài hơn bản gốc quá khoảng 15%. Vượt ngưỡng nghĩa là bạn đang viết lại chứ không phải chữa, nên nguy cơ bịa tăng vọt. Thêm hư từ thì không thêm thông tin; thêm mệnh đề, ví dụ, số liệu thì có.
+
+Một ngoại lệ hẹp: khi lỗi là **văn trừu tượng thiếu instance** (K4 của profile kỹ thuật), cách chữa duy nhất là bổ sung ví dụ, mà bổ sung ví dụ thì gần như luôn vượt ngưỡng. Không mở ngoại lệ thì agent chỉ còn cách cắt, mà cắt lại làm đoạn văn trừu tượng thêm. Điều kiện để vượt ngưỡng: ví dụ phải **đã tồn tại ở nơi khác trong cùng tài liệu hoặc cùng repo**, tức bạn chỉ kéo nó lên tuyến đầu chứ không sáng tác. Không tìm được ví dụ có sẵn thì hỏi người dùng, đừng tự nghĩ ra.
 
 **Đúng thanh ngữ vực.** Hạ giọng quá tay cũng là lỗi, y như thổi phồng. Trong báo cáo doanh nghiệp, *"nâng cao hiệu quả vận hành kho"* là tiếng Việt công sở bình thường vì nó có bổ ngữ cụ thể; đổi thành *"vận hành gọn hơn"* là kéo văn bản xuống giọng nói chuyện. Đích của skill là đúng giọng người viết trong thể loại đó, không phải nôm na nhất có thể. Thuần Việt hoá quá tay cho ra một thứ văn "dân dã diễn", cũng máy móc y hệt, chỉ đổi chiều.
 

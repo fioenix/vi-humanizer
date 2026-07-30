@@ -25,7 +25,7 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 | V4 dấu thời – thể | Nới. Văn mô tả trạng thái phi thời gian (định nghĩa, thông số, mô tả chức năng) vốn không có dấu thời thể. Không bổ sung |
 | V8 *các* và *những* | Nới với văn bản liệt kê đối tượng áp dụng, nơi *các* đánh dấu phạm vi bắt buộc phải rõ |
 | V13 khung SVO | **Tắt.** Trật tự cố định trong mô tả thuật toán, điều khoản và tài liệu API là cố ý để tránh mơ hồ |
-| V14 danh ngữ trần | Nới mạnh. Nhãn, mục lục, ô bảng, checklist, gạch đầu dòng đều dùng danh ngữ trần hợp lệ |
+| V14 danh ngữ trần | Nới **theo vị trí, không theo tài liệu**. Nhãn, mục lục, ô bảng, checklist, gạch đầu dòng đều dùng danh ngữ trần hợp lệ, còn văn xuôi thì vẫn áp V14 như thường. Loại trừ tường minh: câu mở đầu tài liệu và câu mở đầu mục không được là danh ngữ trần, vì đó chính là chỗ người đọc cần một câu trọn vẹn nhất |
 | V15 danh hoá | Nới. *tiến hành thanh tra*, *thực hiện nghĩa vụ thuế*, *công tác văn thư* là thuật ngữ đúng chuẩn. Chỉ cắt khi có chồng hai động từ rỗng (*tiến hành thực hiện*) |
 | V16 bị động | Nới. *"Quyết định được ban hành ngày..."*, *"Hồ sơ được nộp theo quy định tại Điều 5"* là chuẩn văn phong hành chính. Vẫn cắt `được ... bởi` vì tác nhân nêu bằng *bởi* không thuộc quy ước nào |
 | V18 câu nhiều tầng | Nới với hợp đồng và điều khoản, nơi câu dài nhiều mệnh đề xác định phạm vi điều chỉnh. Vẫn áp với README và tài liệu hướng dẫn |
@@ -62,7 +62,14 @@ Bốn điều dưới đây không có ngoại lệ. Vi phạm chúng gây hại
 **Sửa:** đặt lại đề mục theo nội dung thật của phần đó. Nếu một mục không có nội dung riêng thì gộp vào mục khác.
 **Không flag:** tài liệu theo mẫu bắt buộc (đề cương nghiên cứu theo quy định của trường, báo cáo theo biểu mẫu ngành, hồ sơ thầu). Luận văn có cấu trúc chương quy định sẵn.
 
-### K4. Câu dẫn nhập rỗng sau đề mục
+### K4. Mô tả hiện tượng mà không đưa hiện tượng ra
+
+**Dấu hiệu:** đoạn giải thích một lỗi, một cơ chế hoặc một khái niệm bằng toàn danh từ trừu tượng, không có lấy một instance. Dấu hiệu phụ đi kèm: thuật ngữ chuyên ngành xuất hiện lần đầu mà không có ví dụ đứng cạnh; câu định nghĩa dài với bổ ngữ bị đẩy ra sau chuỗi liệt kê; người đọc phải đọc hai lần mới nắm. Test nhanh: đếm số danh từ cụ thể có thể trỏ tay vào được trong đoạn. Bằng không thì đoạn đó đang mô tả thay vì cho thấy.
+**Vì sao:** đây là cách "trung tính" trượt thành "vô hồn". Profile này yêu cầu văn phẳng, và người viết dễ đọc thành giấy phép cho văn trừu tượng. Hai thứ khác nhau: trung tính nói về **giọng**, trừu tượng nói về **độ cụ thể**. Một đoạn hoàn toàn có thể vừa trung tính vừa đầy ví dụ, và đó mới là tài liệu kỹ thuật tốt.
+**Sửa:** kéo một instance có sẵn lên tuyến đầu. Ưu tiên ví dụ **đã tồn tại ở nơi khác trong cùng tài liệu hoặc cùng repo** (bảng tra, test case, changelog, phần phụ lục) chứ không sáng tác. Đặt instance **trước** phần giải thích, rồi mới đặt tên cho hiện tượng. Phép định nghĩa trỏ vật hiệu quả hơn phép định nghĩa bằng thuộc tính, nhất là khi người đọc chưa biết thuật ngữ.
+**Không flag:** tài liệu tham chiếu thuần tra cứu (bảng, danh mục tham số, mã lỗi), nơi ví dụ nằm ở tài liệu khác và người đọc đã biết khái niệm. Phần tóm tắt điều hành. Văn bản mà instance nằm ngay ở đoạn liền sau.
+
+### K5. Câu dẫn nhập rỗng sau đề mục
 
 **Dấu hiệu:** một đề mục, rồi một câu ngắn chỉ nhắc lại chính đề mục đó, rồi mới tới nội dung thật. *"## Hiệu năng"* rồi *"Hiệu năng là một vấn đề quan trọng."*
 **Vì sao:** model thêm một câu khởi động sau mỗi heading vì nó học rằng đoạn văn cần câu chủ đề. Câu đó không mang thông tin và làm văn bản có cảm giác độn.
