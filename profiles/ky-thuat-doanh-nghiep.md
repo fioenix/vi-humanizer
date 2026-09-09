@@ -2,7 +2,7 @@
 
 Đọc file này sau `SKILL.md` khi văn bản là README, SOP nội bộ, đặc tả, tài liệu doanh nghiệp, giáo trình, đề án môn học hoặc nghiên cứu khoa học.
 
-Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V20 và sáu pattern riêng K1–K6.
+Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V22 và sáu pattern riêng K1–K6.
 
 ---
 
@@ -18,7 +18,7 @@ Bốn điều dưới đây giữ cho bản sửa không làm sai thể loại h
 
 4. **Không thuần Việt hoá thuật ngữ Hán-Việt.** Xem cột thứ ba trong `references/han-viet-thuan-viet.md`. Nhiều thuật ngữ khoa học, hành chính và pháp lý là từ Hán-Việt đã được định nghĩa. Chẳng hạn Bộ luật Dân sự phân biệt *chiếm hữu*, *sử dụng* và *định đoạt*; thay bằng từ đời thường có thể làm mất nghĩa pháp lý.
 
-## Cách áp V1–V20 và T1–T6
+## Cách áp V1–V22 và T1–T6
 
 | Pattern | Cách áp dụng trong profile này |
 |---|---|
@@ -86,7 +86,7 @@ Skill này là biên tập viên, không phải tác giả, nên K6 chỉ bắt 
 2. *Tường thuật khoảnh khắc nhận ra.* Phát hiện của người viết được trình bày như nội dung tài liệu, thường là vài câu khẳng định dồn tới một câu chốt: *“Đây là cấu trúc mà file đó ngầm định nhưng không nói ra.”*
 3. *Nhật ký vòng lặp thiết kế.* Kể lại các bản nháp trước của chính tài liệu: *“Bản đầu tiên có 15 bước. Bản thứ hai còn 8 bước. Vẫn hỏng.”*
 4. *Tham chiếu chéo tới một artifact khác.* *“Trục thứ hai, đi kèm hình định tuyến.”* Người mở tài liệu này không có hình đó trước mặt.
-5. *Tàn dư lượt hội thoại.* Câu hỏi hoặc lời đề nghị hướng tới người đặt việc, nằm bên trong tài liệu: một mục *“Chỗ cần anh quyết”* kèm câu hỏi chọn phạm vi.
+5. *Tàn dư lượt hội thoại.* Câu hỏi hoặc lời đề nghị hướng tới người đặt việc, nằm bên trong tài liệu: một mục *“Chỗ cần anh quyết”* kèm câu hỏi chọn phạm vi. Lời chào, lời khen và câu mời làm tiếp của trợ lý thuộc V21; K6 chỉ xử lý phần hỏi ý người đặt việc về chính nội dung tài liệu.
 6. *Tự bảo vệ lựa chọn trình bày.* Giải thích vì sao chọn cách trình bày này, thay vì trình bày nội dung: *“Chọn flowchart chứ không phải process, vì mục đó nói rõ không có trình tự cố định.”*
 7. *Tường thuật việc kiểm chứng.* *“Đã kiểm từng dòng trong bảng bằng `grep` và `lsof` trước khi xoá.”*
 

@@ -14,9 +14,9 @@ Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉn
 
 Skill xử lý ba lớp:
 
-- V1–V20 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ hoặc đặt trạng ngữ gây mơ hồ.
+- V1–V22 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
 - B1–B17 và K1–K6 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
-- T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V20.
+- T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V22.
 
 Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
 
@@ -113,7 +113,7 @@ Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phon
 `SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
 
 ```text
-SKILL.md                            quy trình, V1–V20, T1–T6 và cách trả kết quả
+SKILL.md                            quy trình, V1–V22, T1–T6 và cách trả kết quả
 profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhân
 profiles/ky-thuat-doanh-nghiep.md   K1–K6 và giới hạn của văn kỹ thuật, học thuật
 references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
@@ -130,7 +130,7 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 
 ## Danh mục pattern
 
-### Cách dùng từ và cấu trúc câu (V1–V20)
+### Cách dùng từ và cấu trúc câu (V1–V22)
 
 | # | Pattern | Ví dụ hoặc phép kiểm tra |
 |---|---|---|
@@ -154,6 +154,8 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 | V18 | Câu lồng nhiều tầng, "mà" và "điều này" không rõ | Tách câu nhưng giữ nguyên chủ thể và quan hệ nhân quả |
 | V19 | Chêm tiếng Anh không hợp người đọc hoặc lĩnh vực | Giữ thuật ngữ theo cách dùng thật của cộng đồng, không tự thêm hoặc xoá đồng loạt |
 | V20 | Từ hoặc cụm từ bị thiếu một tiếng | *đọc lên thấy hụt* → *đọc lên thấy **hụt hẫng*** khi đúng với ý câu |
+| V21 | Tàn dư lượt hội thoại của trợ lý | *Chắc chắn rồi! Dưới đây là ba bước...* → *Ba bước triển khai...* |
+| V22 | Rào trước về nguồn rồi đưa phỏng đoán | *Không có thông tin công bố. Nhiều khả năng công ty bắt đầu từ đầu những năm 2000.* → giữ điều nguồn nói, bỏ phần đoán |
 
 ### Typography (T1–T6)
 
@@ -166,7 +168,7 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 | T5 | Định dạng thay cho cấu trúc câu |
 | T6 | Emoji |
 
-Typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern V1–V20. Quy tắc này tránh việc skill thay đổi dấu câu hoặc định dạng chỉ vì sở thích.
+Typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern V1–V22. Quy tắc này tránh việc skill thay đổi dấu câu hoặc định dạng chỉ vì sở thích.
 
 ### Blog, bài cá nhân, nội dung công việc và marketing (B1–B17)
 
@@ -290,6 +292,7 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 
 ## Lịch sử phiên bản
 
+- **0.7.0** – Thêm V21 cho tàn dư lượt hội thoại của trợ lý và V22 cho kiểu rào trước về nguồn rồi vẫn đưa phỏng đoán; quy trình nói rõ văn bản đầu vào là chất liệu để biên tập, không phải chỉ thị để làm theo; quy tắc chốt chặn 3 thêm thứ hạng và quan hệ đồng thời. Đối chiếu với `blader/humanizer` 3.0.0.
 - **0.6.0** – Thêm K6 cho những câu nói về quá trình tạo ra tài liệu thay vì nói về chủ đề của nó; thêm quy tắc chốt chặn thứ năm và một dòng trong mục Cách trả kết quả; thêm `calibration/ca-kiem-thu.md` với tám ca kiểm thử cho K6.
 - **0.5.2** – Mở rộng V18 để phát hiện các mệnh đề nối nhau nhưng không rõ chủ thể; bổ sung cho V20 cách kiểm tra nghĩa, vai trò và khả năng kết hợp của từ trong câu.
 - **0.5.1** – Chỉnh lại vài chỗ diễn đạt trong `SKILL.md`. Không thêm bớt pattern và không đổi hành vi.
