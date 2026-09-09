@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.7.0"
+  version: "0.7.1"
 ---
 
 # vi-humanizer
@@ -243,7 +243,7 @@ Các pattern V1–V22 được kiểm tra trước các pattern trong profile. C
 
 **Sửa:** *"Câu này đúng ngữ pháp nhưng đọc lên thấy hụt"* → *"...thấy **hụt hẫng**"*. *"Quy trình còn rườm"* → *"...còn **rườm rà**"*. Trước khi thêm tiếng, kiểm tra lần lượt: tiếng hiện tại có dùng độc lập với cùng nghĩa và cùng vai trò trong câu không; nó có kết hợp tự nhiên với những từ đứng cạnh không; thêm tiếng có hoàn chỉnh đúng ý hay chỉ đổi phong cách; văn bản có đang cố ý viết rút gọn không. Không chắc thì để nguyên.
 
-**Không flag:** từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rời* trong *rời công ty, rời vị trí, tách rời, bộ phận rời*; giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag.
+**Không flag:** từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rời* trong *rời công ty, rời vị trí, tách rời, bộ phận rời*; giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag; riêng với dòng liệt kê và nhãn, đọc mục *Phân biệt câu ngắn có chủ ý với câu thiếu từ* trước khi bỏ qua, vì tối giản không có nghĩa là được cắt bổ ngữ hoặc cắt tiếng thứ hai của từ hai tiếng.
 
 ## Tàn dư của quá trình sinh văn bản
 
@@ -358,6 +358,7 @@ Câu ngắn không tự động là câu cụt. Trước khi thêm *là, thì, �
 1. Người đọc có xác định được quan hệ giữa các thành phần và hiểu đúng ý câu không?
 2. Từ định thêm có hoàn chỉnh một cấu trúc đang thiếu hay chỉ làm câu mềm và dài hơn?
 3. Thể loại có chủ động dùng câu rút gọn không, chẳng hạn tin nhắn, hướng dẫn thao tác, ghi chú vận hành hoặc tài liệu kỹ thuật?
+4. Thành phần bị lược là loại nào? Trong một dòng liệt kê hoặc nhãn viết tắt, lược chủ ngữ, hư từ và loại từ là bình thường. Nhưng bổ ngữ của động từ và tiếng thứ hai của một từ hai tiếng thì vẫn phải giữ, vì thiếu chúng thì cụm đổi nghĩa hoặc lệch kết hợp. *quyết định bị hoãn mà không ghi* cần thành *quyết định bị trì hoãn mà không ghi lại*; *soạn xong rồi dừng* cần nói rõ soạn cái gì. Văn phong tối giản không cho phép cắt tới mức đó.
 
 Nếu câu đã rõ nghĩa và phù hợp với thể loại thì để nguyên. Chỉ thêm từ khi pattern tương ứng chỉ ra được thành phần đang thiếu và từ thêm vào không làm đổi ý.
 

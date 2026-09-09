@@ -434,3 +434,35 @@ Truy ngược cho thấy cùng giả định sai còn nằm ở phanh T4 (*mà* 
 **Phân loại:** hiện tượng mới, đủ mẫu độc lập trong cùng một phiên và gọi tên được bằng hai phép thử kiểm tra lại được.
 
 **Quyết định:** thêm K6 vào `profiles/ky-thuat-doanh-nghiep.md` và quy tắc chốt chặn thứ năm vào `SKILL.md`. Đặt ở profile kỹ thuật trước vì phần lớn deliverable của agent rơi vào nhóm này; sau khi hiệu chỉnh sẽ cân nhắc nâng lên V-series do lỗi cũng xuất hiện ở blog và nội dung marketing. Hướng xử lý mặc định là chuyển chỗ, rồi đổi nhãn, cắt là lựa chọn cuối. Mục **Không flag** giữ changelog, decision record, file quy trình trong knowledge base, frontmatter, quy ước sẵn có của repo, biên bản họp và trích dẫn nguyên văn. Ranh giới: skill chỉ bắt và chuyển câu đã bị viết ra; việc ngăn lỗi từ gốc thuộc instruction của agent viết tài liệu. Tám ca kiểm thử nằm trong `calibration/ca-kiem-thu.md`, trong đó bốn ca chống sửa quá tay.
+
+---
+
+## 2026-09-09 · danh sách nhãn rút gọn trong sơ đồ cá nhân
+
+**Nguồn:** bản vàng do Fioenix viết lại một danh sách sáu dòng nhãn kiểu *Sáu chỗ hay sai*, mỗi dòng là một mệnh đề rút gọn.
+
+**Bản trước và bản vàng, các dòng có khác biệt:**
+
+| # | Bản trước | Bản vàng |
+|---|---|---|
+| 1 | quyết định bị hoãn mà không ghi | quyết định bị trì hoãn mà không ghi lại |
+| 2 | code xong nhưng chưa ai merge | code xong nhưng không merge |
+| 3 | tin config thay vì đọc output | tin tưởng config thay vì đọc output |
+| 5 | soạn xong rồi dừng, tưởng đã làm | soạn kế hoạch xong rồi dừng, tưởng đã làm nhưng thực tế là chưa làm |
+| 6 | dựng lại lỗi đã ghi trong lesson | lặp lại lỗi hoặc sai lầm đã ghi trong lesson |
+
+**Khác biệt gọi tên được:**
+
+| # | Khác biệt | Phân loại | Quyết định |
+|---|---|---|---|
+| 1 | *không ghi* thiếu bổ ngữ hướng, đúng V1; *hoãn* đứng một tiếng không hợp kết hợp, đúng V20 trường hợp 3 | Bỏ sót do trường hợp loại trừ quá rộng | Siết ở 0.7.1 |
+| 2 | *chưa ai merge* thành *không merge*: cả hai đều tự nhiên, nhưng bản vàng bỏ mất ý chưa có ai làm | Sở thích cá nhân, kèm một thay đổi nghĩa | Không sửa quy tắc chung. Quy tắc chốt chặn 3 vẫn cấm skill tự bỏ ý đó |
+| 3 | *tin* thành *tin tưởng*, cùng dạng với dòng 1 | Bỏ sót, như trên | Siết ở 0.7.1 |
+| 5 | *soạn* thiếu bổ ngữ, và vế *tưởng đã làm* bị bỏ lửng | Bỏ sót bổ ngữ, phần thêm vế sau là sở thích | Siết phần bổ ngữ. Không đưa việc viết nốt vế đối vào quy tắc chung vì dễ va quy tắc chốt chặn 2 |
+| 6 | *dựng lại lỗi* là kết hợp sai, phải là *lặp lại lỗi*; *hoặc sai lầm* là phần mở rộng của người viết | Hiện tượng mới, chưa đủ mẫu | Ghi nhận, chưa thêm pattern |
+
+**Nguyên nhân chung:** cả bốn chỗ bỏ sót đều nằm trong một danh sách nhãn. Mục **Không flag** của V14 tha *nhãn, mục lục, checklist*, còn V20 tha *văn phong tối giản có chủ ý*. Hai câu đó đủ rộng để che cả những dòng vốn là mệnh đề đầy đủ, nên skill không đụng tới dòng nào.
+
+**Quyết định:** thêm phép kiểm tra thứ tư vào mục *Phân biệt câu ngắn có chủ ý với câu thiếu từ*, phân biệt thành phần được phép lược với thành phần không được lược. Trong nhãn và dòng liệt kê, lược chủ ngữ, hư từ và loại từ là bình thường; bổ ngữ của động từ và tiếng thứ hai của từ hai tiếng thì phải giữ. Mục **Không flag** của V20 trỏ sang phép kiểm tra này. Bốn ca kiểm thử trong `calibration/ca-kiem-thu.md`.
+
+**Còn treo:** kết hợp động từ sai kiểu *dựng lại lỗi* chưa có pattern nào gọi tên. Cần thêm mẫu độc lập trước khi quyết định thêm pattern hay mở rộng V20.
