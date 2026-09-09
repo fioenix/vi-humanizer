@@ -39,6 +39,7 @@ Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ng
 ## Hợp đồng bảo trì
 
 - **Số hiệu pattern:** bốn tiền tố `V`, `T`, `B`, `K` đều bắt đầu từ 1 và tăng liên tục. `V` và `T` thuộc `SKILL.md`; `B` thuộc profile blog; `K` thuộc profile kỹ thuật. Khi thêm, bỏ hoặc đổi số, phải cập nhật bảng pattern trong `README.md` cùng lúc.
+- **Ngưỡng thêm pattern:** một dấu hiệu chỉ được thành pattern riêng khi không pattern nào hiện có ngụ ý nó. Còn lại thì mở rộng mục **Dấu hiệu** của pattern gần nhất. Khi hai pattern chạm nhau, pattern hẹp hơn phải có một câu phân vai trỏ sang pattern kia, như K6 trỏ sang V21 cho phần lời chào và lời mời làm tiếp.
 - **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất của phần Lịch sử phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
 - **Giới hạn dòng:** `SKILL.md` tối đa 550 dòng, profile blog tối đa 320 dòng, profile kỹ thuật tối đa 220 dòng. Các file trong `references/` không bị giới hạn.
 - **Nguồn:** khi thêm pattern dựa trên tài liệu bên ngoài, phải thêm nguồn vào `README.md` và ghi đúng mức độ tin cậy. Nếu chỉ là suy luận, phải nói rõ là suy luận. Không tự tạo nguồn hoặc số liệu tần suất.
