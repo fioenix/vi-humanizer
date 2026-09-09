@@ -2,7 +2,7 @@
 
 Đọc file này sau `SKILL.md` khi văn bản là README, SOP nội bộ, đặc tả, tài liệu doanh nghiệp, giáo trình, đề án môn học hoặc nghiên cứu khoa học.
 
-Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V20 và năm pattern riêng K1–K5.
+Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V20 và sáu pattern riêng K1–K6.
 
 ---
 
@@ -75,6 +75,34 @@ Bốn điều dưới đây giữ cho bản sửa không làm sai thể loại h
 **Vì sao:** câu đầu chỉ nhắc lại tên mục nên chưa giúp người đọc hiểu phạm vi, điều kiện hoặc kết luận. Nó làm tài liệu dài thêm mà không tạo bước chuyển cần thiết.
 **Sửa:** xoá câu dẫn, để đề mục làm việc của nó.
 **Không flag:** câu sau đề mục nêu phạm vi, điều kiện áp dụng, hoặc cảnh báo thật. Tài liệu tham chiếu có quy ước một câu tóm tắt dưới mỗi mục.
+
+### K6. Siêu dữ liệu về quá trình tạo ra văn bản
+
+Skill này là biên tập viên, không phải tác giả, nên K6 chỉ bắt và chuyển những câu đã bị viết ra. Việc ngăn lỗi từ gốc thuộc về instruction của agent viết tài liệu: ghi chú quá trình thuộc lượt trả lời trong hội thoại, không thuộc deliverable. Đừng mở rộng K6 sang phần đó.
+
+**Dấu hiệu:** trong tài liệu có câu nói về việc tài liệu này được tạo ra thế nào, thay vì nói về chủ đề của nó. Bảy dạng hay gặp:
+
+1. *Ghi chú xuất xứ.* Một khối ở đầu file cho biết file được nhân bản từ đâu, lúc nào, bởi ai: *“Nhân bản từ `Instructions/CLAUDE.md` ngày 09/09/2026. Sửa ở file gốc trước rồi nhân bản lại.”*
+2. *Tường thuật khoảnh khắc nhận ra.* Phát hiện của người viết được trình bày như nội dung tài liệu, thường là vài câu khẳng định dồn tới một câu chốt: *“Đây là cấu trúc mà file đó ngầm định nhưng không nói ra.”*
+3. *Nhật ký vòng lặp thiết kế.* Kể lại các bản nháp trước của chính tài liệu: *“Bản đầu tiên có 15 bước. Bản thứ hai còn 8 bước. Vẫn hỏng.”*
+4. *Tham chiếu chéo tới một artifact khác.* *“Trục thứ hai, đi kèm hình định tuyến.”* Người mở tài liệu này không có hình đó trước mặt.
+5. *Tàn dư lượt hội thoại.* Câu hỏi hoặc lời đề nghị hướng tới người đặt việc, nằm bên trong tài liệu: một mục *“Chỗ cần anh quyết”* kèm câu hỏi chọn phạm vi.
+6. *Tự bảo vệ lựa chọn trình bày.* Giải thích vì sao chọn cách trình bày này, thay vì trình bày nội dung: *“Chọn flowchart chứ không phải process, vì mục đó nói rõ không có trình tự cố định.”*
+7. *Tường thuật việc kiểm chứng.* *“Đã kiểm từng dòng trong bảng bằng `grep` và `lsof` trước khi xoá.”*
+
+Hai phép thử, áp lần lượt. Câu nào trượt cả hai thì là siêu dữ liệu quá trình. Thứ nhất, câu này viết cho ai: viết cho người đặt việc để chứng minh đã làm gì, xin một quyết định hoặc bảo vệ một lựa chọn thì nó thuộc lượt trả lời; viết cho người sẽ đọc tài liệu thì nó ở đúng chỗ. Thứ hai, một năm sau, người không có mặt trong phiên làm việc đó đọc có hiểu không.
+
+**Vì sao:** người viết là con người không tường thuật lại việc mình vừa nhận ra điều gì, còn agent thì vừa suy luận ra một điều là ghi luôn vào deliverable. Những câu này thêm siêu dữ liệu về quá trình chứ không thêm dữ kiện của chủ đề, nên quy tắc chốt chặn *Không thêm dữ kiện* không chặn được chúng.
+
+**Sửa:** theo thứ tự ưu tiên, không mặc định xoá.
+
+1. *Chuyển chỗ.* Ghi chú xuất xứ đi vào commit message. Câu hỏi cho người đặt việc và lý do chọn cách trình bày đi vào lượt trả lời trong hội thoại.
+2. *Đổi nhãn.* Nếu nội dung thật sự thuộc tài liệu, tách thành một mục có tiêu đề rõ, chẳng hạn *Lịch sử phiên bản*, để người đọc biết chỗ nào bỏ qua được.
+3. *Cắt.* Chỉ khi không thuộc hai hướng trên.
+
+**Không flag:** changelog, release note và tài liệu hướng dẫn nâng cấp, vì K1 đã xác định tường thuật thay đổi là nội dung của thể loại đó. Quyết định kiến trúc và decision record, nơi lý do chọn phương án là nội dung chính. File quy trình, workflow và framework trong knowledge base: ghi lại vì sao một bước bị cắt là ký ức tổ chức, thiếu nó người sau dựng lại đúng cái đã bỏ. Frontmatter và các trường metadata có cấu trúc như `created`, `source-url`, `status`. Tài liệu theo quy ước sẵn có của repo hoặc vault, chẳng hạn khi mọi file cùng loại đều mở đầu bằng một dòng ghi phiên bản; kiểm các file lân cận trước khi kết luận. Biên bản họp và báo cáo tiến độ, nơi quá trình là chủ đề. Trích dẫn nguyên văn.
+
+Ranh giới giữa dạng 3, dạng 6 và ký ức tổ chức hợp lệ nằm ở chỗ câu đó nói về ai: ký ức tổ chức nói về quyết định và hệ quả của nó, còn siêu dữ liệu quá trình nói về người viết. *“Bước này bị cắt vì trùng với cổng phía sau”* là ký ức tổ chức. *“Bản đầu tôi viết 15 bước rồi rút còn 8”* là nói về người viết.
 
 ---
 

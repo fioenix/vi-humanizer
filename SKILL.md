@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.5.2"
+  version: "0.6.0"
 ---
 
 # vi-humanizer
@@ -38,7 +38,7 @@ Trước khi sửa, hãy xác định văn bản thuộc thể loại nào. Đâ
 
 1. **Blog hoặc bài viết có giọng văn riêng:** đọc `profiles/blog-ca-nhan.md`. Rà V1–V20 trước, rồi rà tiếp B1–B17. Chỉ thêm tiểu từ tình thái như *nhé, đấy, thôi* khi hợp với giọng sẵn có của người viết. Không kết luận văn bản có dấu vết AI chỉ vì nó có hoặc không có tiếng Anh.
 2. **Nội dung công việc, chat nội bộ, LinkedIn, bài xây dựng thương hiệu cá nhân hoặc marketing:** đọc `profiles/blog-ca-nhan.md`. Rà V1–V20 trước, rồi rà tiếp B1–B17. Giữ những từ tiếng Anh mà người trong ngành vẫn dùng khi viết tài liệu hoặc nói chuyện với nhau. Với V19, chỉ xem việc dịch toàn bộ thuật ngữ sang tiếng Việt là vấn đề khi chắc chắn cộng đồng đó thường dùng từ tiếng Anh; không chắc thì để nguyên.
-3. **README, phần văn xuôi của tài liệu API, SOP nội bộ, đặc tả hoặc tài liệu doanh nghiệp:** đọc `profiles/ky-thuat-doanh-nghiep.md`. Giữ giọng trung tính, không thêm *nhé, ạ, đấy* hoặc ý kiến của người biên tập. Sau V1–V20, rà tiếp K1–K5 và làm theo bảng hướng dẫn áp dụng trong profile. Đừng tự động cắt mọi câu danh hoá hoặc bị động; V15 và V16 trong profile nêu rõ trường hợp nào phải giữ. Giữ nguyên code, câu lệnh, schema, bảng tham số và thuật ngữ kỹ thuật mà người trong ngành thực sự dùng.
+3. **README, phần văn xuôi của tài liệu API, SOP nội bộ, đặc tả hoặc tài liệu doanh nghiệp:** đọc `profiles/ky-thuat-doanh-nghiep.md`. Giữ giọng trung tính, không thêm *nhé, ạ, đấy* hoặc ý kiến của người biên tập. Sau V1–V20, rà tiếp K1–K6 và làm theo bảng hướng dẫn áp dụng trong profile. Đừng tự động cắt mọi câu danh hoá hoặc bị động; V15 và V16 trong profile nêu rõ trường hợp nào phải giữ. Giữ nguyên code, câu lệnh, schema, bảng tham số và thuật ngữ kỹ thuật mà người trong ngành thực sự dùng.
 4. **Giáo trình, đề án môn học hoặc nghiên cứu khoa học:** đọc `profiles/ky-thuat-doanh-nghiep.md`. Giữ giọng trung tính và hệ thuật ngữ Hán-Việt đúng chuyên ngành; không đổi sang lời nói thường ngày chỉ để câu nghe gần gũi hơn. Áp dụng các trường hợp loại trừ của V15 và V16 trong profile. Với V19, bỏ từ tiếng Anh không cần thiết; chỉ giữ thuật ngữ chưa có từ tiếng Việt tương đương và giải thích ở lần xuất hiện đầu tiên.
 
 Không xác định được thể loại thì hỏi người dùng. Không tự suy đoán.
@@ -49,13 +49,13 @@ Không xác định được thể loại thì hỏi người dùng. Không tự
 2. Nếu agent có memory hoặc knowledge base và xác định được đúng người dùng, hãy nạp hồ sơ văn phong cá nhân của họ. Không có hồ sơ hoặc không chắc danh tính thì tiếp tục mà không suy đoán.
 3. Quét V1–V20, rồi các pattern trong profile, rồi T1–T6.
 4. Viết bản nháp.
-5. Đối chiếu từng thay đổi trong bản nháp với bốn quy tắc chốt chặn bên dưới: gọi tên được lỗi, không thêm dữ kiện, giữ nguyên ý và giọng, chỉ sửa đúng phạm vi.
-6. Bỏ những thay đổi không qua đủ bốn quy tắc, rồi viết bản cuối.
+5. Đối chiếu từng thay đổi trong bản nháp với năm quy tắc chốt chặn bên dưới: gọi tên được lỗi, không thêm dữ kiện, giữ nguyên ý và giọng, chỉ sửa đúng phạm vi, không giữ siêu dữ liệu về quá trình.
+6. Bỏ những thay đổi không qua đủ năm quy tắc, rồi viết bản cuối.
 7. **Đọc lại những câu vừa sửa.** Nếu nhiều chỗ cùng được thay bằng một từ, hãy kiểm tra từng chỗ theo nghĩa của câu. Giữ nguyên khi từ đó đúng, dù nó lặp lại nhiều lần. Chỉ sửa lại khi cùng một từ bị dùng máy móc cho những quan hệ nghĩa khác nhau hoặc được chọn chỉ vì nó đứng đầu danh sách gợi ý. Không đổi từ chỉ để tạo cảm giác đa dạng.
 
-## Bốn quy tắc chốt chặn
+## Năm quy tắc chốt chặn
 
-Bốn quy tắc này áp dụng cho từng chỗ định sửa. Nếu một chỗ định sửa không đáp ứng đủ cả bốn quy tắc thì để nguyên hoặc hỏi người dùng.
+Năm quy tắc này áp dụng cho từng chỗ định sửa. Nếu một chỗ định sửa không đáp ứng đủ cả năm quy tắc thì để nguyên hoặc hỏi người dùng.
 
 **1. Chỉ sửa lỗi gọi tên được.** Trước khi sửa, phải xác định được pattern nào khớp, dấu hiệu nằm ở đâu và vì sao mục **Không flag** của pattern đó không áp dụng. Cảm giác chung như *câu hơi khô*, *đọc chưa mượt* hoặc *nghe giống AI* chưa đủ để sửa.
 
@@ -65,13 +65,15 @@ Bốn quy tắc này áp dụng cho từng chỗ định sửa. Nếu một ch�
 
 **4. Chỉ sửa đúng phạm vi cần thiết.** Nếu lỗi chỉ nằm ở một cụm từ thì sửa cụm từ đó, không viết lại cả câu; nếu lỗi chỉ nằm ở một câu thì không viết lại cả đoạn. Không dùng tỉ lệ dài ngắn làm điều kiện cứng: thêm một hư từ vào câu ngắn có thể làm tỉ lệ tăng mạnh mà vẫn là sửa đúng, còn một bản viết lại sai ý vẫn có thể gần bằng độ dài bản gốc. Nếu bản sửa phải thêm mệnh đề, ví dụ hoặc lời giải thích, hãy kiểm tra lại quy tắc 2 và 3 trước khi giữ.
 
+**5. Không giữ siêu dữ liệu về quá trình.** Câu nào nói về việc văn bản này được tạo ra thế nào, thay vì nói về chủ đề của nó, thì chuyển ra ngoài hoặc cắt. Ghi chú xuất xứ, nhật ký các bản nháp trước, câu hỏi dành cho người đặt việc và lời tường thuật việc kiểm chứng đều thuộc lượt trả lời trong hội thoại chứ không thuộc tài liệu. Áp hai phép thử và đọc mục **Không flag** của K6 trong `profiles/ky-thuat-doanh-nghiep.md` trước khi cắt.
+
 ## Hiệu chỉnh theo giọng người viết
 
 Nếu agent có memory hoặc knowledge base, hãy tìm hồ sơ văn phong của đúng người dùng trước khi sửa. Chỉ lấy những thông tin phục vụ việc giữ giọng, chẳng hạn cách xưng hô, nhịp và độ dài câu, mức dùng từ Hán-Việt, thói quen chêm tiếng Anh, cách viết hoa và dấu câu. Không lấy dữ kiện cá nhân không liên quan và không dùng hồ sơ của người này cho người khác.
 
 Nếu người dùng đưa mẫu văn trong yêu cầu hiện tại, đọc mẫu và dùng nó để kiểm tra lại hồ sơ đã lưu. Chỉ coi một cách viết là thói quen khi nó xuất hiện ổn định; không suy ra đặc tính cá nhân từ một lỗi gõ, một chỗ dùng từ sai hoặc một trường hợp đơn lẻ. Nếu chưa có hồ sơ, hồ sơ đã cũ hoặc mâu thuẫn với văn bản hiện tại thì dựa vào mẫu đang có và quy chuẩn của thể loại, không tự điền phần còn thiếu.
 
-Thứ tự ưu tiên là: yêu cầu hiện tại của người dùng, quy chuẩn của thể loại cần viết, thói quen ổn định trong mẫu và hồ sơ văn phong, rồi mới đến quy tắc phong cách mặc định của skill. Hồ sơ cá nhân không được vượt qua bốn quy tắc chặn hoặc hợp thức hoá một lỗi ngôn ngữ rõ ràng.
+Thứ tự ưu tiên là: yêu cầu hiện tại của người dùng, quy chuẩn của thể loại cần viết, thói quen ổn định trong mẫu và hồ sơ văn phong, rồi mới đến quy tắc phong cách mặc định của skill. Hồ sơ cá nhân không được vượt qua năm quy tắc chặn hoặc hợp thức hoá một lỗi ngôn ngữ rõ ràng.
 
 Không lưu hồ sơ văn phong cá nhân trong `calibration/LOG.md`. File đó chỉ ghi bằng chứng dùng để sửa các quy tắc chung của skill.
 
@@ -356,6 +358,8 @@ Một từ có thể lặp lại nhiều lần nếu lần nào cũng đúng ngh
 **Khi người dùng giao file:** sửa đúng phần văn xuôi thuộc phạm vi yêu cầu. Giữ nguyên code, frontmatter, dữ liệu có cấu trúc và địa chỉ liên kết. Sau khi sửa, báo ngắn gọn phần đã thay đổi và không dán lại toàn bộ file vào hội thoại.
 
 **Khi skill được dùng như một bước trong tác vụ khác:** chỉ trả về văn bản đã sửa, không thêm lời dẫn, phân tích hoặc tóm tắt.
+
+**Khi phát hiện siêu dữ liệu về quá trình:** không âm thầm xoá. Trả về văn bản đã cắt, kèm một dòng liệt kê những gì đã chuyển ra ngoài và chuyển đi đâu, để tác vụ gọi skill còn đặt lại đúng chỗ.
 
 ## Khi người dùng sửa lại kết quả
 

@@ -15,7 +15,7 @@ Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉn
 Skill xử lý ba lớp:
 
 - V1–V20 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ hoặc đặt trạng ngữ gây mơ hồ.
-- B1–B17 và K1–K5 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
+- B1–B17 và K1–K6 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
 - T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V20.
 
 Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
@@ -104,7 +104,7 @@ Hãy sửa đoạn dưới theo cùng cách xưng hô, nhịp câu và mức đ�
 [văn bản cần sửa]
 ```
 
-Mẫu văn chỉ được ưu tiên đối với thói quen xuất hiện nhất quán, như cách xưng hô, nhịp câu, cách chêm tiếng Anh hoặc dùng dấu câu. Nó không hợp thức hoá lỗi ngôn ngữ rõ ràng và không vượt qua bốn quy tắc chốt chặn trong `SKILL.md`.
+Mẫu văn chỉ được ưu tiên đối với thói quen xuất hiện nhất quán, như cách xưng hô, nhịp câu, cách chêm tiếng Anh hoặc dùng dấu câu. Nó không hợp thức hoá lỗi ngôn ngữ rõ ràng và không vượt qua năm quy tắc chốt chặn trong `SKILL.md`.
 
 Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phong của đúng người dùng trước khi sửa. Hồ sơ này phải tách riêng theo người, chỉ lưu đặc tính cần thiết cho việc giữ giọng và luôn nhường chỗ cho yêu cầu hiện tại.
 
@@ -115,10 +115,11 @@ Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phon
 ```text
 SKILL.md                            quy trình, V1–V20, T1–T6 và cách trả kết quả
 profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhân
-profiles/ky-thuat-doanh-nghiep.md   K1–K5 và giới hạn của văn kỹ thuật, học thuật
+profiles/ky-thuat-doanh-nghiep.md   K1–K6 và giới hạn của văn kỹ thuật, học thuật
 references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
 references/bang-tra-cuu.md          bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
 calibration/LOG.md                  bằng chứng dùng để sửa quy tắc chung
+calibration/ca-kiem-thu.md          ca kiểm thử chạy tay cho từng pattern
 agents/openai.yaml                  tên hiển thị và lời gọi mặc định
 scripts/validate-package.py         kiểm tra tính đồng bộ của gói
 scripts/package-skill.sh            tạo dist/vi-humanizer.skill
@@ -189,7 +190,7 @@ Typography chỉ được sửa khi văn bản đồng thời có ít nhất m�
 | B16 | Giả thân mật |
 | B17 | Trộn mức độ trang trọng không chủ đích |
 
-### Tài liệu kỹ thuật, doanh nghiệp và học thuật (K1–K5)
+### Tài liệu kỹ thuật, doanh nghiệp và học thuật (K1–K6)
 
 | # | Pattern |
 |---|---|
@@ -198,6 +199,7 @@ Typography chỉ được sửa khi văn bản đồng thời có ít nhất m�
 | K3 | Bộ đề mục Hán-Việt đối xứng rỗng |
 | K4 | Mô tả hiện tượng mà không đưa hiện tượng ra |
 | K5 | Câu dẫn nhập rỗng sau đề mục |
+| K6 | Siêu dữ liệu về quá trình tạo ra văn bản |
 
 Profile này còn yêu cầu không thêm tiểu từ, ý kiến hoặc ngôi thứ nhất; không thay thuật ngữ chỉ để tránh lặp; không thuần Việt hoá thuật ngữ đã được định nghĩa.
 
@@ -288,6 +290,7 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 
 ## Lịch sử phiên bản
 
+- **0.6.0** – Thêm K6 cho những câu nói về quá trình tạo ra tài liệu thay vì nói về chủ đề của nó; thêm quy tắc chốt chặn thứ năm và một dòng trong mục Cách trả kết quả; thêm `calibration/ca-kiem-thu.md` với tám ca kiểm thử cho K6.
 - **0.5.2** – Mở rộng V18 để phát hiện các mệnh đề nối nhau nhưng không rõ chủ thể; bổ sung cho V20 cách kiểm tra nghĩa, vai trò và khả năng kết hợp của từ trong câu.
 - **0.5.1** – Chỉnh lại vài chỗ diễn đạt trong `SKILL.md`. Không thêm bớt pattern và không đổi hành vi.
 - **0.5.0** – Viết lại toàn bộ tài liệu theo `SKILL.md`; bỏ các ngưỡng chưa hiệu chỉnh và những kết luận tuyệt đối; tách hồ sơ văn phong cá nhân sang memory hoặc knowledge base của agent; xác định `calibration/LOG.md` chỉ là nhật ký bằng chứng cho quy tắc dùng chung; đồng bộ lại profile, bảng tra, manifest và script quét.
