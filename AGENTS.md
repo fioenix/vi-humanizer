@@ -14,10 +14,11 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 |---|---|
 | `SKILL.md` | Kiểm tra thể loại, quy trình, V1–V20, T1–T6 và cách trả kết quả. **Đây là nguồn chuẩn.** |
 | `profiles/blog-ca-nhan.md` | B1–B17 cho blog, bài cá nhân, nội dung công việc và marketing |
-| `profiles/ky-thuat-doanh-nghiep.md` | K1–K5 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
+| `profiles/ky-thuat-doanh-nghiep.md` | K1–K6 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
+| `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
@@ -31,7 +32,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 Đây là quyết định kiến trúc quan trọng nhất của repo.
 
 - V1–V20 trong `SKILL.md` kiểm tra cách dùng từ và cấu trúc câu. Chúng chỉ chạy trên các thể loại được phép biên tập, đồng thời phải tuân theo mục **Không flag** của từng pattern.
-- B1–B17 và K1–K5 phụ thuộc vào thể loại, người đọc và giọng văn. Chúng nằm trong `profiles/`.
+- B1–B17 và K1–K6 phụ thuộc vào thể loại, người đọc và giọng văn. Chúng nằm trong `profiles/`.
 
 Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V20 như một lỗi áp dụng cho mọi văn bản.
 

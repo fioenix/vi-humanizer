@@ -420,3 +420,17 @@ Truy ngược cho thấy cùng giả định sai còn nằm ở phanh T4 (*mà* 
 **Phân loại:** mâu thuẫn nội bộ và diễn đạt vượt quá bằng chứng hiện có. Không phải pattern mới.
 
 **Quyết định:** định vị skill là công cụ biên tập lỗi dịch sát, thiếu từ, sai cấu trúc và sáo ngữ không hợp thể loại. Giữ LLM như một nguồn có thể tạo ra các lỗi này, nhưng không coi lỗi là bằng chứng về tác giả và không giải thích bằng suy đoán về token hay dữ liệu huấn luyện.
+
+---
+
+## 2026-09-09 · siêu dữ liệu về quá trình trong deliverable của agent
+
+**Nguồn:** Fioenix gửi một brief kèm bảy đoạn trích nguyên văn từ deliverable do agent sinh ra trong phiên làm việc ngày 09/09/2026, đều đã bị người dùng bắt khi đọc lại.
+
+**Dấu hiệu:** trong tài liệu có câu nói về việc tài liệu được tạo ra thế nào thay vì nói về chủ đề của nó. Bảy dạng: ghi chú xuất xứ ở đầu file, tường thuật khoảnh khắc nhận ra, nhật ký các bản nháp trước, tham chiếu chéo tới artifact khác chưa có trong tay người đọc, câu hỏi dành cho người đặt việc, tự bảo vệ lựa chọn trình bày, tường thuật việc kiểm chứng.
+
+**Khác biệt gọi tên được:** quy tắc chốt chặn số 2 chỉ chặn việc thêm dữ kiện của chủ đề, gồm tên, số, ngày và nguồn. Những câu này thêm siêu dữ liệu về quá trình, không phải dữ kiện của chủ đề, nên lọt qua toàn bộ V1–V20, B1–B17, K1–K5 và T1–T6. K1 gần nhất nhưng chỉ bắt việc mô tả thay đổi của hệ thống, không bắt việc tường thuật quá trình soạn thảo.
+
+**Phân loại:** hiện tượng mới, đủ mẫu độc lập trong cùng một phiên và gọi tên được bằng hai phép thử kiểm tra lại được.
+
+**Quyết định:** thêm K6 vào `profiles/ky-thuat-doanh-nghiep.md` và quy tắc chốt chặn thứ năm vào `SKILL.md`. Đặt ở profile kỹ thuật trước vì phần lớn deliverable của agent rơi vào nhóm này; sau khi hiệu chỉnh sẽ cân nhắc nâng lên V-series do lỗi cũng xuất hiện ở blog và nội dung marketing. Hướng xử lý mặc định là chuyển chỗ, rồi đổi nhãn, cắt là lựa chọn cuối. Mục **Không flag** giữ changelog, decision record, file quy trình trong knowledge base, frontmatter, quy ước sẵn có của repo, biên bản họp và trích dẫn nguyên văn. Ranh giới: skill chỉ bắt và chuyển câu đã bị viết ra; việc ngăn lỗi từ gốc thuộc instruction của agent viết tài liệu. Tám ca kiểm thử nằm trong `calibration/ca-kiem-thu.md`, trong đó bốn ca chống sửa quá tay.
