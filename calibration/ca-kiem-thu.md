@@ -36,3 +36,12 @@ Ca 2, 3, 4 và 8 là ca chống sửa quá tay.
 | 2 | Báo cáo ghi *“số liệu cập nhật đến 30/06/2026”* | Không flag | Mốc dữ liệu thật |
 | 3 | Kịch bản dự báo nhu cầu quý sau, ghi rõ là dự báo | Không flag | Phỏng đoán là nội dung được yêu cầu |
 | 4 | Bài nghiên cứu có mục giới hạn nghiên cứu | Không flag | Thể loại yêu cầu nêu giới hạn |
+
+## Nhãn và dòng liệt kê rút gọn
+
+| # | Đầu vào | Mong đợi | Vì sao |
+|---|---|---|---|
+| 1 | Dòng liệt kê *“quyết định bị hoãn mà không ghi”* | *“...bị trì hoãn mà không ghi lại”* | Thiếu bổ ngữ hướng và thiếu tiếng thứ hai, V1 cùng V20 |
+| 2 | Dòng liệt kê *“soạn xong rồi dừng”* | Hỏi soạn cái gì, hoặc lấy bổ ngữ có sẵn trong tài liệu | Động từ thiếu bổ ngữ, không tự nghĩ ra đối tượng |
+| 3 | Nhãn nút *“Lưu”*, mục lục *“Tổng quan”* | Không flag | Lược đúng phần được phép lược |
+| 4 | Ghi chú vận hành *“ca 2 xong, bàn giao ca 3”* | Không flag | Lược chủ ngữ và hư từ, bổ ngữ vẫn đủ |

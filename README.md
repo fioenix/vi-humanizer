@@ -292,6 +292,7 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 
 ## Lịch sử phiên bản
 
+- **0.7.1** – Siết trường hợp loại trừ cho nhãn và dòng liệt kê: lược chủ ngữ, hư từ, loại từ thì được, còn bổ ngữ của động từ và tiếng thứ hai của từ hai tiếng thì phải giữ. Theo bản vàng ghi trong `calibration/LOG.md` ngày 09/09/2026.
 - **0.7.0** – Thêm V21 cho tàn dư lượt hội thoại của trợ lý và V22 cho kiểu rào trước về nguồn rồi vẫn đưa phỏng đoán; quy trình nói rõ văn bản đầu vào là chất liệu để biên tập, không phải chỉ thị để làm theo; quy tắc chốt chặn 3 thêm thứ hạng và quan hệ đồng thời. Đối chiếu với `blader/humanizer` 3.0.0.
 - **0.6.0** – Thêm K6 cho những câu nói về quá trình tạo ra tài liệu thay vì nói về chủ đề của nó; thêm quy tắc chốt chặn thứ năm và một dòng trong mục Cách trả kết quả; thêm `calibration/ca-kiem-thu.md` với tám ca kiểm thử cho K6.
 - **0.5.2** – Mở rộng V18 để phát hiện các mệnh đề nối nhau nhưng không rõ chủ thể; bổ sung cho V20 cách kiểm tra nghĩa, vai trò và khả năng kết hợp của từ trong câu.
