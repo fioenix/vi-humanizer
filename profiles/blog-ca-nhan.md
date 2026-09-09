@@ -2,7 +2,7 @@
 
 Đọc file này sau `SKILL.md` khi văn bản là blog, bài viết thể hiện quan điểm, nội dung công việc, chat nội bộ, LinkedIn, bài xây dựng thương hiệu cá nhân hoặc nội dung marketing.
 
-Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V20 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
+Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V22 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
 
 ---
 

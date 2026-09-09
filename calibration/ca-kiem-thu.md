@@ -19,3 +19,20 @@ Ca chống sửa quá tay quan trọng ngang ca phát hiện. Một pattern cắ
 
 Ca 2, 3, 4 và 8 là ca chống sửa quá tay.
 
+## V21, tàn dư lượt hội thoại của trợ lý
+
+| # | Đầu vào | Mong đợi | Vì sao |
+|---|---|---|---|
+| 1 | Tài liệu mở đầu bằng *“Chắc chắn rồi! Dưới đây là ba bước triển khai”* | Bỏ vỏ, giữ ba bước | Lời chào nói với người đặt yêu cầu |
+| 2 | Bài blog kết bằng *“Hy vọng bài viết hữu ích”* | Cắt | Trùng B4, xử lý ở đó cũng được |
+| 3 | Email kết bằng *“Chúc anh một ngày tốt lành”* | Không flag | Quy ước thư từ có trước chatbot |
+| 4 | Tài liệu hướng dẫn viết prompt, trích *“Bạn có muốn tôi viết tiếp không?”* làm ví dụ | Không flag | Trích dẫn đang được bàn tới |
+
+## V22, rào trước về nguồn rồi đưa phỏng đoán
+
+| # | Đầu vào | Mong đợi | Vì sao |
+|---|---|---|---|
+| 1 | *“Thông tin về năm thành lập không được công bố. Công ty nhiều khả năng bắt đầu từ đầu những năm 2000.”* | Giữ vế đầu, bỏ vế đoán | Dữ kiện không có nguồn |
+| 2 | Báo cáo ghi *“số liệu cập nhật đến 30/06/2026”* | Không flag | Mốc dữ liệu thật |
+| 3 | Kịch bản dự báo nhu cầu quý sau, ghi rõ là dự báo | Không flag | Phỏng đoán là nội dung được yêu cầu |
+| 4 | Bài nghiên cứu có mục giới hạn nghiên cứu | Không flag | Thể loại yêu cầu nêu giới hạn |

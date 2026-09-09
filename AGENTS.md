@@ -12,7 +12,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 
 | File | Vai trò |
 |---|---|
-| `SKILL.md` | Kiểm tra thể loại, quy trình, V1–V20, T1–T6 và cách trả kết quả. **Đây là nguồn chuẩn.** |
+| `SKILL.md` | Kiểm tra thể loại, quy trình, V1–V22, T1–T6 và cách trả kết quả. **Đây là nguồn chuẩn.** |
 | `profiles/blog-ca-nhan.md` | B1–B17 cho blog, bài cá nhân, nội dung công việc và marketing |
 | `profiles/ky-thuat-doanh-nghiep.md` | K1–K6 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
@@ -31,10 +31,10 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 
 Đây là quyết định kiến trúc quan trọng nhất của repo.
 
-- V1–V20 trong `SKILL.md` kiểm tra cách dùng từ và cấu trúc câu. Chúng chỉ chạy trên các thể loại được phép biên tập, đồng thời phải tuân theo mục **Không flag** của từng pattern.
+- V1–V22 trong `SKILL.md` kiểm tra cách dùng từ và cấu trúc câu. Chúng chỉ chạy trên các thể loại được phép biên tập, đồng thời phải tuân theo mục **Không flag** của từng pattern.
 - B1–B17 và K1–K6 phụ thuộc vào thể loại, người đọc và giọng văn. Chúng nằm trong `profiles/`.
 
-Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V20 như một lỗi áp dụng cho mọi văn bản.
+Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V22 như một lỗi áp dụng cho mọi văn bản.
 
 ## Hợp đồng bảo trì
 
