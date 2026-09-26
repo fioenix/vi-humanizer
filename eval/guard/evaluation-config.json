@@ -1,0 +1,10 @@
+{
+  "config_version": "sha256:14407f6156910b7f087886b9053d3066270e79c58c4f89aa1c05a36951bcf76b",
+  "model_version": "jev-1.13.0",
+  "question_set_version": "sha256:4deb4c217a790e600e655feaf0530a457cb1fdc34b1330a928321962eee4e362",
+  "timeout_seconds": 30,
+  "retry_policy": {
+    "max_attempts": 3,
+    "backoff_seconds": 0.5
+  }
+}
