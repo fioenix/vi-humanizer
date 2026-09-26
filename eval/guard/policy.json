@@ -1,0 +1,26 @@
+{
+  "config_version": "sha256:14407f6156910b7f087886b9053d3066270e79c58c4f89aa1c05a36951bcf76b",
+  "corpus_version_fitted": "sha256:ce2d44cceb1ce263d5dace9d84516c78260c8102b6eee77fce976d70807932e8",
+  "created_at": "2026-09-26T07:33:01.367555Z",
+  "model_version": "jev-1.13.0",
+  "needs_edit_thresholds": {
+    "lexically_incomplete": 1.0,
+    "unnatural_collocation": 0.59
+  },
+  "policy_version": "sha256:b91a3e3245d455f8cda90e3b4a0e7dba2284c380cec9213f4e3a49c006e54f5f",
+  "preference_confidence_threshold": 0.75,
+  "preference_margin_threshold": 0.7100000000000001,
+  "question_set_version": "sha256:4deb4c217a790e600e655feaf0530a457cb1fdc34b1330a928321962eee4e362",
+  "safety_reject_threshold": 0.64,
+  "safety_review_threshold": 0.64,
+  "selection_order": [
+    "need_to_edit_recall",
+    "candidate_choice_accuracy",
+    "unacceptable_candidate_replace_rate",
+    "unnecessary_edit_rate",
+    "valid_edit_false_block_rate",
+    "safety_false_accept_rate",
+    "review_rate",
+    "conservative_thresholds"
+  ]
+}

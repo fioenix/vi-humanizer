@@ -26,6 +26,26 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
 | `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
+| `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
+| `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
+| `.agents/skills/` | Các skill Spec Kit do `specify init` tạo cho Codex; không được đóng gói vào `vi-humanizer.skill` |
+| `guard_eval/` | Harness Python đánh giá need-to-edit, candidate preference và safety ở shadow mode |
+| `eval/guard/` | Corpus đã gắn nhãn, manifest, evaluation config, pricing snapshot và policy đã duyệt |
+| `tests/guard_eval/` | Test unit/contract/integration offline; CI không gọi TypeSafe |
+| `artifacts/guard-eval/` | Raw run local bị gitignore; artifact không được chứa raw prose, secret hoặc raw exception |
+
+## Evaluation harness
+
+- Candidate phải được host LLM chạy vi-humanizer, baseline observation hoặc maintainer fixture tạo
+  trước. Jev chỉ thẩm định; không prompt hoặc adapter nào được yêu cầu Jev sinh, nối hay sửa prose.
+- `eval/guard/dev.jsonl` dùng để phát triển câu hỏi và fit threshold. `holdout.jsonl` chỉ được đọc
+  sau khi policy đã khóa; không sửa corpus, questions hoặc threshold sau khi xem kết quả holdout.
+- `evaluation-config.json` khóa model và question-set version. `pricing.json` chỉ phục vụ tính cost,
+  không được tham gia route. `policy.json` chỉ được ghi sau live dev run và maintainer review.
+- `candidate_origin`, nhãn, baseline, provenance và split không được gửi cho TypeSafe. Generated
+  run/report không được chứa raw prose, credential, request body hoặc raw exception.
+- Thiếu key hoặc lỗi dịch vụ phải ra `unchecked`/exit 2. Không được đổi thành pass và không được
+  làm hỏng workflow Markdown hay gói `vi-humanizer.skill`.
 
 ## Ranh giới giữa quy tắc chung và profile
 
