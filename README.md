@@ -124,7 +124,41 @@ agents/openai.yaml                  tên hiển thị và lời gọi mặc đ�
 scripts/validate-package.py         kiểm tra tính đồng bộ của gói
 scripts/package-skill.sh            tạo dist/vi-humanizer.skill
 scripts/scan-tells.sh               tìm những chỗ có thể rà bằng biểu thức chính quy
+.specify/                            constitution, template và script của Spec Kit
+specs/                               đặc tả, checklist, plan và task theo từng feature
+.agents/skills/                      các skill Spec Kit dùng trong Codex
+guard_eval/                          evaluation harness cho edit guard, không thuộc gói skill
+eval/guard/                          corpus, manifest, config, pricing và policy đã duyệt
+tests/guard_eval/                    test offline; external evaluator luôn được fake trong CI
+artifacts/guard-eval/                raw run local, bị gitignore và không chứa raw prose
+pyproject.toml, uv.lock               môi trường Python 3.12 khóa version cho harness
 ```
+
+Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
+`vi-humanizer.skill`.
+
+### Evaluation harness cho edit guard
+
+Harness so sánh observation baseline của `vi-humanizer-0.7.1` với lớp thẩm định TypeSafe ở
+shadow mode. Host LLM tạo sẵn từ một đến ba candidate. Jev chỉ trả hai phán đoán need-to-edit,
+một lựa chọn giữa bản gốc/candidate/`none_of_candidates` và sáu phán đoán safety cho từng
+candidate; code mới fit threshold và route `keep`, `replace` hoặc `review`. Jev không sinh hoặc
+sửa văn bản.
+
+Cài môi trường và chạy toàn bộ đường offline:
+
+```bash
+uv sync --locked --group eval
+uv run --locked python -m unittest discover -s tests -p 'test_*.py' -v
+env -u TYPESAFE_API_KEY uv run --locked python -m guard_eval validate \
+  --manifest eval/guard/manifest.json
+```
+
+`candidate_origin` phân biệt `host_llm_output`, `baseline_observation` và
+`maintainer_fixture`; origin, ground truth và baseline không được gửi cho evaluator. Live dev và
+holdout run cần maintainer cho phép dùng credential/quota riêng. `eval/guard/policy.json` chỉ được
+ghi sau khi policy fit trên dev đã được review. Raw run nằm dưới `artifacts/guard-eval/`; chỉ báo
+cáo holdout đã loại raw prose mới được đưa vào `specs/.../evidence/`.
 
 Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong, nghi lễ, code, schema, bảng tham số và trích dẫn nguyên văn có những quy ước riêng nên bị loại khỏi phần biên tập tương ứng. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
 

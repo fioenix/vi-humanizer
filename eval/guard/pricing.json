@@ -1,0 +1,9 @@
+{
+  "pricing_version": "sha256:6b8478384e2e47a9b3ceee2dc0f7de570445cff1e748125ec02cfffae3d567df",
+  "model_version": "jev-1.13.0",
+  "currency": "USD",
+  "input_cost_per_million_tokens": 0.042,
+  "output_cost_per_million_tokens": 0.0,
+  "observed_at": "2026-09-26T00:00:00+07:00",
+  "source": "https://docs.typesafe.ai/models.md"
+}

@@ -1,0 +1,116 @@
+{
+  "config_version": "sha256:14407f6156910b7f087886b9053d3066270e79c58c4f89aa1c05a36951bcf76b",
+  "corpus_version": "sha256:ce2d44cceb1ce263d5dace9d84516c78260c8102b6eee77fce976d70807932e8",
+  "coverage": {
+    "case_count": 4,
+    "genre": {
+      "blog cá nhân": 2,
+      "tài liệu kỹ thuật": 2
+    },
+    "label_authority": {
+      "maintainer": 4
+    }
+  },
+  "decision": "stop",
+  "decision_reasons": [
+    "a required recall/accuracy metric decreased"
+  ],
+  "limitations": [
+    "Small feasibility corpus; interpret per-slice rates with denominators.",
+    "Questions and thresholds were developed on dev only.",
+    "continue_shadow does not authorize production edits."
+  ],
+  "metrics": {
+    "baseline_metrics": {
+      "candidate_choice_accuracy": 1.0,
+      "harmful_edit_recall": 1.0,
+      "need_to_edit_recall": 1.0,
+      "no_acceptable_candidate_recall": 1.0,
+      "review_rate": 0.25,
+      "safety_false_accept_rate": 0.0,
+      "unnecessary_edit_rate": 0.0,
+      "valid_edit_false_block_rate": 0.5
+    },
+    "by_dimension": {
+      "adds_claim": {
+        "false_negative": 0,
+        "false_positive": 2,
+        "true_negative": 5,
+        "true_positive": 1
+      },
+      "changes_actor_or_time": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "true_negative": 7,
+        "true_positive": 1
+      },
+      "changes_causality_or_commitment": {
+        "false_negative": 0,
+        "false_positive": 2,
+        "true_negative": 5,
+        "true_positive": 1
+      },
+      "changes_order_or_concurrency": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "true_negative": 7,
+        "true_positive": 1
+      },
+      "changes_register": {
+        "false_negative": 0,
+        "false_positive": 2,
+        "true_negative": 4,
+        "true_positive": 2
+      },
+      "keeps_invalid_process_metadata": {
+        "false_negative": 0,
+        "false_positive": 1,
+        "true_negative": 6,
+        "true_positive": 1
+      }
+    },
+    "by_reason": {
+      "lexically_incomplete": {
+        "false_negative": 2,
+        "false_positive": 0,
+        "true_negative": 2,
+        "true_positive": 0
+      },
+      "unnatural_collocation": {
+        "false_negative": 0,
+        "false_positive": 2,
+        "true_negative": 1,
+        "true_positive": 1
+      }
+    },
+    "candidate_metrics": {
+      "candidate_choice_accuracy": 1.0,
+      "estimated_cost": {
+        "amount": 0.00024960600000000004,
+        "currency": "USD"
+      },
+      "harmful_edit_recall": 1.0,
+      "latency_ms": {
+        "p50": 901.5,
+        "p95": 1052.5
+      },
+      "need_to_edit_recall": 1.0,
+      "no_acceptable_candidate_recall": 0.0,
+      "review_rate": 0.5,
+      "safety_false_accept_rate": 0.0,
+      "service_errors": {},
+      "tokens": {
+        "input": 5943,
+        "output": 1680
+      },
+      "unnecessary_edit_rate": 1.0,
+      "valid_edit_false_block_rate": 0.0
+    }
+  },
+  "model_version": "jev-1.13.0",
+  "policy_version": "sha256:b91a3e3245d455f8cda90e3b4a0e7dba2284c380cec9213f4e3a49c006e54f5f",
+  "pricing_version": "sha256:6b8478384e2e47a9b3ceee2dc0f7de570445cff1e748125ec02cfffae3d567df",
+  "report_version": "1.0.0",
+  "run_id": "45d6b524-1eeb-4053-af14-df8e8d3f522c",
+  "run_status": "complete"
+}
