@@ -122,3 +122,52 @@ Ca MSP01–MSP04 không được tạo câu hỏi cho người dùng. Ca MSP05 p
 2. Mỗi phần văn xuôi dùng tối đa một style card; card của câu mở đầu, hướng dẫn và CTA không rò sang nhau.
 3. Ba vùng protected giữ đúng từng byte, kể cả backtick, dấu `|`, khoảng trắng và dấu ngoặc kép.
 4. Nếu người dùng chỉ yêu cầu viết lại, bản cuối không lộ tên base profile, style card hoặc phân tích định tuyến.
+
+## Hiệu chuẩn khoảng trống upstream 3.0.0
+
+Các ca dưới đây khóa nhãn trước khi thêm pattern. Mỗi giả thuyết có ba ca dương (`flag`) và ba ca
+âm (`keep`). Sáu ca chỉ tạo độ phủ ngữ cảnh, không phải ngưỡng tần suất để kết luận lỗi.
+
+### ARG — phản biện một ý không có đối tượng
+
+| Ca | Ngữ cảnh và đầu vào | Mong đợi | Phạm vi sửa | Vì sao |
+|---|---|---|---|---|
+| ARG-P01 | Bài phân tích chưa hề nói quy trình cũ vô dụng: *“Không phải quy trình cũ hoàn toàn vô dụng. Điểm cần sửa là bước đối chiếu chưa có người chịu trách nhiệm.”* | `flag` | Cắt câu đầu | Câu đầu phủ định một ý không tồn tại; câu sau tự mang đủ kết luận |
+| ARG-P02 | Báo cáo chưa có ai hạ thấp tốc độ: *“Không ai phủ nhận tốc độ là quan trọng. Lỗi hiện tại nằm ở hàng đợi bị khóa.”* | `flag` | Cắt câu đầu | Uyển ngữ đồng thuận không có đối tượng và không thêm điều kiện cho nguyên nhân |
+| ARG-P03 | Hướng dẫn chưa có hiểu lầm về tự động hóa: *“Đừng hiểu lầm rằng tài liệu này phản đối tự động hóa. Tài liệu chỉ yêu cầu giữ bước phê duyệt thủ công.”* | `flag` | Cắt câu đầu | Lời tự vệ được dựng thêm; yêu cầu thật nằm trọn ở câu sau |
+| ARG-N01 | Người dùng hỏi *“Có nên bỏ tài liệu không?”*; câu trả lời: *“Không phải tài liệu không quan trọng; vấn đề là bản hiện tại đã lỗi thời.”* | `keep` | `none` | Ý bị phản biện có thật trong câu hỏi |
+| ARG-N02 | ADR liệt kê phương án A là tăng máy chủ rồi chọn B: *“Tăng máy chủ không giải quyết điểm nghẽn khóa; phương án B tách hàng đợi.”* | `keep` | `none` | Phương án đối chứng được nêu rõ và cần cho quyết định |
+| ARG-N03 | Đoạn trước trích nhận xét *“kiểm thử làm chậm phát hành”*; đoạn sau viết *“Không phải kiểm thử là phần việc thừa.”* | `keep` | `none` | Câu phản biện có đối tượng ngay trong mạch văn |
+
+### QUAL — chồng từ giảm độ chắc chắn cùng chức năng
+
+| Ca | Ngữ cảnh và đầu vào | Mong đợi | Phạm vi sửa | Vì sao |
+|---|---|---|---|---|
+| QUAL-P01 | Dự báo: *“Có khả năng có thể đơn hàng sẽ bị trễ.”* | `flag` | Bỏ *có khả năng* hoặc *có thể*, giữ một mức khả năng | Hai cụm cùng đánh dấu một khả năng, bỏ một cụm không làm câu chắc hơn |
+| QUAL-P02 | Nhận định: *“Kết quả này dường như có vẻ thiếu ổn định.”* | `flag` | Giữ *dường như* hoặc *có vẻ* | Hai từ cùng biểu thị ấn tượng chưa chắc chắn |
+| QUAL-P03 | Ghi chú: *“Có lẽ dường như lỗi bắt đầu sau lần cập nhật.”* | `flag` | Giữ một từ giảm độ chắc chắn | Hai từ cùng bao phủ một phỏng đoán của người viết |
+| QUAL-N01 | *“Đơn hàng có thể sẽ bị trễ nếu xe đến sau 17 giờ.”* | `keep` | `none` | *Có thể* chỉ khả năng, *sẽ* đặt sự việc ở tương lai |
+| QUAL-N02 | *“Hệ thống dường như có thể tự phục hồi sau khi mất kết nối.”* | `keep` | `none` | *Dường như* nói về bằng chứng quan sát, *có thể* nói về năng lực hệ thống |
+| QUAL-N03 | *“Chưa chắc nhóm đã nhận được thông báo.”* | `keep` | `none` | *Chưa chắc* chỉ mức tin cậy, *đã* chỉ trạng thái hoàn thành |
+
+### REL — làm mơ hồ quan hệ đã có trong nguồn
+
+| Ca | Ngữ cảnh và đầu vào | Mong đợi | Phạm vi sửa | Vì sao |
+|---|---|---|---|---|
+| REL-P01 | Nguồn trong tài liệu: *“Người này là tác giả thư viện.”* Bản viết: *“Người này có mối liên hệ với thư viện.”* | `flag` | Khôi phục *là tác giả* | Bản viết làm mất vai trò cụ thể đã có trong nguồn |
+| REL-P02 | Nguồn: *“Plugin phụ thuộc thư viện A ở runtime.”* Bản viết: *“Plugin có quan hệ với thư viện A.”* | `flag` | Khôi phục quan hệ *phụ thuộc ở runtime* | *Có quan hệ* che mất chiều và loại phụ thuộc |
+| REL-P03 | Nguồn: *“Quy định này sửa đổi Điều 5.”* Bản viết: *“Quy định này liên quan đến Điều 5.”* | `flag` | Khôi phục *sửa đổi* | Quan hệ pháp lý cụ thể bị hạ thành liên hệ chung |
+| REL-N01 | Nguồn chỉ ghi *“Nhóm nghiên cứu có liên quan đến chương trình.”*; bản viết giữ nguyên | `keep` | `none` | Nguồn không cho biết vai trò cụ thể để khôi phục |
+| REL-N02 | Nguồn ghi *“Đơn vị này có thể là nhà tài trợ.”*; bản viết giữ đúng mức *có thể* | `keep` | `none` | Không được nâng quan hệ chưa chắc chắn thành dữ kiện |
+| REL-N03 | Người dùng yêu cầu ẩn danh vai trò trước khi công bố; bản viết dùng *“một bên liên quan”* | `keep` | `none` | Làm mờ là ràng buộc riêng tư có chủ ý của tác vụ |
+
+### AUTH — mượn uy tín thay cho nội dung nguồn
+
+| Ca | Ngữ cảnh và đầu vào | Mong đợi | Phạm vi sửa | Vì sao |
+|---|---|---|---|---|
+| AUTH-P01 | Nội dung giới thiệu không có dẫn chứng: *“Sản phẩm được nhiều chuyên gia đánh giá cao.”* | `flag` | Cắt tuyên bố hoặc thay bằng dẫn chứng có sẵn | Uy tín không được định danh đang làm lý do thuyết phục |
+| AUTH-P02 | Bài kỹ thuật không có mục tài liệu tham khảo: *“Nhiều nghiên cứu cho thấy cách này luôn an toàn.”* | `flag` | Cắt lời viện dẫn và tuyên bố không có nguồn | Cụm *nhiều nghiên cứu* thay cho bằng chứng, còn *luôn* nâng mức chắc chắn |
+| AUTH-P03 | Báo cáo không ghi biên bản hay người tham gia: *“Giới chuyên môn đều thống nhất đây là phương án tối ưu.”* | `flag` | Cắt hoặc nêu nguồn có trong phạm vi tài liệu | Đồng thuận vô danh và từ tuyệt đối thay thế cho tiêu chí so sánh |
+| AUTH-N01 | *“Theo báo cáo thử nghiệm được nêu tên ở mục Tài liệu tham khảo, lỗi giảm 18% trong mẫu 120 phiên.”* | `keep` | `none` | Nguồn, phạm vi và kết quả đều được xác định |
+| AUTH-N02 | Nội dung giới thiệu ghi rõ tên giải thưởng, năm và đơn vị trao; dữ kiện có trong hồ sơ người dùng giao | `keep` | `none` | Thẩm quyền bên thứ ba được định danh và kiểm tra trong phạm vi tài liệu |
+| AUTH-N03 | Tổng quan nghiên cứu viết *“Ba nghiên cứu [1]–[3] báo cáo cùng xu hướng, nhưng khác nhau về cỡ mẫu.”* | `keep` | `none` | Lời viện dẫn tổng hợp có trích dẫn và vẫn giữ giới hạn bằng chứng |

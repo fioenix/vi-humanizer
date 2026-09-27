@@ -466,3 +466,69 @@ Truy ngược cho thấy cùng giả định sai còn nằm ở phanh T4 (*mà* 
 **Quyết định:** thêm phép kiểm tra thứ tư vào mục *Phân biệt câu ngắn có chủ ý với câu thiếu từ*, phân biệt thành phần được phép lược với thành phần không được lược. Trong nhãn và dòng liệt kê, lược chủ ngữ, hư từ và loại từ là bình thường; bổ ngữ của động từ và tiếng thứ hai của từ hai tiếng thì phải giữ. Mục **Không flag** của V20 trỏ sang phép kiểm tra này. Bốn ca kiểm thử trong `calibration/ca-kiem-thu.md`.
 
 **Còn treo:** kết hợp động từ sai kiểu *dựng lại lỗi* chưa có pattern nào gọi tên. Cần thêm mẫu độc lập trước khi quyết định thêm pattern hay mở rộng V20.
+
+---
+
+## 2026-09-28 · phản biện một ý không có đối tượng
+
+**Nguồn:** pattern *arguing with no one* trong `blader/humanizer` 3.0.0 chỉ được dùng làm giả thuyết;
+bộ ca ARG-P01..P03 và ARG-N01..N03 là các ca tiếng Việt trung tính do người bảo trì tạo.
+
+**Khác biệt gọi tên được:** một câu phủ định hoặc tự bảo vệ đang đáp lại ý không có trong câu hỏi,
+phần trước hay phương án đang xét. Cắt vỏ phản biện không làm thay đổi khẳng định thật. B5 chỉ sở
+hữu khuôn song hành nâng giọng, chưa bắt việc thiếu đối tượng tranh luận.
+
+**Phân loại:** hiện tượng mới cần pattern dùng chung nếu ba ca dương tách được khỏi ADR, FAQ và
+phản biện có đối tượng ở ba ca âm.
+
+**Quyết định trước khi triển khai:** khóa sáu nhãn ARG; dự kiến V23 và câu phân vai từ B5. Nếu
+ca âm bị flag thì thu hẹp hoặc `defer`, không đổi nhãn mong đợi.
+
+---
+
+## 2026-09-28 · chồng từ giảm độ chắc chắn cùng chức năng
+
+**Nguồn:** pattern *stacked qualifiers* trong upstream 3.0.0 làm giả thuyết; QUAL-P01..P03 và
+QUAL-N01..N03 là các ca do người bảo trì tạo.
+
+**Khác biệt gọi tên được:** hai từ/cụm cùng bao phủ một mức khả năng hoặc phỏng đoán, nên bỏ một
+cụm vẫn giữ nguyên mức chắc chắn. Đây không phải V17 hay V20. Các cặp khác phạm vi như khả năng +
+tương lai, bằng chứng quan sát + năng lực, mức tin cậy + trạng thái phải được giữ.
+
+**Phân loại:** hiện tượng mới có thể áp dụng xuyên thể loại, cần trường hợp loại trừ theo phạm vi nghĩa.
+
+**Quyết định trước khi triển khai:** khóa sáu nhãn QUAL; dự kiến V24. Không dùng danh sách từ làm
+phép tìm-thay và không biến câu khả năng thành khẳng định.
+
+---
+
+## 2026-09-28 · làm mơ hồ quan hệ đã có trong nguồn
+
+**Nguồn:** pattern *vague connection or association* trong upstream 3.0.0 làm giả thuyết;
+REL-P01..P03 và REL-N01..N03 là các ca do người bảo trì tạo.
+
+**Khác biệt gọi tên được:** bản viết thay quan hệ cụ thể đã có trong phạm vi tài liệu bằng cụm chung
+như *có liên hệ, có quan hệ, liên quan đến*. V9 chỉ xử lý cụm giới từ dài, không sở hữu việc mất
+chiều hoặc loại quan hệ.
+
+**Phân loại:** lỗi giữ nghĩa dùng chung, nhưng chỉ kết luận khi nguồn trong phạm vi đã nêu quan hệ.
+
+**Quyết định trước khi triển khai:** khóa sáu nhãn REL; dự kiến V25. Thiếu nguồn, nguồn chưa chắc
+hoặc yêu cầu ẩn danh là **Không flag** bắt buộc.
+
+---
+
+## 2026-09-28 · mượn uy tín thay cho nội dung nguồn
+
+**Nguồn:** pattern *borrowed authority* trong upstream 3.0.0 làm giả thuyết; AUTH-P01..P03 và
+AUTH-N01..N03 là các ca do người bảo trì tạo.
+
+**Khác biệt gọi tên được:** câu mượn một nhóm có thẩm quyền nhưng không định danh để thay cho lý do
+thuyết phục hoặc bằng chứng. B8 gần nhánh tuyên bố quảng bá; K2 gần giọng thể chế nhưng chưa sở hữu
+lời viện dẫn trong tài liệu kỹ thuật/học thuật.
+
+**Phân loại:** cùng bề mặt nhưng phụ thuộc profile: tuyên bố thuyết phục thuộc B, lời viện dẫn làm
+bằng chứng thuộc K. Nguồn, trích dẫn hoặc giải thưởng được định danh và có trong tài liệu là ca âm.
+
+**Quyết định trước khi triển khai:** khóa sáu nhãn AUTH; dự kiến mở rộng B8 và thêm K7, kèm câu phân
+vai hai chiều. Nếu không tách được hai chức năng thì `defer`, không tạo hai nguồn chuẩn trùng nhau.
