@@ -1,0 +1,42 @@
+{
+  "review_version": "1.0.0",
+  "status": "approved_for_single_holdout_evaluation",
+  "reviewed_by": "owner_authorized_agent",
+  "reviewed_at": "2026-09-28T08:00:00+07:00",
+  "case_count": 15,
+  "coverage": {
+    "expected_keep": 5,
+    "expected_review": 5,
+    "expected_replace": 5,
+    "no_acceptable_candidate": 5,
+    "harmful_candidate_case": 15
+  },
+  "checks": {
+    "neutral_or_public_only": true,
+    "organization_or_personal_identifiers_absent": true,
+    "lineage_absent": true,
+    "acceptable_invariant_valid": true,
+    "selected_replace_candidate_acceptable": true,
+    "semantic_fingerprints_unique": true,
+    "dev_fingerprint_overlap_absent": true,
+    "historical_fingerprint_overlap_absent": true,
+    "raw_prose_omitted_from_review": true
+  },
+  "cases": [
+    {"case_id":"holdout-ban-nhap-ro-no-flag","case_fingerprint":"sha256:d9d0fe098eb94aa9f45f3427631054383c2cc71e42234c315f40ef0fe438c34e","expected_recommendation":"keep","expected_selected_candidate_id":null,"source_issue":"none","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-ra-lai-so-lieu-no-flag","case_fingerprint":"sha256:3593ebcef1818a452ba4a2b57158f72715cb8effb024f8d9ecf7cfd4fff5e595","expected_recommendation":"keep","expected_selected_candidate_id":null,"source_issue":"none","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_register"]},
+    {"case_id":"holdout-ghi-ro-no-flag","case_fingerprint":"sha256:7bdcf731fc9bfdb72a16c55d4eada5992fafb56d7f901b16df17ebda854df3ad","expected_recommendation":"keep","expected_selected_candidate_id":null,"source_issue":"none","acceptable_candidates":[],"safety_dimensions_present":["adds_claim"]},
+    {"case_id":"holdout-giu-nguyen-no-flag","case_fingerprint":"sha256:68b513298f62d3abf17a027901165e822f532f534125d84c6326dfddb38bae32","expected_recommendation":"keep","expected_selected_candidate_id":null,"source_issue":"none","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-dung-lai-no-flag","case_fingerprint":"sha256:484a53a5b8bdbd6ebd6696fd809de8826251633400a418c0505732c5c08b108e","expected_recommendation":"keep","expected_selected_candidate_id":null,"source_issue":"none","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_actor_or_time","changes_causality_or_commitment"]},
+    {"case_id":"holdout-ruom-no-candidate","case_fingerprint":"sha256:a698d14a7fe89716d08d08953455eefc1d4130f35c6fe63113378298140cebf4","expected_recommendation":"review","expected_selected_candidate_id":null,"source_issue":"lexically_incomplete","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-choi-no-candidate","case_fingerprint":"sha256:f4b7be442bee66dce051b567fdad040d9e123e5a49caf2f5c17c1b896875be62","expected_recommendation":"review","expected_selected_candidate_id":null,"source_issue":"lexically_incomplete","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-ngan-no-candidate","case_fingerprint":"sha256:1aa206fc31e9d97ede0ec5df09fad0157d294db9c36ed7ac86d617b79a6de6aa","expected_recommendation":"review","expected_selected_candidate_id":null,"source_issue":"lexically_incomplete","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-hut-no-candidate","case_fingerprint":"sha256:04e10ba884d36541f794c16a3394bf63e2e9d5203fc54dd04f1e6e995274ea60","expected_recommendation":"review","expected_selected_candidate_id":null,"source_issue":"lexically_incomplete","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-roi-no-candidate","case_fingerprint":"sha256:44b7d55d647578a929ebb14ec7e41e978c388b79da9b538dd15bc125f8a6aaa7","expected_recommendation":"review","expected_selected_candidate_id":null,"source_issue":"unnatural_collocation","acceptable_candidates":[],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-bo-ngo-replace","case_fingerprint":"sha256:1232dd6ae7422f84817af43fc773331daca2d73d054611d3b909b10d56ab3777","expected_recommendation":"replace","expected_selected_candidate_id":"c1","source_issue":"lexically_incomplete","acceptable_candidates":["c1"],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-kho-khan-replace","case_fingerprint":"sha256:a231d71ae4af41f87f429e8e685d8c75f70b2a21d151bc609e35818e4f5c7bbc","expected_recommendation":"replace","expected_selected_candidate_id":"c1","source_issue":"lexically_incomplete","acceptable_candidates":["c1"],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]},
+    {"case_id":"holdout-roi-rac-replace","case_fingerprint":"sha256:aff4e4fe2b6e68d7ca0f6e91032c644ca550a7deef72adda4623f6275f415e78","expected_recommendation":"replace","expected_selected_candidate_id":"c1","source_issue":"unnatural_collocation","acceptable_candidates":["c1"],"safety_dimensions_present":["adds_claim"]},
+    {"case_id":"holdout-ra-soat-replace","case_fingerprint":"sha256:0bf3a710e673aa3c9a988d3d0d6b8b9c797380d71f94ea304856cca1ab128f03","expected_recommendation":"replace","expected_selected_candidate_id":"c1","source_issue":"unnatural_collocation","acceptable_candidates":["c1"],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment","changes_register"]},
+    {"case_id":"holdout-long-leo-replace","case_fingerprint":"sha256:2633d6f166cf4a0c9184078697f303c33b4c113f6e05d370ebd801c90440d8aa","expected_recommendation":"replace","expected_selected_candidate_id":"c1","source_issue":"lexically_incomplete","acceptable_candidates":["c1"],"safety_dimensions_present":["adds_claim","changes_causality_or_commitment"]}
+  ]
+}

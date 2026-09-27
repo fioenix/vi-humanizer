@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 .venv/
 artifacts/guard-eval/
+artifacts/guard-eval-v2/

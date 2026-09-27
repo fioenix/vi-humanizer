@@ -1,0 +1,66 @@
+{
+  "entries": [
+    {
+      "path": "eval/guard/dev.jsonl",
+      "sha256": "sha256:53415adc37db80136ed412aae48d3ebd2142fab4b72a098210958ba40e384600"
+    },
+    {
+      "path": "eval/guard/evaluation-config.json",
+      "sha256": "sha256:3f1a8cbf4fb33973ec4387b474e5075714b7f2d870f768a9a69bf5c7c00cb907"
+    },
+    {
+      "path": "eval/guard/holdout.jsonl",
+      "sha256": "sha256:620a851fa1cf9e94a799899b951e6d678bce86fdf4c9ae1bc11deda3934f5ef3"
+    },
+    {
+      "path": "eval/guard/manifest.json",
+      "sha256": "sha256:c3bd008eca29df4ddf720836ce3e04727636f528a24ed2534b03a7ac948f11b5"
+    },
+    {
+      "path": "eval/guard/policy.json",
+      "sha256": "sha256:9be470417e9f303dd1c256902ed0a8eb27e3a9eb73d29e333fa529d5e5b3d7e8"
+    },
+    {
+      "path": "eval/guard/pricing.json",
+      "sha256": "sha256:cb478817b6e10925e54b83967a9d3f36bd30aa5b9862eb7001f0bd1d8a04818c"
+    },
+    {
+      "path": "specs/001-edit-guard-eval/evidence/corpus-label-proposal.md",
+      "sha256": "sha256:4f7cb8d8117afb2e8ccabd027324fd5c22c3cd262632eb15d2f6356d60c4de61"
+    },
+    {
+      "path": "specs/001-edit-guard-eval/evidence/holdout-report.json",
+      "sha256": "sha256:0bf9a4c8605930107f7e867e81b70857c06f64eb3a136638d1431101b3e502df"
+    },
+    {
+      "path": "guard_eval/config.py",
+      "sha256": "sha256:7b028304caf3efacaf3c936781c5a886b2188029addaf37cce0e85bc55b87d98"
+    },
+    {
+      "path": "guard_eval/corpus.py",
+      "sha256": "sha256:4c76feeaba57bc00813e33b4c05a0297ed0d2d95b5768432072beb085e39d8e3"
+    },
+    {
+      "path": "guard_eval/evaluator.py",
+      "sha256": "sha256:5e0a217fe5397fa2cd908cb025ce255fc17a5edbcbce68cb93dd8be5a8b4e699"
+    },
+    {
+      "path": "guard_eval/models.py",
+      "sha256": "sha256:c7f24e61257895856066f7466cc418c090211a81237b831ee80204d514d3fe5d"
+    },
+    {
+      "path": "guard_eval/policy.py",
+      "sha256": "sha256:d99f80b8763e4747fbe001288075ef8db0fdc019ffea0732b1b28283a2ab35aa"
+    },
+    {
+      "path": "guard_eval/questions.py",
+      "sha256": "sha256:db61b7732b58039bd7681c81e2800b55adf0438426323d0157ee72e00276c268"
+    },
+    {
+      "path": "guard_eval/typesafe_adapter.py",
+      "sha256": "sha256:bdab8395abeb12b18de5ea9aec20027c6419b085ba3c21880715a84200daa94b"
+    }
+  ],
+  "lock_digest": "sha256:6627515eef490d26b2d2de487a47470924f69758af1025578c52cb56b594e528",
+  "lock_version": "1.0.0"
+}
