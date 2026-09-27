@@ -26,6 +26,32 @@ PATTERN_OWNERS = {
     "K": "profiles/ky-thuat-doanh-nghiep.md",
 }
 
+STYLE_CARDS = [
+    "ke-trai-nghiem",
+    "phoi-hop-cong-viec",
+    "chuyen-mon-cong-khai",
+    "marketing-thuyet-phuc",
+    "huong-dan-ky-thuat",
+    "van-hanh-doanh-nghiep",
+    "hoc-thuat-phan-tich",
+]
+STYLE_REGISTRY = "references/bo-giai-phong-cach.md"
+STYLE_CARD_FIELDS = [
+    "Dùng khi",
+    "Thanh ngữ vực",
+    "Xưng hô",
+    "Nhịp",
+    "Thuật ngữ",
+    "Cách kết",
+    "Không tự thêm",
+    "Ca kiểm thử",
+]
+STYLE_PROFILE_CARDS = {
+    "profiles/blog-ca-nhan.md": STYLE_CARDS[:4],
+    "profiles/ky-thuat-doanh-nghiep.md": STYLE_CARDS[4:],
+}
+PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration"}
+
 errors: list[str] = []
 
 
@@ -109,6 +135,51 @@ if missing:
     fail(f"README thiếu pattern trong bảng: {sorted(missing)}")
 if extra:
     fail(f"README liệt kê pattern không tồn tại: {sorted(extra)}")
+
+# --- Registry phong cách -------------------------------------------------
+
+style_registry = read(STYLE_REGISTRY)
+style_cards = re.findall(r"(?m)^### `([a-z0-9]+(?:-[a-z0-9]+)*)` — ", style_registry)
+if style_cards != STYLE_CARDS:
+    fail(f"Style card phải đúng thứ tự canonical {STYLE_CARDS}, đang là {style_cards}")
+for index, card_id in enumerate(style_cards):
+    start = style_registry.index(f"### `{card_id}` — ")
+    if index + 1 < len(style_cards):
+        end = style_registry.index(f"### `{style_cards[index + 1]}` — ")
+        block = style_registry[start:end]
+    else:
+        block = style_registry[start:]
+    missing_fields = [field for field in STYLE_CARD_FIELDS if f"- **{field}:**" not in block]
+    if missing_fields:
+        fail(f"Style card `{card_id}` thiếu field: {missing_fields}")
+if f"`{STYLE_REGISTRY}`" not in skill:
+    fail(f"SKILL.md chưa trỏ tới `{STYLE_REGISTRY}`")
+if f"`{STYLE_REGISTRY}`" not in readme:
+    fail(f"README.md chưa trỏ tới `{STYLE_REGISTRY}`")
+for card_id in STYLE_CARDS:
+    if f"`{card_id}`" not in readme:
+        fail(f"README.md thiếu style card `{card_id}`")
+for profile_path, card_ids in STYLE_PROFILE_CARDS.items():
+    profile = read(profile_path)
+    if f"`{STYLE_REGISTRY}`" not in profile:
+        fail(f"{profile_path} chưa trỏ tới `{STYLE_REGISTRY}`")
+    for card_id in card_ids:
+        if f"`{card_id}`" not in profile:
+            fail(f"{profile_path} thiếu style card tương thích `{card_id}`")
+
+# --- Package payload ----------------------------------------------------
+
+package_script = read("scripts/package-skill.sh")
+copied_payload: set[str] = set()
+for line in package_script.splitlines():
+    if not re.match(r"^cp(?:\s|$)", line):
+        continue
+    copied_payload.update(re.findall(r'\$ROOT/([A-Za-z0-9._/-]+)', line))
+if copied_payload != PACKAGE_PAYLOAD:
+    fail(
+        "package-skill.sh phải chỉ chép public payload "
+        f"{sorted(PACKAGE_PAYLOAD)}, đang là {sorted(copied_payload)}"
+    )
 
 # --- Ngân sách dòng ------------------------------------------------------
 

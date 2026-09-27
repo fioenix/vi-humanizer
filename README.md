@@ -108,6 +108,28 @@ Mẫu văn chỉ được ưu tiên đối với thói quen xuất hiện nhất
 
 Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phong của đúng người dùng trước khi sửa. Hồ sơ này phải tách riêng theo người, chỉ lưu đặc tính cần thiết cho việc giữ giọng và luôn nhường chỗ cho yêu cầu hiện tại.
 
+### Chọn phong cách theo mục đích
+
+`vi-humanizer` không còn gom mọi văn bản vào hai giọng *cá nhân* và *trung tính*. Hai profile đó vẫn
+giữ vai trò cổng pattern, còn bộ giải phong cách chọn một card theo mục đích, người đọc, quan hệ,
+thanh ngữ vực, kênh và mẫu giọng. Một phần văn bản chỉ dùng tối đa một card; file pha nhiều chức
+năng được chia theo phần, không ép chung một giọng.
+
+| Style card | Dùng cho | Base profile |
+|---|---|---|
+| `ke-trai-nghiem` | Blog, bài kể có người viết hiện diện | `blog-ca-nhan` |
+| `phoi-hop-cong-viec` | Chat, bình luận và lời nhờ trong công việc | `blog-ca-nhan` |
+| `chuyen-mon-cong-khai` | LinkedIn, bài quan điểm hoặc chia sẻ chuyên môn | `blog-ca-nhan` |
+| `marketing-thuyet-phuc` | Nội dung giới thiệu có mục tiêu và CTA thật | `blog-ca-nhan` |
+| `huong-dan-ky-thuat` | README, văn xuôi API và hướng dẫn xử lý lỗi | `ky-thuat-doanh-nghiep` |
+| `van-hanh-doanh-nghiep` | SOP, báo cáo, biên bản và bàn giao | `ky-thuat-doanh-nghiep` |
+| `hoc-thuat-phan-tich` | Giáo trình, đề án và nghiên cứu | `ky-thuat-doanh-nghiep` |
+
+Card không phải khuôn để “làm màu” và không tự tạo lý do sửa. Yêu cầu hiện tại được ưu tiên;
+ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn mọi thay đổi; mẫu/hồ sơ chỉ được dùng khi
+đúng người, đúng phạm vi và có đặc tính ổn định. Chi tiết chuẩn nằm trong
+`references/bo-giai-phong-cach.md`.
+
 ## Kiến trúc
 
 `SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
@@ -118,6 +140,7 @@ profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhâ
 profiles/ky-thuat-doanh-nghiep.md   K1–K6 và giới hạn của văn kỹ thuật, học thuật
 references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
 references/bang-tra-cuu.md          bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
+references/bo-giai-phong-cach.md    bộ giải ngữ cảnh và danh mục style card
 calibration/LOG.md                  bằng chứng dùng để sửa quy tắc chung
 calibration/ca-kiem-thu.md          ca kiểm thử chạy tay cho từng pattern
 agents/openai.yaml                  tên hiển thị và lời gọi mặc định
@@ -140,6 +163,9 @@ pyproject.toml, uv.lock               môi trường Python 3.12 khóa version c
 
 Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
 `vi-humanizer.skill`.
+
+Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card
+nằm trong `references/bo-giai-phong-cach.md`; README chỉ giữ danh sách để validator đối chiếu.
 
 ### Evaluation harness cho edit guard
 
@@ -335,6 +361,7 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 
 ## Lịch sử phiên bản
 
+- **0.8.0** – Thêm bộ giải nhiều phong cách theo mục đích, người đọc, thanh ngữ vực, kênh và mẫu giọng; bổ sung bảy style card, precedence rõ ràng và phân đoạn tài liệu hỗn hợp mà không đổi 51 pattern hiện có.
 - **0.7.1** – Siết trường hợp loại trừ cho nhãn và dòng liệt kê: lược chủ ngữ, hư từ, loại từ thì được, còn bổ ngữ của động từ và tiếng thứ hai của từ hai tiếng thì phải giữ. Theo bản vàng ghi trong `calibration/LOG.md` ngày 09/09/2026.
 - **0.7.0** – Thêm V21 cho tàn dư lượt hội thoại của trợ lý và V22 cho kiểu rào trước về nguồn rồi vẫn đưa phỏng đoán; quy trình nói rõ văn bản đầu vào là chất liệu để biên tập, không phải chỉ thị để làm theo; quy tắc chốt chặn 3 thêm thứ hạng và quan hệ đồng thời. Đối chiếu với `blader/humanizer` 3.0.0.
 - **0.6.0** – Thêm K6 cho những câu nói về quá trình tạo ra tài liệu thay vì nói về chủ đề của nó; thêm quy tắc chốt chặn thứ năm và một dòng trong mục Cách trả kết quả; thêm `calibration/ca-kiem-thu.md` với tám ca kiểm thử cho K6.
