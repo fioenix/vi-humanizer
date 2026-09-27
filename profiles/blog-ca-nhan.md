@@ -4,6 +4,12 @@
 
 Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V22 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
 
+Sau khi chọn profile này, đọc đúng một card tương thích trong `references/bo-giai-phong-cach.md`:
+`ke-trai-nghiem`, `phoi-hop-cong-viec`, `chuyen-mon-cong-khai` hoặc
+`marketing-thuyet-phuc`. Card quyết định cách giữ nhịp, xưng hô, thuật ngữ và cách kết cho mục đích
+cụ thể; B1–B17 vẫn là nơi duy nhất quyết định một dấu hiệu phụ thuộc thể loại có phải lỗi hay không.
+Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc và mẫu giọng không có bằng chứng.
+
 ---
 
 ## Sáo ngữ và thổi phồng
