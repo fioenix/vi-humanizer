@@ -84,7 +84,7 @@ description: "Task list for upstream Vietnamese calibration"
 - [x] T022 [US3] Cài lại skill chung cho Codex/Claude Code/Antigravity và đối chiếu SHA-256 source/installed trong `specs/004-upstream-calibration/evidence/package-install.md`
 - [x] T023 [US3] Quét final diff cho dữ liệu cá nhân/tổ chức/secret/local path và chạy `git show --check` trên commit dự kiến
 - [x] T024 [US3] Commit feature 004 bằng commit nguyên tử sau khi mọi gate xanh
-- [ ] T025 [US3] Push branch, tạo/đính kèm PR cumulative 002–004, theo dõi CI, merge và tạo tag/release version mới theo convention của repo
+- [x] T025 [US3] Push branch, tạo/đính kèm PR cumulative 001–004, theo dõi CI, merge và tạo tag/release version mới theo convention của repo
 
 ---
 
