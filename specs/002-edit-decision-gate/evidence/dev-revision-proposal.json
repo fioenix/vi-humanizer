@@ -1,0 +1,62 @@
+{
+  "proposal_version": "2.0.0",
+  "revision": "recommendation-contract-r2",
+  "status": "awaiting_owner_authorized_approval",
+  "created_at": "2026-09-27T17:32:05Z",
+  "contains_raw_prose": false,
+  "contains_labels": false,
+  "approval_creates": "specs/002-edit-decision-gate/evidence/dev-revision-approval.json",
+  "dev_sha256": "sha256:6a848b89012d5fb579956641425fb75a21c4293dc009bb5a353812a6a532dabe",
+  "dev_version": "sha256:1554673e8277beae2848defc8e0b5e0681119ee642e02d674bc84fda16cdd4d6",
+  "corpus_version": "sha256:8d00c3fe0240c833b9b299e9ed7a553a699923e311546800dfdf548225243fe6",
+  "config_version": "sha256:c930a59498d5316b8d4281f8dbe6491e45ba71af634e71b9b6927d22eff29398",
+  "model_version": "jev-1.13.0",
+  "absolute_question_set_version": "sha256:6db2cefe7f6ccabdbb5a4c1cb212a4e941c1c21458d0d0cbcc539b83fb9fa673",
+  "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d",
+  "historical_t049": {
+    "proposal_path": "specs/002-edit-decision-gate/evidence/dev-label-proposal.json",
+    "proposal_sha256": "sha256:806afa8293f63875a2df62a1c1466a94cb6060cad589867037fc9c544d1a7ddb",
+    "approval_path": "specs/002-edit-decision-gate/evidence/dev-label-approval.json",
+    "approval_sha256": "sha256:806b93b00fd77ca05945b54ecdb998fb30a5c501c2025d0a42788f956e763da7",
+    "valid_for_this_revision": false,
+    "reason": "dev, config, and absolute-question digests changed"
+  },
+  "cases": [
+    {
+      "case_id": "dev-day-no-flag",
+      "case_fingerprint": "sha256:448bc4131a328698343d91419d70e5841fe00a5bce46f896663d7c4aa810d48c"
+    },
+    {
+      "case_id": "dev-hut-hang",
+      "case_fingerprint": "sha256:0c15bc03a04316d2e28f1fe41c124b2de75803111276b666f321c1515d0c3a92"
+    },
+    {
+      "case_id": "dev-ngan-nguoi-ranking",
+      "case_fingerprint": "sha256:4d032c179a2cdc863597dae77c30c77cec7f27d14dbfe3e29c9210e0bef65440"
+    },
+    {
+      "case_id": "dev-roi-rac",
+      "case_fingerprint": "sha256:2e8886d2f8381f8ef2bbcf9527a5d174471fa5531aa3fa9edc6d088e320e48b8"
+    },
+    {
+      "case_id": "dev-ruom-none",
+      "case_fingerprint": "sha256:960eb3d967130839826f8cef4c91d0d768166d285486e0216f068b8754548972"
+    },
+    {
+      "case_id": "regression-bo-ngo",
+      "case_fingerprint": "sha256:c7ae18480cdb0eb7c799cc6efb6356b66a01bfc55f6b14bc7f431554a273c9bb"
+    },
+    {
+      "case_id": "regression-choi-none",
+      "case_fingerprint": "sha256:fc9b7e9ffe685d17b823e9efc813d0ed463d8635d95d0f303ecff5929749179a"
+    },
+    {
+      "case_id": "regression-ra-lai-no-flag",
+      "case_fingerprint": "sha256:5158303a3a10316414eb98fa88f4967dac73ae0f26cce18a9d64207f402f2ccb"
+    },
+    {
+      "case_id": "regression-ra-soat",
+      "case_fingerprint": "sha256:d94e5a1f7daeffb5749db7be9c5e4e91156f9d72e7b79bc0039c0b7bddef1f60"
+    }
+  ]
+}

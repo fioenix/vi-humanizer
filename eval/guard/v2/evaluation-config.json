@@ -1,0 +1,12 @@
+{
+  "absolute_question_set_version": "sha256:6db2cefe7f6ccabdbb5a4c1cb212a4e941c1c21458d0d0cbcc539b83fb9fa673",
+  "config_version": "sha256:c930a59498d5316b8d4281f8dbe6491e45ba71af634e71b9b6927d22eff29398",
+  "max_candidates": 3,
+  "model_version": "jev-1.13.0",
+  "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d",
+  "retry_policy": {
+    "backoff_seconds": 0.5,
+    "max_attempts": 2
+  },
+  "timeout_seconds": 30
+}

@@ -1,0 +1,41 @@
+{
+  "review_version": "1.0.0",
+  "status": "rejected",
+  "reviewed_by": "maintainer",
+  "reviewed_at": "2026-09-27T17:17:46Z",
+  "candidate_path": "specs/002-edit-decision-gate/evidence/policy-candidate.json",
+  "candidate_sha256": "sha256:d13f3d2f2f8e8e72b860e615503dc085abab57f02d8acb7e539f83251115cc6a",
+  "policy_version": "sha256:58e9432e38f1426b0fc2d9fa9ceb06ae60cf5ce11bcc8340c43ba00460ad380b",
+  "dev_case_count": 9,
+  "matching_recommendation_count": 6,
+  "disagreements": [
+    {
+      "case_id": "dev-ngan-nguoi-ranking",
+      "expected_recommendation": "replace",
+      "observed_recommendation": "keep"
+    },
+    {
+      "case_id": "dev-ruom-none",
+      "expected_recommendation": "review",
+      "observed_recommendation": "keep"
+    },
+    {
+      "case_id": "regression-choi-none",
+      "expected_recommendation": "review",
+      "observed_recommendation": "replace",
+      "selected_candidate_id": "c1",
+      "selected_candidate_expected_acceptable": false
+    }
+  ],
+  "hard_invariant_failures": [
+    "unacceptable_replace_recommendation_count=1"
+  ],
+  "freeze_allowed": false,
+  "contains_raw_prose": false,
+  "next_revision_requires": [
+    "rejected_candidate_regression_test",
+    "preserves_meaning_and_nuance_question_revision",
+    "end_to_end_policy_fit",
+    "new_dev_revision_approval"
+  ]
+}

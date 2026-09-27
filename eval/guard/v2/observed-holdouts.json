@@ -1,0 +1,41 @@
+{
+  "holdouts": [
+    {
+      "artifact_path": "eval/guard/holdout.jsonl",
+      "artifact_sha256": "sha256:620a851fa1cf9e94a799899b951e6d678bce86fdf4c9ae1bc11deda3934f5ef3",
+      "corpus_version": "sha256:ce2d44cceb1ce263d5dace9d84516c78260c8102b6eee77fce976d70807932e8",
+      "feature": "001-edit-guard-eval",
+      "fingerprints": [
+        "sha256:5158303a3a10316414eb98fa88f4967dac73ae0f26cce18a9d64207f402f2ccb",
+        "sha256:c7ae18480cdb0eb7c799cc6efb6356b66a01bfc55f6b14bc7f431554a273c9bb",
+        "sha256:d94e5a1f7daeffb5749db7be9c5e4e91156f9d72e7b79bc0039c0b7bddef1f60",
+        "sha256:fc9b7e9ffe685d17b823e9efc813d0ed463d8635d95d0f303ecff5929749179a"
+      ]
+    },
+    {
+      "artifact_path": "eval/guard/v2/holdout.jsonl",
+      "artifact_sha256": "sha256:5bdd7340cc7e2c4f1d5beba27002d5e8a9a71cfde6aaabb29a0a65616b695881",
+      "corpus_version": "sha256:a322fcb6cd358075f02f07976519c444548a63a3a25c3ea234759377aab9de2c",
+      "feature": "002-edit-decision-gate",
+      "fingerprints": [
+        "sha256:04e10ba884d36541f794c16a3394bf63e2e9d5203fc54dd04f1e6e995274ea60",
+        "sha256:0bf3a710e673aa3c9a988d3d0d6b8b9c797380d71f94ea304856cca1ab128f03",
+        "sha256:1232dd6ae7422f84817af43fc773331daca2d73d054611d3b909b10d56ab3777",
+        "sha256:1aa206fc31e9d97ede0ec5df09fad0157d294db9c36ed7ac86d617b79a6de6aa",
+        "sha256:2633d6f166cf4a0c9184078697f303c33b4c113f6e05d370ebd801c90440d8aa",
+        "sha256:3593ebcef1818a452ba4a2b57158f72715cb8effb024f8d9ecf7cfd4fff5e595",
+        "sha256:44b7d55d647578a929ebb14ec7e41e978c388b79da9b538dd15bc125f8a6aaa7",
+        "sha256:484a53a5b8bdbd6ebd6696fd809de8826251633400a418c0505732c5c08b108e",
+        "sha256:68b513298f62d3abf17a027901165e822f532f534125d84c6326dfddb38bae32",
+        "sha256:7bdcf731fc9bfdb72a16c55d4eada5992fafb56d7f901b16df17ebda854df3ad",
+        "sha256:a231d71ae4af41f87f429e8e685d8c75f70b2a21d151bc609e35818e4f5c7bbc",
+        "sha256:a698d14a7fe89716d08d08953455eefc1d4130f35c6fe63113378298140cebf4",
+        "sha256:aff4e4fe2b6e68d7ca0f6e91032c644ca550a7deef72adda4623f6275f415e78",
+        "sha256:d9d0fe098eb94aa9f45f3427631054383c2cc71e42234c315f40ef0fe438c34e",
+        "sha256:f4b7be442bee66dce051b567fdad040d9e123e5a49caf2f5c17c1b896875be62"
+      ]
+    }
+  ],
+  "registry_digest": "sha256:b3ee618bc9cf85727399f5dbe44a31cf3208daf94293467b680e3e18fa8e1c3c",
+  "registry_version": "1.0.0"
+}

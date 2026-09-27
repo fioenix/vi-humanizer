@@ -1,0 +1,29 @@
+{
+  "schema_version": "2.0.0",
+  "dev_version": "sha256:1554673e8277beae2848defc8e0b5e0681119ee642e02d674bc84fda16cdd4d6",
+  "corpus_version": "sha256:a322fcb6cd358075f02f07976519c444548a63a3a25c3ea234759377aab9de2c",
+  "dev": {
+    "path": "eval/guard/v2/dev.jsonl",
+    "sha256": "sha256:6a848b89012d5fb579956641425fb75a21c4293dc009bb5a353812a6a532dabe",
+    "case_count": 9
+  },
+  "holdout": {
+    "path": "eval/guard/v2/holdout.jsonl",
+    "status": "sealed",
+    "sha256": "sha256:5bdd7340cc7e2c4f1d5beba27002d5e8a9a71cfde6aaabb29a0a65616b695881",
+    "case_count": 15,
+    "sealed": true
+  },
+  "observed_holdouts_registry": {
+    "path": "eval/guard/v2/observed-holdouts.json",
+    "sha256": "sha256:c0261609676f350887efda7b15c8e5b99bc5494f70e2aa9a6d0dc5cbecd5afc2"
+  },
+  "v1_artifact_lock": {
+    "path": "eval/guard/v2/v1-artifact-lock.json",
+    "sha256": "sha256:440bbf238c2cc49074641e94bae10f318a3cf74dfaf4b07cbbee87202b9cbbee"
+  },
+  "coverage_requirements": {
+    "minimum_per_required_slice": 5
+  },
+  "created_at": "2026-09-27T00:00:00+07:00"
+}

@@ -131,6 +131,10 @@ guard_eval/                          evaluation harness cho edit guard, không t
 eval/guard/                          corpus, manifest, config, pricing và policy đã duyệt
 tests/guard_eval/                    test offline; external evaluator luôn được fake trong CI
 artifacts/guard-eval/                raw run local, bị gitignore và không chứa raw prose
+guard_eval/v2/                       lane tạo shadow recommendation theo component, tách khỏi v1
+eval/guard/v2/                       dev corpus v2, lock v1 và registry holdout đã quan sát
+tests/guard_eval_v2/                 contract/integration test offline cho lane v2
+artifacts/guard-eval-v2/             raw run v2 local, bị gitignore
 pyproject.toml, uv.lock               môi trường Python 3.12 khóa version cho harness
 ```
 
@@ -139,11 +143,12 @@ Các file từ `.specify/` trở xuống phục vụ quy trình phát triển v�
 
 ### Evaluation harness cho edit guard
 
-Harness so sánh observation baseline của `vi-humanizer-0.7.1` với lớp thẩm định TypeSafe ở
-shadow mode. Host LLM tạo sẵn từ một đến ba candidate. Jev chỉ trả hai phán đoán need-to-edit,
-một lựa chọn giữa bản gốc/candidate/`none_of_candidates` và sáu phán đoán safety cho từng
-candidate; code mới fit threshold và route `keep`, `replace` hoặc `review`. Jev không sinh hoặc
-sửa văn bản.
+Harness v1 giữ nguyên để làm baseline. Lane v2 bổ sung tín hiệu về *có nên sửa hay không* và
+*candidate nào đủ chuẩn*: host LLM tạo sẵn từ một đến ba candidate; Jev chỉ chấm hai dấu hiệu ở
+nguồn, ba thành phần chất lượng và sáu chiều safety cho từng candidate. Policy tất định suy ra
+shortlist và shadow recommendation `keep`, `replace` hoặc `review`; Choice chỉ xếp hạng khi có ít
+nhất hai candidate đã qua cổng. Jev không sinh, nối hoặc sửa văn bản, còn host Agent/LLM giữ quyền
+quyết định cuối cùng và thực hiện biên tập.
 
 Cài môi trường và chạy toàn bộ đường offline:
 
@@ -152,13 +157,17 @@ uv sync --locked --group eval
 uv run --locked python -m unittest discover -s tests -p 'test_*.py' -v
 env -u TYPESAFE_API_KEY uv run --locked python -m guard_eval validate \
   --manifest eval/guard/manifest.json
+env -u TYPESAFE_API_KEY uv run --locked python -m guard_eval.v2 validate \
+  --manifest eval/guard/v2/manifest.json
 ```
 
 `candidate_origin` phân biệt `host_llm_output`, `baseline_observation` và
 `maintainer_fixture`; origin, ground truth và baseline không được gửi cho evaluator. Live dev và
-holdout run cần maintainer cho phép dùng credential/quota riêng. `eval/guard/policy.json` chỉ được
-ghi sau khi policy fit trên dev đã được review. Raw run nằm dưới `artifacts/guard-eval/`; chỉ báo
-cáo holdout đã loại raw prose mới được đưa vào `specs/.../evidence/`.
+holdout run cần maintainer hoặc agent được owner ủy quyền rõ cho phép dùng credential/quota riêng.
+Mỗi lane chỉ ghi policy sau khi dev labels và candidate policy đã được review. Holdout v2 đã được
+niêm phong, chạy một lần và ghi vào registry; report trả `collect_more_labels`, nên v2 vẫn chỉ là
+evidence lane, chưa được bật làm runtime gate. Raw run nằm dưới `artifacts/guard-eval*/`; chỉ báo cáo holdout
+đã loại raw prose mới được đưa vào `specs/.../evidence/`.
 
 Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong, nghi lễ, code, schema, bảng tham số và trích dẫn nguyên văn có những quy ước riêng nên bị loại khỏi phần biên tập tương ứng. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
 

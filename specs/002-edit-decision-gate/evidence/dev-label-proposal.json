@@ -1,0 +1,128 @@
+{
+  "proposal_version": "1.0.0",
+  "status": "awaiting_maintainer_approval",
+  "dev_version": "sha256:d10fb4539d65dfc9287b7eef5fec238f63554ae733d4d16cc060a441e35ba921",
+  "case_count": 9,
+  "contains_raw_prose": false,
+  "approval_creates": "specs/002-edit-decision-gate/evidence/dev-label-approval.json",
+  "cases": [
+    {
+      "case_id": "dev-hut-hang",
+      "case_fingerprint": "sha256:0c15bc03a04316d2e28f1fe41c124b2de75803111276b666f321c1515d0c3a92",
+      "proposed_action": "replace",
+      "proposed_selected_candidate_id": "c1",
+      "source_issues": ["lexically_incomplete"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": true, "failed_components": [], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["preserves_meaning_and_nuance"], "safety_risks": ["adds_claim"]},
+        {"candidate_id": "c3", "proposed_acceptable": true, "failed_components": [], "safety_risks": []}
+      ],
+      "provenance_reference": "eval/guard/dev.jsonl#dev-hut-hang",
+      "lineage_source_case_id": null
+    },
+    {
+      "case_id": "dev-roi-rac",
+      "case_fingerprint": "sha256:2e8886d2f8381f8ef2bbcf9527a5d174471fa5531aa3fa9edc6d088e320e48b8",
+      "proposed_action": "replace",
+      "proposed_selected_candidate_id": "c1",
+      "source_issues": ["unnatural_collocation"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": true, "failed_components": [], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance"], "safety_risks": ["changes_actor_or_time"]}
+      ],
+      "provenance_reference": "eval/guard/dev.jsonl#dev-roi-rac",
+      "lineage_source_case_id": null
+    },
+    {
+      "case_id": "dev-day-no-flag",
+      "case_fingerprint": "sha256:448bc4131a328698343d91419d70e5841fe00a5bce46f896663d7c4aa810d48c",
+      "proposed_action": "keep",
+      "proposed_selected_candidate_id": null,
+      "source_issues": [],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance"], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance", "fits_voice_and_genre"], "safety_risks": ["adds_claim", "changes_causality_or_commitment"]}
+      ],
+      "provenance_reference": "eval/guard/dev.jsonl#dev-day-no-flag",
+      "lineage_source_case_id": null
+    },
+    {
+      "case_id": "dev-ruom-none",
+      "case_fingerprint": "sha256:960eb3d967130839826f8cef4c91d0d768166d285486e0216f068b8754548972",
+      "proposed_action": "review",
+      "proposed_selected_candidate_id": null,
+      "source_issues": ["lexically_incomplete"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": false, "failed_components": ["preserves_meaning_and_nuance"], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance", "fits_voice_and_genre"], "safety_risks": ["changes_order_or_concurrency", "changes_register", "keeps_invalid_process_metadata"]}
+      ],
+      "provenance_reference": "eval/guard/dev.jsonl#dev-ruom-none",
+      "lineage_source_case_id": null
+    },
+    {
+      "case_id": "regression-ra-soat",
+      "case_fingerprint": "sha256:d94e5a1f7daeffb5749db7be9c5e4e91156f9d72e7b79bc0039c0b7bddef1f60",
+      "proposed_action": "replace",
+      "proposed_selected_candidate_id": "c1",
+      "source_issues": ["unnatural_collocation"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": true, "failed_components": [], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance"], "safety_risks": ["changes_actor_or_time"]}
+      ],
+      "provenance_reference": "eval/guard/holdout.jsonl#holdout-ra-soat",
+      "lineage_source_case_id": "holdout-ra-soat"
+    },
+    {
+      "case_id": "regression-bo-ngo",
+      "case_fingerprint": "sha256:c7ae18480cdb0eb7c799cc6efb6356b66a01bfc55f6b14bc7f431554a273c9bb",
+      "proposed_action": "replace",
+      "proposed_selected_candidate_id": "c1",
+      "source_issues": ["lexically_incomplete"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": true, "failed_components": [], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["preserves_meaning_and_nuance", "fits_voice_and_genre"], "safety_risks": ["adds_claim", "changes_causality_or_commitment"]}
+      ],
+      "provenance_reference": "eval/guard/holdout.jsonl#holdout-bo-ngo",
+      "lineage_source_case_id": "holdout-bo-ngo"
+    },
+    {
+      "case_id": "regression-ra-lai-no-flag",
+      "case_fingerprint": "sha256:5158303a3a10316414eb98fa88f4967dac73ae0f26cce18a9d64207f402f2ccb",
+      "proposed_action": "keep",
+      "proposed_selected_candidate_id": null,
+      "source_issues": [],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": false, "failed_components": ["fixes_issue"], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance", "fits_voice_and_genre"], "safety_risks": ["changes_register"]}
+      ],
+      "provenance_reference": "eval/guard/holdout.jsonl#holdout-ra-lai-no-flag",
+      "lineage_source_case_id": "holdout-ra-lai-no-flag"
+    },
+    {
+      "case_id": "regression-choi-none",
+      "case_fingerprint": "sha256:fc9b7e9ffe685d17b823e9efc813d0ed463d8635d95d0f303ecff5929749179a",
+      "proposed_action": "review",
+      "proposed_selected_candidate_id": null,
+      "source_issues": ["lexically_incomplete"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": false, "failed_components": ["preserves_meaning_and_nuance"], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": false, "failed_components": ["fixes_issue", "preserves_meaning_and_nuance", "fits_voice_and_genre"], "safety_risks": ["changes_order_or_concurrency", "changes_register", "keeps_invalid_process_metadata"]}
+      ],
+      "provenance_reference": "eval/guard/holdout.jsonl#holdout-choi-none",
+      "lineage_source_case_id": "holdout-choi-none"
+    },
+    {
+      "case_id": "dev-ngan-nguoi-ranking",
+      "case_fingerprint": "sha256:4d032c179a2cdc863597dae77c30c77cec7f27d14dbfe3e29c9210e0bef65440",
+      "proposed_action": "replace",
+      "proposed_selected_candidate_id": "c1",
+      "source_issues": ["lexically_incomplete"],
+      "candidates": [
+        {"candidate_id": "c1", "proposed_acceptable": true, "failed_components": [], "safety_risks": []},
+        {"candidate_id": "c2", "proposed_acceptable": true, "failed_components": [], "safety_risks": []}
+      ],
+      "provenance_reference": "specs/002-edit-decision-gate/spec.md#user-story-1",
+      "lineage_source_case_id": null
+    }
+  ]
+}
