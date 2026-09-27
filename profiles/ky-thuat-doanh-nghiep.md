@@ -2,7 +2,7 @@
 
 Đọc file này sau `SKILL.md` khi văn bản là README, SOP nội bộ, đặc tả, tài liệu doanh nghiệp, giáo trình, đề án môn học hoặc nghiên cứu khoa học.
 
-Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V22 và sáu pattern riêng K1–K6.
+Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V25 và bảy pattern riêng K1–K7.
 
 Sau khi chọn profile này, đọc đúng một card tương thích trong `references/bo-giai-phong-cach.md`:
 `huong-dan-ky-thuat`, `van-hanh-doanh-nghiep` hoặc `hoc-thuat-phan-tich`. Card giúp phân biệt tài
@@ -23,7 +23,7 @@ Bốn điều dưới đây giữ cho bản sửa không làm sai thể loại h
 
 4. **Không thuần Việt hoá thuật ngữ Hán-Việt.** Xem cột thứ ba trong `references/han-viet-thuan-viet.md`. Nhiều thuật ngữ khoa học, hành chính và pháp lý là từ Hán-Việt đã được định nghĩa. Chẳng hạn Bộ luật Dân sự phân biệt *chiếm hữu*, *sử dụng* và *định đoạt*; thay bằng từ đời thường có thể làm mất nghĩa pháp lý.
 
-## Cách áp V1–V22 và T1–T6
+## Cách áp V1–V25 và T1–T6
 
 | Pattern | Cách áp dụng trong profile này |
 |---|---|
@@ -108,6 +108,13 @@ Hai phép thử, áp lần lượt. Câu nào trượt cả hai thì là siêu d
 **Không flag:** changelog, release note và tài liệu hướng dẫn nâng cấp, vì K1 đã xác định tường thuật thay đổi là nội dung của thể loại đó. Quyết định kiến trúc và decision record, nơi lý do chọn phương án là nội dung chính. File quy trình, workflow và framework trong knowledge base: ghi lại vì sao một bước bị cắt là ký ức tổ chức, thiếu nó người sau dựng lại đúng cái đã bỏ. Frontmatter và các trường metadata có cấu trúc như `created`, `source-url`, `status`. Tài liệu theo quy ước sẵn có của repo hoặc vault, chẳng hạn khi mọi file cùng loại đều mở đầu bằng một dòng ghi phiên bản; kiểm các file lân cận trước khi kết luận. Biên bản họp và báo cáo tiến độ, nơi quá trình là chủ đề. Trích dẫn nguyên văn.
 
 Ranh giới giữa dạng 3, dạng 6 và ký ức tổ chức hợp lệ nằm ở chỗ câu đó nói về ai: ký ức tổ chức nói về quyết định và hệ quả của nó, còn siêu dữ liệu quá trình nói về người viết. *“Bước này bị cắt vì trùng với cổng phía sau”* là ký ức tổ chức. *“Bản đầu tôi viết 15 bước rồi rút còn 8”* là nói về người viết.
+
+### K7. Dẫn uy tín vô danh thay cho bằng chứng
+
+**Dấu hiệu:** tài liệu kỹ thuật, doanh nghiệp hoặc học thuật dùng *nhiều nghiên cứu cho thấy, các chuyên gia đều cho rằng, giới chuyên môn thống nhất, theo thông lệ quốc tế* để đỡ một kết luận, nhưng không nêu nghiên cứu, chuyên gia, tài liệu hay phạm vi nào trong phần người dùng giao.
+**Vì sao:** người đọc không thể kiểm tra nguồn, điều kiện hoặc mức đồng thuận. Danh xưng tập thể đang thay chỗ cho bằng chứng và có thể làm câu chắc chắn hơn tài liệu gốc.
+**Sửa:** nêu đúng nguồn, tác giả, biên bản hoặc dữ kiện **đã có trong phạm vi tài liệu**. Nếu không có, bỏ lời viện dẫn và chỉ giữ phần khẳng định mà bằng chứng còn lại thật sự hỗ trợ; không còn phần nào hỗ trợ thì cắt câu hoặc nêu thiếu nguồn cho người dùng.
+**Không flag:** tổng quan nghiên cứu có trích dẫn; báo cáo nêu tên tài liệu, nhóm khảo sát hoặc người tham gia; biên bản ghi rõ ai kết luận; trích dẫn nguyên văn; cách gọi tập thể đã được định nghĩa và dẫn nguồn ở phần gần đó. Tuyên bố quảng bá mượn lời chuyên gia để nâng vị thế sản phẩm thuộc B8; câu rào rằng không có nguồn rồi vẫn phỏng đoán thuộc V22.
 
 ---
 

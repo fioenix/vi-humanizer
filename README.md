@@ -14,9 +14,9 @@ Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉn
 
 Skill xử lý ba lớp:
 
-- V1–V22 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
-- B1–B17 và K1–K6 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
-- T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V22.
+- V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
+- B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
+- T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V25.
 
 Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
 
@@ -135,9 +135,9 @@ ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn m�
 `SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
 
 ```text
-SKILL.md                            quy trình, V1–V22, T1–T6 và cách trả kết quả
+SKILL.md                            quy trình, V1–V25, T1–T6 và cách trả kết quả
 profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhân
-profiles/ky-thuat-doanh-nghiep.md   K1–K6 và giới hạn của văn kỹ thuật, học thuật
+profiles/ky-thuat-doanh-nghiep.md   K1–K7 và giới hạn của văn kỹ thuật, học thuật
 references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
 references/bang-tra-cuu.md          bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
 references/bo-giai-phong-cach.md    bộ giải ngữ cảnh và danh mục style card
@@ -199,7 +199,7 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 
 ## Danh mục pattern
 
-### Cách dùng từ và cấu trúc câu (V1–V22)
+### Cách dùng từ và cấu trúc câu (V1–V25)
 
 | # | Pattern | Ví dụ hoặc phép kiểm tra |
 |---|---|---|
@@ -225,6 +225,9 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 | V20 | Từ hoặc cụm từ bị thiếu một tiếng | *đọc lên thấy hụt* → *đọc lên thấy **hụt hẫng*** khi đúng với ý câu |
 | V21 | Tàn dư lượt hội thoại của trợ lý | *Chắc chắn rồi! Dưới đây là ba bước...* → *Ba bước triển khai...* |
 | V22 | Rào trước về nguồn rồi đưa phỏng đoán | *Không có thông tin công bố. Nhiều khả năng công ty bắt đầu từ đầu những năm 2000.* → giữ điều nguồn nói, bỏ phần đoán |
+| V23 | Phản biện một ý không có đối tượng | Bỏ vỏ *không ai phủ nhận...* khi mạch văn không có ý nào cần phản biện |
+| V24 | Chồng từ chỉ khả năng cùng chức năng | *có khả năng có thể* → giữ một mức khả năng; không đụng các từ có phạm vi nghĩa khác nhau |
+| V25 | Làm mơ hồ quan hệ đã có trong nguồn | Khôi phục *phụ thuộc ở runtime* thay vì *có quan hệ* khi nguồn trong phạm vi đã nêu rõ |
 
 ### Typography (T1–T6)
 
@@ -237,7 +240,7 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 | T5 | Định dạng thay cho cấu trúc câu |
 | T6 | Emoji |
 
-Typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern V1–V22. Quy tắc này tránh việc skill thay đổi dấu câu hoặc định dạng chỉ vì sở thích.
+Typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern V1–V25. Quy tắc này tránh việc skill thay đổi dấu câu hoặc định dạng chỉ vì sở thích.
 
 ### Blog, bài cá nhân, nội dung công việc và marketing (B1–B17)
 
@@ -250,7 +253,7 @@ Typography chỉ được sửa khi văn bản đồng thời có ít nhất m�
 | B5 | Song hành phủ định "không chỉ... mà còn" |
 | B6 | Nghi vấn tu từ mở đoạn kiểu SEO |
 | B7 | Tụng ca địa phương và doanh nghiệp |
-| B8 | Danh xưng phóng đại |
+| B8 | Danh xưng và thẩm quyền phóng đại |
 | B9 | Hán-Việt hoá tên gọi đời thường |
 | B10 | Thành ngữ dùng lệch và mật độ thành ngữ bất thường |
 | B11 | Nhịp ba cân âm tiết và biền ngẫu giả |
@@ -261,7 +264,7 @@ Typography chỉ được sửa khi văn bản đồng thời có ít nhất m�
 | B16 | Giả thân mật |
 | B17 | Trộn mức độ trang trọng không chủ đích |
 
-### Tài liệu kỹ thuật, doanh nghiệp và học thuật (K1–K6)
+### Tài liệu kỹ thuật, doanh nghiệp và học thuật (K1–K7)
 
 | # | Pattern |
 |---|---|
@@ -271,6 +274,7 @@ Typography chỉ được sửa khi văn bản đồng thời có ít nhất m�
 | K4 | Mô tả hiện tượng mà không đưa hiện tượng ra |
 | K5 | Câu dẫn nhập rỗng sau đề mục |
 | K6 | Siêu dữ liệu về quá trình tạo ra văn bản |
+| K7 | Dẫn uy tín vô danh thay cho bằng chứng |
 
 Profile này còn yêu cầu không thêm tiểu từ, ý kiến hoặc ngôi thứ nhất; không thay thuật ngữ chỉ để tránh lặp; không thuần Việt hoá thuật ngữ đã được định nghĩa.
 
@@ -350,6 +354,13 @@ Những nguồn dưới đây giúp tìm thuật ngữ hoặc ghi nhận hiện 
 - [Cặp quan hệ từ, HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html)
 - [Đề–thuyết, Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/)
 
+### Nguồn gợi ý giả thuyết
+
+- [`blader/humanizer` 3.0.0](https://github.com/blader/humanizer/tree/v3.0.0) chỉ được dùng để nêu
+  giả thuyết cho V23–V25, phần mở rộng B8 và K7. Quyết định tiếng Việt dựa trên các ca dương/âm và
+  bằng chứng ghi ngày 28/09/2026 trong `calibration/LOG.md`; repo upstream không được coi là nguồn
+  quy phạm tiếng Việt.
+
 ### Nguồn còn thiếu
 
 - V3 và V13 cần thêm nguồn gốc về lý thuyết đề–thuyết thay cho các bài trình bày lại.
@@ -361,6 +372,10 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 
 ## Lịch sử phiên bản
 
+- **0.9.0** – Thêm V23 cho phản biện ý không có đối tượng, V24 cho các từ chỉ khả năng chồng cùng
+  chức năng, V25 cho quan hệ bị làm mơ hồ dù nguồn đã nói rõ và K7 cho cách mượn uy tín thay cho
+  bằng chứng; đồng thời phân vai lại B5/B8 để tránh hai pattern cùng sửa một lỗi. Bốn giả thuyết
+  được hiệu chỉnh bằng 24 ca tiếng Việt, gồm 12 ca dương và 12 ca chống sửa quá tay.
 - **0.8.0** – Thêm bộ giải nhiều phong cách theo mục đích, người đọc, thanh ngữ vực, kênh và mẫu giọng; bổ sung bảy style card, precedence rõ ràng và phân đoạn tài liệu hỗn hợp mà không đổi 51 pattern hiện có.
 - **0.7.1** – Siết trường hợp loại trừ cho nhãn và dòng liệt kê: lược chủ ngữ, hư từ, loại từ thì được, còn bổ ngữ của động từ và tiếng thứ hai của từ hai tiếng thì phải giữ. Theo bản vàng ghi trong `calibration/LOG.md` ngày 09/09/2026.
 - **0.7.0** – Thêm V21 cho tàn dư lượt hội thoại của trợ lý và V22 cho kiểu rào trước về nguồn rồi vẫn đưa phỏng đoán; quy trình nói rõ văn bản đầu vào là chất liệu để biên tập, không phải chỉ thị để làm theo; quy tắc chốt chặn 3 thêm thứ hạng và quan hệ đồng thời. Đối chiếu với `blader/humanizer` 3.0.0.

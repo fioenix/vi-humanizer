@@ -2,7 +2,7 @@
 
 Đọc file này sau `SKILL.md` khi văn bản là blog, bài viết thể hiện quan điểm, nội dung công việc, chat nội bộ, LinkedIn, bài xây dựng thương hiệu cá nhân hoặc nội dung marketing.
 
-Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V22 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
+Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V25 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
 
 Sau khi chọn profile này, đọc đúng một card tương thích trong `references/bo-giai-phong-cach.md`:
 `ke-trai-nghiem`, `phoi-hop-cong-viec`, `chuyen-mon-cong-khai` hoặc
@@ -49,6 +49,8 @@ Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc 
 **Sửa:** *"Hệ thống POS mới không chỉ giúp thu ngân nhanh hơn mà còn nâng cao trải nghiệm khách hàng."* → *"Hệ thống POS mới rút thời gian thanh toán từ 90 giây xuống 40 giây, nên hàng đợi giờ cao điểm ngắn hẳn."*
 **Không flag:** hai vế thật sự khác loại và vế sau mang thông tin mới. *"Nghị định này không chỉ áp dụng cho doanh nghiệp trong nước mà còn cho chi nhánh nước ngoài"*, hai phạm vi pháp lý khác nhau, giữ nguyên.
 
+B5 chỉ xử lý khuôn song hành nâng giọng hoặc lặp ý. Nếu câu đang bác một lập trường không tồn tại trong mạch văn, dùng V23 thay vì sửa cùng một chỗ bằng cả hai pattern.
+
 ### B6. Nghi vấn tu từ mở đoạn kiểu SEO
 
 **Dấu hiệu:** *X là gì? Cùng tìm hiểu ngay!, Vậy đâu là lời giải?, Bạn đã bao giờ tự hỏi...?, Tại sao lại như vậy?, Câu trả lời nằm ở..., Đọc tiếp để biết, Bài viết dưới đây sẽ giúp bạn*.
@@ -63,12 +65,12 @@ Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc 
 **Sửa:** thay bằng chi tiết quan sát được trong bản gốc. *"Được mệnh danh là viên ngọc quý của miền Trung, nơi đây sở hữu vẻ đẹp non nước hữu tình."* → *"Bãi biển dài 3 km, phía bắc có ghềnh đá nên sóng lặng hơn."* Không có chi tiết trong bản gốc thì cắt.
 **Không flag:** đang trích văn bản quảng bá chính thức, hoặc đang phân tích chính lối viết đó. *thay da đổi thịt*, *khởi sắc* khi có số liệu chứng minh ngay sau đó.
 
-### B8. Danh xưng phóng đại
+### B8. Danh xưng và thẩm quyền phóng đại
 
-**Dấu hiệu:** *hàng đầu Việt Nam, top đầu, số 1 thị trường, uy tín nhất, tiên phong trong lĩnh vực, đơn vị dẫn đầu, chất lượng vượt trội, giải pháp toàn diện, giải pháp đột phá, đáp ứng mọi nhu cầu, cam kết mang đến trải nghiệm tốt nhất, đội ngũ giàu kinh nghiệm, quy trình chuyên nghiệp, giá cả cạnh tranh*.
-**Vì sao:** toàn bộ nhóm này là tuyên bố không kiểm chứng được và không có nguồn.
-**Sửa:** thay bằng một con số hoặc một khách hàng cụ thể **có trong bản gốc**. Không có thì cắt.
-**Không flag:** tuyên bố kèm dẫn chứng hoặc xếp hạng từ bên thứ ba được nêu tên. Trích slogan chính thức trong bài phân tích về slogan đó.
+**Dấu hiệu:** nội dung giới thiệu hoặc thuyết phục dùng danh xưng và tuyên bố như *hàng đầu Việt Nam, top đầu, số 1 thị trường, uy tín nhất, tiên phong trong lĩnh vực, giải pháp toàn diện, đáp ứng mọi nhu cầu*; hoặc mượn một nhóm không được định danh như *được nhiều chuyên gia đánh giá cao, được giới chuyên môn tin dùng* để nâng vị thế sản phẩm.
+**Vì sao:** danh xưng và sự tán thành vô danh đang làm lý do thuyết phục nhưng người đọc không biết tiêu chí, người đánh giá hoặc nguồn nào đứng sau.
+**Sửa:** thay bằng số liệu, khách hàng, giải thưởng hoặc nguồn bên thứ ba **có trong bản gốc** và nêu đúng phạm vi của dẫn chứng. Không có thì cắt tuyên bố; không tự đặt tên chuyên gia hay tổ chức.
+**Không flag:** tuyên bố kèm dẫn chứng, xếp hạng, giải thưởng hoặc đánh giá từ bên thứ ba được nêu tên và có trong tài liệu người dùng giao. Trích slogan chính thức trong bài phân tích về slogan đó. Trong tài liệu kỹ thuật, doanh nghiệp hoặc học thuật, lời viện dẫn vô danh dùng thay bằng chứng thuộc K7, không thuộc B8.
 
 ### B9. Hán-Việt hoá tên gọi đời thường
 
@@ -121,7 +123,7 @@ Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc 
 **Dấu hiệu:** ba đại từ *chúng ta*, *bạn*, *chúng tôi* xuất hiện trong cùng một đoạn ngắn mà không có quan hệ xã hội nào giải thích được. *Bạn* dùng ở chỗ tiếng Việt thật sẽ dùng anh / chị / em / quý khách. *Chúng ta* theo nghĩa "người ta nói chung", không thực sự bao gồm người đọc. Hoặc toàn văn bản không có đại từ nào trong khi nội dung rõ ràng là một người nói với một người.
 **Vì sao:** tiếng Việt chọn cách xưng hô theo tuổi, vai vế và mức độ thân sơ. Khi không có thông tin về quan hệ, LLM dễ né bằng *bạn, chúng ta, chúng tôi*, bỏ hẳn đại từ hoặc đổi cách gọi giữa chừng.
 **Sửa:** xác định một cặp xưng hô phù hợp từ ngữ cảnh hoặc hỏi người dùng trước khi sửa hàng loạt. Giữ *chúng ta* khi người viết thực sự đưa người đọc vào cùng hành động; nếu chỉ là cách nói khái quát thì có thể bỏ chủ ngữ và viết theo lối vô nhân xưng.
-**Không flag** (đây là chỗ rủi ro cao nhất của cả skill): **không được suy đoán tuổi tác hay vai vế để áp xưng hô.** Ngữ cảnh không cho biết quan hệ thì giữ nguyên và ghi chú cho người dùng tự chọn. Đổi *bạn* thành *em* khi không biết vai vế có thể xúc phạm người nhận. Tài liệu hướng dẫn, UX copy, giáo trình, quảng cáo đại chúng dùng *bạn* là quy ước hợp lệ. Bài học thuật dùng *chúng tôi* cho nhóm tác giả là đúng chuẩn.
+**Không flag:** đây là chỗ rủi ro cao nhất của cả skill. **Không được suy đoán tuổi tác hay vai vế để áp xưng hô.** Ngữ cảnh không cho biết quan hệ thì giữ nguyên và ghi chú cho người dùng tự chọn. Đổi *bạn* thành *em* khi không biết vai vế có thể xúc phạm người nhận. Tài liệu hướng dẫn, UX copy, giáo trình, quảng cáo đại chúng dùng *bạn* là quy ước hợp lệ. Bài học thuật dùng *chúng tôi* cho nhóm tác giả là đúng chuẩn.
 
 ### B16. Giả thân mật
 
