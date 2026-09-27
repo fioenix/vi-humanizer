@@ -25,6 +25,7 @@ PATTERN_OWNERS = {
     "B": "profiles/blog-ca-nhan.md",
     "K": "profiles/ky-thuat-doanh-nghiep.md",
 }
+PATTERN_FIELDS = ["Dấu hiệu", "Vì sao", "Sửa", "Không flag"]
 
 STYLE_CARDS = [
     "ke-trai-nghiem",
@@ -69,6 +70,14 @@ def read(relative: str) -> str:
 
 def pattern_numbers(text: str, prefix: str) -> list[int]:
     return [int(n) for n in re.findall(rf"(?m)^### {prefix}(\d+)\.", text)]
+
+
+def pattern_block(text: str, pattern_id: str) -> str:
+    match = re.search(
+        rf"(?ms)^### {re.escape(pattern_id)}\..*?(?=^### [VTBK]\d+\.|\Z)",
+        text,
+    )
+    return match.group(0) if match else ""
 
 
 skill = read("SKILL.md")
@@ -124,7 +133,13 @@ for prefix, owner in PATTERN_OWNERS.items():
         continue
     if numbers != list(range(1, len(numbers) + 1)):
         fail(f"Pattern {prefix} trong {owner} phải đánh số liên tục từ 1, đang là {numbers}")
-    declared.update(f"{prefix}{n}" for n in numbers)
+    for number in numbers:
+        pattern_id = f"{prefix}{number}"
+        declared.add(pattern_id)
+        block = pattern_block(text, pattern_id)
+        missing_fields = [field for field in PATTERN_FIELDS if f"**{field}:**" not in block]
+        if missing_fields:
+            fail(f"Pattern {pattern_id} trong {owner} thiếu mục: {missing_fields}")
 
 # --- README phải liệt kê đủ pattern -------------------------------------
 
@@ -159,6 +174,17 @@ if f"`{STYLE_REGISTRY}`" not in readme:
 for card_id in STYLE_CARDS:
     if f"`{card_id}`" not in readme:
         fail(f"README.md thiếu style card `{card_id}`")
+
+# --- Pattern cross-reference -------------------------------------------
+
+blog_profile = read("profiles/blog-ca-nhan.md")
+technical_profile = read("profiles/ky-thuat-doanh-nghiep.md")
+if "V23" not in pattern_block(blog_profile, "B5"):
+    fail("B5 phải phân vai với V23")
+if "K7" not in pattern_block(blog_profile, "B8"):
+    fail("B8 phải phân vai với K7")
+if "B8" not in pattern_block(technical_profile, "K7"):
+    fail("K7 phải phân vai với B8")
 for profile_path, card_ids in STYLE_PROFILE_CARDS.items():
     profile = read(profile_path)
     if f"`{STYLE_REGISTRY}`" not in profile:
