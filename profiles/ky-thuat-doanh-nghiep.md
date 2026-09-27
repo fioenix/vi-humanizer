@@ -4,6 +4,11 @@
 
 Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V22 và sáu pattern riêng K1–K6.
 
+Sau khi chọn profile này, đọc đúng một card tương thích trong `references/bo-giai-phong-cach.md`:
+`huong-dan-ky-thuat`, `van-hanh-doanh-nghiep` hoặc `hoc-thuat-phan-tich`. Card giúp phân biệt tài
+liệu tra cứu, quy trình vận hành và lập luận học thuật; nó không được nới bốn giới hạn bắt buộc dưới
+đây và không biến một lựa chọn trình bày thành lỗi nhóm K.
+
 ---
 
 ## Những giới hạn bắt buộc

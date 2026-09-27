@@ -17,6 +17,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `profiles/ky-thuat-doanh-nghiep.md` | K1–K6 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
+| `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và bảy style card; không sở hữu pattern |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
@@ -65,6 +66,10 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 - B1–B17 và K1–K6 phụ thuộc vào thể loại, người đọc và giọng văn. Chúng nằm trong `profiles/`.
 
 Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V22 như một lỗi áp dụng cho mọi văn bản.
+
+Style card không phải tầng pattern thứ năm. Nó chỉ giải các lựa chọn đều hợp lệ sau khi cổng thể loại
+đã chọn đúng profile. `references/bo-giai-phong-cach.md` là nguồn chuẩn cho registry; `SKILL.md` sở
+hữu thứ tự gọi resolver, còn README chỉ liệt kê inventory. Không sao chép toàn bộ card sang profile.
 
 ## Hợp đồng bảo trì
 
