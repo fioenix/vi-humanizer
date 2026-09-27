@@ -1,0 +1,18 @@
+{
+  "absolute_question_set_version": "sha256:6db2cefe7f6ccabdbb5a4c1cb212a4e941c1c21458d0d0cbcc539b83fb9fa673",
+  "approved_at": "2026-09-28T08:15:00+07:00",
+  "approved_by": "owner_authorized_agent",
+  "authorization_version": "1.0.0",
+  "config_version": "sha256:c930a59498d5316b8d4281f8dbe6491e45ba71af634e71b9b6927d22eff29398",
+  "holdout_sha256": "sha256:5bdd7340cc7e2c4f1d5beba27002d5e8a9a71cfde6aaabb29a0a65616b695881",
+  "manifest_corpus_version": "sha256:a322fcb6cd358075f02f07976519c444548a63a3a25c3ea234759377aab9de2c",
+  "policy_version": "sha256:d08131298e6ff2a0cb69805257ed8a5a40a52443a79941e32bc27930d656216a",
+  "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d",
+  "status": "approved",
+  "v1_artifact_lock_digest": "sha256:6627515eef490d26b2d2de487a47470924f69758af1025578c52cb56b594e528",
+  "v1_artifact_lock_sha256": "sha256:440bbf238c2cc49074641e94bae10f318a3cf74dfaf4b07cbbee87202b9cbbee",
+  "v1_config_version": "sha256:14407f6156910b7f087886b9053d3066270e79c58c4f89aa1c05a36951bcf76b",
+  "v1_model_version": "jev-1.13.0",
+  "v1_policy_version": "sha256:b91a3e3245d455f8cda90e3b4a0e7dba2284c380cec9213f4e3a49c006e54f5f",
+  "v1_question_set_version": "sha256:4deb4c217a790e600e655feaf0530a457cb1fdc34b1330a928321962eee4e362"
+}

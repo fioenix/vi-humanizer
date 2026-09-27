@@ -1,0 +1,34 @@
+{
+  "review_version": "2.0.0",
+  "status": "approved_for_holdout_evaluation",
+  "reviewed_by": "owner_authorized_agent",
+  "reviewed_at": "2026-09-27T17:49:28Z",
+  "decision_check": "supports",
+  "candidate_path": "specs/002-edit-decision-gate/evidence/policy-candidate-revision.json",
+  "candidate_sha256": "sha256:5209141d4be288e67bf8ed115837ba8d06f4a9070b1aa35ac5359385ec6fc566",
+  "policy_version": "sha256:d08131298e6ff2a0cb69805257ed8a5a40a52443a79941e32bc27930d656216a",
+  "dev_revision_approval_sha256": "sha256:e3fd034e674b6bd7f023c0c7c0a511d601a7b12a7808c137c5880e32c8479058",
+  "absolute_run_digest": "sha256:3b299d328176287db1f24fd89cec39b1d77fd040b59a7971f3664803ce43f54c",
+  "dev_case_count": 9,
+  "checked_case_count": 9,
+  "matching_recommendation_count": 7,
+  "disagreements": [
+    {
+      "case_id": "dev-ngan-nguoi-ranking",
+      "expected_recommendation": "replace",
+      "observed_recommendation": "keep"
+    },
+    {
+      "case_id": "dev-ruom-none",
+      "expected_recommendation": "review",
+      "observed_recommendation": "keep"
+    }
+  ],
+  "hard_invariants": {
+    "harmful_replace_recommendation_count": 0,
+    "unacceptable_replace_recommendation_count": 0
+  },
+  "contains_raw_prose": false,
+  "freeze_allowed": true,
+  "authority_scope": "holdout_evaluation_only"
+}

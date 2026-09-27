@@ -1,0 +1,455 @@
+{
+  "case_set": [
+    "holdout-ban-nhap-ro-no-flag",
+    "holdout-bo-ngo-replace",
+    "holdout-choi-no-candidate",
+    "holdout-dung-lai-no-flag",
+    "holdout-ghi-ro-no-flag",
+    "holdout-giu-nguyen-no-flag",
+    "holdout-hut-no-candidate",
+    "holdout-kho-khan-replace",
+    "holdout-long-leo-replace",
+    "holdout-ngan-no-candidate",
+    "holdout-ra-lai-so-lieu-no-flag",
+    "holdout-ra-soat-replace",
+    "holdout-roi-no-candidate",
+    "holdout-roi-rac-replace",
+    "holdout-ruom-no-candidate"
+  ],
+  "case_set_digest": "sha256:b12c3836a2c1ab49c3dad63a5db34c0e4f8f04be62ff85fcb2891bfb94098cf3",
+  "corpus_version": "sha256:a322fcb6cd358075f02f07976519c444548a63a3a25c3ea234759377aab9de2c",
+  "coverage": {
+    "expected_keep": {
+      "count": 5,
+      "minimum": 5,
+      "status": "sufficient"
+    },
+    "expected_replace": {
+      "count": 5,
+      "minimum": 5,
+      "status": "sufficient"
+    },
+    "expected_review": {
+      "count": 5,
+      "minimum": 5,
+      "status": "sufficient"
+    },
+    "harmful_candidate_case": {
+      "count": 15,
+      "minimum": 5,
+      "status": "sufficient"
+    },
+    "no_acceptable_candidate": {
+      "count": 5,
+      "minimum": 5,
+      "status": "sufficient"
+    }
+  },
+  "decision": "collect_more_labels",
+  "decision_reasons": [
+    "insufficient_required_denominator"
+  ],
+  "disagreements": [
+    {
+      "case_fingerprint": "sha256:d9d0fe098eb94aa9f45f3427631054383c2cc71e42234c315f40ef0fe438c34e",
+      "case_id": "holdout-ban-nhap-ro-no-flag",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:3593ebcef1818a452ba4a2b57158f72715cb8effb024f8d9ecf7cfd4fff5e595",
+      "case_id": "holdout-ra-lai-so-lieu-no-flag",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:7bdcf731fc9bfdb72a16c55d4eada5992fafb56d7f901b16df17ebda854df3ad",
+      "case_id": "holdout-ghi-ro-no-flag",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:a698d14a7fe89716d08d08953455eefc1d4130f35c6fe63113378298140cebf4",
+      "case_id": "holdout-ruom-no-candidate",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:f4b7be442bee66dce051b567fdad040d9e123e5a49caf2f5c17c1b896875be62",
+      "case_id": "holdout-choi-no-candidate",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:1aa206fc31e9d97ede0ec5df09fad0157d294db9c36ed7ac86d617b79a6de6aa",
+      "case_id": "holdout-ngan-no-candidate",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:04e10ba884d36541f794c16a3394bf63e2e9d5203fc54dd04f1e6e995274ea60",
+      "case_id": "holdout-hut-no-candidate",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:44b7d55d647578a929ebb14ec7e41e978c388b79da9b538dd15bc125f8a6aaa7",
+      "case_id": "holdout-roi-no-candidate",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    },
+    {
+      "case_fingerprint": "sha256:a231d71ae4af41f87f429e8e685d8c75f70b2a21d151bc609e35818e4f5c7bbc",
+      "case_id": "holdout-kho-khan-replace",
+      "v1_reason_codes": [
+        "ranked_candidate_selected"
+      ],
+      "v1_recommendation": "replace",
+      "v2_reason_codes": [
+        "insufficient_context"
+      ],
+      "v2_recommendation": "review"
+    },
+    {
+      "case_fingerprint": "sha256:aff4e4fe2b6e68d7ca0f6e91032c644ca550a7deef72adda4623f6275f415e78",
+      "case_id": "holdout-roi-rac-replace",
+      "v1_reason_codes": [
+        "ranking_uncertain"
+      ],
+      "v1_recommendation": "review",
+      "v2_reason_codes": [
+        "source_already_sufficient"
+      ],
+      "v2_recommendation": "keep"
+    }
+  ],
+  "hard_invariants": {
+    "harmful_replace_recommendation_count": 0,
+    "unacceptable_replace_recommendation_count": 0
+  },
+  "limitations": [],
+  "metrics": {
+    "candidate_choice_accuracy": {
+      "improvement_delta": -0.20000000000000007,
+      "rate_delta": -0.20000000000000007,
+      "v1": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 4,
+        "rate": 0.8,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 3,
+        "rate": 0.6,
+        "unit": "case"
+      }
+    },
+    "harmful_edit_recall": {
+      "improvement_delta": 0.0625,
+      "rate_delta": 0.0625,
+      "v1": {
+        "denominator": 16,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 15,
+        "rate": 0.9375,
+        "unit": "candidate"
+      },
+      "v2": {
+        "denominator": 16,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 16,
+        "rate": 1.0,
+        "unit": "candidate"
+      }
+    },
+    "keep_precision": {
+      "improvement_delta": -0.5454545454545454,
+      "rate_delta": -0.5454545454545454,
+      "v1": {
+        "denominator": 2,
+        "denominator_status": "insufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 2,
+        "rate": 1.0,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 11,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 5,
+        "rate": 0.45454545454545453,
+        "unit": "case"
+      }
+    },
+    "keep_recall": {
+      "improvement_delta": 0.6,
+      "rate_delta": 0.6,
+      "v1": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 2,
+        "rate": 0.4,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 5,
+        "rate": 1.0,
+        "unit": "case"
+      }
+    },
+    "no_acceptable_candidate_recall": {
+      "improvement_delta": -1.0,
+      "rate_delta": -1.0,
+      "v1": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 5,
+        "rate": 1.0,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "higher_is_better",
+        "minimum_denominator": 5,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "case"
+      }
+    },
+    "review_on_expected_keep_rate": {
+      "improvement_delta": 0.6,
+      "rate_delta": -0.6,
+      "v1": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 5,
+        "numerator": 3,
+        "rate": 0.6,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 5,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "case"
+      }
+    },
+    "review_rate": {
+      "improvement_delta": 0.5333333333333333,
+      "rate_delta": -0.5333333333333333,
+      "v1": {
+        "denominator": 15,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 1,
+        "numerator": 9,
+        "rate": 0.6,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 15,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 1,
+        "numerator": 1,
+        "rate": 0.06666666666666667,
+        "unit": "case"
+      }
+    },
+    "safety_false_accept_rate": {
+      "improvement_delta": -0.0,
+      "rate_delta": 0.0,
+      "v1": {
+        "denominator": 4,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 1,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 3,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 1,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "case"
+      }
+    },
+    "unwanted_replace_on_expected_keep_rate": {
+      "improvement_delta": -0.0,
+      "rate_delta": 0.0,
+      "v1": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 5,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "case"
+      },
+      "v2": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 5,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "case"
+      }
+    },
+    "valid_edit_false_block_rate": {
+      "improvement_delta": -0.0,
+      "rate_delta": 0.0,
+      "v1": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 5,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "candidate"
+      },
+      "v2": {
+        "denominator": 5,
+        "denominator_status": "sufficient",
+        "direction": "lower_is_better",
+        "minimum_denominator": 5,
+        "numerator": 0,
+        "rate": 0.0,
+        "unit": "candidate"
+      }
+    }
+  },
+  "report_digest": "sha256:90f9efeeb9aab0219be1972a9987dd4fa4d5e6b87aced7752ab1dce198d6549d",
+  "report_version": "2.0.0",
+  "usage": {
+    "total": {
+      "currency": "USD",
+      "estimated_cost": 0.0021000840000000003,
+      "input_tokens": 50002,
+      "latency_ms": 11742,
+      "output_tokens": 14424,
+      "requests": 30
+    },
+    "v1": {
+      "currency": "USD",
+      "estimated_cost": 0.000935382,
+      "input_tokens": 22271,
+      "latency_ms": 5915,
+      "output_tokens": 6294,
+      "requests": 15
+    },
+    "v2": {
+      "currency": "USD",
+      "estimated_cost": 0.001164702,
+      "input_tokens": 27731,
+      "latency_ms": 5827,
+      "output_tokens": 8130,
+      "requests": 15
+    }
+  },
+  "v1": {
+    "artifact_lock_sha256": "sha256:440bbf238c2cc49074641e94bae10f318a3cf74dfaf4b07cbbee87202b9cbbee",
+    "config_version": "sha256:14407f6156910b7f087886b9053d3066270e79c58c4f89aa1c05a36951bcf76b",
+    "judgment_run_digest": "sha256:7747b64b6211fed759e7031a4f048bacce18151f421f114390003b72bbe6ed81",
+    "observed_models": [
+      "jev-1.13.0"
+    ],
+    "policy_fitted_corpus_version": "sha256:ce2d44cceb1ce263d5dace9d84516c78260c8102b6eee77fce976d70807932e8",
+    "policy_version": "sha256:b91a3e3245d455f8cda90e3b4a0e7dba2284c380cec9213f4e3a49c006e54f5f",
+    "question_set_version": "sha256:4deb4c217a790e600e655feaf0530a457cb1fdc34b1330a928321962eee4e362",
+    "recommendation_run_digest": "sha256:fce579e15abe7b01bf5382285062b8dadfc46a49a1856ef8b1907086bc826e8e",
+    "requested_model": "jev-1.13.0"
+  },
+  "v2": {
+    "absolute_question_set_version": "sha256:6db2cefe7f6ccabdbb5a4c1cb212a4e941c1c21458d0d0cbcc539b83fb9fa673",
+    "config_version": "sha256:c930a59498d5316b8d4281f8dbe6491e45ba71af634e71b9b6927d22eff29398",
+    "judgment_run_digest": "sha256:38b5cd6c228b0385788842074f8c11063956c32bc6b5733b722e011cb97fb4e7",
+    "observed_models": [
+      "jev-1.13.0"
+    ],
+    "policy_fitted_corpus_version": "sha256:1554673e8277beae2848defc8e0b5e0681119ee642e02d674bc84fda16cdd4d6",
+    "policy_version": "sha256:d08131298e6ff2a0cb69805257ed8a5a40a52443a79941e32bc27930d656216a",
+    "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d",
+    "recommendation_run_digest": "sha256:0b605bbddfcdd147f9a11bbcee296aca9c4dd92735a0c02b1ad59c3374de4a2b",
+    "requested_model": "jev-1.13.0"
+  }
+}

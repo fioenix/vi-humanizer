@@ -1,0 +1,14 @@
+{
+  "approval_version": "1.0.0",
+  "status": "approved",
+  "approved_by": "maintainer",
+  "approved_at": "2026-09-27T16:37:05Z",
+  "proposal_path": "specs/002-edit-decision-gate/evidence/dev-label-proposal.json",
+  "proposal_sha256": "sha256:806afa8293f63875a2df62a1c1466a94cb6060cad589867037fc9c544d1a7ddb",
+  "dev_version": "sha256:d10fb4539d65dfc9287b7eef5fec238f63554ae733d4d16cc060a441e35ba921",
+  "dev_sha256": "sha256:ae65998484057edddfd7df2e15a900c8fc267cb848c4c3ed6d5dba9a87a916a9",
+  "config_version": "sha256:77aa217be287164adaffff7faeec91ae082963dd85940c4a8473314aa66bb4c1",
+  "model_version": "jev-1.13.0",
+  "absolute_question_set_version": "sha256:2130c41f2440c1ccf6baf3e5bdd7f4276c0a88abb32c00c30d5fb798d54f20fc",
+  "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d"
+}

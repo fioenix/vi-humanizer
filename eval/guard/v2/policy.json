@@ -1,0 +1,57 @@
+{
+  "absolute_question_set_version": "sha256:6db2cefe7f6ccabdbb5a4c1cb212a4e941c1c21458d0d0cbcc539b83fb9fa673",
+  "candidate_component_negative_thresholds": {
+    "fits_voice_and_genre": 0.31,
+    "fixes_issue": 0.3,
+    "preserves_meaning_and_nuance": 0.62
+  },
+  "candidate_component_positive_thresholds": {
+    "fits_voice_and_genre": 0.45,
+    "fixes_issue": 0.41,
+    "preserves_meaning_and_nuance": 0.63
+  },
+  "config_version": "sha256:c930a59498d5316b8d4281f8dbe6491e45ba71af634e71b9b6927d22eff29398",
+  "context_threshold": 0.52,
+  "created_at": "2026-09-27T17:48:10.493818Z",
+  "fitted_corpus_version": "sha256:1554673e8277beae2848defc8e0b5e0681119ee642e02d674bc84fda16cdd4d6",
+  "model_version": "jev-1.13.0",
+  "pipeline_version": "v2",
+  "policy_version": "sha256:d08131298e6ff2a0cb69805257ed8a5a40a52443a79941e32bc27930d656216a",
+  "ranking_confidence_threshold": 0.73,
+  "ranking_margin_threshold": 0.72,
+  "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d",
+  "safety_reject_thresholds": {
+    "adds_claim": 0.96,
+    "changes_actor_or_time": 0.95,
+    "changes_causality_or_commitment": 0.95,
+    "changes_order_or_concurrency": 0.66,
+    "changes_register": 0.92,
+    "keeps_invalid_process_metadata": 0.85
+  },
+  "safety_review_thresholds": {
+    "adds_claim": 0.95,
+    "changes_actor_or_time": 0.87,
+    "changes_causality_or_commitment": 0.93,
+    "changes_order_or_concurrency": 0.51,
+    "changes_register": 0.84,
+    "keeps_invalid_process_metadata": 0.71
+  },
+  "selection_order": [
+    "no_harmful_or_unacceptable_replace",
+    "recommendation_accuracy",
+    "selected_candidate_accuracy",
+    "signal_accuracy",
+    "fewer_reviews",
+    "wider_signal_separation",
+    "ranking_route_accuracy",
+    "stricter_ranking_thresholds"
+  ],
+  "source_issue_negative_thresholds": {
+    "lexically_incomplete": 0.79,
+    "unnatural_collocation": 0.75
+  },
+  "source_issue_positive_thresholds": {
+    "lexically_incomplete": 0.81,
+    "unnatural_collocation": 0.78
+  }
+}

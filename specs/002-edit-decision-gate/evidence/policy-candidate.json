@@ -1,0 +1,57 @@
+{
+  "absolute_question_set_version": "sha256:2130c41f2440c1ccf6baf3e5bdd7f4276c0a88abb32c00c30d5fb798d54f20fc",
+  "candidate_component_negative_thresholds": {
+    "fits_voice_and_genre": 0.34,
+    "fixes_issue": 0.3,
+    "preserves_meaning_and_nuance": 0.31
+  },
+  "candidate_component_positive_thresholds": {
+    "fits_voice_and_genre": 0.44,
+    "fixes_issue": 0.4,
+    "preserves_meaning_and_nuance": 0.66
+  },
+  "config_version": "sha256:77aa217be287164adaffff7faeec91ae082963dd85940c4a8473314aa66bb4c1",
+  "context_threshold": 0.52,
+  "created_at": "2026-09-27T16:39:20.599934Z",
+  "fitted_corpus_version": "sha256:d10fb4539d65dfc9287b7eef5fec238f63554ae733d4d16cc060a441e35ba921",
+  "model_version": "jev-1.13.0",
+  "pipeline_version": "v2",
+  "policy_version": "sha256:58e9432e38f1426b0fc2d9fa9ceb06ae60cf5ce11bcc8340c43ba00460ad380b",
+  "ranking_confidence_threshold": 0.72,
+  "ranking_margin_threshold": 0.72,
+  "ranking_question_set_version": "sha256:1bebf9b3648c5f2265eae67b0f6cebeda1914c1deebafacc3e60b8573fdeb93d",
+  "safety_reject_thresholds": {
+    "adds_claim": 0.95,
+    "changes_actor_or_time": 0.95,
+    "changes_causality_or_commitment": 0.95,
+    "changes_order_or_concurrency": 0.66,
+    "changes_register": 0.92,
+    "keeps_invalid_process_metadata": 0.86
+  },
+  "safety_review_thresholds": {
+    "adds_claim": 0.94,
+    "changes_actor_or_time": 0.88,
+    "changes_causality_or_commitment": 0.92,
+    "changes_order_or_concurrency": 0.55,
+    "changes_register": 0.86,
+    "keeps_invalid_process_metadata": 0.66
+  },
+  "selection_order": [
+    "per_signal_label_accuracy",
+    "fewer_signal_reviews",
+    "wider_signal_separation",
+    "ranking_route_accuracy",
+    "wrong_choice_rejection",
+    "correct_choice_admission",
+    "fewer_ranking_reviews",
+    "stricter_combined_ranking_threshold"
+  ],
+  "source_issue_negative_thresholds": {
+    "lexically_incomplete": 0.79,
+    "unnatural_collocation": 0.73
+  },
+  "source_issue_positive_thresholds": {
+    "lexically_incomplete": 0.82,
+    "unnatural_collocation": 0.77
+  }
+}

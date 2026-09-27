@@ -33,6 +33,10 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `eval/guard/` | Corpus đã gắn nhãn, manifest, evaluation config, pricing snapshot và policy đã duyệt |
 | `tests/guard_eval/` | Test unit/contract/integration offline; CI không gọi TypeSafe |
 | `artifacts/guard-eval/` | Raw run local bị gitignore; artifact không được chứa raw prose, secret hoặc raw exception |
+| `guard_eval/v2/` | Lane v2 tách absolute judgment, deterministic policy và paired comparison khỏi v1 |
+| `eval/guard/v2/` | Dev corpus v2, config/pricing, lock bytes v1 và registry holdout đã quan sát |
+| `tests/guard_eval_v2/` | Test offline cho schema, policy, corpus governance, CLI và report v2 |
+| `artifacts/guard-eval-v2/` | Raw judgment/recommendation run v2 local, bị gitignore |
 
 ## Evaluation harness
 
@@ -41,11 +45,17 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 - `eval/guard/dev.jsonl` dùng để phát triển câu hỏi và fit threshold. `holdout.jsonl` chỉ được đọc
   sau khi policy đã khóa; không sửa corpus, questions hoặc threshold sau khi xem kết quả holdout.
 - `evaluation-config.json` khóa model và question-set version. `pricing.json` chỉ phục vụ tính cost,
-  không được tham gia route. `policy.json` chỉ được ghi sau live dev run và maintainer review.
+  không được tham gia route. `policy.json` chỉ được ghi sau live dev run và review của maintainer
+  hoặc agent được owner ủy quyền rõ; artifact phải ghi đúng actor thật.
 - `candidate_origin`, nhãn, baseline, provenance và split không được gửi cho TypeSafe. Generated
   run/report không được chứa raw prose, credential, request body hoặc raw exception.
 - Thiếu key hoặc lỗi dịch vụ phải ra `unchecked`/exit 2. Không được đổi thành pass và không được
   làm hỏng workflow Markdown hay gói `vi-humanizer.skill`.
+- V2 không dùng Choice để quyết định giữ bản gốc hoặc cứu candidate đã trượt cổng tuyệt đối. Choice
+  chỉ xếp hạng shortlist có ít nhất hai candidate. Policy tất định chỉ tạo shadow recommendation;
+  host Agent/LLM mới có quyền quyết định có biên tập prose hay không.
+- Trước khi maintainer hoặc agent được owner ủy quyền rõ duyệt holdout riêng, manifest v2 phải giữ descriptor `pending`; `validate`
+  được phép kiểm dev nhưng `holdout` và `compare` không được đọc file holdout hay dùng quota.
 
 ## Ranh giới giữa quy tắc chung và profile
 
