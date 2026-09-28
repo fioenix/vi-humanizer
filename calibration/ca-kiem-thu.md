@@ -111,9 +111,9 @@ Ca MSP01–MSP04 không được tạo câu hỏi cho người dùng. Ca MSP05 p
 |---|---|
 | Câu mở đầu có người kể | `blog-ca-nhan` + `ke-trai-nghiem` |
 | Hai câu hướng dẫn | `ky-thuat-doanh-nghiep` + `huong-dan-ky-thuat` |
-| Khối code | `typography-only`; giữ nguyên byte |
-| Bảng tham số | `typography-only`; giữ nguyên byte |
-| Trích dẫn nguyên văn | `typography-only`; giữ nguyên byte |
+| Khối code | Vùng bảo toàn; giữ nguyên byte |
+| Bảng tham số | Vùng bảo toàn; giữ nguyên byte |
+| Trích dẫn nguyên văn | Vùng bảo toàn; giữ nguyên byte |
 | CTA đã có | `blog-ca-nhan` + `marketing-thuyet-phuc`; không thêm độ khẩn cấp hay lời hứa |
 
 **Các phép khẳng định bắt buộc:**
@@ -122,6 +122,13 @@ Ca MSP01–MSP04 không được tạo câu hỏi cho người dùng. Ca MSP05 p
 2. Mỗi phần văn xuôi dùng tối đa một style card; card của câu mở đầu, hướng dẫn và CTA không rò sang nhau.
 3. Ba vùng protected giữ đúng từng byte, kể cả backtick, dấu `|`, khoảng trắng và dấu ngoặc kép.
 4. Nếu người dùng chỉ yêu cầu viết lại, bản cuối không lộ tên base profile, style card hoặc phân tích định tuyến.
+
+## Cổng typography-only
+
+| Ca | Thể loại và đầu vào | Mong đợi | Vì sao |
+|---|---|---|---|
+| TO01 | Hợp đồng: *“Bên A giao hồ sơ — gồm biên bản và phụ lục — trong ba ngày làm việc.”* | Chỉ áp T2; không áp V hoặc profile | Hợp đồng được cổng thể loại giới hạn ở T1–T6 nên không cần một lỗi V đi kèm |
+| TO02 | Khối code: `message = "Bên A — Bên B"` | Giữ nguyên từng byte | Code là vùng bảo toàn, không phải route `typography-only` |
 
 ## Hiệu chuẩn khoảng trống upstream 3.0.0
 

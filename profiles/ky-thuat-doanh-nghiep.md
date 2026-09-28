@@ -97,7 +97,9 @@ Skill này là biên tập viên, không phải tác giả, nên K6 chỉ bắt 
 
 Hai phép thử, áp lần lượt. Câu nào trượt cả hai thì là siêu dữ liệu quá trình. Thứ nhất, câu này viết cho ai: viết cho người đặt việc để chứng minh đã làm gì, xin một quyết định hoặc bảo vệ một lựa chọn thì nó thuộc lượt trả lời; viết cho người sẽ đọc tài liệu thì nó ở đúng chỗ. Thứ hai, một năm sau, người không có mặt trong phiên làm việc đó đọc có hiểu không.
 
-**Vì sao:** người viết là con người không tường thuật lại việc mình vừa nhận ra điều gì, còn agent thì vừa suy luận ra một điều là ghi luôn vào deliverable. Những câu này thêm siêu dữ liệu về quá trình chứ không thêm dữ kiện của chủ đề, nên quy tắc chốt chặn *Không thêm dữ kiện* không chặn được chúng.
+**Vì sao:** tường thuật quá trình suy luận hoặc các vòng soạn thảo làm tài liệu lẫn siêu dữ liệu của
+phiên làm việc. Những câu này không thêm dữ kiện của chủ đề, nên quy tắc chốt chặn *Không thêm dữ
+kiện* không chặn được chúng.
 
 **Sửa:** theo thứ tự ưu tiên, không mặc định xoá.
 

@@ -18,8 +18,9 @@ Nếu một file pha nhiều chức năng, giải các chiều này cho từng p
 
 Giải tài liệu hỗn hợp theo thứ tự sau:
 
-1. Đánh dấu code, schema, dữ liệu có cấu trúc, bảng tham số và trích dẫn nguyên văn. Đóng băng
-   từng vùng cùng byte gốc trước khi chia phần; các vùng này không nhận style card.
+1. Đánh dấu code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví
+   dụ đang được bàn tới. Đóng băng từng vùng cùng byte gốc trước khi chia phần; các vùng này không
+   nhận style card.
 2. Chia phần văn xuôi còn lại khi mục đích, người đọc hoặc người nói đổi. Heading và độ dài tự nó
    không tạo một phần mới; các đoạn cùng chức năng nên dùng chung bản tóm tắt phong cách.
 3. Chọn đúng một base profile và tối đa một style card cho mỗi phần. CTA có thật, đoạn hướng dẫn
@@ -38,8 +39,12 @@ cắt vụn văn bản.
 | Base profile | Dùng khi | Sở hữu |
 |---|---|---|
 | `blog-ca-nhan` | Có tác giả hiện diện, chat công việc, bài chuyên môn công khai hoặc marketing | Pattern B1–B17 và giới hạn giữ giọng |
-| `ky-thuat-doanh-nghiep` | README, tài liệu API, hướng dẫn, SOP, báo cáo, giáo trình hoặc bài học thuật | Pattern K1–K6, tính nhất quán thuật ngữ và giới hạn trung tính |
-| `typography-only` | Nhóm bị chặn ở cổng thể loại, code, schema, dữ liệu có cấu trúc và trích dẫn nguyên văn | Không chọn style card; giữ đúng phạm vi typography hiện có |
+| `ky-thuat-doanh-nghiep` | README, tài liệu API, hướng dẫn, SOP, báo cáo, giáo trình hoặc bài học thuật | Pattern K1–K7, tính nhất quán thuật ngữ và giới hạn trung tính |
+| `typography-only` | Nhóm được cổng thể loại giới hạn ở T1–T6 | Không chọn style card; chỉ sửa typography |
+
+Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví dụ đang được
+bàn tới là vùng bảo toàn, không phải base profile `typography-only`. Không chọn style card và giữ
+nguyên từng byte ở những vùng này.
 
 Style card không được đổi base profile đã xác định đúng thể loại. Một card chỉ giúp giải các lựa chọn đều hợp ngữ pháp bên trong profile đó.
 
@@ -113,7 +118,7 @@ Registry hoàn chỉnh phải có đúng bảy card canonical theo thứ tự: k
 
 Không tạo card riêng cho một người, công ty hoặc chiến dịch; đặc tính đó thuộc mẫu/hồ sơ đúng người và không được đưa vào package public.
 
-### `ke-trai-nghiem` — Kể trải nghiệm cá nhân
+### `ke-trai-nghiem`: Kể trải nghiệm cá nhân
 
 - **Dùng khi:** người viết kể điều mình đã làm, thấy hoặc thay đổi suy nghĩ để người đọc hiểu trải nghiệm đó; base profile `blog-ca-nhan`.
 - **Thanh ngữ vực:** tự nhiên theo mẫu, có thể thân mật nhưng không tự hạ giọng hoặc làm câu bông đùa.
@@ -124,7 +129,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Không tự thêm:** trải nghiệm, cảm xúc, chi tiết đời sống, lời thú nhận hoặc kết luận mà người viết không nêu.
 - **Ca kiểm thử:** dương MS01 và MS10; chống rò MS02 và MS09.
 
-### `phoi-hop-cong-viec` — Phối hợp công việc
+### `phoi-hop-cong-viec`: Phối hợp công việc
 
 - **Dùng khi:** tin nhắn, bình luận hoặc đoạn trao đổi giữa những người đang phối hợp một việc; base profile `blog-ca-nhan`.
 - **Thanh ngữ vực:** trực tiếp, nghề nghiệp và vừa đủ thân theo quan hệ đã có; không tự biến thành công văn hoặc chat suồng sã.
@@ -135,7 +140,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Không tự thêm:** deadline, người chịu trách nhiệm, mức ưu tiên, lời hứa hoặc quyền ra lệnh không có trong đầu vào.
 - **Ca kiểm thử:** dương MS03 và MS12; chống rò MS04 và MS11.
 
-### `chuyen-mon-cong-khai` — Chuyên môn công khai
+### `chuyen-mon-cong-khai`: Chuyên môn công khai
 
 - **Dùng khi:** bài chia sẻ chuyên môn, LinkedIn hoặc bài quan điểm cho người đọc ngoài nhóm làm việc trực tiếp; base profile `blog-ca-nhan`.
 - **Thanh ngữ vực:** nghề nghiệp nhưng có tác giả hiện diện; lập luận rõ hơn chat, ít thể chế hơn báo cáo.
@@ -146,7 +151,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Không tự thêm:** số liệu, nguồn, vị thế chuyên gia, trải nghiệm cá nhân hoặc mức chắc chắn cao hơn bản gốc.
 - **Ca kiểm thử:** dương MS04 và MS05; chống rò MS03 và MS06.
 
-### `marketing-thuyet-phuc` — Marketing thuyết phục
+### `marketing-thuyet-phuc`: Marketing thuyết phục
 
 - **Dùng khi:** nội dung giới thiệu sản phẩm/dịch vụ có mục tiêu giúp người đọc cân nhắc hoặc thực hiện một CTA đã được giao; base profile `blog-ca-nhan`.
 - **Thanh ngữ vực:** rõ lợi ích nhưng không thổi phồng; mức thân mật theo kênh và mẫu thương hiệu trong yêu cầu hiện tại.
@@ -157,7 +162,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Không tự thêm:** khẩn cấp giả, khan hiếm, lời hứa kết quả, so sánh nhất, testimonial, chứng nhận hoặc dữ kiện bán hàng.
 - **Ca kiểm thử:** dương MS07 và MS14; chống rò MS08 và MS13.
 
-### `huong-dan-ky-thuat` — Hướng dẫn kỹ thuật
+### `huong-dan-ky-thuat`: Hướng dẫn kỹ thuật
 
 - **Dùng khi:** README, phần văn xuôi của tài liệu API, hướng dẫn cài đặt hoặc xử lý lỗi; base profile `ky-thuat-doanh-nghiep`.
 - **Thanh ngữ vực:** trung tính, chính xác, hướng hành động; không thêm thân mật để làm tài liệu có vẻ “người”.
@@ -168,7 +173,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Không tự thêm:** command, tham số, output, nguyên nhân lỗi, compatibility hoặc bảo đảm vận hành chưa có nguồn trong phạm vi tài liệu.
 - **Ca kiểm thử:** dương MS06, MS08 và MS09; chống rò MS05, MS07 và MS10.
 
-### `van-hanh-doanh-nghiep` — Vận hành doanh nghiệp
+### `van-hanh-doanh-nghiep`: Vận hành doanh nghiệp
 
 - **Dùng khi:** SOP, báo cáo, biên bản hoặc hướng dẫn bàn giao cần giữ vai trò, điều kiện và trách nhiệm; base profile `ky-thuat-doanh-nghiep`.
 - **Thanh ngữ vực:** trung tính và nghiệp vụ; không hành chính hoá câu chỉ để tạo vẻ chính thức.
@@ -179,7 +184,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Không tự thêm:** vai trò, phê duyệt, deadline, cam kết, thứ tự, quan hệ đồng thời hoặc trạng thái hoàn tất.
 - **Ca kiểm thử:** dương MS02 và MS11; chống rò MS01, MS03 và MS12.
 
-### `hoc-thuat-phan-tich` — Học thuật phân tích
+### `hoc-thuat-phan-tich`: Học thuật phân tích
 
 - **Dùng khi:** giáo trình, đề án, bài nghiên cứu hoặc đoạn lập luận cần phân biệt dữ liệu, suy luận và giới hạn; base profile `ky-thuat-doanh-nghiep`.
 - **Thanh ngữ vực:** trung tính, có mức dè dặt đúng bằng chứng; không làm thân mật hoặc nâng mức chắc chắn để câu dứt khoát hơn.
@@ -187,5 +192,5 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 - **Nhịp:** ưu tiên quan hệ lập luận rõ, thuật ngữ ổn định và câu chuyển có chức năng; không cắt câu dài nếu việc cắt làm mất phạm vi hoặc điều kiện.
 - **Thuật ngữ:** giữ thuật ngữ chuyên ngành và cách dẫn nguồn; tiếng Anh chỉ giữ khi chưa có tương đương ổn định hoặc quy ước ngành yêu cầu.
 - **Cách kết:** chỉ nêu kết luận và giới hạn được dữ liệu hỗ trợ; không thêm ý nghĩa xã hội rộng hơn nếu nguồn không nêu.
-- **Không tự thêm:** trích dẫn, tác giả, số liệu, quan hệ nhân quả, khả năng suy rộng hoặc ngôn ngữ borrowed authority.
+- **Không tự thêm:** trích dẫn, tác giả, số liệu, quan hệ nhân quả, khả năng suy rộng hoặc lối mượn uy tín thay cho bằng chứng.
 - **Ca kiểm thử:** dương MS13; chống rò MS07 và MS14.
