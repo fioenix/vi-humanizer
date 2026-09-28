@@ -77,6 +77,23 @@ Chép `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration
 git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
 ```
 
+### TypeSafe/Jev là lớp tăng cường tùy chọn
+
+`vi-humanizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Các cách
+cài ở trên chỉ cài skill Markdown; nếu không cấu hình gì thêm, toàn bộ quy trình thể loại, pattern,
+style card và năm quy tắc chốt chặn vẫn chạy bình thường.
+
+Khi host Agent đã có tích hợp TypeSafe/Jev, sự hiện diện của biến môi trường `TYPESAFE_API_KEY` là
+công tắc opt-in duy nhất. Không có cờ `enabled` thứ hai. Jev chỉ thẩm định các candidate do host LLM
+tạo sẵn — chẳng hạn bản gốc có thật sự cần sửa không, candidate có giữ nghĩa và đủ an toàn không —
+rồi trả tín hiệu có cấu trúc. Jev không sinh hoặc sửa câu chữ; host Agent vẫn quyết định giữ hay sửa
+và chịu trách nhiệm cho bản cuối.
+
+Nếu thiếu key, SDK hoặc dịch vụ không phản hồi, host bỏ qua lớp Jev và tiếp tục bằng core skill.
+Trạng thái đó là *chưa kiểm tra*, không phải một lần thẩm định đã pass. Riêng người bảo trì muốn chạy
+evaluation harness live mới cần cài dependency tùy chọn bằng `uv sync --locked --group eval`; lệnh
+validate và các test offline không cần gọi TypeSafe.
+
 ## Cách dùng
 
 ```text

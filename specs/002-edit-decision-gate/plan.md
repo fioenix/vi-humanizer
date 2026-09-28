@@ -19,7 +19,8 @@ raw run riêng trên cùng case set, sau đó report so metric có tử số, m�
 **Language/Version**: Python 3.12, giữ cùng runtime đã khóa của harness v1
 
 **Primary Dependencies**: Python standard library cho schema, policy, digest và report;
-`typesafe-sdk==0.7.1` đã khóa trong `uv.lock` cho live semantic judgments
+`typesafe-sdk==0.7.1` chỉ nằm trong dependency group `eval` và được khóa trong `uv.lock` cho live
+semantic judgments, không phải dependency của core skill
 
 **Storage**: File local bất biến: JSON manifest/config/policy/lock, JSONL corpus và JSON artifact;
 không có database
@@ -37,8 +38,9 @@ có ít nhất hai candidate đủ chuẩn; report latency, token usage và cost
 
 **Constraints**: Giữ v1 byte-stable; Agent sở hữu quyết định biên tập cuối; Jev không sinh/sửa
 prose; code v2 không thực thi recommendation; không gửi label/provenance; không commit raw prose
-trong artifact; lỗi external service thành `unchecked`; holdout v2 chỉ mở sau khi policy được duyệt
-và khóa; không thay V/T/profile/package payload
+trong artifact; `TYPESAFE_API_KEY` là opt-in switch duy nhất; thiếu key, SDK hoặc external service
+thành `unchecked` và không ảnh hưởng core skill; holdout v2 chỉ mở sau khi policy được duyệt và
+khóa; không thay V/T/profile/package payload
 
 **Scale/Scope**: Một maintainer, corpus hàng chục case; holdout tối thiểu năm case cho mỗi recommendation
 class và mỗi slice bắt buộc; hai pipeline, hai raw runs, một comparison report
@@ -56,8 +58,9 @@ class và mỗi slice bắt buộc; hai pipeline, hai raw runs, một comparison
   không sửa V-series, T-series hay profile.
 - **Hiệu chỉnh từ bằng chứng có nhãn: PASS**. Holdout v1 đã xem chỉ được promote vào dev v2 với
   lineage bất biến; holdout v2 chống trùng xuyên iteration và chỉ mở sau policy freeze.
-- **Skill Markdown tự đứng được: PASS**. Toàn bộ v2 nằm trong maintenance harness; thiếu key hoặc
-  lỗi dịch vụ tạo `unchecked`, không ảnh hưởng workflow Markdown.
+- **Skill Markdown tự đứng được: PASS**. Toàn bộ v2 nằm trong maintenance harness; thiếu key,
+  SDK hoặc lỗi dịch vụ tạo `unchecked`, không ảnh hưởng workflow Markdown. TypeSafe chỉ ở
+  dependency group `eval`; gói `.skill` không chứa hoặc yêu cầu SDK.
 - **Traceability: PASS**. Raw `JudgmentRun` có `policy_version=null`; `RecommendationRun` ghi policy
   đã áp; `ComparisonReport` giữ digests, counts, denominators, model, usage và cost.
 - **Behavioral/release gates: PASS**. Test bắt đầu từ ca đỏ; live evaluation ở shadow mode; release

@@ -221,6 +221,18 @@ FR-025 và không được suy ra từ test xanh hay approval lịch sử.
 
 ---
 
+## Phase 11: Optional TypeSafe Distribution Contract
+
+**Purpose**: Làm rõ TypeSafe/Jev là progressive enhancement, không phải dependency hoặc runtime
+gate bắt buộc của public skill.
+
+- [x] T074 Ghi quyết định `TYPESAFE_API_KEY` là opt-in switch duy nhất vào spec/plan/quickstart; không thêm cờ enable thứ hai hoặc đổi package payload
+- [x] T075 Cập nhật `README.md` và `SKILL.md` để người dùng không cài TypeSafe vẫn chạy đủ core workflow; giữ Jev ở vai trò thẩm định candidate có sẵn
+- [x] T076 Thêm contract test chứng minh dependency lõi rỗng và `typesafe-sdk` chỉ nằm trong group `eval`
+- [x] T077 Chạy full offline suite, no-key CLI checks, package validator, package inventory và `git diff --check`; xác nhận không có secret hoặc dữ liệu tổ chức trong public payload
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies

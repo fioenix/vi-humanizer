@@ -1,5 +1,6 @@
 import json
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -19,6 +20,12 @@ class ConfigContractTests(unittest.TestCase):
         right = canonical_digest({"config_version": None, "model_version": "jev-1.13.0"}, "config_version")
         self.assertEqual(left, right)
         self.assertTrue(left.startswith("sha256:"))
+
+    def test_typesafe_sdk_is_optional_and_scoped_to_eval(self):
+        root = Path(__file__).resolve().parents[2]
+        project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+        self.assertEqual(project["project"]["dependencies"], [])
+        self.assertEqual(project["dependency-groups"]["eval"], ["typesafe-sdk==0.7.1"])
 
     def test_config_rejects_digest_mismatch_and_invalid_request_controls(self):
         payload = {"config_version": "sha256:" + "0" * 64, "model_version": "jev-1.13.0", "question_set_version": "sha256:" + "a" * 64, "timeout_seconds": 0, "retry_policy": {"max_attempts": -1, "backoff_seconds": 0}}
