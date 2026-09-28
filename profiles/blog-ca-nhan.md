@@ -149,6 +149,8 @@ Khi văn bản là blog, tuỳ bút, bài nêu quan điểm hoặc bài xây d�
 
 Ba ràng buộc:
 
-1. **Thêm được thái độ, không thêm dữ kiện.** Ý kiến và phản ứng là giọng, không phải sự thật. Bạn được phép để người viết tỏ thái độ về những gì bản gốc đã nêu. Bạn không được thêm bất kỳ dữ kiện, tên, số, ngày tháng nào mới.
+1. **Giữ thái độ, không thêm ý kiến hoặc dữ kiện.** Chỉ giữ hoặc làm rõ thái độ đã có bằng chứng
+   trong bản gốc hay mẫu giọng đúng phạm vi. Không tự thêm phản ứng, ý kiến, mức chắc chắn, dữ kiện,
+   tên, số hoặc ngày tháng mới.
 2. **Không nhại giọng.** Thêm *thì, mà, nhé, đấy* vào mọi câu chỉ tạo ra một kiểu máy móc khác. Chọn từ theo quan hệ thật trong câu và mẫu văn của người viết.
 3. **Không áp mục này lên văn trung tính.** Với báo cáo, tài liệu tham chiếu, nội dung học thuật thì trung tính và phẳng **chính là** giọng người đúng. Ở đó dùng `profiles/ky-thuat-doanh-nghiep.md`.

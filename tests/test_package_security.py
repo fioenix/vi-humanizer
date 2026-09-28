@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import shutil
 import subprocess
@@ -155,6 +156,25 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_package_validator(repo)
 
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_validator_rejects_stale_style_registry_pattern_range(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            registry_path = repo / "references" / "bo-giai-phong-cach.md"
+            registry = registry_path.read_text(encoding="utf-8")
+            registry, replacements = re.subn(
+                r"Pattern K1–K\d+",
+                "Pattern K1–K5",
+                registry,
+                count=1,
+            )
+            self.assertEqual(replacements, 1)
+            registry_path.write_text(registry, encoding="utf-8")
+
+            result = self.run_package_validator(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("registry", result.stderr.lower())
 
     def test_copy_preserves_a_symlink_created_after_source_validation(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

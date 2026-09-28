@@ -336,14 +336,16 @@ if extra:
 
 # --- Registry phong cách -------------------------------------------------
 
+blog_profile = read("profiles/blog-ca-nhan.md")
+technical_profile = read("profiles/ky-thuat-doanh-nghiep.md")
 style_registry = read(STYLE_REGISTRY)
-style_cards = re.findall(r"(?m)^### `([a-z0-9]+(?:-[a-z0-9]+)*)` — ", style_registry)
+style_cards = re.findall(r"(?m)^### `([a-z0-9]+(?:-[a-z0-9]+)*)`: ", style_registry)
 if style_cards != STYLE_CARDS:
     fail(f"Style card phải đúng thứ tự canonical {STYLE_CARDS}, đang là {style_cards}")
 for index, card_id in enumerate(style_cards):
-    start = style_registry.index(f"### `{card_id}` — ")
+    start = style_registry.index(f"### `{card_id}`: ")
     if index + 1 < len(style_cards):
-        end = style_registry.index(f"### `{style_cards[index + 1]}` — ")
+        end = style_registry.index(f"### `{style_cards[index + 1]}`: ")
         block = style_registry[start:end]
     else:
         block = style_registry[start:]
@@ -358,10 +360,22 @@ for card_id in STYLE_CARDS:
     if f"`{card_id}`" not in readme:
         fail(f"README.md thiếu style card `{card_id}`")
 
+k_count = len(pattern_numbers(technical_profile, "K"))
+technical_registry_rows = [
+    line
+    for line in style_registry.splitlines()
+    if line.startswith("| `ky-thuat-doanh-nghiep` |")
+]
+if len(technical_registry_rows) != 1:
+    fail("Style registry phải có đúng một dòng cho base profile ky-thuat-doanh-nghiep")
+elif f"Pattern K1–K{k_count}" not in technical_registry_rows[0]:
+    fail(
+        "Style registry phải đồng bộ dải pattern kỹ thuật: "
+        f"mong đợi Pattern K1–K{k_count}"
+    )
+
 # --- Pattern cross-reference -------------------------------------------
 
-blog_profile = read("profiles/blog-ca-nhan.md")
-technical_profile = read("profiles/ky-thuat-doanh-nghiep.md")
 if "V23" not in pattern_block(blog_profile, "B5"):
     fail("B5 phải phân vai với V23")
 if "K7" not in pattern_block(blog_profile, "B8"):

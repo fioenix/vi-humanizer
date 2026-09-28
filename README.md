@@ -4,11 +4,9 @@ Các AI agents hiện tại có thể viết những đoạn tiếng Việt trô
 
 Một yêu cầu chung chung như “viết lại cho tự nhiên hơn” thường không giải quyết được vấn đề này. AI có thể thay cả câu, hạ giọng văn hoặc thêm chi tiết để bản mới nghe mượt hơn, nhưng đồng thời làm lệch ý và mất giọng của tác giả. `vi-humanizer` được tạo ra để biên tập theo một nguyên tắc khác: xác định thể loại và người đọc trước, gọi tên từng lỗi cần sửa, rồi chỉ thay phần thực sự có vấn đề. Blog vẫn được giữ cá tính; README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
 
-Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉnh tài liệu dịch từ tiếng Anh, sửa nội dung do người viết song ngữ soạn hoặc kiểm tra lại một bài tiếng Việt đang đọc chưa thuận miệng. Chẳng hạn, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể thiếu chữ *được*. Nếu ý là đã thử nhưng chưa thành công thì câu văn đúng là *“vẫn không giải quyết **được** vấn đề”*. Chữ *được* không phải thành phần vô ích; nó là một từ phổ biến trong tiếng Việt, mang hàm ý hoàn tất nghĩa kết quả của động từ.
+Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉnh tài liệu dịch từ tiếng Anh, sửa nội dung do người viết song ngữ soạn hoặc kiểm tra lại một bài tiếng Việt đang đọc chưa thuận miệng. Chẳng hạn, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể thiếu chữ *được*. Nếu ý là đã thử nhưng chưa thành công thì câu văn đúng là *“vẫn không giải quyết **được** vấn đề”*. Trong trường hợp này, chữ *được* cho biết người viết đã thử nhưng chưa đạt kết quả.
 
 `vi-humanizer` không phải công cụ phát hiện AI. Những lỗi trên cũng xuất hiện trong bản dịch và văn bản do người thật viết, còn LLM vẫn có thể tạo ra một câu hoàn toàn tự nhiên. Mục tiêu của skill là làm cho văn bản đúng nghĩa, đúng thể loại và vẫn giữ được giọng riêng của người viết, không phải đoán xem là con người hay AI đã tạo ra nó.
-
-*P/S:* Bản thân skill này cũng được viết bởi AI và tự trong vòng lặp nâng cấp chính nó, nên không tránh khỏi đôi chỗ nhỏ vẫn còn "rất AI", nhưng ít nhất toàn bộ lối hành văn tự nhiên và "con người" hơn đáng kể.
 
 ## Phạm vi
 
@@ -16,7 +14,8 @@ Skill xử lý ba lớp:
 
 - V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
 - B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
-- T1–T6 kiểm tra typography khi văn bản đồng thời có ít nhất một lỗi thuộc V1–V25.
+- T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
+  V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
 
 Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
 
@@ -94,8 +93,8 @@ style card và năm quy tắc chốt chặn vẫn chạy bình thường.
 
 Khi host Agent đã có tích hợp TypeSafe/Jev, sự hiện diện của biến môi trường `TYPESAFE_API_KEY` là
 công tắc opt-in duy nhất. Không có cờ `enabled` thứ hai. Jev chỉ thẩm định các candidate do host LLM
-tạo sẵn — chẳng hạn bản gốc có thật sự cần sửa không, candidate có giữ nghĩa và đủ an toàn không —
-rồi trả tín hiệu có cấu trúc. Jev không sinh hoặc sửa câu chữ; host Agent vẫn quyết định giữ hay sửa
+tạo sẵn, chẳng hạn bản gốc có thật sự cần sửa không, candidate có giữ nghĩa và đủ an toàn không.
+Jev trả tín hiệu có cấu trúc nhưng không sinh hoặc sửa câu chữ; host Agent vẫn quyết định giữ hay sửa
 và chịu trách nhiệm cho bản cuối.
 
 Nếu thiếu key, SDK hoặc dịch vụ không phản hồi, host bỏ qua lớp Jev và tiếp tục bằng core skill.
@@ -221,7 +220,9 @@ niêm phong, chạy một lần và ghi vào registry; report trả `collect_mor
 evidence lane, chưa được bật làm runtime gate. Raw run nằm dưới `artifacts/guard-eval*/`; chỉ báo cáo holdout
 đã loại raw prose mới được đưa vào `specs/.../evidence/`.
 
-Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong, nghi lễ, code, schema, bảng tham số và trích dẫn nguyên văn có những quy ước riêng nên bị loại khỏi phần biên tập tương ứng. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
+Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong và nghi lễ chỉ
+được rà T1–T6. Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví
+dụ đang được bàn tới là vùng bảo toàn từng byte. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
 
 ## Danh mục pattern
 
@@ -266,7 +267,8 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 | T5 | Định dạng thay cho cấu trúc câu |
 | T6 | Emoji |
 
-Typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern V1–V25. Quy tắc này tránh việc skill thay đổi dấu câu hoặc định dạng chỉ vì sở thích.
+Với văn xuôi thông thường, typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern
+V1–V25. Thể loại được cổng đầu vào giới hạn ở T1–T6 là ngoại lệ; vùng bảo toàn vẫn giữ nguyên từng byte.
 
 ### Blog, bài cá nhân, nội dung công việc và marketing (B1–B17)
 
@@ -403,6 +405,10 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
+- **0.9.1** – Sửa cổng typography-only để các thể loại bị giới hạn có thể chạy T1–T6 mà không cần
+  một lỗi V đi kèm; tách code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn, tên riêng và ví
+  dụ thành vùng bảo toàn từng byte. Đồng thời cấm tự thêm thái độ, sửa ví dụ T3, đồng bộ registry
+  K1–K7 và rà lại cách diễn đạt trong README cùng profile kỹ thuật.
 - **0.9.0** – Thêm V23 cho phản biện ý không có đối tượng, V24 cho các từ chỉ khả năng chồng cùng
   chức năng, V25 cho quan hệ bị làm mơ hồ dù nguồn đã nói rõ và K7 cho cách mượn uy tín thay cho
   bằng chứng; đồng thời phân vai lại B5/B8 để tránh hai pattern cùng sửa một lỗi. Bốn giả thuyết
