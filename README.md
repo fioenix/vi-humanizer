@@ -383,9 +383,14 @@ Những nguồn dưới đây giúp tìm thuật ngữ hoặc ghi nhận hiện 
 - V3 và V13 cần thêm nguồn gốc về lý thuyết đề–thuyết thay cho các bài trình bày lại.
 - V16 cần thêm nghiên cứu công bố trực tiếp về đối chiếu câu bị động Anh–Việt.
 
-## Lời cảm ơn
+## Tác giả và ghi nhận
 
-Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tham khảo [blader/humanizer](https://github.com/blader/humanizer) cùng hướng dẫn của WikiProject AI Cleanup. Các pattern tiếng Việt được xây dựng riêng cho repo này.
+`vi-humanizer` do Fioenix thiết kế và duy trì. Codex và Claude Code được dùng làm agent kỹ thuật để
+hỗ trợ nghiên cứu, triển khai, kiểm thử và review.
+
+Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tham khảo
+[blader/humanizer](https://github.com/blader/humanizer) cùng hướng dẫn của WikiProject AI Cleanup.
+Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
