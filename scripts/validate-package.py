@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import json
 import re
+import stat
 import sys
-from pathlib import Path
+import zipfile
+from pathlib import Path, PurePosixPath
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -60,6 +62,135 @@ def fail(message: str) -> None:
     errors.append(message)
 
 
+def validate_payload_tree(root: Path) -> None:
+    """Chỉ cho phép thư mục và file thường nằm bên trong payload root."""
+
+    try:
+        resolved_root = root.resolve(strict=True)
+    except OSError as error:
+        fail(f"Không đọc được payload root {root}: {error}")
+        return
+
+    def validate_entry(path: Path, expected_kind: str | None = None) -> None:
+        relative = path.relative_to(root)
+        try:
+            mode = path.lstat().st_mode
+        except OSError as error:
+            fail(f"Không đọc được entry đóng gói {relative}: {error}")
+            return
+
+        if stat.S_ISLNK(mode):
+            fail(f"Payload không được chứa liên kết tượng trưng: {relative}")
+            return
+        if expected_kind == "file" and not stat.S_ISREG(mode):
+            fail(f"Payload root phải là file thường: {relative}")
+            return
+        if expected_kind == "directory" and not stat.S_ISDIR(mode):
+            fail(f"Payload root phải là thư mục: {relative}")
+            return
+        if not stat.S_ISDIR(mode) and not stat.S_ISREG(mode):
+            fail(f"Payload chỉ được chứa thư mục và file thường: {relative}")
+            return
+
+        try:
+            path.resolve(strict=True).relative_to(resolved_root)
+        except (OSError, ValueError):
+            fail(f"Entry đóng gói nằm ngoài payload root: {relative}")
+            return
+
+        if stat.S_ISDIR(mode):
+            try:
+                children = sorted(path.iterdir(), key=lambda child: child.name)
+            except OSError as error:
+                fail(f"Không đọc được thư mục đóng gói {relative}: {error}")
+                return
+            for child in children:
+                validate_entry(child)
+
+    for relative in sorted(PACKAGE_PAYLOAD):
+        path = root / relative
+        if not path.exists() and not path.is_symlink():
+            fail(f"Thiếu payload bắt buộc: {relative}")
+            continue
+        expected_kind = "file" if relative == "SKILL.md" else "directory"
+        validate_entry(path, expected_kind)
+
+
+def payload_inventory(root: Path) -> dict[str, Path | None]:
+    inventory: dict[str, Path | None] = {"vi-humanizer/": None}
+    for relative in sorted(PACKAGE_PAYLOAD):
+        path = root / relative
+        entries = [path]
+        if path.is_dir():
+            entries.extend(sorted(path.rglob("*")))
+        for entry in entries:
+            if entry.name == ".DS_Store":
+                continue
+            archive_name = f"vi-humanizer/{entry.relative_to(root).as_posix()}"
+            if entry.is_dir():
+                archive_name += "/"
+            inventory[archive_name] = entry
+    return inventory
+
+
+def validate_archive(archive_path: Path, payload_root: Path) -> None:
+    validate_payload_tree(payload_root)
+    if errors:
+        return
+
+    expected = payload_inventory(payload_root)
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            entries = archive.infolist()
+            names = [entry.filename for entry in entries]
+            if len(names) != len(set(names)):
+                fail("Archive chứa entry trùng tên")
+
+            actual_names = set(names)
+            expected_names = set(expected)
+            missing = sorted(expected_names - actual_names)
+            extra = sorted(actual_names - expected_names)
+            if missing:
+                fail(f"Archive thiếu entry: {missing}")
+            if extra:
+                fail(f"Archive chứa entry ngoài public payload: {extra}")
+
+            for entry in entries:
+                archive_name = PurePosixPath(entry.filename)
+                if archive_name.is_absolute() or ".." in archive_name.parts:
+                    fail(f"Archive chứa đường dẫn không an toàn: {entry.filename}")
+                    continue
+
+                mode = (entry.external_attr >> 16) & 0xFFFF
+                file_type = stat.S_IFMT(mode)
+                allowed_type = stat.S_IFDIR if entry.is_dir() else stat.S_IFREG
+                if file_type not in (0, allowed_type):
+                    fail(f"Archive chứa entry không phải file hoặc thư mục thường: {entry.filename}")
+                    continue
+
+                source = expected.get(entry.filename)
+                if source is None or entry.is_dir():
+                    continue
+                try:
+                    archived_bytes = archive.read(entry)
+                    source_bytes = source.read_bytes()
+                except (OSError, RuntimeError, zipfile.BadZipFile) as error:
+                    fail(f"Không đọc được entry archive {entry.filename}: {error}")
+                    continue
+                if archived_bytes != source_bytes:
+                    fail(f"Nội dung archive lệch staged payload: {entry.filename}")
+    except (OSError, zipfile.BadZipFile) as error:
+        fail(f"Không đọc được archive {archive_path}: {error}")
+
+
+def exit_on_errors() -> None:
+    if not errors:
+        return
+    for message in errors:
+        print(f"LỖI: {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+
 def read(relative: str) -> str:
     path = ROOT / relative
     if not path.exists():
@@ -79,6 +210,36 @@ def pattern_block(text: str, pattern_id: str) -> str:
     )
     return match.group(0) if match else ""
 
+
+if sys.argv[1:]:
+    arguments = sys.argv[1:]
+    if len(arguments) == 2 and arguments[0] == "--payload-root":
+        payload_root = Path(arguments[1])
+        validate_payload_tree(payload_root)
+        exit_on_errors()
+        print(f"Payload đóng gói hợp lệ: {payload_root}")
+        raise SystemExit(0)
+    if (
+        len(arguments) == 4
+        and arguments[0] == "--archive"
+        and arguments[2] == "--payload-root"
+    ):
+        archive_path = Path(arguments[1])
+        payload_root = Path(arguments[3])
+        validate_archive(archive_path, payload_root)
+        exit_on_errors()
+        print(f"Archive đóng gói hợp lệ: {archive_path}")
+        raise SystemExit(0)
+    else:
+        print(
+            "Dùng: validate-package.py [--payload-root <thư-mục> | "
+            "--archive <file> --payload-root <thư-mục>]",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
+
+validate_payload_tree(ROOT)
+exit_on_errors()
 
 skill = read("SKILL.md")
 readme = read("README.md")
@@ -225,9 +386,6 @@ for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w.-]+)
 
 # --- Kết quả -------------------------------------------------------------
 
-if errors:
-    for message in errors:
-        print(f"LỖI: {message}", file=sys.stderr)
-    raise SystemExit(1)
+exit_on_errors()
 
 print(f"Gói vi-humanizer v{skill_version} hợp lệ, gồm {len(declared)} pattern")
