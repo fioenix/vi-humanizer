@@ -25,7 +25,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
 | `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
-| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` |
+| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip` |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |

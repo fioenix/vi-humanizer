@@ -54,6 +54,7 @@ STYLE_PROFILE_CARDS = {
     "profiles/ky-thuat-doanh-nghiep.md": STYLE_CARDS[4:],
 }
 PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration"}
+MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 
 errors: list[str] = []
 
@@ -116,8 +117,10 @@ def validate_payload_tree(root: Path) -> None:
         validate_entry(path, expected_kind)
 
 
-def payload_inventory(root: Path) -> dict[str, Path | None]:
-    inventory: dict[str, Path | None] = {"vi-humanizer/": None}
+def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
+    inventory: dict[str, Path | None] = {}
+    if archive_root:
+        inventory[f"{archive_root}/"] = None
     for relative in sorted(PACKAGE_PAYLOAD):
         path = root / relative
         entries = [path]
@@ -126,19 +129,25 @@ def payload_inventory(root: Path) -> dict[str, Path | None]:
         for entry in entries:
             if entry.name == ".DS_Store":
                 continue
-            archive_name = f"vi-humanizer/{entry.relative_to(root).as_posix()}"
+            archive_name = entry.relative_to(root).as_posix()
+            if archive_root:
+                archive_name = f"{archive_root}/{archive_name}"
             if entry.is_dir():
                 archive_name += "/"
             inventory[archive_name] = entry
     return inventory
 
 
-def validate_archive(archive_path: Path, payload_root: Path) -> None:
+def validate_archive(
+    archive_path: Path,
+    payload_root: Path,
+    archive_root: str | None = "vi-humanizer",
+) -> None:
     validate_payload_tree(payload_root)
     if errors:
         return
 
-    expected = payload_inventory(payload_root)
+    expected = payload_inventory(payload_root, archive_root)
     try:
         with zipfile.ZipFile(archive_path) as archive:
             entries = archive.infolist()
@@ -220,20 +229,22 @@ if sys.argv[1:]:
         print(f"Payload đóng gói hợp lệ: {payload_root}")
         raise SystemExit(0)
     if (
-        len(arguments) == 4
+        len(arguments) in (4, 5)
         and arguments[0] == "--archive"
         and arguments[2] == "--payload-root"
+        and (len(arguments) == 4 or arguments[4] == "--root-layout")
     ):
         archive_path = Path(arguments[1])
         payload_root = Path(arguments[3])
-        validate_archive(archive_path, payload_root)
+        archive_root = None if len(arguments) == 5 else "vi-humanizer"
+        validate_archive(archive_path, payload_root, archive_root)
         exit_on_errors()
         print(f"Archive đóng gói hợp lệ: {archive_path}")
         raise SystemExit(0)
     else:
         print(
             "Dùng: validate-package.py [--payload-root <thư-mục> | "
-            "--archive <file> --payload-root <thư-mục>]",
+            "--archive <file> --payload-root <thư-mục> [--root-layout]]",
             file=sys.stderr,
         )
         raise SystemExit(2)
@@ -248,6 +259,17 @@ plugin_path = ROOT / ".claude-plugin" / "plugin.json"
 plugin = json.loads(plugin_path.read_text(encoding="utf-8")) if plugin_path.exists() else {}
 if not plugin:
     fail("Thiếu .claude-plugin/plugin.json")
+
+marketplace_path = ROOT / ".claude-plugin" / "marketplace.json"
+marketplace = (
+    json.loads(marketplace_path.read_text(encoding="utf-8"))
+    if marketplace_path.exists()
+    else {}
+)
+if not marketplace:
+    fail("Thiếu .claude-plugin/marketplace.json")
+elif marketplace.get("$schema") != MARKETPLACE_SCHEMA:
+    fail(f"marketplace.json phải dùng schema chính thức: {MARKETPLACE_SCHEMA}")
 
 # --- Frontmatter ---------------------------------------------------------
 

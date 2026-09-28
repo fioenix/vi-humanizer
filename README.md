@@ -69,6 +69,15 @@ Tạo file `.skill` bằng lệnh:
 
 Kết quả nằm ở `dist/vi-humanizer.skill`. Gói gồm `SKILL.md`, `profiles/`, `references/` và `calibration/`; các file dành cho người bảo trì repo không được đưa vào gói.
 
+### Claude Org
+
+Cùng lệnh đóng gói ở trên tạo thêm `dist/vi-humanizer-claude-org.zip`. ZIP này đặt `SKILL.md`
+ở thư mục gốc và chỉ chứa các file cần khi skill chạy.
+
+Trong Claude, mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn
+`vi-humanizer-claude-org.zip`. Cách này không cần marketplace repository riêng và không phụ thuộc
+repo `vi-humanizer` là public hay private.
+
 ### Cài thủ công
 
 Chép `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration/` vào thư mục skill của agent:
@@ -162,7 +171,7 @@ calibration/LOG.md                  bằng chứng dùng để sửa quy tắc c
 calibration/ca-kiem-thu.md          ca kiểm thử chạy tay cho từng pattern
 agents/openai.yaml                  tên hiển thị và lời gọi mặc định
 scripts/validate-package.py         kiểm tra tính đồng bộ của gói
-scripts/package-skill.sh            tạo dist/vi-humanizer.skill
+scripts/package-skill.sh            tạo dist/vi-humanizer.skill và dist/vi-humanizer-claude-org.zip
 scripts/scan-tells.sh               tìm những chỗ có thể rà bằng biểu thức chính quy
 .specify/                            constitution, template và script của Spec Kit
 specs/                               đặc tả, checklist, plan và task theo từng feature

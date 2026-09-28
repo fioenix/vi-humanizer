@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import shlex
 import shutil
@@ -98,6 +99,15 @@ class PackageSecurityTest(unittest.TestCase):
             check=False,
         )
 
+    def run_package_validator(self, repo: Path) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["python3", "scripts/validate-package.py"],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
     def test_rejects_payload_symlink_to_file_outside_repository(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             temporary = Path(temporary_directory)
@@ -126,6 +136,23 @@ class PackageSecurityTest(unittest.TestCase):
             (repo / "profiles").write_text("not a directory", encoding="utf-8")
 
             result = self.run_payload_validator(repo, repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_rejects_unknown_marketplace_schema_url(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            manifest_path = repo / ".claude-plugin" / "marketplace.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["$schema"] = (
+                "https://json.schemastore.org/claude-code-marketplace-manifest.json"
+            )
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            result = self.run_package_validator(repo)
 
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 
@@ -202,6 +229,24 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertTrue(any(name.startswith("vi-humanizer/profiles/") for name in names))
             self.assertTrue(any(name.startswith("vi-humanizer/references/") for name in names))
             self.assertTrue(any(name.startswith("vi-humanizer/calibration/") for name in names))
+
+    def test_packages_claude_org_upload_with_skill_at_archive_root(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+
+            result = self.run_packager(repo)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            archive = repo / "dist" / "vi-humanizer-claude-org.zip"
+            with zipfile.ZipFile(archive) as package:
+                names = set(package.namelist())
+            self.assertIn("SKILL.md", names)
+            self.assertTrue(any(name.startswith("profiles/") for name in names))
+            self.assertTrue(any(name.startswith("references/") for name in names))
+            self.assertTrue(any(name.startswith("calibration/") for name in names))
+            self.assertFalse(any(name.startswith("vi-humanizer/") for name in names))
+            self.assertFalse(any(name.startswith(".claude-plugin/") for name in names))
+            self.assertNotIn("README.md", names)
 
     def test_validates_archive_bytes_against_the_staged_payload(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Đóng gói vi-humanizer thành dist/vi-humanizer.skill để dùng trên Claude Desktop
-# hoặc claude.ai. Gói chỉ chứa SKILL.md cùng các thư mục mà skill cần khi chạy.
+# Đóng gói vi-humanizer thành hai artifact từ cùng một public payload:
+# - dist/vi-humanizer.skill cho Skills CLI và cài đặt skill thông thường;
+# - dist/vi-humanizer-claude-org.zip để upload skill vào Claude Org.
+# Cả hai chỉ chứa SKILL.md cùng các thư mục mà skill cần khi chạy.
 #
 # Dùng: ./scripts/package-skill.sh
 # Cần: python3, zip và unzip.
@@ -27,6 +29,8 @@ mkdir -p "$STAGE" "$DIST"
 ARCHIVE_STAGE="$(mktemp -d "$DIST/.vi-humanizer-package.XXXXXX")"
 CANDIDATE_ARCHIVE="$ARCHIVE_STAGE/vi-humanizer.skill"
 RELEASE_ARCHIVE="$DIST/vi-humanizer.skill"
+CANDIDATE_ORG_ARCHIVE="$ARCHIVE_STAGE/vi-humanizer-claude-org.zip"
+RELEASE_ORG_ARCHIVE="$DIST/vi-humanizer-claude-org.zip"
 
 cp -P "$ROOT/SKILL.md" "$STAGE/"
 cp -RP "$ROOT/profiles" "$ROOT/references" "$ROOT/calibration" "$STAGE/"
@@ -37,7 +41,15 @@ python3 "$ROOT/scripts/validate-package.py" --payload-root "$STAGE"
 python3 "$ROOT/scripts/validate-package.py" \
   --archive "$CANDIDATE_ARCHIVE" \
   --payload-root "$STAGE"
+( cd "$STAGE" && zip -qr "$CANDIDATE_ORG_ARCHIVE" . -x '*.DS_Store' )
+python3 "$ROOT/scripts/validate-package.py" \
+  --archive "$CANDIDATE_ORG_ARCHIVE" \
+  --payload-root "$STAGE" \
+  --root-layout
 mv -f "$CANDIDATE_ARCHIVE" "$RELEASE_ARCHIVE"
+mv -f "$CANDIDATE_ORG_ARCHIVE" "$RELEASE_ORG_ARCHIVE"
 
 echo "Đã đóng gói: $RELEASE_ARCHIVE"
 unzip -l "$RELEASE_ARCHIVE"
+echo "Đã đóng gói cho Claude Org: $RELEASE_ORG_ARCHIVE"
+unzip -l "$RELEASE_ORG_ARCHIVE"
