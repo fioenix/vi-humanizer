@@ -8,8 +8,10 @@ biên tập cho host Agent.
 
 - Python 3.12 và `uv` trong `PATH`.
 - V1 artifacts ở commit feature 001 còn nguyên bytes.
-- Live command nhận `TYPESAFE_API_KEY` qua secret-injection wrapper đã cấu hình trên máy maintainer;
-  repo không ghi tên/path của wrapper và không ghi key vào file/command/log.
+- Core skill không cần Python, `uv`, TypeSafe SDK, API key hoặc mạng; các prerequisite trong tài
+  liệu này chỉ dành cho evaluation harness của người bảo trì.
+- Live command chỉ được bật khi environment đã có `TYPESAFE_API_KEY`; đây là opt-in switch duy nhất.
+  Repo không ghi key vào file, command hoặc log.
 - Mỗi gate live, policy freeze và holdout opening có phê duyệt riêng của maintainer hoặc agent được owner ủy quyền rõ.
 
 ## 1. Đồng bộ environment đã khóa
@@ -19,6 +21,7 @@ uv sync --locked --group eval
 ```
 
 Expected: exact resolution hiện có, gồm `typesafe-sdk==0.7.1`; không sửa lockfile.
+Lệnh này chỉ cài dependency group `eval`; người dùng core skill không chạy bước này.
 
 ## 2. Chạy toàn bộ verification offline
 

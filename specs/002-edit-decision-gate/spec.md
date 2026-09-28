@@ -18,6 +18,8 @@
 
 - Q: Enum v2 mô tả kết quả thẩm định từng candidate có giữ tên `CandidateAction` không? → A: Đổi thành `CandidateAssessment`, khớp field `candidate_assessments`, không giữ compatibility alias; v1 giữ nguyên terminology và bytes. (agent decided; basis: v2 chưa phát hành và tên `action` làm sai authority đã duyệt)
 - Q: Ai được ghi nhận là người duyệt các live gate khi owner đã giao agent tự quyết đến hết goal? → A: Giữ `maintainer` cho phê duyệt trực tiếp; cho phép `owner_authorized_agent` khi owner đã ủy quyền rõ trong cuộc hội thoại, và luôn ghi đúng actor thật thay vì giả thành maintainer.
+- Q: TypeSafe/Jev được bật bằng cách nào trong một cài đặt công khai? → A: Chỉ sự hiện diện của `TYPESAFE_API_KEY` mới bật lớp thẩm định tùy chọn; không thêm cờ `enabled` thứ hai, không đưa `typesafe-sdk` vào dependency lõi, và thiếu key/SDK/dịch vụ không được làm gián đoạn workflow Markdown. (agent decided; basis: constitution yêu cầu skill tự đứng được và noulmes trả `SUPPORTS` 0.98)
+- Q: Làm rõ cơ chế opt-in này có tạo một runtime feature mới và buộc tăng version không? → A: Không; giữ `0.9.0` vì thay đổi chỉ công khai hóa ranh giới của evaluation architecture đã phát hành, chưa thêm runtime connector vào gói `.skill`. (agent decided; basis: package hiện không chứa harness/SDK và noulmes trả `SUPPORTS` 0.94)
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -110,6 +112,7 @@ Người bảo trì muốn report cho biết cổng mới có cải thiện quy�
 - **FR-025**: Label proposal, policy candidate và việc mở holdout MUST được maintainer hoặc agent được owner ủy quyền rõ duyệt riêng trước mỗi live gate; artifact MUST ghi đúng actor thật là `maintainer` hoặc `owner_authorized_agent`.
 - **FR-026**: Feature MUST NOT thay đổi V-series, T-series, profile hoặc package payload của vi-humanizer.
 - **FR-027**: Host LLM/Agent MUST là thành phần duy nhất quyết định giữ hay sửa và sinh câu chữ cuối trong runtime vi-humanizer. Jev MUST chỉ thẩm định tín hiệu hoặc xếp hạng candidate đã có; code feature 002 MUST chỉ chuẩn hóa evidence, áp policy cho evaluation và không được gọi, sửa hoặc thay thế prose.
+- **FR-028**: TypeSafe/Jev MUST là progressive enhancement được opt-in bằng `TYPESAFE_API_KEY`; core skill MUST không phụ thuộc API key, SDK hoặc mạng, và MUST không có cờ enable thứ hai có thể lệch trạng thái với credential.
 
 ### Key Entities
 
@@ -132,6 +135,7 @@ Người bảo trì muốn report cho biết cổng mới có cải thiện quy�
 - **SC-007**: 100% run thiếu credential hoặc có lỗi service trả `unchecked`/incomplete và không làm hỏng workflow Markdown hiện tại.
 - **SC-008**: 100% report và artifact được track vượt privacy scan: không raw prose, secret, request body, raw exception hoặc định danh cá nhân/tổ chức.
 - **SC-009**: Report hiển thị latency, token usage và cost thực tế để maintainer duyệt; không suy ra ngân sách từ config hoặc pricing snapshot.
+- **SC-010**: Cài đặt và chạy gói `vi-humanizer.skill` không có `TYPESAFE_API_KEY` hoặc `typesafe-sdk` vẫn hoàn tất workflow Markdown; chỉ live evaluation command trả `unchecked`/exit 2 khi lớp thẩm định không khả dụng.
 
 ## Assumptions
 
