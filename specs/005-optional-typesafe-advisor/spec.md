@@ -1,10 +1,10 @@
 # Feature Specification: Cố vấn TypeSafe tùy chọn
 
-**Feature Branch**: `main`
+**Feature Branch**: `codex/005-optional-typesafe-advisor`
 
 **Created**: 2026-09-29
 
-**Status**: Draft
+**Status**: Approved
 
 **Input**: Mở feature 005 để người dùng có thể bật TypeSafe/Jev như một lớp cố vấn tùy chọn cho
 `vi-humanizer`. Core skill vẫn phải chạy đầy đủ khi không có TypeSafe. Host LLM tạo candidate và
@@ -27,8 +27,7 @@ quyết định có sửa hay không; Jev chỉ thẩm định các tín hiệu 
   chứa optional advisor adapter nhưng không chứa secret; host vẫn phải có quyền thực thi adapter,
   kết nối mạng và secret injection. Thiếu một trong các năng lực đó thì skill chạy core-only và
   phải nói đúng trạng thái.
-- Q: Feature 005 phát hành ở version nào? → A: Chưa quyết định; đây là owner gate trước release,
-  không ảnh hưởng kiến trúc hoặc việc tạo tasks. Noulmes yêu cầu hỏi owner thay vì tự chọn `0.9.6`.
+- Q: Feature 005 phát hành ở version nào? → A: `0.9.6`; owner đã duyệt ngày 2026-09-29.
 
 ## User Scenarios & Testing *(mandatory)*
 
