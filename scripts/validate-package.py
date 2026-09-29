@@ -75,7 +75,16 @@ EXPECTED_PROFILE_DIRECTORIES = {
     for relative in EXPECTED_PROFILE_FILES
     if PurePosixPath(relative).parent.name == "styles"
 }
-PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration"}
+PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration", "advisor"}
+ADVISOR_FILES = {
+    "advisor/__init__.py",
+    "advisor/__main__.py",
+    "advisor/cli.py",
+    "advisor/client.py",
+    "advisor/models.py",
+    "advisor/questions.py",
+}
+PACKAGE_COPY_SOURCES = (PACKAGE_PAYLOAD - {"advisor"}) | ADVISOR_FILES
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 
 errors: list[str] = []
@@ -83,6 +92,10 @@ errors: list[str] = []
 
 def fail(message: str) -> None:
     errors.append(message)
+
+
+def ignored_generated_entry(path: Path) -> bool:
+    return path.name == ".DS_Store" or "__pycache__" in path.parts or path.suffix == ".pyc"
 
 
 def validate_payload_tree(root: Path) -> None:
@@ -169,6 +182,27 @@ def validate_payload_tree(root: Path) -> None:
     if extra_directories:
         fail(f"Profiles chứa thư mục ngoài inventory canonical: {extra_directories}")
 
+    advisor_root = root / "advisor"
+    if not advisor_root.is_dir() or advisor_root.is_symlink():
+        return
+    actual_advisor_files = {
+        entry.relative_to(root).as_posix()
+        for entry in advisor_root.rglob("*")
+        if entry.is_file() and not entry.is_symlink() and not ignored_generated_entry(entry)
+    }
+    actual_advisor_directories = {
+        entry.relative_to(root).as_posix()
+        for entry in advisor_root.rglob("*")
+        if entry.is_dir() and not ignored_generated_entry(entry)
+    }
+    if actual_advisor_files != ADVISOR_FILES:
+        fail(
+            "Advisor runtime phải khớp exact inventory: "
+            f"mong đợi {sorted(ADVISOR_FILES)}, đang là {sorted(actual_advisor_files)}"
+        )
+    if actual_advisor_directories:
+        fail(f"Advisor runtime chứa thư mục ngoài inventory: {sorted(actual_advisor_directories)}")
+
 
 def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
     inventory: dict[str, Path | None] = {}
@@ -180,7 +214,7 @@ def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> 
         if path.is_dir():
             entries.extend(sorted(path.rglob("*")))
         for entry in entries:
-            if entry.name == ".DS_Store":
+            if ignored_generated_entry(entry):
                 continue
             archive_name = entry.relative_to(root).as_posix()
             if archive_root:
@@ -458,10 +492,10 @@ for line in package_script.splitlines():
     if not re.match(r"^cp(?:\s|$)", line):
         continue
     copied_payload.update(re.findall(r'\$ROOT/([A-Za-z0-9._/-]+)', line))
-if copied_payload != PACKAGE_PAYLOAD:
+if copied_payload != PACKAGE_COPY_SOURCES:
     fail(
         "package-skill.sh phải chỉ chép public payload "
-        f"{sorted(PACKAGE_PAYLOAD)}, đang là {sorted(copied_payload)}"
+        f"{sorted(PACKAGE_COPY_SOURCES)}, đang là {sorted(copied_payload)}"
     )
 
 # --- Ngân sách dòng ------------------------------------------------------

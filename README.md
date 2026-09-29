@@ -79,7 +79,8 @@ repo `vi-humanizer` là public hay private.
 
 ### Cài thủ công
 
-Chép `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration/` vào thư mục skill của agent:
+Chép `SKILL.md` cùng `profiles/`, `references/`, `calibration/` và optional runtime `advisor/` vào
+thư mục skill của agent:
 
 ```bash
 git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
@@ -87,20 +88,27 @@ git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-h
 
 ### TypeSafe/Jev là lớp tăng cường tùy chọn
 
-`vi-humanizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Các cách
-cài ở trên chỉ cài skill Markdown; nếu không cấu hình gì thêm, toàn bộ quy trình thể loại, pattern,
-style card và năm quy tắc chốt chặn vẫn chạy bình thường.
+`vi-humanizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Nếu không
+cấu hình gì thêm, toàn bộ quy trình thể loại, pattern, style card và năm quy tắc chốt chặn vẫn chạy
+bình thường. Public package có thêm optional CLI `advisor/`, viết bằng Python standard library;
+core Markdown không import hoặc phụ thuộc CLI này.
 
-Khi host Agent đã có tích hợp TypeSafe/Jev, sự hiện diện của biến môi trường `TYPESAFE_API_KEY` là
-công tắc opt-in duy nhất. Không có cờ `enabled` thứ hai. Jev chỉ thẩm định các candidate do host LLM
-tạo sẵn, chẳng hạn bản gốc có thật sự cần sửa không, candidate có giữ nghĩa và đủ an toàn không.
-Jev trả tín hiệu có cấu trúc nhưng không sinh hoặc sửa câu chữ; host Agent vẫn quyết định giữ hay sửa
-và chịu trách nhiệm cho bản cuối.
+Muốn bật trên host local, cần Python 3.10+, HTTPS và cơ chế inject secret. Lưu API key bằng secret
+manager của host, inject nó thành `TYPESAFE_API_KEY` cho process chạy agent, rồi từ thư mục skill
+chạy `python3 -m advisor probe`. Không dán key vào prompt, command argument, file repo hoặc ZIP;
+không có cờ `enabled` thứ hai. Chỉ typed response thật với model `jev-1.13.0` mới tạo trạng thái
+`advisor_verified`; có key hoặc config mới chỉ là opt-in, chưa phải bằng chứng integration đang chạy.
 
-Nếu thiếu key, SDK hoặc dịch vụ không phản hồi, host bỏ qua lớp Jev và tiếp tục bằng core skill.
-Trạng thái đó là *chưa kiểm tra*, không phải một lần thẩm định đã pass. Riêng người bảo trì muốn chạy
-evaluation harness live mới cần cài dependency tùy chọn bằng `uv sync --locked --group eval`; lệnh
-validate và các test offline không cần gọi TypeSafe.
+Advisor chỉ dùng cho hai tín hiệu V20, sau khi host LLM đã tạo candidate. Jev trả signal có cấu trúc
+nhưng không sinh/sửa câu chữ và không quyết định thay source; host Agent vẫn chọn giữ hay sửa. Nếu
+thiếu key, host capability hoặc dịch vụ không phản hồi, CLI trả `core_only`/`advisor_unchecked` và
+core tiếp tục; đó là *chưa kiểm tra*, không phải `pass`. TypeSafe agent skill chỉ cung cấp tài liệu
+cho coding agent, không tự tạo runtime connector. ZIP Claude Org có `advisor/` nhưng vẫn core-only
+nếu môi trường Org không cho chạy Python, gọi mạng hoặc inject secret. Hướng dẫn đầy đủ nằm trong
+[`references/typesafe-advisor.md`](references/typesafe-advisor.md).
+
+Riêng evaluation harness live mới cần dependency tùy chọn qua `uv sync --locked --group eval`;
+validator và test offline không gọi TypeSafe.
 
 ## Cách dùng
 
@@ -168,8 +176,10 @@ profiles/ky-thuat-doanh-nghiep/styles/        ba style card kỹ thuật, vận 
 references/han-viet-thuan-viet.md             bảng tra và điều kiện phải giữ thuật ngữ
 references/bang-tra-cuu.md                    bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
 references/bo-giai-phong-cach.md              bộ giải ngữ cảnh, precedence và registry đường dẫn
+references/typesafe-advisor.md                setup, authority, privacy và fallback của advisor
 calibration/LOG.md                            bằng chứng dùng để sửa quy tắc chung
 calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
+advisor/                                      optional TypeSafe CLI; core Markdown không phụ thuộc
 agents/openai.yaml                            tên hiển thị và lời gọi mặc định
 scripts/validate-package.py                   kiểm tra tính đồng bộ của gói
 scripts/package-skill.sh                      tạo hai artifact cài đặt
@@ -184,6 +194,7 @@ artifacts/guard-eval/                         raw run local, bị gitignore và 
 guard_eval/v2/                                lane tạo shadow recommendation theo component
 eval/guard/v2/                                dev corpus v2, lock v1 và registry holdout đã quan sát
 tests/guard_eval_v2/                          contract/integration test offline cho lane v2
+tests/advisor/                                contract/integration test offline cho public advisor
 artifacts/guard-eval-v2/                      raw run v2 local, bị gitignore
 pyproject.toml, uv.lock                       môi trường Python 3.12 khóa version cho harness
 ```
@@ -408,6 +419,10 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
+- **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
+  readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
+  và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude
+  Org chứa adapter nhưng không chứa secret hoặc mạo nhận capability của host.
 - **0.9.5** – Tổ chức hai base profile thành thư mục cha–con: `rules.md` giữ B/K pattern, còn bảy
   style card nằm trong `styles/` của profile tương thích. Gói Claude Org nay hiển thị riêng từng
   phong cách; resolver và bảng tra dùng chung vẫn nằm trong `references/`. Nếu prompt hoặc công cụ

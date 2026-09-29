@@ -20,6 +20,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
 | `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card; không sở hữu pattern |
+| `references/typesafe-advisor.md` | Setup, authority, privacy và fail-open contract của optional advisor |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
@@ -29,6 +30,8 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
 | `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip` |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
+| `advisor/` | Public Python standard-library CLI cho `probe`, `assess`, `rank`; core không import |
+| `tests/advisor/` | Test offline cho schema, HTTP boundary, CLI và privacy; không gọi TypeSafe thật |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
 | `.agents/skills/` | Các skill Spec Kit do `specify init` tạo cho Codex; không được đóng gói vào `vi-humanizer.skill` |

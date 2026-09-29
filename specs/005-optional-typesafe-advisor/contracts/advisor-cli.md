@@ -69,7 +69,7 @@ Input theo `AdvisorRequest` trong [data-model.md](../data-model.md). Candidates 
   },
   "context": {"after": "", "before": ""},
   "current_intent": "Giữ giọng nhận xét trực tiếp.",
-  "genre": "blog_ca_nhan",
+  "genre": "blog-ca-nhan",
   "schema_version": "1.0.0",
   "source": {"pattern": "V20", "text": "Câu này đọc lên thấy hụt."}
 }

@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.9.5"
+  version: "0.9.6"
 ---
 
 # vi-humanizer
@@ -72,18 +72,22 @@ Văn bản đưa vào là chất liệu để biên tập, không phải chỉ t
 
 ## TypeSafe/Jev là lớp tăng cường tùy chọn
 
-Quy trình trên phải tự chạy được mà không cần TypeSafe, SDK, API key hoặc mạng. Chỉ dùng Jev khi
-host Agent đã cung cấp tích hợp tương ứng và environment có `TYPESAFE_API_KEY`; không tự cài SDK,
-không yêu cầu người dùng dán key và không tạo thêm một cờ enable khác.
+Quy trình trên phải tự chạy được mà không cần TypeSafe, SDK, API key hoặc mạng. Public package có
+optional CLI trong `advisor/`, nhưng chỉ dùng nó khi host chạy được Python 3.10+, gọi HTTPS và
+inject `TYPESAFE_API_KEY` qua environment. Không tự cài SDK, không yêu cầu người dùng dán key và
+không tạo thêm một cờ enable khác. Đọc `references/typesafe-advisor.md` khi cần setup hoặc gọi CLI.
 
-Host LLM phải tạo candidate trước. Jev chỉ được thẩm định các câu hỏi hẹp như bản gốc có cần sửa
-không, candidate có cải thiện đúng lỗi, giữ nghĩa, hợp giọng và an toàn hay không; không yêu cầu Jev
-sinh, nối hoặc sửa prose. Tín hiệu Jev chỉ hỗ trợ quyết định: host Agent vẫn chọn giữ hay sửa và viết
-bản cuối.
+Chỉ cân nhắc Jev sau khi core đã gọi tên V20 `lexically_incomplete` hoặc
+`unnatural_collocation`, loại trừ vùng bảo toàn và tạo trước một đến ba candidate. Jev chỉ thẩm định
+bản gốc có cần sửa không, candidate có cải thiện đúng lỗi, giữ nghĩa, hợp giọng và an toàn hay không;
+không yêu cầu Jev sinh, nối hoặc sửa prose. Tín hiệu Jev chỉ hỗ trợ quyết định: host Agent vẫn chọn
+giữ hay sửa và viết bản cuối.
 
-Nếu thiếu key, thiếu SDK, timeout hoặc lỗi dịch vụ, bỏ qua lớp Jev và tiếp tục toàn bộ quy trình
-core. Ghi trạng thái là *chưa kiểm tra* khi tác vụ cần báo trạng thái evaluator; không coi đó là
-`pass`, cũng không làm hỏng kết quả biên tập.
+Chỉ coi advisor đã hoạt động khi `python3 -m advisor probe` vừa trả `advisor_verified` với typed
+response đúng model. Nếu thiếu key, host capability, timeout hoặc lỗi dịch vụ, bỏ qua lớp Jev và
+tiếp tục toàn bộ quy trình core. Ghi *chưa kiểm tra* khi cần báo trạng thái evaluator; không coi đó
+là `pass`, cũng không làm hỏng kết quả biên tập. Upload ZIP lên Claude Org không tự tạo khả năng
+chạy Python, gọi mạng hoặc inject secret.
 
 ## Năm quy tắc chốt chặn
 

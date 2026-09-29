@@ -38,7 +38,7 @@ Input exact-schema cho `assess`; chỉ chứa dữ liệu Jev cần.
 | `source` | SourceSpan | yes | Text V20 cần xét, non-empty NFC |
 | `context` | LocalContext | yes | Trước/sau tối thiểu; mỗi field string |
 | `current_intent` | string | yes | Non-empty, không thêm dữ kiện ngoài lượt hiện tại |
-| `genre` | enum | yes | Base genre allowlist của skill |
+| `genre` | enum | yes | `blog-ca-nhan` hoặc `ky-thuat-doanh-nghiep` |
 | `candidates` | map<stable key, Candidate> | yes | 1–3 entry, sorted khi serialize, không trùng text/source |
 
 Field lạ bị từ chối. Schema không có split, label, expected action, provenance, baseline, document

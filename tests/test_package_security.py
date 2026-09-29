@@ -18,6 +18,7 @@ PACKAGE_FIXTURE_PATHS = (
     "SKILL.md",
     "README.md",
     ".claude-plugin",
+    "advisor",
     "calibration",
     "profiles",
     "references",
@@ -340,6 +341,50 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertTrue(any(name.startswith("vi-humanizer/profiles/") for name in names))
             self.assertTrue(any(name.startswith("vi-humanizer/references/") for name in names))
             self.assertTrue(any(name.startswith("vi-humanizer/calibration/") for name in names))
+
+    def test_packages_exact_public_advisor_runtime_in_both_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+
+            result = self.run_packager(repo)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            expected = {
+                "advisor/__init__.py",
+                "advisor/__main__.py",
+                "advisor/cli.py",
+                "advisor/client.py",
+                "advisor/models.py",
+                "advisor/questions.py",
+            }
+            for archive_name, prefix in (
+                ("vi-humanizer.skill", "vi-humanizer/"),
+                ("vi-humanizer-claude-org.zip", ""),
+            ):
+                with zipfile.ZipFile(repo / "dist" / archive_name) as package:
+                    names = {
+                        name.removeprefix(prefix)
+                        for name in package.namelist()
+                        if name.startswith(prefix + "advisor/") and not name.endswith("/")
+                    }
+                    all_names = set(package.namelist())
+                self.assertEqual(names, expected)
+                self.assertIn(prefix + "references/typesafe-advisor.md", all_names)
+                self.assertFalse(any("__pycache__" in name or name.startswith(prefix + "tests/") for name in all_names))
+                self.assertFalse(any(name.startswith(prefix + "guard_eval/") or name.startswith(prefix + "eval/") for name in all_names))
+
+    def test_package_does_not_capture_typesafe_key_from_environment(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            env = os.environ.copy()
+            env["TYPESAFE_API_KEY"] = "PACKAGE-SECRET-CANARY-005"
+
+            result = self.run_packager(repo, env=env)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            for archive_name in ("vi-humanizer.skill", "vi-humanizer-claude-org.zip"):
+                archive = repo / "dist" / archive_name
+                self.assertNotIn(b"PACKAGE-SECRET-CANARY-005", archive.read_bytes())
 
     def test_packages_claude_org_upload_with_skill_at_archive_root(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

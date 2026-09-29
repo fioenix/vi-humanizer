@@ -28,6 +28,9 @@ quyết định có sửa hay không; Jev chỉ thẩm định các tín hiệu 
   kết nối mạng và secret injection. Thiếu một trong các năng lực đó thì skill chạy core-only và
   phải nói đúng trạng thái.
 - Q: Feature 005 phát hành ở version nào? → A: `0.9.6`; owner đã duyệt ngày 2026-09-29.
+- Q: Public advisor gọi `genre` bằng ID nào? → A: Tái dùng hai base-profile ID canonical
+  `blog-ca-nhan` và `ky-thuat-doanh-nghiep`, không tạo biến thể dấu gạch dưới. (agent decided;
+  basis: tránh nguồn từ vựng thứ hai và noulmes không tìm thấy quyết định mâu thuẫn)
 
 ## User Scenarios & Testing *(mandatory)*
 
