@@ -23,9 +23,12 @@ quyết định có sửa hay không; Jev chỉ thẩm định các tín hiệu 
   không? → A: Không. Tín hiệu Jev chỉ mang tính cố vấn trong feature này; không được tự chặn, tự
   thay hoặc tự cứu một candidate. (agent decided; basis: holdout v2 chưa đủ coverage và noulmes
   xác nhận host Agent vẫn sở hữu quyết định cuối)
-- Q: Upload riêng skill lên Claude Org có đồng nghĩa Jev đã dùng được không? → A: Không. ZIP không
-  chứa secret hoặc runtime connector. Nếu host không cung cấp đường gọi TypeSafe thì skill chạy ở
-  chế độ core-only và phải nói đúng trạng thái đó.
+- Q: Upload riêng skill lên Claude Org có đồng nghĩa Jev đã dùng được không? → A: Không. ZIP MAY
+  chứa optional advisor adapter nhưng không chứa secret; host vẫn phải có quyền thực thi adapter,
+  kết nối mạng và secret injection. Thiếu một trong các năng lực đó thì skill chạy core-only và
+  phải nói đúng trạng thái.
+- Q: Feature 005 phát hành ở version nào? → A: Chưa quyết định; đây là owner gate trước release,
+  không ảnh hưởng kiến trúc hoặc việc tạo tasks. Noulmes yêu cầu hỏi owner thay vì tự chọn `0.9.6`.
 
 ## User Scenarios & Testing *(mandatory)*
 
