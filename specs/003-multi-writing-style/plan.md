@@ -6,7 +6,7 @@
 
 ## Summary
 
-Thêm một bộ giải phong cách dạng tổ hợp cho workflow Markdown: xác định context theo năm chiều, giữ hai base profile hiện có, rồi chọn tối đa một trong bảy style card cho từng phần văn bản. Style card nằm trong một reference public, không sở hữu pattern và không được sinh thêm dữ kiện. `SKILL.md` sở hữu thứ tự ưu tiên và ranh giới protected region; profile tiếp tục sở hữu lỗi phụ thuộc thể loại. Bộ kiểm thử chạy tay dùng các cặp giữ cùng dữ kiện để phát hiện rò giọng, còn validator kiểm tra registry/inventory/package nhất quán.
+Thêm một bộ giải phong cách dạng tổ hợp cho workflow Markdown: xác định context theo năm chiều, giữ hai base profile hiện có, rồi chọn tối đa một trong bảy style card cho từng phần văn bản. Mỗi profile là một thư mục: `rules.md` sở hữu pattern phụ thuộc thể loại, còn `styles/` chứa đúng các card tương thích. `references/bo-giai-phong-cach.md` chỉ sở hữu resolver, precedence và registry dùng chung; style card không sở hữu pattern và không được sinh thêm dữ kiện. `SKILL.md` sở hữu thứ tự gọi cùng ranh giới protected region. Bộ kiểm thử chạy tay dùng các cặp giữ cùng dữ kiện để phát hiện rò giọng, còn validator kiểm tra registry, exact profile inventory và package nhất quán.
 
 ## Technical Context
 
@@ -64,28 +64,33 @@ specs/003-multi-writing-style/
 ### Source and validation (repository root)
 
 ```text
-SKILL.md                                workflow, precedence và segmentation
-profiles/blog-ca-nhan.md                giới hạn profile có giọng tác giả
-profiles/ky-thuat-doanh-nghiep.md       giới hạn profile trung tính
-references/bo-giai-phong-cach.md        context schema, resolver và 7 style card
-calibration/ca-kiem-thu.md              cặp ca dương/âm và mixed-document cases
-README.md                               usage, architecture, registry inventory, version
-AGENTS.md                               vai trò file và hợp đồng bảo trì
-scripts/validate-package.py             deterministic registry/package consistency gates
-.claude-plugin/plugin.json              package version
+SKILL.md                                        workflow, precedence và segmentation
+profiles/blog-ca-nhan/rules.md                  giới hạn profile có giọng tác giả
+profiles/blog-ca-nhan/styles/                   bốn style card tương thích
+profiles/ky-thuat-doanh-nghiep/rules.md         giới hạn profile trung tính
+profiles/ky-thuat-doanh-nghiep/styles/          ba style card tương thích
+references/bo-giai-phong-cach.md                context schema, resolver và registry
+calibration/ca-kiem-thu.md                      cặp ca dương/âm và mixed-document cases
+README.md                                       usage, architecture, inventory, version
+AGENTS.md                                       vai trò file và hợp đồng bảo trì
+scripts/validate-package.py                     registry/package consistency gates
+.claude-plugin/plugin.json                      package version
 ```
 
-**Structure Decision**: Dùng một reference registry thay vì tạo bảy profile. Profile tiếp tục chứa pattern phụ thuộc thể loại; style card chỉ mô tả lựa chọn hợp lệ về xưng hô, nhịp, register, thuật ngữ và cách kết. Cách này tránh nhân đôi B/K và giữ `SKILL.md` dưới line budget.
+**Structure Decision**: Giữ hai profile family thay vì tạo bảy profile độc lập. Mỗi family tách
+`rules.md` khỏi các card trong `styles/`; reference registry chỉ định tuyến tới đúng file. Cách này
+làm package dễ đọc mà không nhân đôi B/K hoặc trộn lựa chọn phong cách vào pattern.
 
 ## Design Decisions
 
 1. `SKILL.md` giải protected region và base profile trước style card.
-2. `references/bo-giai-phong-cach.md` là registry duy nhất của bảy card; README chỉ liệt kê và trỏ tới, không sao chép toàn bộ nội dung.
+2. `references/bo-giai-phong-cach.md` là resolver và registry duy nhất; nội dung mỗi card có một nguồn chuẩn trong thư mục `styles/` của profile tương thích.
 3. Một phần văn bản chỉ có một style brief. Tài liệu pha chức năng được chia thành các phần độc lập; không trộn nhiều card trong cùng phần.
 4. Yêu cầu hiện tại và mô tả cụ thể có quyền cao hơn label/tone; mẫu/hồ sơ chỉ override default khi đúng người, đúng phạm vi và có bằng chứng ổn định.
-5. Validator kiểm các heading/card ID chuẩn xuất hiện đúng một lần, `SKILL.md`/README trỏ đúng registry và package chứa reference mới.
-6. Release bump ở cuối feature sau khi test style matrix xanh; không thay pattern count 51.
+5. Validator kiểm exact card/profile/path, tám field bắt buộc, consumer pointers và archive inventory từ file thật.
+6. Revision cấu trúc phát hành ở `0.9.5` theo quyết định của owner; pattern inventory vẫn là 55 sau feature 004.
 
 ## Complexity Tracking
 
-Không có vi phạm cần biện minh. Reference mới là một nguồn chuẩn duy nhất thay vì bảy file/profile và không thêm runtime code path.
+Không có vi phạm cần biện minh. Bảy card là bảy nhánh chỉ được tải sau khi resolver chọn; tách file
+giảm context load mà vẫn giữ một registry duy nhất và không thêm runtime code path.

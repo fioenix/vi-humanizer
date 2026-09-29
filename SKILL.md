@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.9.1"
+  version: "0.9.5"
 ---
 
 # vi-humanizer
@@ -41,13 +41,13 @@ card cho những vùng này.
 
 | Mục đích chính | Base profile | Style card mặc định |
 |---|---|---|
-| Kể trải nghiệm, blog hoặc bài có tác giả hiện diện | `profiles/blog-ca-nhan.md` | `ke-trai-nghiem` |
-| Chat hoặc phối hợp công việc | `profiles/blog-ca-nhan.md` | `phoi-hop-cong-viec` |
-| LinkedIn, bài chuyên môn hoặc thương hiệu cá nhân | `profiles/blog-ca-nhan.md` | `chuyen-mon-cong-khai` |
-| Nội dung marketing có mục tiêu thuyết phục | `profiles/blog-ca-nhan.md` | `marketing-thuyet-phuc` |
-| README, văn xuôi API hoặc hướng dẫn kỹ thuật | `profiles/ky-thuat-doanh-nghiep.md` | `huong-dan-ky-thuat` |
-| SOP, báo cáo, biên bản hoặc tài liệu vận hành | `profiles/ky-thuat-doanh-nghiep.md` | `van-hanh-doanh-nghiep` |
-| Giáo trình, đề án hoặc nghiên cứu | `profiles/ky-thuat-doanh-nghiep.md` | `hoc-thuat-phan-tich` |
+| Kể trải nghiệm, blog hoặc bài có tác giả hiện diện | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/ke-trai-nghiem.md` |
+| Chat hoặc phối hợp công việc | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md` |
+| LinkedIn, bài chuyên môn hoặc thương hiệu cá nhân | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md` |
+| Nội dung marketing có mục tiêu thuyết phục | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md` |
+| README, văn xuôi API hoặc hướng dẫn kỹ thuật | `profiles/ky-thuat-doanh-nghiep/rules.md` | `profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md` |
+| SOP, báo cáo, biên bản hoặc tài liệu vận hành | `profiles/ky-thuat-doanh-nghiep/rules.md` | `profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md` |
+| Giáo trình, đề án hoặc nghiên cứu | `profiles/ky-thuat-doanh-nghiep/rules.md` | `profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md` |
 
 Đọc `references/bo-giai-phong-cach.md` để kiểm năm chiều ngữ cảnh trước khi chốt card. Bảng trên là
 phương án dự phòng, không phải cách suy giọng từ tên kênh. Yêu cầu cụ thể, người đọc và mẫu giọng có
@@ -97,7 +97,7 @@ Năm quy tắc này áp dụng cho từng chỗ định sửa. Nếu một chỗ
 
 **4. Chỉ sửa đúng phạm vi cần thiết.** Nếu lỗi chỉ nằm ở một cụm từ thì sửa cụm từ đó, không viết lại cả câu; nếu lỗi chỉ nằm ở một câu thì không viết lại cả đoạn. Không dùng tỉ lệ dài ngắn làm điều kiện cứng: thêm một hư từ vào câu ngắn có thể làm tỉ lệ tăng mạnh mà vẫn là sửa đúng, còn một bản viết lại sai ý vẫn có thể gần bằng độ dài bản gốc. Nếu bản sửa phải thêm mệnh đề, ví dụ hoặc lời giải thích, hãy kiểm tra lại quy tắc 2 và 3 trước khi giữ.
 
-**5. Không giữ siêu dữ liệu về quá trình.** Câu nào nói về việc văn bản này được tạo ra thế nào, thay vì nói về chủ đề của nó, thì chuyển ra ngoài hoặc cắt. Ghi chú xuất xứ, nhật ký các bản nháp trước, câu hỏi dành cho người đặt việc và lời tường thuật việc kiểm chứng đều thuộc lượt trả lời trong hội thoại chứ không thuộc tài liệu. Áp hai phép thử và đọc mục **Không flag** của K6 trong `profiles/ky-thuat-doanh-nghiep.md` trước khi cắt.
+**5. Không giữ siêu dữ liệu về quá trình.** Câu nào nói về việc văn bản này được tạo ra thế nào, thay vì nói về chủ đề của nó, thì chuyển ra ngoài hoặc cắt. Ghi chú xuất xứ, nhật ký các bản nháp trước, câu hỏi dành cho người đặt việc và lời tường thuật việc kiểm chứng đều thuộc lượt trả lời trong hội thoại chứ không thuộc tài liệu. Áp hai phép thử và đọc mục **Không flag** của K6 trong `profiles/ky-thuat-doanh-nghiep/rules.md` trước khi cắt.
 
 ## Hiệu chỉnh theo giọng người viết
 

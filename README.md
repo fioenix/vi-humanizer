@@ -142,13 +142,13 @@ năng được chia theo phần, không ép chung một giọng.
 
 | Style card | Dùng cho | Base profile |
 |---|---|---|
-| `ke-trai-nghiem` | Blog, bài kể có người viết hiện diện | `blog-ca-nhan` |
-| `phoi-hop-cong-viec` | Chat, bình luận và lời nhờ trong công việc | `blog-ca-nhan` |
-| `chuyen-mon-cong-khai` | LinkedIn, bài quan điểm hoặc chia sẻ chuyên môn | `blog-ca-nhan` |
-| `marketing-thuyet-phuc` | Nội dung giới thiệu có mục tiêu và CTA thật | `blog-ca-nhan` |
-| `huong-dan-ky-thuat` | README, văn xuôi API và hướng dẫn xử lý lỗi | `ky-thuat-doanh-nghiep` |
-| `van-hanh-doanh-nghiep` | SOP, báo cáo, biên bản và bàn giao | `ky-thuat-doanh-nghiep` |
-| `hoc-thuat-phan-tich` | Giáo trình, đề án và nghiên cứu | `ky-thuat-doanh-nghiep` |
+| [`ke-trai-nghiem`](profiles/blog-ca-nhan/styles/ke-trai-nghiem.md) | Blog, bài kể có người viết hiện diện | `blog-ca-nhan` |
+| [`phoi-hop-cong-viec`](profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md) | Chat, bình luận và lời nhờ trong công việc | `blog-ca-nhan` |
+| [`chuyen-mon-cong-khai`](profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md) | LinkedIn, bài quan điểm hoặc chia sẻ chuyên môn | `blog-ca-nhan` |
+| [`marketing-thuyet-phuc`](profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md) | Nội dung giới thiệu có mục tiêu và CTA thật | `blog-ca-nhan` |
+| [`huong-dan-ky-thuat`](profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md) | README, văn xuôi API và hướng dẫn xử lý lỗi | `ky-thuat-doanh-nghiep` |
+| [`van-hanh-doanh-nghiep`](profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md) | SOP, báo cáo, biên bản và bàn giao | `ky-thuat-doanh-nghiep` |
+| [`hoc-thuat-phan-tich`](profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md) | Giáo trình, đề án và nghiên cứu | `ky-thuat-doanh-nghiep` |
 
 Card không phải khuôn để “làm màu” và không tự tạo lý do sửa. Yêu cầu hiện tại được ưu tiên;
 ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn mọi thay đổi; mẫu/hồ sơ chỉ được dùng khi
@@ -160,37 +160,40 @@ ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn m�
 `SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
 
 ```text
-SKILL.md                            quy trình, V1–V25, T1–T6 và cách trả kết quả
-profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhân
-profiles/ky-thuat-doanh-nghiep.md   K1–K7 và giới hạn của văn kỹ thuật, học thuật
-references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
-references/bang-tra-cuu.md          bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
-references/bo-giai-phong-cach.md    bộ giải ngữ cảnh và danh mục style card
-calibration/LOG.md                  bằng chứng dùng để sửa quy tắc chung
-calibration/ca-kiem-thu.md          ca kiểm thử chạy tay cho từng pattern
-agents/openai.yaml                  tên hiển thị và lời gọi mặc định
-scripts/validate-package.py         kiểm tra tính đồng bộ của gói
-scripts/package-skill.sh            tạo dist/vi-humanizer.skill và dist/vi-humanizer-claude-org.zip
-scripts/scan-tells.sh               tìm những chỗ có thể rà bằng biểu thức chính quy
-.specify/                            constitution, template và script của Spec Kit
-specs/                               đặc tả, checklist, plan và task theo từng feature
-.agents/skills/                      các skill Spec Kit dùng trong Codex
-guard_eval/                          evaluation harness cho edit guard, không thuộc gói skill
-eval/guard/                          corpus, manifest, config, pricing và policy đã duyệt
-tests/guard_eval/                    test offline; external evaluator luôn được fake trong CI
-artifacts/guard-eval/                raw run local, bị gitignore và không chứa raw prose
-guard_eval/v2/                       lane tạo shadow recommendation theo component, tách khỏi v1
-eval/guard/v2/                       dev corpus v2, lock v1 và registry holdout đã quan sát
-tests/guard_eval_v2/                 contract/integration test offline cho lane v2
-artifacts/guard-eval-v2/             raw run v2 local, bị gitignore
-pyproject.toml, uv.lock               môi trường Python 3.12 khóa version cho harness
+SKILL.md                                      quy trình, V1–V25, T1–T6 và cách trả kết quả
+profiles/blog-ca-nhan/rules.md                B1–B17 cho văn bản có giọng cá nhân
+profiles/blog-ca-nhan/styles/                 bốn style card có tác giả hiện diện
+profiles/ky-thuat-doanh-nghiep/rules.md       K1–K7 và giới hạn của văn kỹ thuật, học thuật
+profiles/ky-thuat-doanh-nghiep/styles/        ba style card kỹ thuật, vận hành và học thuật
+references/han-viet-thuan-viet.md             bảng tra và điều kiện phải giữ thuật ngữ
+references/bang-tra-cuu.md                    bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
+references/bo-giai-phong-cach.md              bộ giải ngữ cảnh, precedence và registry đường dẫn
+calibration/LOG.md                            bằng chứng dùng để sửa quy tắc chung
+calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
+agents/openai.yaml                            tên hiển thị và lời gọi mặc định
+scripts/validate-package.py                   kiểm tra tính đồng bộ của gói
+scripts/package-skill.sh                      tạo hai artifact cài đặt
+scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
+.specify/                                     constitution, template và script của Spec Kit
+specs/                                        đặc tả, checklist, plan và task theo từng feature
+.agents/skills/                               các skill Spec Kit dùng trong Codex
+guard_eval/                                   evaluation harness cho edit guard, không thuộc gói skill
+eval/guard/                                   corpus, manifest, config, pricing và policy đã duyệt
+tests/guard_eval/                             test offline; external evaluator luôn được fake trong CI
+artifacts/guard-eval/                         raw run local, bị gitignore và không chứa raw prose
+guard_eval/v2/                                lane tạo shadow recommendation theo component
+eval/guard/v2/                                dev corpus v2, lock v1 và registry holdout đã quan sát
+tests/guard_eval_v2/                          contract/integration test offline cho lane v2
+artifacts/guard-eval-v2/                      raw run v2 local, bị gitignore
+pyproject.toml, uv.lock                       môi trường Python 3.12 khóa version cho harness
 ```
 
 Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
 `vi-humanizer.skill`.
 
-Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card
-nằm trong `references/bo-giai-phong-cach.md`; README chỉ giữ danh sách để validator đối chiếu.
+Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card nằm
+trong thư mục `styles/` của profile tương thích; `references/bo-giai-phong-cach.md` chỉ sở hữu cách
+chọn card, thứ tự ưu tiên và registry đường dẫn.
 
 ### Evaluation harness cho edit guard
 
@@ -405,6 +408,11 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
+- **0.9.5** – Tổ chức hai base profile thành thư mục cha–con: `rules.md` giữ B/K pattern, còn bảy
+  style card nằm trong `styles/` của profile tương thích. Gói Claude Org nay hiển thị riêng từng
+  phong cách; resolver và bảng tra dùng chung vẫn nằm trong `references/`. Nếu prompt hoặc công cụ
+  đang đọc trực tiếp `profiles/blog-ca-nhan.md` hay `profiles/ky-thuat-doanh-nghiep.md`, hãy chuyển
+  sang file `rules.md` trong thư mục profile cùng tên.
 - **0.9.1** – Sửa cổng typography-only để các thể loại bị giới hạn có thể chạy T1–T6 mà không cần
   một lỗi V đi kèm; tách code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn, tên riêng và ví
   dụ thành vùng bảo toàn từng byte. Đồng thời cấm tự thêm thái độ, sửa ví dụ T3, đồng bộ registry

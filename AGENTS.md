@@ -13,11 +13,13 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | File | Vai trò |
 |---|---|
 | `SKILL.md` | Kiểm tra thể loại, quy trình, V1–V25, T1–T6 và cách trả kết quả. **Đây là nguồn chuẩn.** |
-| `profiles/blog-ca-nhan.md` | B1–B17 cho blog, bài cá nhân, nội dung công việc và marketing |
-| `profiles/ky-thuat-doanh-nghiep.md` | K1–K7 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
+| `profiles/blog-ca-nhan/rules.md` | B1–B17 cho blog, bài cá nhân, nội dung công việc và marketing |
+| `profiles/blog-ca-nhan/styles/` | Bốn style card tương thích với profile có tác giả hiện diện |
+| `profiles/ky-thuat-doanh-nghiep/rules.md` | K1–K7 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
+| `profiles/ky-thuat-doanh-nghiep/styles/` | Ba style card cho hướng dẫn kỹ thuật, vận hành và học thuật |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
-| `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và bảy style card; không sở hữu pattern |
+| `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card; không sở hữu pattern |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
@@ -68,8 +70,9 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V25 như một lỗi áp dụng cho mọi văn bản.
 
 Style card không phải tầng pattern thứ năm. Nó chỉ giải các lựa chọn đều hợp lệ sau khi cổng thể loại
-đã chọn đúng profile. `references/bo-giai-phong-cach.md` là nguồn chuẩn cho registry; `SKILL.md` sở
-hữu thứ tự gọi resolver, còn README chỉ liệt kê inventory. Không sao chép toàn bộ card sang profile.
+đã chọn đúng profile. Mỗi profile family giữ pattern trong `rules.md` và card tương thích trong
+`styles/`; không sao chép nội dung card vào rules. `references/bo-giai-phong-cach.md` là nguồn chuẩn
+cho resolver và registry, còn `SKILL.md` sở hữu thứ tự gọi.
 
 ## Hợp đồng bảo trì
 

@@ -118,79 +118,14 @@ Registry hoàn chỉnh phải có đúng bảy card canonical theo thứ tự: k
 
 Không tạo card riêng cho một người, công ty hoặc chiến dịch; đặc tính đó thuộc mẫu/hồ sơ đúng người và không được đưa vào package public.
 
-### `ke-trai-nghiem`: Kể trải nghiệm cá nhân
+| Style card | Base profile | File |
+|---|---|---|
+| `ke-trai-nghiem` | `blog-ca-nhan` | `profiles/blog-ca-nhan/styles/ke-trai-nghiem.md` |
+| `phoi-hop-cong-viec` | `blog-ca-nhan` | `profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md` |
+| `chuyen-mon-cong-khai` | `blog-ca-nhan` | `profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md` |
+| `marketing-thuyet-phuc` | `blog-ca-nhan` | `profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md` |
+| `huong-dan-ky-thuat` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md` |
+| `van-hanh-doanh-nghiep` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md` |
+| `hoc-thuat-phan-tich` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md` |
 
-- **Dùng khi:** người viết kể điều mình đã làm, thấy hoặc thay đổi suy nghĩ để người đọc hiểu trải nghiệm đó; base profile `blog-ca-nhan`.
-- **Thanh ngữ vực:** tự nhiên theo mẫu, có thể thân mật nhưng không tự hạ giọng hoặc làm câu bông đùa.
-- **Xưng hô:** giữ ngôi kể và cách gọi người đọc đang có. Không đổi *tôi* thành *mình*, hoặc ngược lại, chỉ để tạo cảm giác gần gũi.
-- **Nhịp:** giữ diễn biến, chỗ ngập ngừng, câu ngắn và câu chen ngang có chức năng. Không san mọi đoạn thành một nhịp đều.
-- **Thuật ngữ:** giữ từ ngành mà người viết thực sự dùng; giải thích khi chính người đọc cần, không dịch đồng loạt sang từ đời thường.
-- **Cách kết:** dừng ở quan sát, thay đổi hoặc câu hỏi thật đã có trong bản gốc; không thêm bài học phổ quát cho đủ kết.
-- **Không tự thêm:** trải nghiệm, cảm xúc, chi tiết đời sống, lời thú nhận hoặc kết luận mà người viết không nêu.
-- **Ca kiểm thử:** dương MS01 và MS10; chống rò MS02 và MS09.
-
-### `phoi-hop-cong-viec`: Phối hợp công việc
-
-- **Dùng khi:** tin nhắn, bình luận hoặc đoạn trao đổi giữa những người đang phối hợp một việc; base profile `blog-ca-nhan`.
-- **Thanh ngữ vực:** trực tiếp, nghề nghiệp và vừa đủ thân theo quan hệ đã có; không tự biến thành công văn hoặc chat suồng sã.
-- **Xưng hô:** giữ đại từ, vai trò và tên gọi đang có. Thiếu vai vế mà đổi đại từ sẽ đổi quan hệ thì hỏi một câu.
-- **Nhịp:** ưu tiên câu ngắn nêu tình trạng, việc cần làm, người nhận hoặc mốc có sẵn. Không biến bullet công việc thành đoạn diễn giải dài.
-- **Thuật ngữ:** giữ cách gọi nội bộ và tiếng Anh quen thuộc với nhóm người đọc; không dùng jargon để tỏ ra chuyên nghiệp.
-- **Cách kết:** bước tiếp theo, mốc hoặc lời xác nhận có thật. Tiểu từ chỉ được giữ/thêm khi mẫu và quan hệ cho phép.
-- **Không tự thêm:** deadline, người chịu trách nhiệm, mức ưu tiên, lời hứa hoặc quyền ra lệnh không có trong đầu vào.
-- **Ca kiểm thử:** dương MS03 và MS12; chống rò MS04 và MS11.
-
-### `chuyen-mon-cong-khai`: Chuyên môn công khai
-
-- **Dùng khi:** bài chia sẻ chuyên môn, LinkedIn hoặc bài quan điểm cho người đọc ngoài nhóm làm việc trực tiếp; base profile `blog-ca-nhan`.
-- **Thanh ngữ vực:** nghề nghiệp nhưng có tác giả hiện diện; lập luận rõ hơn chat, ít thể chế hơn báo cáo.
-- **Xưng hô:** giữ ngôi thứ nhất nếu nó gắn với quan sát hoặc trách nhiệm thật; không thêm *chúng ta* để kéo người đọc vào một đồng thuận giả.
-- **Nhịp:** đi từ kết luận hoặc dữ kiện cụ thể tới giải thích; giữ nhịp riêng của tác giả, không dựng hook và kết luận theo khuôn mạng xã hội.
-- **Thuật ngữ:** dùng từ ngành đúng cộng đồng và giải thích vừa đủ cho người đọc rộng hơn; không thay thuật ngữ chỉ để tránh lặp.
-- **Cách kết:** hệ quả, giới hạn hoặc bước tiếp theo đã có trong nội dung; không thêm lời mời bình luận máy móc.
-- **Không tự thêm:** số liệu, nguồn, vị thế chuyên gia, trải nghiệm cá nhân hoặc mức chắc chắn cao hơn bản gốc.
-- **Ca kiểm thử:** dương MS04 và MS05; chống rò MS03 và MS06.
-
-### `marketing-thuyet-phuc`: Marketing thuyết phục
-
-- **Dùng khi:** nội dung giới thiệu sản phẩm/dịch vụ có mục tiêu giúp người đọc cân nhắc hoặc thực hiện một CTA đã được giao; base profile `blog-ca-nhan`.
-- **Thanh ngữ vực:** rõ lợi ích nhưng không thổi phồng; mức thân mật theo kênh và mẫu thương hiệu trong yêu cầu hiện tại.
-- **Xưng hô:** giữ cách gọi người đọc đang có. Không tự thêm *bạn, nhà mình, khách hàng thân yêu* nếu quan hệ chưa được xác định.
-- **Nhịp:** đưa giới hạn, lợi ích và điều kiện cụ thể trước; không dàn thành chuỗi slogan, câu hỏi tu từ hoặc nhịp ba trang trí.
-- **Thuật ngữ:** ưu tiên cách gọi người mua hiểu mà không làm sai tên tính năng; không chêm tiếng Anh chỉ để tạo vẻ hiện đại.
-- **Cách kết:** giữ CTA có thật và đúng mức cam kết. Không có CTA thì không tự thêm một CTA mới.
-- **Không tự thêm:** khẩn cấp giả, khan hiếm, lời hứa kết quả, so sánh nhất, testimonial, chứng nhận hoặc dữ kiện bán hàng.
-- **Ca kiểm thử:** dương MS07 và MS14; chống rò MS08 và MS13.
-
-### `huong-dan-ky-thuat`: Hướng dẫn kỹ thuật
-
-- **Dùng khi:** README, phần văn xuôi của tài liệu API, hướng dẫn cài đặt hoặc xử lý lỗi; base profile `ky-thuat-doanh-nghiep`.
-- **Thanh ngữ vực:** trung tính, chính xác, hướng hành động; không thêm thân mật để làm tài liệu có vẻ “người”.
-- **Xưng hô:** ưu tiên câu lệnh hoặc chủ thể kỹ thuật đã có; không thêm ngôi thứ nhất và không đổi tác nhân của thao tác.
-- **Nhịp:** điều kiện trước hành động khi cần, một bước cho một hành động, cấu trúc song song khi giúp quét nhanh; giữ code và thứ tự.
-- **Thuật ngữ:** nhất quán theo cộng đồng kỹ thuật và tài liệu lân cận; không dịch tên API, command, schema hoặc identifier.
-- **Cách kết:** kết quả mong đợi, điều kiện dừng hoặc liên kết đã có; không thêm lời chúc hay mời dùng tiếp.
-- **Không tự thêm:** command, tham số, output, nguyên nhân lỗi, compatibility hoặc bảo đảm vận hành chưa có nguồn trong phạm vi tài liệu.
-- **Ca kiểm thử:** dương MS06, MS08 và MS09; chống rò MS05, MS07 và MS10.
-
-### `van-hanh-doanh-nghiep`: Vận hành doanh nghiệp
-
-- **Dùng khi:** SOP, báo cáo, biên bản hoặc hướng dẫn bàn giao cần giữ vai trò, điều kiện và trách nhiệm; base profile `ky-thuat-doanh-nghiep`.
-- **Thanh ngữ vực:** trung tính và nghiệp vụ; không hành chính hoá câu chỉ để tạo vẻ chính thức.
-- **Xưng hô:** dùng vai trò hoặc chủ thể đã nêu. Không suy ai có thẩm quyền và không đổi lời nhờ thành mệnh lệnh.
-- **Nhịp:** ưu tiên cấu trúc dễ quét, song song khi các bước cùng cấp; không phá bảng, checklist hoặc nhãn–giá trị có chức năng.
-- **Thuật ngữ:** giữ từ nghiệp vụ, Hán-Việt đúng nghĩa và cách gọi nhất quán; không thuần Việt hoá điều khoản hoặc trạng thái được định nghĩa.
-- **Cách kết:** trạng thái hoàn tất, điều kiện chuyển bước hoặc đầu mối đã có; không thêm khẩu hiệu hoặc lời kêu gọi chung chung.
-- **Không tự thêm:** vai trò, phê duyệt, deadline, cam kết, thứ tự, quan hệ đồng thời hoặc trạng thái hoàn tất.
-- **Ca kiểm thử:** dương MS02 và MS11; chống rò MS01, MS03 và MS12.
-
-### `hoc-thuat-phan-tich`: Học thuật phân tích
-
-- **Dùng khi:** giáo trình, đề án, bài nghiên cứu hoặc đoạn lập luận cần phân biệt dữ liệu, suy luận và giới hạn; base profile `ky-thuat-doanh-nghiep`.
-- **Thanh ngữ vực:** trung tính, có mức dè dặt đúng bằng chứng; không làm thân mật hoặc nâng mức chắc chắn để câu dứt khoát hơn.
-- **Xưng hô:** giữ *chúng tôi* khi đó là nhóm tác giả; không thêm ngôi thứ nhất nếu văn bản đang dùng lối trình bày phi cá nhân.
-- **Nhịp:** ưu tiên quan hệ lập luận rõ, thuật ngữ ổn định và câu chuyển có chức năng; không cắt câu dài nếu việc cắt làm mất phạm vi hoặc điều kiện.
-- **Thuật ngữ:** giữ thuật ngữ chuyên ngành và cách dẫn nguồn; tiếng Anh chỉ giữ khi chưa có tương đương ổn định hoặc quy ước ngành yêu cầu.
-- **Cách kết:** chỉ nêu kết luận và giới hạn được dữ liệu hỗ trợ; không thêm ý nghĩa xã hội rộng hơn nếu nguồn không nêu.
-- **Không tự thêm:** trích dẫn, tác giả, số liệu, quan hệ nhân quả, khả năng suy rộng hoặc lối mượn uy tín thay cho bằng chứng.
-- **Ca kiểm thử:** dương MS13; chống rò MS07 và MS14.
+Sau khi resolver chọn card, đọc đúng file trong bảng. Không đọc các card còn lại chỉ để so sánh giọng.

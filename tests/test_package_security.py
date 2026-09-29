@@ -109,6 +109,15 @@ class PackageSecurityTest(unittest.TestCase):
             check=False,
         )
 
+    def run_tell_scanner(self, repo: Path) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["bash", "scripts/scan-tells.sh"],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
     def test_rejects_payload_symlink_to_file_outside_repository(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             temporary = Path(temporary_directory)
@@ -175,6 +184,88 @@ class PackageSecurityTest(unittest.TestCase):
 
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("registry", result.stderr.lower())
+
+    def test_validator_rejects_style_card_missing_required_field(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            card_path = (
+                repo
+                / "profiles"
+                / "blog-ca-nhan"
+                / "styles"
+                / "ke-trai-nghiem.md"
+            )
+            card = card_path.read_text(encoding="utf-8")
+            card = card.replace("- **Cách kết:**", "- **Điểm dừng:**", 1)
+            card_path.write_text(card, encoding="utf-8")
+
+            result = self.run_package_validator(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("ke-trai-nghiem", result.stderr)
+            self.assertIn("Cách kết", result.stderr)
+
+    def test_validator_rejects_extra_style_card_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            extra_card = (
+                repo
+                / "profiles"
+                / "blog-ca-nhan"
+                / "styles"
+                / "ban-nhap-noi-bo.md"
+            )
+            extra_card.write_text("Không được đi vào public payload.\n", encoding="utf-8")
+
+            result = self.run_package_validator(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("ban-nhap-noi-bo.md", result.stderr)
+
+    def test_packager_rejects_style_card_under_incompatible_profile(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            source = (
+                repo
+                / "profiles"
+                / "ky-thuat-doanh-nghiep"
+                / "styles"
+                / "huong-dan-ky-thuat.md"
+            )
+            incompatible = (
+                repo
+                / "profiles"
+                / "blog-ca-nhan"
+                / "styles"
+                / "huong-dan-ky-thuat.md"
+            )
+            shutil.copy2(source, incompatible)
+
+            result = self.run_packager(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("huong-dan-ky-thuat.md", result.stderr)
+
+    def test_default_tell_scan_includes_nested_profile_markdown(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            card_path = (
+                repo
+                / "profiles"
+                / "blog-ca-nhan"
+                / "styles"
+                / "ke-trai-nghiem.md"
+            )
+            with card_path.open("a", encoding="utf-8") as card:
+                card.write("\nĐiều quan trọng cần lưu ý rằng đây là probe.\n")
+
+            result = self.run_tell_scanner(repo)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn(
+                "profiles/blog-ca-nhan/styles/ke-trai-nghiem.md",
+                result.stdout,
+            )
 
     def test_copy_preserves_a_symlink_created_after_source_validation(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -267,6 +358,36 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertFalse(any(name.startswith("vi-humanizer/") for name in names))
             self.assertFalse(any(name.startswith(".claude-plugin/") for name in names))
             self.assertNotIn("README.md", names)
+
+    def test_packages_profile_rules_with_their_compatible_style_cards(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+
+            result = self.run_packager(repo)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            archive = repo / "dist" / "vi-humanizer-claude-org.zip"
+            with zipfile.ZipFile(archive) as package:
+                names = set(package.namelist())
+            expected_files = {
+                "profiles/blog-ca-nhan/rules.md",
+                "profiles/blog-ca-nhan/styles/ke-trai-nghiem.md",
+                "profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md",
+                "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
+                "profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md",
+                "profiles/ky-thuat-doanh-nghiep/rules.md",
+                "profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md",
+                "profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md",
+                "profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md",
+            }
+            actual_profile_files = {
+                name
+                for name in names
+                if name.startswith("profiles/") and not name.endswith("/")
+            }
+            self.assertEqual(actual_profile_files, expected_files)
+            self.assertNotIn("profiles/blog-ca-nhan.md", names)
+            self.assertNotIn("profiles/ky-thuat-doanh-nghiep.md", names)
 
     def test_validates_archive_bytes_against_the_staged_payload(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

@@ -16,16 +16,16 @@ ROOT = Path(__file__).resolve().parent.parent
 # Ngân sách dòng cho từng loại file. references/ không giới hạn vì là bảng tra cứu.
 LINE_BUDGETS = {
     "SKILL.md": 550,
-    "profiles/blog-ca-nhan.md": 320,
-    "profiles/ky-thuat-doanh-nghiep.md": 220,
+    "profiles/blog-ca-nhan/rules.md": 320,
+    "profiles/ky-thuat-doanh-nghiep/rules.md": 220,
 }
 
 # Tiền tố pattern và file sở hữu. Mỗi tiền tố phải đánh số liên tục từ 1.
 PATTERN_OWNERS = {
     "V": "SKILL.md",   # lỗi dùng từ và cấu trúc câu
     "T": "SKILL.md",   # typography
-    "B": "profiles/blog-ca-nhan.md",
-    "K": "profiles/ky-thuat-doanh-nghiep.md",
+    "B": "profiles/blog-ca-nhan/rules.md",
+    "K": "profiles/ky-thuat-doanh-nghiep/rules.md",
 }
 PATTERN_FIELDS = ["Dấu hiệu", "Vì sao", "Sửa", "Không flag"]
 
@@ -50,8 +50,30 @@ STYLE_CARD_FIELDS = [
     "Ca kiểm thử",
 ]
 STYLE_PROFILE_CARDS = {
-    "profiles/blog-ca-nhan.md": STYLE_CARDS[:4],
-    "profiles/ky-thuat-doanh-nghiep.md": STYLE_CARDS[4:],
+    "profiles/blog-ca-nhan/rules.md": {
+        card_id: f"profiles/blog-ca-nhan/styles/{card_id}.md"
+        for card_id in STYLE_CARDS[:4]
+    },
+    "profiles/ky-thuat-doanh-nghiep/rules.md": {
+        card_id: f"profiles/ky-thuat-doanh-nghiep/styles/{card_id}.md"
+        for card_id in STYLE_CARDS[4:]
+    },
+}
+EXPECTED_PROFILE_FILES = {
+    PurePosixPath(profile_path).relative_to("profiles").as_posix()
+    for profile_path in STYLE_PROFILE_CARDS
+} | {
+    PurePosixPath(card_path).relative_to("profiles").as_posix()
+    for cards in STYLE_PROFILE_CARDS.values()
+    for card_path in cards.values()
+}
+EXPECTED_PROFILE_DIRECTORIES = {
+    PurePosixPath(relative).parent.as_posix()
+    for relative in EXPECTED_PROFILE_FILES
+} | {
+    PurePosixPath(relative).parent.parent.as_posix()
+    for relative in EXPECTED_PROFILE_FILES
+    if PurePosixPath(relative).parent.name == "styles"
 }
 PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration"}
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
@@ -115,6 +137,37 @@ def validate_payload_tree(root: Path) -> None:
             continue
         expected_kind = "file" if relative == "SKILL.md" else "directory"
         validate_entry(path, expected_kind)
+
+    profiles_root = root / "profiles"
+    if not profiles_root.is_dir() or profiles_root.is_symlink():
+        return
+    profile_entries = [
+        entry
+        for entry in profiles_root.rglob("*")
+        if entry.name != ".DS_Store"
+    ]
+    actual_files = {
+        entry.relative_to(profiles_root).as_posix()
+        for entry in profile_entries
+        if not entry.is_dir()
+    }
+    actual_directories = {
+        entry.relative_to(profiles_root).as_posix()
+        for entry in profile_entries
+        if entry.is_dir()
+    }
+    missing_files = sorted(EXPECTED_PROFILE_FILES - actual_files)
+    extra_files = sorted(actual_files - EXPECTED_PROFILE_FILES)
+    missing_directories = sorted(EXPECTED_PROFILE_DIRECTORIES - actual_directories)
+    extra_directories = sorted(actual_directories - EXPECTED_PROFILE_DIRECTORIES)
+    if missing_files:
+        fail(f"Profiles thiếu file canonical: {missing_files}")
+    if extra_files:
+        fail(f"Profiles chứa file ngoài inventory canonical: {extra_files}")
+    if missing_directories:
+        fail(f"Profiles thiếu thư mục canonical: {missing_directories}")
+    if extra_directories:
+        fail(f"Profiles chứa thư mục ngoài inventory canonical: {extra_directories}")
 
 
 def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
@@ -336,22 +389,32 @@ if extra:
 
 # --- Registry phong cách -------------------------------------------------
 
-blog_profile = read("profiles/blog-ca-nhan.md")
-technical_profile = read("profiles/ky-thuat-doanh-nghiep.md")
+blog_profile = read("profiles/blog-ca-nhan/rules.md")
+technical_profile = read("profiles/ky-thuat-doanh-nghiep/rules.md")
 style_registry = read(STYLE_REGISTRY)
-style_cards = re.findall(r"(?m)^### `([a-z0-9]+(?:-[a-z0-9]+)*)`: ", style_registry)
-if style_cards != STYLE_CARDS:
-    fail(f"Style card phải đúng thứ tự canonical {STYLE_CARDS}, đang là {style_cards}")
-for index, card_id in enumerate(style_cards):
-    start = style_registry.index(f"### `{card_id}`: ")
-    if index + 1 < len(style_cards):
-        end = style_registry.index(f"### `{style_cards[index + 1]}`: ")
-        block = style_registry[start:end]
-    else:
-        block = style_registry[start:]
-    missing_fields = [field for field in STYLE_CARD_FIELDS if f"- **{field}:**" not in block]
+registry_rows = re.findall(
+    r"(?m)^\| `([a-z0-9]+(?:-[a-z0-9]+)*)` \| `([a-z0-9]+(?:-[a-z0-9]+)*)` \| `(profiles/.+/styles/.+\.md)` \|$",
+    style_registry,
+)
+expected_registry_rows = [
+    (card_id, PurePosixPath(profile_path).parent.name, card_path)
+    for profile_path, cards in STYLE_PROFILE_CARDS.items()
+    for card_id, card_path in cards.items()
+]
+if registry_rows != expected_registry_rows:
+    fail(
+        "Style registry phải khớp exact card/profile/path canonical: "
+        f"mong đợi {expected_registry_rows}, đang là {registry_rows}"
+    )
+for card_id, _profile_id, card_path in expected_registry_rows:
+    card = read(card_path)
+    if not re.search(rf"(?m)^# `{re.escape(card_id)}`: ", card):
+        fail(f"Style card `{card_id}` thiếu heading canonical trong {card_path}")
+    missing_fields = [field for field in STYLE_CARD_FIELDS if f"- **{field}:**" not in card]
     if missing_fields:
         fail(f"Style card `{card_id}` thiếu field: {missing_fields}")
+    if f"`{card_path}`" not in skill:
+        fail(f"SKILL.md chưa trỏ tới style card `{card_path}`")
 if f"`{STYLE_REGISTRY}`" not in skill:
     fail(f"SKILL.md chưa trỏ tới `{STYLE_REGISTRY}`")
 if f"`{STYLE_REGISTRY}`" not in readme:
@@ -382,13 +445,10 @@ if "K7" not in pattern_block(blog_profile, "B8"):
     fail("B8 phải phân vai với K7")
 if "B8" not in pattern_block(technical_profile, "K7"):
     fail("K7 phải phân vai với B8")
-for profile_path, card_ids in STYLE_PROFILE_CARDS.items():
+for profile_path in STYLE_PROFILE_CARDS:
     profile = read(profile_path)
     if f"`{STYLE_REGISTRY}`" not in profile:
         fail(f"{profile_path} chưa trỏ tới `{STYLE_REGISTRY}`")
-    for card_id in card_ids:
-        if f"`{card_id}`" not in profile:
-            fail(f"{profile_path} thiếu style card tương thích `{card_id}`")
 
 # --- Package payload ----------------------------------------------------
 
@@ -416,7 +476,7 @@ for relative, budget in LINE_BUDGETS.items():
 
 # --- Mọi file được SKILL.md trỏ tới đều phải tồn tại ---------------------
 
-for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w.-]+)`", skill))):
+for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w./-]+)`", skill))):
     if not (ROOT / target).exists():
         fail(f"SKILL.md trỏ tới file không tồn tại: {target}")
 

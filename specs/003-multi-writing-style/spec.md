@@ -16,6 +16,12 @@
 - Q: Feature 003 có dùng Jev hoặc policy v2 để tự quyết phong cách không? → A: Không. Feature phải chạy độc lập bằng Markdown; kết quả 002 là `collect_more_labels`, nên không đưa evaluation policy vào runtime.
 - Q: Style card có được biến thành lỗi ngôn ngữ hoặc pattern mới không? → A: Không. Style card chỉ điều khiển cách giữ giọng và cách giải quyết lựa chọn hợp lệ; V/B/K/T chỉ flag lỗi theo hợp đồng hiện tại.
 
+### Session 2026-09-29
+
+- Q: Public package nên trình bày base profile và style card thế nào để người dùng nhìn cây thư mục không nhầm skill chỉ có hai phong cách? → A: Mỗi base profile trở thành một thư mục chứa `rules.md` và thư mục con `styles/`; bốn card có tác giả hiện diện nằm dưới `profiles/blog-ca-nhan/styles/`, ba card kỹ thuật/doanh nghiệp/học thuật nằm dưới `profiles/ky-thuat-doanh-nghiep/styles/`. Đây là hợp nhất theo quan hệ cha–con, không trộn pattern với lựa chọn phong cách.
+- Q: Có nhập `references/` vào từng profile không? → A: Không. `references/bo-giai-phong-cach.md` tiếp tục sở hữu resolver, precedence và registry dùng chung; bảng tra Hán–Việt và tiếng Việt vẫn là nguồn dùng chung, không được sao chép vào từng profile.
+- Q: Revision đổi public package paths mang version nào? → A: `0.9.5`; owner đánh giá đây là thay đổi cấu trúc nhỏ trong dòng `0.9.x`, còn hành vi biên tập giữ nguyên và bảy style card trở thành resource độc lập có thể tải theo nhu cầu.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Chọn đúng phong cách thay vì ép vào hai tone (Priority: P1)

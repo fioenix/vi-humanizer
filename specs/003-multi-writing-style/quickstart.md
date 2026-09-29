@@ -3,7 +3,7 @@
 ## 1. Preconditions
 
 - Branch: `codex/003-multi-writing-style`
-- Pattern inventory vẫn là V1–V22, T1–T6, B1–B17, K1–K6.
+- Pattern inventory hiện hành là V1–V25, T1–T6, B1–B17, K1–K7.
 - Feature 002 report vẫn là `collect_more_labels`; không có runtime call tới TypeSafe.
 - Fixture chỉ dùng nội dung trung tính/public.
 
@@ -65,11 +65,14 @@ git diff --check
 Expected:
 
 - version trong `SKILL.md`, README và plugin manifest đồng bộ;
-- pattern count vẫn là 51;
-- registry có đúng bảy canonical card;
+- pattern count vẫn là 55;
+- registry có đúng bảy canonical card và exact profile/path;
 - package có `references/bo-giai-phong-cach.md` và không có `specs/`, eval harness hoặc artifact local;
+- mỗi profile có `rules.md` cùng các card tương thích trong `styles/`, không còn hai profile file phẳng;
 - mọi line budget pass.
 
 ## 7. Installed-byte verification
 
-Sau khi đóng gói/cài lại runtime dùng bản chép, so SHA-256 của `SKILL.md`, hai profile và `references/bo-giai-phong-cach.md` giữa source và bản cài. Runtime dùng symlink chỉ cần xác nhận target đúng source checkout.
+Sau khi đóng gói/cài lại runtime dùng bản chép, so SHA-256 của mọi file trong `SKILL.md`,
+`profiles/`, `references/` và `calibration/` giữa source và bản cài. Runtime dùng symlink chỉ cần xác
+nhận target đúng source checkout.

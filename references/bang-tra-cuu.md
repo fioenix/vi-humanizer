@@ -102,7 +102,7 @@ Nếu (1) đúng và (2) là cá thể thì cần loại từ, bất kể (3).
 
 ## Tiểu từ tình thái cuối câu (B14)
 
-Chỉ dùng cho `profiles/blog-ca-nhan.md`. **Không bao giờ chèn vào văn bản trang trọng.**
+Chỉ dùng cho `profiles/blog-ca-nhan/rules.md`. **Không bao giờ chèn vào văn bản trang trọng.**
 
 | Tiểu từ | Hành động lời nói |
 |---|---|

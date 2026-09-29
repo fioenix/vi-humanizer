@@ -1,6 +1,6 @@
 # Bảng tra từ Hán-Việt và từ thuần Việt
 
-Dùng cho V15 và V17 trong `SKILL.md`, cho B9 trong `profiles/blog-ca-nhan.md`.
+Dùng cho V15 và V17 trong `SKILL.md`, cho B9 trong `profiles/blog-ca-nhan/rules.md`.
 
 > **Đọc trước khi dùng.** Đây không phải danh sách tìm và thay. Cột thứ ba nêu những trường hợp phải giữ từ Hán-Việt. Bỏ qua cột này có thể biến hợp đồng thành văn nói hoặc làm sai thuật ngữ trong bệnh án.
 
