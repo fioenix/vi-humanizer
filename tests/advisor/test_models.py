@@ -39,6 +39,24 @@ class AdvisorModelsTest(unittest.TestCase):
         with self.assertRaises(ContractError):
             validate_advisor_request(request)
 
+    def test_rejects_oversized_prose_fields_before_network(self) -> None:
+        mutations = (
+            ("source", "text", "x" * 1001),
+            ("context", "before", "x" * 2001),
+            ("context", "after", "x" * 2001),
+            (None, "current_intent", "x" * 1001),
+            ("candidates", "candidate_1", {"text": "x" * 1001}),
+        )
+        for parent, key, value in mutations:
+            with self.subTest(parent=parent, key=key):
+                request = valid_request()
+                if parent is None:
+                    request[key] = value
+                else:
+                    request[parent][key] = value
+                with self.assertRaises(ContractError):
+                    validate_advisor_request(request)
+
         request = valid_request()
         request["candidates"] = {
             f"candidate_{index}": {"text": f"Bản sửa {index}."}

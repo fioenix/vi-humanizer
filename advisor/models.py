@@ -43,11 +43,19 @@ def _require_exact_keys(value: object, expected: set[str], label: str) -> dict[s
     return value
 
 
-def _require_text(value: object, label: str, *, allow_empty: bool = False) -> str:
+def _require_text(
+    value: object,
+    label: str,
+    *,
+    allow_empty: bool = False,
+    max_length: int,
+) -> str:
     if not isinstance(value, str) or (not allow_empty and not value.strip()):
         raise ContractError(f"invalid {label}")
     if unicodedata.normalize("NFC", value) != value:
         raise ContractError(f"invalid {label} normalization")
+    if len(value) > max_length:
+        raise ContractError(f"invalid {label} length")
     return value
 
 
@@ -69,12 +77,12 @@ def validate_advisor_request(value: object) -> dict[str, Any]:
     source = _require_exact_keys(request["source"], {"pattern", "text"}, "source")
     if source["pattern"] != "V20":
         raise ContractError("unsupported source pattern")
-    source_text = _require_text(source["text"], "source text")
+    source_text = _require_text(source["text"], "source text", max_length=1000)
 
     context = _require_exact_keys(request["context"], {"before", "after"}, "context")
-    _require_text(context["before"], "context before", allow_empty=True)
-    _require_text(context["after"], "context after", allow_empty=True)
-    _require_text(request["current_intent"], "current intent")
+    _require_text(context["before"], "context before", allow_empty=True, max_length=2000)
+    _require_text(context["after"], "context after", allow_empty=True, max_length=2000)
+    _require_text(request["current_intent"], "current intent", max_length=1000)
     if request["genre"] not in GENRES:
         raise ContractError("invalid genre")
 
@@ -87,7 +95,7 @@ def validate_advisor_request(value: object) -> dict[str, Any]:
         if not isinstance(candidate_id, str) or not STABLE_ID.fullmatch(candidate_id):
             raise ContractError("invalid candidate id")
         candidate = _require_exact_keys(candidates[candidate_id], {"text"}, "candidate")
-        text = _require_text(candidate["text"], "candidate text")
+        text = _require_text(candidate["text"], "candidate text", max_length=1000)
         comparable = _comparison_text(text)
         if comparable in seen:
             raise ContractError("duplicate source or candidate text")

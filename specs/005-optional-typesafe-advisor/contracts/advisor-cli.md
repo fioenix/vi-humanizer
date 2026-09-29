@@ -101,6 +101,7 @@ ngoài lệnh ranking và thuộc Agent.
 - Model request/observed: exact `jev-1.13.0`.
 - Authorization: bearer value chỉ đọc từ `TYPESAFE_API_KEY`.
 - Timeout: 8 giây; 1 attempt; không background retry.
+- Response body tối đa 1 MiB; lớn hơn được map thành `invalid_response` trước khi JSON decode.
 - HTTP/provider errors map sang allowlisted reason code; body không được phản chiếu ra output.
 
 ## Binding and freshness
@@ -112,6 +113,9 @@ input mới. Một probe cũ không làm lần `assess` mới thành checked.
 ## Privacy contract
 
 - Không chấp nhận field ngoài schema; label/provenance/baseline bị từ chối trước network.
+- Reject trước network nếu source/candidate vượt 1.000 ký tự, context trước/sau vượt 2.000 ký tự
+  mỗi phần hoặc current intent vượt 1.000 ký tự.
 - Protected region không được đưa vào source/context.
 - Request chỉ sống trong memory của process và HTTPS call; không log hoặc ghi file.
 - Output/artifact không chứa raw source, raw candidate, raw provider response hoặc secret.
+- Không follow HTTP redirect để tránh chuyển bearer token sang endpoint ngoài contract.

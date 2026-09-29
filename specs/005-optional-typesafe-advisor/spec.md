@@ -31,6 +31,13 @@ quyết định có sửa hay không; Jev chỉ thẩm định các tín hiệu 
 - Q: Public advisor gọi `genre` bằng ID nào? → A: Tái dùng hai base-profile ID canonical
   `blog-ca-nhan` và `ky-thuat-doanh-nghiep`, không tạo biến thể dấu gạch dưới. (agent decided;
   basis: tránh nguồn từ vựng thứ hai và noulmes không tìm thấy quyết định mâu thuẫn)
+- Q: Runtime ngăn caller vô tình gửi cả tài liệu bằng cách nào? → A: Reject trước network nếu source
+  hoặc candidate vượt 1.000 ký tự, context trước/sau vượt 2.000 ký tự mỗi phần, hoặc intent vượt
+  1.000 ký tự. (agent decided; basis: privacy boundary cần enforcement và noulmes không tìm thấy
+  quyết định mâu thuẫn)
+- Q: Runtime xử lý provider response lớn bất thường thế nào? → A: Chỉ đọc tối đa 1 MiB cộng một byte
+  canary và coi response lớn hơn là `invalid_response`. (agent decided; basis: typed response hợp lệ
+  nhỏ hơn rất nhiều và noulmes không tìm thấy quyết định mâu thuẫn)
 
 ## User Scenarios & Testing *(mandatory)*
 

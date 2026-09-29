@@ -98,10 +98,10 @@ description: "Nhiệm vụ triển khai cố vấn TypeSafe tùy chọn"
 - [X] T025 Viết test đỏ cho exact public advisor inventory, archive byte parity, không secret/test/eval và root layout trong `tests/test_package_security.py`
 - [X] T026 Thêm `advisor/` và `references/typesafe-advisor.md` vào payload allowlist/copy logic trong `scripts/validate-package.py` và `scripts/package-skill.sh`
 - [X] T027 Đồng bộ version `0.9.6` và changelog trong `SKILL.md`, `README.md`, `.claude-plugin/plugin.json`; cập nhật `AGENTS.md` theo cây file thật
-- [ ] T028 Chạy toàn bộ unit/integration suite, validator, `git diff --check`, `npx skills add . --list` và `claude plugin validate .`
-- [ ] T029 Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`, kiểm inventory, byte parity và secret scan
+- [X] T028 Chạy toàn bộ unit/integration suite, validator, `git diff --check`, `npx skills add . --list` và `claude plugin validate .`
+- [X] T029 Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`, kiểm inventory, byte parity và secret scan
 - [ ] T030 Cài lại skill local vào `/Users/fioenix/.codex/skills/vi-humanizer/` và các runtime không phải Claude đang trỏ tới đó; đối chiếu version/bytes đã cài
-- [ ] T031 Review diff của `advisor/`, `SKILL.md`, `README.md`, `references/typesafe-advisor.md`, packaging và tests theo spec/plan/security boundary; sửa finding rồi chạy lại toàn bộ gate
+- [X] T031 Review diff của `advisor/`, `SKILL.md`, `README.md`, `references/typesafe-advisor.md`, packaging và tests theo spec/plan/security boundary; sửa finding rồi chạy lại toàn bộ gate
 
 ---
 

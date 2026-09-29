@@ -30,6 +30,13 @@ Lấy API key từ TypeSafe rồi lưu bằng secret manager của host. Khi m�
 key thành biến `TYPESAFE_API_KEY`; không dán key vào prompt, file repo, command argument hoặc ZIP.
 Advisor không cần `typesafe-sdk` và không có cờ enable thứ hai.
 
+Với shell POSIX, có thể inject tạm cho đúng session mà không ghi key vào history:
+
+```bash
+read -r -s TYPESAFE_API_KEY
+export TYPESAFE_API_KEY
+```
+
 Từ thư mục gốc của skill, chạy:
 
 ```bash
@@ -52,9 +59,26 @@ hiện trong command history:
 python3 -m advisor assess < /duong/dan/toi/v20-case.json
 ```
 
-Input dùng đúng schema trong `specs/005-optional-typesafe-advisor/contracts/advisor-cli.md` nếu làm
-việc từ repo. Trong gói public, có thể lấy fixture dạng tối thiểu từ README. `genre` chỉ nhận
-`blog-ca-nhan` hoặc `ky-thuat-doanh-nghiep`; candidate là object keyed bằng stable ID.
+Input tối thiểu:
+
+```json
+{
+  "case_id": "v20_case_01",
+  "candidates": {
+    "candidate_1": {"text": "Câu này đọc lên thấy hụt hẫng."}
+  },
+  "context": {"after": "", "before": ""},
+  "current_intent": "Giữ giọng nhận xét trực tiếp.",
+  "genre": "blog-ca-nhan",
+  "schema_version": "1.0.0",
+  "source": {"pattern": "V20", "text": "Câu này đọc lên thấy hụt."}
+}
+```
+
+`genre` chỉ nhận `blog-ca-nhan` hoặc `ky-thuat-doanh-nghiep`; candidate là object keyed bằng stable
+ID. CLI reject field lạ và reject trước network nếu source/candidate vượt 1.000 ký tự, context
+trước/sau vượt 2.000 ký tự mỗi phần hoặc intent vượt 1.000 ký tự.
+Provider response lớn hơn 1 MiB bị coi là không hợp lệ; advisor không follow HTTP redirect.
 
 Output checked chỉ có binding, version, model, usage và các score sau:
 

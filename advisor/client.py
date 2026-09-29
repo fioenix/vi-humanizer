@@ -6,13 +6,14 @@ import time
 from dataclasses import dataclass
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from .models import ContractError, PINNED_MODEL, canonical_json, validate_usage
 
 
 ENDPOINT = "https://api.typesafe.ai/v1/systemone"
 TIMEOUT_SECONDS = 8.0
+MAX_RESPONSE_BYTES = 1024 * 1024
 
 
 @dataclass(frozen=True)
@@ -39,13 +40,30 @@ class AdvisorUnavailable(RuntimeError):
 Transport = Callable[[str, dict[str, str], bytes, float], HttpResponse]
 
 
+class _NoRedirect(HTTPRedirectHandler):
+    def redirect_request(
+        self,
+        req: Request,
+        fp: Any,
+        code: int,
+        msg: str,
+        headers: Any,
+        newurl: str,
+    ) -> None:
+        return None
+
+
 def _default_transport(url: str, headers: dict[str, str], body: bytes, timeout: float) -> HttpResponse:
     request = Request(url, data=body, headers=headers, method="POST")
+    opener = build_opener(_NoRedirect())
     try:
-        with urlopen(request, timeout=timeout) as response:
-            return HttpResponse(response.status, response.read())
+        with opener.open(request, timeout=timeout) as response:
+            return HttpResponse(response.status, response.read(MAX_RESPONSE_BYTES + 1))
     except HTTPError as error:
-        return HttpResponse(error.code, b"")
+        try:
+            return HttpResponse(error.code, b"")
+        finally:
+            error.close()
 
 
 def _http_reason(status: int) -> str:
@@ -83,6 +101,8 @@ class TypeSafeClient:
         latency_ms = self._latency(started)
         if response.status != 200:
             raise AdvisorUnavailable(_http_reason(response.status), latency_ms=latency_ms)
+        if len(response.body) > MAX_RESPONSE_BYTES:
+            raise AdvisorUnavailable("invalid_response", latency_ms=latency_ms)
 
         try:
             decoded = json.loads(response.body.decode("utf-8"))

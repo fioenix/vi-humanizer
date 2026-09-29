@@ -37,7 +37,7 @@ Input exact-schema cho `assess`; chỉ chứa dữ liệu Jev cần.
 | `case_id` | stable key | yes | `[a-z][a-z0-9_]{0,63}`; không dùng list index |
 | `source` | SourceSpan | yes | Text V20 cần xét, non-empty NFC |
 | `context` | LocalContext | yes | Trước/sau tối thiểu; mỗi field string |
-| `current_intent` | string | yes | Non-empty, không thêm dữ kiện ngoài lượt hiện tại |
+| `current_intent` | string | yes | Non-empty, tối đa 1.000 ký tự, không thêm dữ kiện ngoài lượt hiện tại |
 | `genre` | enum | yes | `blog-ca-nhan` hoặc `ky-thuat-doanh-nghiep` |
 | `candidates` | map<stable key, Candidate> | yes | 1–3 entry, sorted khi serialize, không trùng text/source |
 
@@ -48,17 +48,17 @@ path, user identity hay protected-region bytes.
 
 ### SourceSpan
 
-- `text`: raw source span cần model đọc; non-empty, giữ nguyên Unicode nội dung.
+- `text`: raw source span cần model đọc; non-empty, giữ nguyên Unicode nội dung, tối đa 1.000 ký tự.
 - `pattern`: luôn `V20` ở feature này.
 
 ### LocalContext
 
-- `before`: chuỗi tối thiểu để hiểu nghĩa/quan hệ; có thể rỗng.
-- `after`: chuỗi tối thiểu để hiểu nghĩa/quan hệ; có thể rỗng.
+- `before`: chuỗi tối thiểu để hiểu nghĩa/quan hệ; có thể rỗng, tối đa 2.000 ký tự.
+- `after`: chuỗi tối thiểu để hiểu nghĩa/quan hệ; có thể rỗng, tối đa 2.000 ký tự.
 
 ### Candidate
 
-- `text`: candidate do host LLM tạo trước; non-empty NFC.
+- `text`: candidate do host LLM tạo trước; non-empty NFC, tối đa 1.000 ký tự.
 - Candidate key nằm ở map owner, được question nhắc bằng `candidates.<key>.text`.
 - Candidate text không được giống source hoặc candidate khác sau normalization.
 

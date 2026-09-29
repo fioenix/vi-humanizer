@@ -2,15 +2,19 @@ from __future__ import annotations
 
 import json
 import socket
+import threading
 import unittest
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.error import URLError
 
 from advisor.client import (
     ENDPOINT,
+    MAX_RESPONSE_BYTES,
     TIMEOUT_SECONDS,
     AdvisorUnavailable,
     HttpResponse,
     TypeSafeClient,
+    _default_transport,
 )
 from advisor.models import PINNED_MODEL
 from advisor.questions import build_probe_payload
@@ -113,6 +117,80 @@ class TypeSafeClientTest(unittest.TestCase):
                         transport=RecordingTransport(HttpResponse(200, body)),
                     ).evaluate(build_probe_payload())
                 self.assertEqual(caught.exception.reason_code, expected)
+
+    def test_default_transport_does_not_follow_redirects_with_authorization(self) -> None:
+        class Handler(BaseHTTPRequestHandler):
+            sink_seen = False
+
+            def do_POST(self) -> None:
+                self.send_response(302)
+                self.send_header("Location", "/sink")
+                self.end_headers()
+
+            def do_GET(self) -> None:
+                type(self).sink_seen = True
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(response_body())
+
+            def log_message(self, format: str, *args: object) -> None:
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            response = _default_transport(
+                f"http://127.0.0.1:{server.server_port}/start",
+                {"Authorization": "Bearer redirect-canary", "Content-Type": "application/json"},
+                b"{}",
+                1.0,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+
+        self.assertEqual(response.status, 302)
+        self.assertFalse(Handler.sink_seen)
+
+    def test_default_transport_bounds_provider_response_before_json_decode(self) -> None:
+        oversized_body = b"x" * (MAX_RESPONSE_BYTES + 10)
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_POST(self) -> None:
+                self.send_response(200)
+                self.send_header("Content-Length", str(len(oversized_body)))
+                self.end_headers()
+                self.wfile.write(oversized_body)
+
+            def log_message(self, format: str, *args: object) -> None:
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            response = _default_transport(
+                f"http://127.0.0.1:{server.server_port}/evaluate",
+                {"Authorization": "Bearer size-canary", "Content-Type": "application/json"},
+                b"{}",
+                1.0,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+
+        self.assertEqual(len(response.body), MAX_RESPONSE_BYTES + 1)
+
+        client = TypeSafeClient(
+            api_key="size-canary",
+            transport=lambda url, headers, body, timeout: response,
+        )
+        with self.assertRaises(AdvisorUnavailable) as caught:
+            client.evaluate(build_probe_payload())
+        self.assertEqual(caught.exception.reason_code, "invalid_response")
 
 
 if __name__ == "__main__":
