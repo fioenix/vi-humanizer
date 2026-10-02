@@ -68,7 +68,7 @@ Claude cần bật **Code execution and file creation** để dùng custom skill
 
 [Tải `vi-humanizer-claude-org.zip` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer-claude-org.zip),
 mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn file ZIP. Gói này
-đặt `SKILL.md` ở thư mục gốc và chỉ chứa các file cần khi skill chạy.
+đặt `SKILL.md` và `LICENSE` ở thư mục gốc, cùng các file cần khi skill chạy.
 
 ### Đóng gói từ source
 
@@ -82,7 +82,7 @@ Kết quả nằm ở `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-or
 
 ### Cài thủ công
 
-Chép `SKILL.md` cùng `profiles/`, `references/`, `calibration/` và optional runtime `advisor/` vào
+Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/` và optional runtime `advisor/` vào
 thư mục skill của agent:
 
 ```bash
@@ -204,7 +204,6 @@ scripts/package-skill.sh                      tạo hai artifact cài đặt
 scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
 .specify/                                     constitution, template và script của Spec Kit
 specs/                                        đặc tả, checklist, plan và task theo từng feature
-.agents/skills/                               các skill Spec Kit dùng trong Codex
 guard_eval/                                   evaluation harness cho edit guard, không thuộc gói skill
 eval/guard/                                   corpus, manifest, config, pricing và policy đã duyệt
 tests/guard_eval/                             test offline; external evaluator luôn được fake trong CI
@@ -219,6 +218,9 @@ pyproject.toml, uv.lock                       môi trường Python 3.12 khóa v
 
 Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
 `vi-humanizer.skill`.
+
+Generated agent skills, Spec Kit integration state, raw run và scratch output được giữ local.
+Xem [hướng dẫn đóng góp](CONTRIBUTING.md) để cài tooling maintainer và chạy kiểm tra offline.
 
 Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card nằm
 trong thư mục `styles/` của profile tương thích; `references/bo-giai-phong-cach.md` chỉ sở hữu cách
@@ -437,6 +439,10 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
+- **0.9.7** – Đưa `LICENSE` vào cả hai archive, giữ MIT notice cho tooling Spec Kit và chuyển
+  generated Codex integration cùng state từng checkout ra khỏi Git tracking. Bổ sung ignore
+  cho environment, scratch output và cache; thêm hướng dẫn contributor và gate CI chặn file
+  tracked bị ignore. Quy tắc biên tập giữ nguyên.
 - **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
   readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
   và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude

@@ -2,7 +2,7 @@
 # Đóng gói vi-humanizer thành hai artifact từ cùng một public payload:
 # - dist/vi-humanizer.skill cho Skills CLI và cài đặt skill thông thường;
 # - dist/vi-humanizer-claude-org.zip để upload skill vào Claude Org.
-# Cả hai chỉ chứa SKILL.md cùng các thư mục mà skill cần khi chạy.
+# Cả hai chứa LICENSE, SKILL.md cùng các thư mục mà skill cần khi chạy.
 #
 # Dùng: ./scripts/package-skill.sh
 # Cần: python3, zip và unzip.
@@ -32,7 +32,7 @@ RELEASE_ARCHIVE="$DIST/vi-humanizer.skill"
 CANDIDATE_ORG_ARCHIVE="$ARCHIVE_STAGE/vi-humanizer-claude-org.zip"
 RELEASE_ORG_ARCHIVE="$DIST/vi-humanizer-claude-org.zip"
 
-cp -P "$ROOT/SKILL.md" "$STAGE/"
+cp -P "$ROOT/SKILL.md" "$ROOT/LICENSE" "$STAGE/"
 cp -RP "$ROOT/profiles" "$ROOT/references" "$ROOT/calibration" "$STAGE/"
 mkdir -p "$STAGE/advisor"
 cp -P "$ROOT/advisor/__init__.py" "$ROOT/advisor/__main__.py" "$ROOT/advisor/cli.py" "$ROOT/advisor/client.py" "$ROOT/advisor/models.py" "$ROOT/advisor/questions.py" "$STAGE/advisor/"

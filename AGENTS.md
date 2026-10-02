@@ -24,6 +24,8 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
+| `CONTRIBUTING.md` | Hướng dẫn góp ca sửa sai, kiểm offline, bootstrap tooling và ranh giới source/local |
+| `LICENSE` | MIT notice của sản phẩm, bắt buộc có trong cả hai archive |
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
@@ -33,8 +35,9 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `advisor/` | Public Python standard-library CLI cho `probe`, `assess`, `rank`; core không import |
 | `tests/advisor/` | Test offline cho schema, HTTP boundary, CLI và privacy; không gọi TypeSafe thật |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
+| `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
-| `.agents/skills/` | Các skill Spec Kit do `specify init` tạo cho Codex; không được đóng gói vào `vi-humanizer.skill` |
+| `.agents/skills/` | Generated Codex tooling local, bị gitignore; bootstrap theo `CONTRIBUTING.md` |
 | `guard_eval/` | Harness Python đánh giá need-to-edit, candidate preference và safety ở shadow mode |
 | `eval/guard/` | Corpus đã gắn nhãn, manifest, evaluation config, pricing snapshot và policy đã duyệt |
 | `tests/guard_eval/` | Test unit/contract/integration offline; CI không gọi TypeSafe |
@@ -43,6 +46,10 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `eval/guard/v2/` | Dev corpus v2, config/pricing, lock bytes v1 và registry holdout đã quan sát |
 | `tests/guard_eval_v2/` | Test offline cho schema, policy, corpus governance, CLI và report v2 |
 | `artifacts/guard-eval-v2/` | Raw judgment/recommendation run v2 local, bị gitignore |
+
+Generated integration files, raw runs, scratch output, environment files và cache được giữ local
+theo `.gitignore`. Khi contributor cần Spec Kit, dùng bootstrap trong `CONTRIBUTING.md`; constitution,
+template, scripts, workflows, specs và evidence đã duyệt vẫn là source public được track.
 
 ## Evaluation harness
 

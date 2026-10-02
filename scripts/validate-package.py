@@ -75,7 +75,7 @@ EXPECTED_PROFILE_DIRECTORIES = {
     for relative in EXPECTED_PROFILE_FILES
     if PurePosixPath(relative).parent.name == "styles"
 }
-PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration", "advisor"}
+PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "advisor"}
 ADVISOR_FILES = {
     "advisor/__init__.py",
     "advisor/__main__.py",
@@ -184,7 +184,7 @@ def validate_payload_tree(root: Path) -> None:
         if not path.exists() and not path.is_symlink():
             fail(f"Thiếu payload bắt buộc: {relative}")
             continue
-        expected_kind = "file" if relative == "SKILL.md" else "directory"
+        expected_kind = "file" if relative in {"LICENSE", "SKILL.md"} else "directory"
         validate_entry(path, expected_kind)
 
     for directory_name, expected_files in EXACT_DIRECTORY_FILES.items():

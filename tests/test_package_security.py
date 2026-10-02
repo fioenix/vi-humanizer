@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_FIXTURE_PATHS = (
     "SKILL.md",
+    "LICENSE",
     "README.md",
     ".claude-plugin",
     "advisor",
@@ -399,6 +400,32 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertTrue(any(name.startswith("vi-humanizer/profiles/") for name in names))
             self.assertTrue(any(name.startswith("vi-humanizer/references/") for name in names))
             self.assertTrue(any(name.startswith("vi-humanizer/calibration/") for name in names))
+
+    def test_packages_the_license_notice_in_both_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+
+            result = self.run_packager(repo)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            for archive_name, license_path in (
+                ("vi-humanizer.skill", "vi-humanizer/LICENSE"),
+                ("vi-humanizer-claude-org.zip", "LICENSE"),
+            ):
+                with self.subTest(archive=archive_name):
+                    with zipfile.ZipFile(repo / "dist" / archive_name) as package:
+                        self.assertIn(license_path, package.namelist())
+                        self.assertEqual(package.read(license_path), (repo / "LICENSE").read_bytes())
+
+    def test_packager_rejects_missing_license(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            (repo / "LICENSE").unlink()
+
+            result = self.run_packager(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("LICENSE", result.stderr)
 
     def test_packages_exact_public_advisor_runtime_in_both_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
