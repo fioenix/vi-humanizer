@@ -100,7 +100,7 @@ description: "Nhiệm vụ triển khai cố vấn TypeSafe tùy chọn"
 - [X] T027 Đồng bộ version `0.9.6` và changelog trong `SKILL.md`, `README.md`, `.claude-plugin/plugin.json`; cập nhật `AGENTS.md` theo cây file thật
 - [X] T028 Chạy toàn bộ unit/integration suite, validator, `git diff --check`, `npx skills add . --list` và `claude plugin validate .`
 - [X] T029 Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`, kiểm inventory, byte parity và secret scan
-- [X] T030 Cài lại skill local vào `/Users/fioenix/.codex/skills/vi-humanizer/` và các runtime không phải Claude đang trỏ tới đó; đối chiếu version/bytes đã cài
+- [X] T030 Cài lại skill vào thư mục skill Codex toàn cục và các runtime không phải Claude đang trỏ tới đó; đối chiếu version/bytes đã cài
 - [X] T031 Review diff của `advisor/`, `SKILL.md`, `README.md`, `references/typesafe-advisor.md`, packaging và tests theo spec/plan/security boundary; sửa finding rồi chạy lại toàn bộ gate
 
 ---
