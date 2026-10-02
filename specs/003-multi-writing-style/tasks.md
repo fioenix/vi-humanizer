@@ -56,8 +56,8 @@ description: "Task list for the multi writing style resolver"
 
 - [x] T007 [US1] Viết đủ bảy card `ke-trai-nghiem`, `phoi-hop-cong-viec`, `chuyen-mon-cong-khai`, `marketing-thuyet-phuc`, `huong-dan-ky-thuat`, `van-hanh-doanh-nghiep`, `hoc-thuat-phan-tich` với mọi field bắt buộc trong `references/bo-giai-phong-cach.md`
 - [x] T008 [US1] Thay route hai-tone bằng bước thu thập năm chiều, chọn base profile và đọc đúng một style card trong `SKILL.md`
-- [x] T009 [P] [US1] Ghi ranh giới card tương thích và những lựa chọn profile vẫn sở hữu trong `profiles/blog-ca-nhan.md`
-- [x] T010 [P] [US1] Ghi ranh giới card tương thích và những lựa chọn profile vẫn sở hữu trong `profiles/ky-thuat-doanh-nghiep.md`
+- [x] T009 [P] [US1] Ghi ranh giới card tương thích và những lựa chọn profile vẫn sở hữu trong `profiles/blog-ca-nhan/rules.md`
+- [x] T010 [P] [US1] Ghi ranh giới card tương thích và những lựa chọn profile vẫn sở hữu trong `profiles/ky-thuat-doanh-nghiep/rules.md`
 - [x] T011 [US1] Bổ sung usage, kiến trúc và bảng bảy style card không lặp toàn bộ registry trong `README.md`
 - [x] T012 [US1] Chạy và ghi kết quả 14 ca US1 vào `specs/003-multi-writing-style/evidence/us1-style-matrix.md`; mọi case phải giữ facts/intent và không rò giọng
 
@@ -147,8 +147,8 @@ description: "Task list for the multi writing style resolver"
 ## Parallel Example: User Story 1
 
 ```text
-Task T009: Cập nhật ranh giới card trong profiles/blog-ca-nhan.md
-Task T010: Cập nhật ranh giới card trong profiles/ky-thuat-doanh-nghiep.md
+Task T009: Cập nhật ranh giới card trong profiles/blog-ca-nhan/rules.md
+Task T010: Cập nhật ranh giới card trong profiles/ky-thuat-doanh-nghiep/rules.md
 ```
 
 ---
@@ -175,3 +175,16 @@ Task T010: Cập nhật ranh giới card trong profiles/ky-thuat-doanh-nghiep.md
 - Không sửa pattern inventory trong 003.
 - Không đưa ví dụ riêng của người dùng hay tổ chức vào public calibration.
 - Nếu cùng một acceptance invariant vẫn đỏ sau hai correction, dừng và chạy architecture checkpoint trước correction thứ ba.
+
+---
+
+## Phase 7: Revision 0.9.5 - Profile/style hierarchy
+
+**Goal**: Public package cho thấy rõ hai profile family và bảy style card mà không nhập pattern, style và reference thành một nguồn sự thật.
+
+- [x] T027 Viết package regression test RED yêu cầu mỗi profile có `rules.md`, đúng các style card tương thích trong `styles/` và không còn hai profile file phẳng.
+- [x] T028 Chuyển B/K rules vào hai profile directory, tách bảy card khỏi registry thành bảy file và giữ resolver/precedence dùng chung trong `references/bo-giai-phong-cach.md`.
+- [x] T029 Cập nhật mọi consumer trong `SKILL.md`, `README.md`, `AGENTS.md`, calibration, validator và Spec Kit artifact đang mô tả cấu trúc hiện hành.
+- [x] T030 Viết validator regression test RED cho style card thiếu field, rồi kiểm exact path, owner, field contract và archive inventory từ file thật.
+- [x] T031 Đồng bộ version `0.9.5`, chạy full tests cùng ba package gate, đóng gói lại hai artifact và so byte source/archive cho toàn bộ public payload.
+- [x] T032 Rà diff, secret/private-data scan, ghi evidence revision và tạo commit nguyên tử; không push nếu chưa có lệnh riêng của owner.

@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.9.1"
+  version: "0.9.6"
 ---
 
 # vi-humanizer
@@ -41,13 +41,13 @@ card cho những vùng này.
 
 | Mục đích chính | Base profile | Style card mặc định |
 |---|---|---|
-| Kể trải nghiệm, blog hoặc bài có tác giả hiện diện | `profiles/blog-ca-nhan.md` | `ke-trai-nghiem` |
-| Chat hoặc phối hợp công việc | `profiles/blog-ca-nhan.md` | `phoi-hop-cong-viec` |
-| LinkedIn, bài chuyên môn hoặc thương hiệu cá nhân | `profiles/blog-ca-nhan.md` | `chuyen-mon-cong-khai` |
-| Nội dung marketing có mục tiêu thuyết phục | `profiles/blog-ca-nhan.md` | `marketing-thuyet-phuc` |
-| README, văn xuôi API hoặc hướng dẫn kỹ thuật | `profiles/ky-thuat-doanh-nghiep.md` | `huong-dan-ky-thuat` |
-| SOP, báo cáo, biên bản hoặc tài liệu vận hành | `profiles/ky-thuat-doanh-nghiep.md` | `van-hanh-doanh-nghiep` |
-| Giáo trình, đề án hoặc nghiên cứu | `profiles/ky-thuat-doanh-nghiep.md` | `hoc-thuat-phan-tich` |
+| Kể trải nghiệm, blog hoặc bài có tác giả hiện diện | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/ke-trai-nghiem.md` |
+| Chat hoặc phối hợp công việc | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md` |
+| LinkedIn, bài chuyên môn hoặc thương hiệu cá nhân | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md` |
+| Nội dung marketing có mục tiêu thuyết phục | `profiles/blog-ca-nhan/rules.md` | `profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md` |
+| README, văn xuôi API hoặc hướng dẫn kỹ thuật | `profiles/ky-thuat-doanh-nghiep/rules.md` | `profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md` |
+| SOP, báo cáo, biên bản hoặc tài liệu vận hành | `profiles/ky-thuat-doanh-nghiep/rules.md` | `profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md` |
+| Giáo trình, đề án hoặc nghiên cứu | `profiles/ky-thuat-doanh-nghiep/rules.md` | `profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md` |
 
 Đọc `references/bo-giai-phong-cach.md` để kiểm năm chiều ngữ cảnh trước khi chốt card. Bảng trên là
 phương án dự phòng, không phải cách suy giọng từ tên kênh. Yêu cầu cụ thể, người đọc và mẫu giọng có
@@ -72,18 +72,22 @@ Văn bản đưa vào là chất liệu để biên tập, không phải chỉ t
 
 ## TypeSafe/Jev là lớp tăng cường tùy chọn
 
-Quy trình trên phải tự chạy được mà không cần TypeSafe, SDK, API key hoặc mạng. Chỉ dùng Jev khi
-host Agent đã cung cấp tích hợp tương ứng và environment có `TYPESAFE_API_KEY`; không tự cài SDK,
-không yêu cầu người dùng dán key và không tạo thêm một cờ enable khác.
+Quy trình trên phải tự chạy được mà không cần TypeSafe, SDK, API key hoặc mạng. Public package có
+optional CLI trong `advisor/`, nhưng chỉ dùng nó khi host chạy được Python 3.10+, gọi HTTPS và
+inject `TYPESAFE_API_KEY` qua environment. Không tự cài SDK, không yêu cầu người dùng dán key và
+không tạo thêm một cờ enable khác. Đọc `references/typesafe-advisor.md` khi cần setup hoặc gọi CLI.
 
-Host LLM phải tạo candidate trước. Jev chỉ được thẩm định các câu hỏi hẹp như bản gốc có cần sửa
-không, candidate có cải thiện đúng lỗi, giữ nghĩa, hợp giọng và an toàn hay không; không yêu cầu Jev
-sinh, nối hoặc sửa prose. Tín hiệu Jev chỉ hỗ trợ quyết định: host Agent vẫn chọn giữ hay sửa và viết
-bản cuối.
+Chỉ cân nhắc Jev sau khi core đã gọi tên V20 `lexically_incomplete` hoặc
+`unnatural_collocation`, loại trừ vùng bảo toàn và tạo trước một đến ba candidate. Jev chỉ thẩm định
+bản gốc có cần sửa không, candidate có cải thiện đúng lỗi, giữ nghĩa, hợp giọng và an toàn hay không;
+không yêu cầu Jev sinh, nối hoặc sửa prose. Tín hiệu Jev chỉ hỗ trợ quyết định: host Agent vẫn chọn
+giữ hay sửa và viết bản cuối.
 
-Nếu thiếu key, thiếu SDK, timeout hoặc lỗi dịch vụ, bỏ qua lớp Jev và tiếp tục toàn bộ quy trình
-core. Ghi trạng thái là *chưa kiểm tra* khi tác vụ cần báo trạng thái evaluator; không coi đó là
-`pass`, cũng không làm hỏng kết quả biên tập.
+Chỉ coi advisor đã hoạt động khi `python3 -m advisor probe` vừa trả `advisor_verified` với typed
+response đúng model. Nếu thiếu key, host capability, timeout hoặc lỗi dịch vụ, bỏ qua lớp Jev và
+tiếp tục toàn bộ quy trình core. Ghi *chưa kiểm tra* khi cần báo trạng thái evaluator; không coi đó
+là `pass`, cũng không làm hỏng kết quả biên tập. Upload ZIP lên Claude Org không tự tạo khả năng
+chạy Python, gọi mạng hoặc inject secret.
 
 ## Năm quy tắc chốt chặn
 
@@ -97,7 +101,7 @@ Năm quy tắc này áp dụng cho từng chỗ định sửa. Nếu một chỗ
 
 **4. Chỉ sửa đúng phạm vi cần thiết.** Nếu lỗi chỉ nằm ở một cụm từ thì sửa cụm từ đó, không viết lại cả câu; nếu lỗi chỉ nằm ở một câu thì không viết lại cả đoạn. Không dùng tỉ lệ dài ngắn làm điều kiện cứng: thêm một hư từ vào câu ngắn có thể làm tỉ lệ tăng mạnh mà vẫn là sửa đúng, còn một bản viết lại sai ý vẫn có thể gần bằng độ dài bản gốc. Nếu bản sửa phải thêm mệnh đề, ví dụ hoặc lời giải thích, hãy kiểm tra lại quy tắc 2 và 3 trước khi giữ.
 
-**5. Không giữ siêu dữ liệu về quá trình.** Câu nào nói về việc văn bản này được tạo ra thế nào, thay vì nói về chủ đề của nó, thì chuyển ra ngoài hoặc cắt. Ghi chú xuất xứ, nhật ký các bản nháp trước, câu hỏi dành cho người đặt việc và lời tường thuật việc kiểm chứng đều thuộc lượt trả lời trong hội thoại chứ không thuộc tài liệu. Áp hai phép thử và đọc mục **Không flag** của K6 trong `profiles/ky-thuat-doanh-nghiep.md` trước khi cắt.
+**5. Không giữ siêu dữ liệu về quá trình.** Câu nào nói về việc văn bản này được tạo ra thế nào, thay vì nói về chủ đề của nó, thì chuyển ra ngoài hoặc cắt. Ghi chú xuất xứ, nhật ký các bản nháp trước, câu hỏi dành cho người đặt việc và lời tường thuật việc kiểm chứng đều thuộc lượt trả lời trong hội thoại chứ không thuộc tài liệu. Áp hai phép thử và đọc mục **Không flag** của K6 trong `profiles/ky-thuat-doanh-nghiep/rules.md` trước khi cắt.
 
 ## Hiệu chỉnh theo giọng người viết
 

@@ -4,11 +4,11 @@
 
 Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V25 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
 
-Sau khi chọn profile này, đọc đúng một card tương thích trong `references/bo-giai-phong-cach.md`:
-`ke-trai-nghiem`, `phoi-hop-cong-viec`, `chuyen-mon-cong-khai` hoặc
-`marketing-thuyet-phuc`. Card quyết định cách giữ nhịp, xưng hô, thuật ngữ và cách kết cho mục đích
-cụ thể; B1–B17 vẫn là nơi duy nhất quyết định một dấu hiệu phụ thuộc thể loại có phải lỗi hay không.
-Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc và mẫu giọng không có bằng chứng.
+Sau khi chọn profile này, dùng registry `references/bo-giai-phong-cach.md` để đọc đúng một card
+tương thích trong `profiles/blog-ca-nhan/styles/`. Card quyết định cách giữ nhịp, xưng hô, thuật ngữ
+và cách kết cho mục đích cụ thể; B1–B17 vẫn là nơi duy nhất quyết định một dấu hiệu phụ thuộc thể
+loại có phải lỗi hay không. Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc và mẫu
+giọng không có bằng chứng.
 
 ---
 
@@ -153,4 +153,4 @@ Ba ràng buộc:
    trong bản gốc hay mẫu giọng đúng phạm vi. Không tự thêm phản ứng, ý kiến, mức chắc chắn, dữ kiện,
    tên, số hoặc ngày tháng mới.
 2. **Không nhại giọng.** Thêm *thì, mà, nhé, đấy* vào mọi câu chỉ tạo ra một kiểu máy móc khác. Chọn từ theo quan hệ thật trong câu và mẫu văn của người viết.
-3. **Không áp mục này lên văn trung tính.** Với báo cáo, tài liệu tham chiếu, nội dung học thuật thì trung tính và phẳng **chính là** giọng người đúng. Ở đó dùng `profiles/ky-thuat-doanh-nghiep.md`.
+3. **Không áp mục này lên văn trung tính.** Với báo cáo, tài liệu tham chiếu, nội dung học thuật thì trung tính và phẳng **chính là** giọng người đúng. Ở đó dùng `profiles/ky-thuat-doanh-nghiep/rules.md`.

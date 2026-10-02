@@ -34,6 +34,8 @@ RELEASE_ORG_ARCHIVE="$DIST/vi-humanizer-claude-org.zip"
 
 cp -P "$ROOT/SKILL.md" "$STAGE/"
 cp -RP "$ROOT/profiles" "$ROOT/references" "$ROOT/calibration" "$STAGE/"
+mkdir -p "$STAGE/advisor"
+cp -P "$ROOT/advisor/__init__.py" "$ROOT/advisor/__main__.py" "$ROOT/advisor/cli.py" "$ROOT/advisor/client.py" "$ROOT/advisor/models.py" "$ROOT/advisor/questions.py" "$STAGE/advisor/"
 python3 "$ROOT/scripts/validate-package.py" --payload-root "$STAGE"
 
 # Cấu trúc gói: vi-humanizer/SKILL.md cùng các thư mục con.

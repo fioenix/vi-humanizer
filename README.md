@@ -1,31 +1,30 @@
 # vi-humanizer
 
-Các AI agents hiện tại có thể viết những đoạn tiếng Việt trôi chảy và đúng ngữ pháp. Tuy vậy, văn phong của chúng vẫn thường có những chỗ người Việt Nam hiếm khi mắc phải: câu giữ nguyên khung tiếng Anh, hư từ hoặc loại từ bị bỏ sót, thuật ngữ quen thuộc bị dịch thành một cách gọi xa lạ, giọng văn thay đổi giữa các đoạn, còn phần mở đầu và kết luận thì đầy những câu sáo rỗng. Từng lỗi riêng lẻ rất nhỏ, nhưng khi xuất hiện cùng nhau, chúng khiến văn bản trở nên khô cứng, thiếu tự nhiên hoặc không đúng với giọng văn của người thật.
+> **Sửa tiếng Việt tự nhiên hơn, giữ nguyên ý và giọng người viết.**
 
-Một yêu cầu chung chung như “viết lại cho tự nhiên hơn” thường không giải quyết được vấn đề này. AI có thể thay cả câu, hạ giọng văn hoặc thêm chi tiết để bản mới nghe mượt hơn, nhưng đồng thời làm lệch ý và mất giọng của tác giả. `vi-humanizer` được tạo ra để biên tập theo một nguyên tắc khác: xác định thể loại và người đọc trước, gọi tên từng lỗi cần sửa, rồi chỉ thay phần thực sự có vấn đề. Blog vẫn được giữ cá tính; README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
+`vi-humanizer` là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
+loại cùng người đọc trước, gọi tên lỗi rồi chỉ sửa phần thực sự có vấn đề. Blog vẫn giữ cá tính;
+README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
 
-Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉnh tài liệu dịch từ tiếng Anh, sửa nội dung do người viết song ngữ soạn hoặc kiểm tra lại một bài tiếng Việt đang đọc chưa thuận miệng. Chẳng hạn, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể thiếu chữ *được*. Nếu ý là đã thử nhưng chưa thành công thì câu văn đúng là *“vẫn không giải quyết **được** vấn đề”*. Trong trường hợp này, chữ *được* cho biết người viết đã thử nhưng chưa đạt kết quả.
+Skill dùng được cho bản nháp do AI tạo, bản dịch sát tiếng Anh, nội dung do người viết song ngữ soạn
+hoặc bất kỳ đoạn tiếng Việt nào đọc chưa thuận miệng. Đây không phải công cụ phát hiện AI và không
+dùng lỗi ngôn ngữ để đoán tác giả.
 
-`vi-humanizer` không phải công cụ phát hiện AI. Những lỗi trên cũng xuất hiện trong bản dịch và văn bản do người thật viết, còn LLM vẫn có thể tạo ra một câu hoàn toàn tự nhiên. Mục tiêu của skill là làm cho văn bản đúng nghĩa, đúng thể loại và vẫn giữ được giọng riêng của người viết, không phải đoán xem là con người hay AI đã tạo ra nó.
+## Ba ví dụ đã được hiệu chỉnh
 
-## Phạm vi
+| Mục tiêu | Trước | Sau khi biên tập |
+|---|---|---|
+| Hoàn chỉnh ý | *Đã thử ba cách mà vẫn không giải quyết vấn đề.* | *Đã thử ba cách mà vẫn không giải quyết **được** vấn đề.* |
+| Khôi phục từ bị thiếu | *Câu này đúng ngữ pháp nhưng đọc lên thấy hụt.* | *Câu này đúng ngữ pháp nhưng đọc lên thấy **hụt hẫng**.* |
+| Giữ đúng giọng công việc | *Đội kỹ thuật đã triển khai hệ thống quản lý kho mới để vận hành gọn hơn.* | *Nhằm mục đích nâng cao hiệu quả vận hành kho, **team dev** đã triển khai hệ thống quản lý kho mới.* |
 
-Skill xử lý ba lớp:
+Các cặp trên lấy từ [nhật ký hiệu chuẩn](calibration/LOG.md) và những ví dụ đã khóa trong
+`SKILL.md`. Đây không phải bảng tìm–thay cố định: skill chỉ sửa khi ngữ cảnh, thể loại và mẫu giọng
+cho thấy bản gốc thật sự có vấn đề.
 
-- V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
-- B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
-- T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
-  V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
+## Cài nhanh
 
-Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
-
-Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
-
-## Cài đặt
-
-### Skills CLI
-
-Cài toàn cục:
+### Codex và các agent dùng Skills CLI
 
 ```bash
 npx skills add fioenix/vi-humanizer --global
@@ -58,51 +57,39 @@ Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn
 
 Sau khi cài, gọi skill bằng `/vi-humanizer:vi-humanizer`.
 
-### Claude Desktop và claude.ai
+### Claude và Claude Desktop
 
-Tạo file `.skill` bằng lệnh:
+[Tải `vi-humanizer.skill` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer.skill),
+mở **Customize → Skills → + Create skill → Upload a skill**, chọn file vừa tải rồi bật skill.
+Claude cần bật **Code execution and file creation** để dùng custom skill. Xem thêm
+[hướng dẫn chính thức của Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+
+### Claude Org
+
+[Tải `vi-humanizer-claude-org.zip` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer-claude-org.zip),
+mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn file ZIP. Gói này
+đặt `SKILL.md` ở thư mục gốc và chỉ chứa các file cần khi skill chạy.
+
+### Đóng gói từ source
+
+Người bảo trì repo có thể tự tạo lại cả hai artifact:
 
 ```bash
 ./scripts/package-skill.sh
 ```
 
-Kết quả nằm ở `dist/vi-humanizer.skill`. Gói gồm `SKILL.md`, `profiles/`, `references/` và `calibration/`; các file dành cho người bảo trì repo không được đưa vào gói.
-
-### Claude Org
-
-Cùng lệnh đóng gói ở trên tạo thêm `dist/vi-humanizer-claude-org.zip`. ZIP này đặt `SKILL.md`
-ở thư mục gốc và chỉ chứa các file cần khi skill chạy.
-
-Trong Claude, mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn
-`vi-humanizer-claude-org.zip`. Cách này không cần marketplace repository riêng và không phụ thuộc
-repo `vi-humanizer` là public hay private.
+Kết quả nằm ở `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`.
 
 ### Cài thủ công
 
-Chép `SKILL.md` cùng ba thư mục `profiles/`, `references/` và `calibration/` vào thư mục skill của agent:
+Chép `SKILL.md` cùng `profiles/`, `references/`, `calibration/` và optional runtime `advisor/` vào
+thư mục skill của agent:
 
 ```bash
 git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
 ```
 
-### TypeSafe/Jev là lớp tăng cường tùy chọn
-
-`vi-humanizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Các cách
-cài ở trên chỉ cài skill Markdown; nếu không cấu hình gì thêm, toàn bộ quy trình thể loại, pattern,
-style card và năm quy tắc chốt chặn vẫn chạy bình thường.
-
-Khi host Agent đã có tích hợp TypeSafe/Jev, sự hiện diện của biến môi trường `TYPESAFE_API_KEY` là
-công tắc opt-in duy nhất. Không có cờ `enabled` thứ hai. Jev chỉ thẩm định các candidate do host LLM
-tạo sẵn, chẳng hạn bản gốc có thật sự cần sửa không, candidate có giữ nghĩa và đủ an toàn không.
-Jev trả tín hiệu có cấu trúc nhưng không sinh hoặc sửa câu chữ; host Agent vẫn quyết định giữ hay sửa
-và chịu trách nhiệm cho bản cuối.
-
-Nếu thiếu key, SDK hoặc dịch vụ không phản hồi, host bỏ qua lớp Jev và tiếp tục bằng core skill.
-Trạng thái đó là *chưa kiểm tra*, không phải một lần thẩm định đã pass. Riêng người bảo trì muốn chạy
-evaluation harness live mới cần cài dependency tùy chọn bằng `uv sync --locked --group eval`; lệnh
-validate và các test offline không cần gọi TypeSafe.
-
-## Cách dùng
+## Dùng ngay
 
 ```text
 /vi-humanizer
@@ -116,6 +103,45 @@ Khi cần sửa file, nêu rõ phạm vi:
 Dùng vi-humanizer để sửa phần văn xuôi trong docs/bai-viet.md.
 Giữ nguyên code, bảng tham số và các trích dẫn.
 ```
+
+## Phạm vi
+
+Skill xử lý ba lớp:
+
+- V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
+- B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
+- T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
+  V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
+
+Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
+
+Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
+
+### TypeSafe/Jev là lớp tăng cường tùy chọn
+
+`vi-humanizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Nếu không
+cấu hình gì thêm, toàn bộ quy trình thể loại, pattern, style card và năm quy tắc chốt chặn vẫn chạy
+bình thường. Public package có thêm optional CLI `advisor/`, viết bằng Python standard library;
+core Markdown không import hoặc phụ thuộc CLI này.
+
+Muốn bật trên host local, cần Python 3.10+, HTTPS và cơ chế inject secret. Lưu API key bằng secret
+manager của host, inject nó thành `TYPESAFE_API_KEY` cho process chạy agent, rồi từ thư mục skill
+chạy `python3 -m advisor probe`. Không dán key vào prompt, command argument, file repo hoặc ZIP;
+không có cờ `enabled` thứ hai. Chỉ typed response thật với model `jev-1.13.0` mới tạo trạng thái
+`advisor_verified`; có key hoặc config mới chỉ là opt-in, chưa phải bằng chứng integration đang chạy.
+
+Advisor chỉ dùng cho hai tín hiệu V20, sau khi host LLM đã tạo candidate. Jev trả signal có cấu trúc
+nhưng không sinh/sửa câu chữ và không quyết định thay source; host Agent vẫn chọn giữ hay sửa. Nếu
+thiếu key, host capability hoặc dịch vụ không phản hồi, CLI trả `core_only`/`advisor_unchecked` và
+core tiếp tục; đó là *chưa kiểm tra*, không phải `pass`. TypeSafe agent skill chỉ cung cấp tài liệu
+cho coding agent, không tự tạo runtime connector. ZIP Claude Org có `advisor/` nhưng vẫn core-only
+nếu môi trường Org không cho chạy Python, gọi mạng hoặc inject secret. Hướng dẫn đầy đủ nằm trong
+[`references/typesafe-advisor.md`](references/typesafe-advisor.md).
+
+Riêng evaluation harness live mới cần dependency tùy chọn qua `uv sync --locked --group eval`;
+validator và test offline không gọi TypeSafe.
+
+## Giữ giọng và chọn phong cách
 
 ### Giữ giọng của một người cụ thể
 
@@ -142,13 +168,13 @@ năng được chia theo phần, không ép chung một giọng.
 
 | Style card | Dùng cho | Base profile |
 |---|---|---|
-| `ke-trai-nghiem` | Blog, bài kể có người viết hiện diện | `blog-ca-nhan` |
-| `phoi-hop-cong-viec` | Chat, bình luận và lời nhờ trong công việc | `blog-ca-nhan` |
-| `chuyen-mon-cong-khai` | LinkedIn, bài quan điểm hoặc chia sẻ chuyên môn | `blog-ca-nhan` |
-| `marketing-thuyet-phuc` | Nội dung giới thiệu có mục tiêu và CTA thật | `blog-ca-nhan` |
-| `huong-dan-ky-thuat` | README, văn xuôi API và hướng dẫn xử lý lỗi | `ky-thuat-doanh-nghiep` |
-| `van-hanh-doanh-nghiep` | SOP, báo cáo, biên bản và bàn giao | `ky-thuat-doanh-nghiep` |
-| `hoc-thuat-phan-tich` | Giáo trình, đề án và nghiên cứu | `ky-thuat-doanh-nghiep` |
+| [`ke-trai-nghiem`](profiles/blog-ca-nhan/styles/ke-trai-nghiem.md) | Blog, bài kể có người viết hiện diện | `blog-ca-nhan` |
+| [`phoi-hop-cong-viec`](profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md) | Chat, bình luận và lời nhờ trong công việc | `blog-ca-nhan` |
+| [`chuyen-mon-cong-khai`](profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md) | LinkedIn, bài quan điểm hoặc chia sẻ chuyên môn | `blog-ca-nhan` |
+| [`marketing-thuyet-phuc`](profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md) | Nội dung giới thiệu có mục tiêu và CTA thật | `blog-ca-nhan` |
+| [`huong-dan-ky-thuat`](profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md) | README, văn xuôi API và hướng dẫn xử lý lỗi | `ky-thuat-doanh-nghiep` |
+| [`van-hanh-doanh-nghiep`](profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md) | SOP, báo cáo, biên bản và bàn giao | `ky-thuat-doanh-nghiep` |
+| [`hoc-thuat-phan-tich`](profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md) | Giáo trình, đề án và nghiên cứu | `ky-thuat-doanh-nghiep` |
 
 Card không phải khuôn để “làm màu” và không tự tạo lý do sửa. Yêu cầu hiện tại được ưu tiên;
 ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn mọi thay đổi; mẫu/hồ sơ chỉ được dùng khi
@@ -160,37 +186,43 @@ ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn m�
 `SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
 
 ```text
-SKILL.md                            quy trình, V1–V25, T1–T6 và cách trả kết quả
-profiles/blog-ca-nhan.md            B1–B17 cho văn bản có giọng cá nhân
-profiles/ky-thuat-doanh-nghiep.md   K1–K7 và giới hạn của văn kỹ thuật, học thuật
-references/han-viet-thuan-viet.md   bảng tra và điều kiện phải giữ thuật ngữ
-references/bang-tra-cuu.md          bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
-references/bo-giai-phong-cach.md    bộ giải ngữ cảnh và danh mục style card
-calibration/LOG.md                  bằng chứng dùng để sửa quy tắc chung
-calibration/ca-kiem-thu.md          ca kiểm thử chạy tay cho từng pattern
-agents/openai.yaml                  tên hiển thị và lời gọi mặc định
-scripts/validate-package.py         kiểm tra tính đồng bộ của gói
-scripts/package-skill.sh            tạo dist/vi-humanizer.skill và dist/vi-humanizer-claude-org.zip
-scripts/scan-tells.sh               tìm những chỗ có thể rà bằng biểu thức chính quy
-.specify/                            constitution, template và script của Spec Kit
-specs/                               đặc tả, checklist, plan và task theo từng feature
-.agents/skills/                      các skill Spec Kit dùng trong Codex
-guard_eval/                          evaluation harness cho edit guard, không thuộc gói skill
-eval/guard/                          corpus, manifest, config, pricing và policy đã duyệt
-tests/guard_eval/                    test offline; external evaluator luôn được fake trong CI
-artifacts/guard-eval/                raw run local, bị gitignore và không chứa raw prose
-guard_eval/v2/                       lane tạo shadow recommendation theo component, tách khỏi v1
-eval/guard/v2/                       dev corpus v2, lock v1 và registry holdout đã quan sát
-tests/guard_eval_v2/                 contract/integration test offline cho lane v2
-artifacts/guard-eval-v2/             raw run v2 local, bị gitignore
-pyproject.toml, uv.lock               môi trường Python 3.12 khóa version cho harness
+SKILL.md                                      quy trình, V1–V25, T1–T6 và cách trả kết quả
+profiles/blog-ca-nhan/rules.md                B1–B17 cho văn bản có giọng cá nhân
+profiles/blog-ca-nhan/styles/                 bốn style card có tác giả hiện diện
+profiles/ky-thuat-doanh-nghiep/rules.md       K1–K7 và giới hạn của văn kỹ thuật, học thuật
+profiles/ky-thuat-doanh-nghiep/styles/        ba style card kỹ thuật, vận hành và học thuật
+references/han-viet-thuan-viet.md             bảng tra và điều kiện phải giữ thuật ngữ
+references/bang-tra-cuu.md                    bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
+references/bo-giai-phong-cach.md              bộ giải ngữ cảnh, precedence và registry đường dẫn
+references/typesafe-advisor.md                setup, authority, privacy và fallback của advisor
+calibration/LOG.md                            bằng chứng dùng để sửa quy tắc chung
+calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
+advisor/                                      optional TypeSafe CLI; core Markdown không phụ thuộc
+agents/openai.yaml                            tên hiển thị và lời gọi mặc định
+scripts/validate-package.py                   kiểm tra tính đồng bộ của gói
+scripts/package-skill.sh                      tạo hai artifact cài đặt
+scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
+.specify/                                     constitution, template và script của Spec Kit
+specs/                                        đặc tả, checklist, plan và task theo từng feature
+.agents/skills/                               các skill Spec Kit dùng trong Codex
+guard_eval/                                   evaluation harness cho edit guard, không thuộc gói skill
+eval/guard/                                   corpus, manifest, config, pricing và policy đã duyệt
+tests/guard_eval/                             test offline; external evaluator luôn được fake trong CI
+artifacts/guard-eval/                         raw run local, bị gitignore và không chứa raw prose
+guard_eval/v2/                                lane tạo shadow recommendation theo component
+eval/guard/v2/                                dev corpus v2, lock v1 và registry holdout đã quan sát
+tests/guard_eval_v2/                          contract/integration test offline cho lane v2
+tests/advisor/                                contract/integration test offline cho public advisor
+artifacts/guard-eval-v2/                      raw run v2 local, bị gitignore
+pyproject.toml, uv.lock                       môi trường Python 3.12 khóa version cho harness
 ```
 
 Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
 `vi-humanizer.skill`.
 
-Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card
-nằm trong `references/bo-giai-phong-cach.md`; README chỉ giữ danh sách để validator đối chiếu.
+Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card nằm
+trong thư mục `styles/` của profile tương thích; `references/bo-giai-phong-cach.md` chỉ sở hữu cách
+chọn card, thứ tự ưu tiên và registry đường dẫn.
 
 ### Evaluation harness cho edit guard
 
@@ -405,6 +437,16 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
+- **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
+  readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
+  và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude
+  Org chứa adapter nhưng không chứa secret hoặc mạo nhận capability của host. README đưa ba ví dụ
+  đã hiệu chỉnh và các đường cài trực tiếp từ artifact phát hành lên đầu trang.
+- **0.9.5** – Tổ chức hai base profile thành thư mục cha–con: `rules.md` giữ B/K pattern, còn bảy
+  style card nằm trong `styles/` của profile tương thích. Gói Claude Org nay hiển thị riêng từng
+  phong cách; resolver và bảng tra dùng chung vẫn nằm trong `references/`. Nếu prompt hoặc công cụ
+  đang đọc trực tiếp `profiles/blog-ca-nhan.md` hay `profiles/ky-thuat-doanh-nghiep.md`, hãy chuyển
+  sang file `rules.md` trong thư mục profile cùng tên.
 - **0.9.1** – Sửa cổng typography-only để các thể loại bị giới hạn có thể chạy T1–T6 mà không cần
   một lỗi V đi kèm; tách code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn, tên riêng và ví
   dụ thành vùng bảo toàn từng byte. Đồng thời cấm tự thêm thái độ, sửa ví dụ T3, đồng bộ registry

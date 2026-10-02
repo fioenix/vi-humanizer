@@ -15,7 +15,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 if [ $# -gt 0 ]; then
   FILES=("$@")
 else
-  FILES=(SKILL.md AGENTS.md README.md profiles/*.md references/*.md calibration/*.md agents/*.yaml .claude-plugin/*.json)
+  PROFILE_FILES=()
+  while IFS= read -r profile_file; do
+    PROFILE_FILES+=("$profile_file")
+  done < <(find profiles -type f -name '*.md' -print | sort)
+  FILES=(SKILL.md AGENTS.md README.md "${PROFILE_FILES[@]}" references/*.md calibration/*.md agents/*.yaml .claude-plugin/*.json)
 fi
 
 hits=0

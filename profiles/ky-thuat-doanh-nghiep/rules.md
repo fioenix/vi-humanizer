@@ -4,10 +4,10 @@
 
 Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V25 và bảy pattern riêng K1–K7.
 
-Sau khi chọn profile này, đọc đúng một card tương thích trong `references/bo-giai-phong-cach.md`:
-`huong-dan-ky-thuat`, `van-hanh-doanh-nghiep` hoặc `hoc-thuat-phan-tich`. Card giúp phân biệt tài
-liệu tra cứu, quy trình vận hành và lập luận học thuật; nó không được nới bốn giới hạn bắt buộc dưới
-đây và không biến một lựa chọn trình bày thành lỗi nhóm K.
+Sau khi chọn profile này, dùng registry `references/bo-giai-phong-cach.md` để đọc đúng một card
+tương thích trong `profiles/ky-thuat-doanh-nghiep/styles/`. Card giúp phân biệt tài liệu tra cứu,
+quy trình vận hành và lập luận học thuật; nó không được nới bốn giới hạn bắt buộc dưới đây và không
+biến một lựa chọn trình bày thành lỗi nhóm K.
 
 ---
 

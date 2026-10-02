@@ -69,6 +69,22 @@
 - Dùng Jev chọn style mỗi lượt: thêm network/secret/cost và không có holdout style.
 - Dùng code regex theo channel: channel không đủ suy ra quan hệ hoặc mục đích.
 
+## Decision 7: Profile là family, style card là resource con
+
+**Decision**: Mỗi base profile là một thư mục chứa `rules.md` và `styles/`. Resolver cùng registry
+dùng chung tiếp tục ở `references/bo-giai-phong-cach.md`.
+
+**Rationale**: Hai thư mục `profiles/` và `styles/` ngang hàng làm người cài hiểu nhầm skill chỉ có
+hai phong cách hoặc không biết card thuộc profile nào. Quan hệ cha–con làm bảy card hiện rõ trong
+gói Claude Org, đồng thời giữ ranh giới: rules quyết định có căn cứ sửa, card quyết định cách diễn đạt
+trong số những lựa chọn còn hợp lệ.
+
+**Alternatives considered**:
+
+- Ba thư mục ngang hàng: đúng về khái niệm nhưng mơ hồ trong cây cài đặt.
+- Một profile cho mỗi style: nhân đôi B/K pattern và làm lệch nguồn chuẩn.
+- Nhập reference vào từng profile: sao chép resolver và bảng tra dùng chung.
+
 ## Prior art and evidence boundary
 
 - `blader/humanizer` 3.0.0 cho writing sample quyền ưu tiên nhưng không có kiến trúc nhiều phong cách; chỉ dùng như prior art cho precedence, không copy pattern tiếng Anh.

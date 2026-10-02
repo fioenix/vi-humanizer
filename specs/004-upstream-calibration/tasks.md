@@ -57,7 +57,7 @@ description: "Task list for upstream Vietnamese calibration"
 ### Implementation for User Story 2
 
 - [x] T010 [US2] Chốt bốn placement decision và cross-reference theo 24 ca trong `specs/004-upstream-calibration/evidence/calibration-results.md`
-- [x] T011 [US2] Thêm V23 phản biện ý không có đối tượng với đủ bốn mục vào `SKILL.md`, rồi phân vai từ B5 trong `profiles/blog-ca-nhan.md`
+- [x] T011 [US2] Thêm V23 phản biện ý không có đối tượng với đủ bốn mục vào `SKILL.md`, rồi phân vai từ B5 trong `profiles/blog-ca-nhan/rules.md`
 - [x] T012 [US2] Thêm V24 chồng từ chỉ khả năng cùng chức năng với guard khác phạm vi nghĩa vào `SKILL.md`
 - [x] T013 [US2] Thêm V25 làm mơ hồ quan hệ đã có với ranh giới nguồn trong phạm vi tài liệu vào `SKILL.md`
 - [x] T014 [US2] Mở rộng B8 cho claim thuyết phục và thêm K7 cho attribution làm bằng chứng, kèm cross-reference trong hai file profile

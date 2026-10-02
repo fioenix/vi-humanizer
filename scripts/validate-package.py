@@ -16,16 +16,16 @@ ROOT = Path(__file__).resolve().parent.parent
 # Ngân sách dòng cho từng loại file. references/ không giới hạn vì là bảng tra cứu.
 LINE_BUDGETS = {
     "SKILL.md": 550,
-    "profiles/blog-ca-nhan.md": 320,
-    "profiles/ky-thuat-doanh-nghiep.md": 220,
+    "profiles/blog-ca-nhan/rules.md": 320,
+    "profiles/ky-thuat-doanh-nghiep/rules.md": 220,
 }
 
 # Tiền tố pattern và file sở hữu. Mỗi tiền tố phải đánh số liên tục từ 1.
 PATTERN_OWNERS = {
     "V": "SKILL.md",   # lỗi dùng từ và cấu trúc câu
     "T": "SKILL.md",   # typography
-    "B": "profiles/blog-ca-nhan.md",
-    "K": "profiles/ky-thuat-doanh-nghiep.md",
+    "B": "profiles/blog-ca-nhan/rules.md",
+    "K": "profiles/ky-thuat-doanh-nghiep/rules.md",
 }
 PATTERN_FIELDS = ["Dấu hiệu", "Vì sao", "Sửa", "Không flag"]
 
@@ -50,10 +50,77 @@ STYLE_CARD_FIELDS = [
     "Ca kiểm thử",
 ]
 STYLE_PROFILE_CARDS = {
-    "profiles/blog-ca-nhan.md": STYLE_CARDS[:4],
-    "profiles/ky-thuat-doanh-nghiep.md": STYLE_CARDS[4:],
+    "profiles/blog-ca-nhan/rules.md": {
+        card_id: f"profiles/blog-ca-nhan/styles/{card_id}.md"
+        for card_id in STYLE_CARDS[:4]
+    },
+    "profiles/ky-thuat-doanh-nghiep/rules.md": {
+        card_id: f"profiles/ky-thuat-doanh-nghiep/styles/{card_id}.md"
+        for card_id in STYLE_CARDS[4:]
+    },
 }
-PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration"}
+EXPECTED_PROFILE_FILES = {
+    PurePosixPath(profile_path).relative_to("profiles").as_posix()
+    for profile_path in STYLE_PROFILE_CARDS
+} | {
+    PurePosixPath(card_path).relative_to("profiles").as_posix()
+    for cards in STYLE_PROFILE_CARDS.values()
+    for card_path in cards.values()
+}
+EXPECTED_PROFILE_DIRECTORIES = {
+    PurePosixPath(relative).parent.as_posix()
+    for relative in EXPECTED_PROFILE_FILES
+} | {
+    PurePosixPath(relative).parent.parent.as_posix()
+    for relative in EXPECTED_PROFILE_FILES
+    if PurePosixPath(relative).parent.name == "styles"
+}
+PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration", "advisor"}
+ADVISOR_FILES = {
+    "advisor/__init__.py",
+    "advisor/__main__.py",
+    "advisor/cli.py",
+    "advisor/client.py",
+    "advisor/models.py",
+    "advisor/questions.py",
+}
+REFERENCE_FILES = {
+    "references/bang-tra-cuu.md",
+    "references/bo-giai-phong-cach.md",
+    "references/han-viet-thuan-viet.md",
+    "references/typesafe-advisor.md",
+}
+CALIBRATION_FILES = {
+    "calibration/LOG.md",
+    "calibration/ca-kiem-thu.md",
+}
+EXACT_DIRECTORY_FILES = {
+    "references": REFERENCE_FILES,
+    "calibration": CALIBRATION_FILES,
+}
+FORBIDDEN_PAYLOAD_PATTERNS = (
+    (
+        "credential",
+        re.compile(rb"\bgh[pousr]_[A-Za-z0-9]{20,}\b"),
+    ),
+    (
+        "credential",
+        re.compile(rb"\bsk-[A-Za-z0-9_-]{20,}\b"),
+    ),
+    (
+        "credential",
+        re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+    ),
+    (
+        "machine path",
+        re.compile(rb"/(?:Users|home)/[^/\s]+/"),
+    ),
+    (
+        "machine path",
+        re.compile(rb"\b[A-Za-z]:\\Users\\[^\\\s]+\\", re.IGNORECASE),
+    ),
+)
+PACKAGE_COPY_SOURCES = (PACKAGE_PAYLOAD - {"advisor"}) | ADVISOR_FILES
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 
 errors: list[str] = []
@@ -61,6 +128,10 @@ errors: list[str] = []
 
 def fail(message: str) -> None:
     errors.append(message)
+
+
+def ignored_generated_entry(path: Path) -> bool:
+    return path.name == ".DS_Store" or "__pycache__" in path.parts or path.suffix == ".pyc"
 
 
 def validate_payload_tree(root: Path) -> None:
@@ -116,6 +187,113 @@ def validate_payload_tree(root: Path) -> None:
         expected_kind = "file" if relative == "SKILL.md" else "directory"
         validate_entry(path, expected_kind)
 
+    for directory_name, expected_files in EXACT_DIRECTORY_FILES.items():
+        directory_root = root / directory_name
+        if not directory_root.is_dir() or directory_root.is_symlink():
+            continue
+        entries = [
+            entry
+            for entry in directory_root.rglob("*")
+            if not ignored_generated_entry(entry)
+        ]
+        actual_files = {
+            entry.relative_to(root).as_posix()
+            for entry in entries
+            if entry.is_file() and not entry.is_symlink()
+        }
+        actual_directories = {
+            entry.relative_to(root).as_posix()
+            for entry in entries
+            if entry.is_dir() and not entry.is_symlink()
+        }
+        missing_files = sorted(expected_files - actual_files)
+        extra_files = sorted(actual_files - expected_files)
+        if missing_files:
+            fail(f"{directory_name} thiếu file canonical: {missing_files}")
+        if extra_files:
+            fail(f"{directory_name} chứa file ngoài inventory canonical: {extra_files}")
+        if actual_directories:
+            fail(
+                f"{directory_name} chứa thư mục ngoài inventory canonical: "
+                f"{sorted(actual_directories)}"
+            )
+
+    profiles_root = root / "profiles"
+    if not profiles_root.is_dir() or profiles_root.is_symlink():
+        return
+    profile_entries = [
+        entry
+        for entry in profiles_root.rglob("*")
+        if entry.name != ".DS_Store"
+    ]
+    actual_files = {
+        entry.relative_to(profiles_root).as_posix()
+        for entry in profile_entries
+        if not entry.is_dir()
+    }
+    actual_directories = {
+        entry.relative_to(profiles_root).as_posix()
+        for entry in profile_entries
+        if entry.is_dir()
+    }
+    missing_files = sorted(EXPECTED_PROFILE_FILES - actual_files)
+    extra_files = sorted(actual_files - EXPECTED_PROFILE_FILES)
+    missing_directories = sorted(EXPECTED_PROFILE_DIRECTORIES - actual_directories)
+    extra_directories = sorted(actual_directories - EXPECTED_PROFILE_DIRECTORIES)
+    if missing_files:
+        fail(f"Profiles thiếu file canonical: {missing_files}")
+    if extra_files:
+        fail(f"Profiles chứa file ngoài inventory canonical: {extra_files}")
+    if missing_directories:
+        fail(f"Profiles thiếu thư mục canonical: {missing_directories}")
+    if extra_directories:
+        fail(f"Profiles chứa thư mục ngoài inventory canonical: {extra_directories}")
+
+    advisor_root = root / "advisor"
+    if not advisor_root.is_dir() or advisor_root.is_symlink():
+        return
+    actual_advisor_files = {
+        entry.relative_to(root).as_posix()
+        for entry in advisor_root.rglob("*")
+        if entry.is_file() and not entry.is_symlink() and not ignored_generated_entry(entry)
+    }
+    actual_advisor_directories = {
+        entry.relative_to(root).as_posix()
+        for entry in advisor_root.rglob("*")
+        if entry.is_dir() and not ignored_generated_entry(entry)
+    }
+    if actual_advisor_files != ADVISOR_FILES:
+        fail(
+            "Advisor runtime phải khớp exact inventory: "
+            f"mong đợi {sorted(ADVISOR_FILES)}, đang là {sorted(actual_advisor_files)}"
+        )
+    if actual_advisor_directories:
+        fail(f"Advisor runtime chứa thư mục ngoài inventory: {sorted(actual_advisor_directories)}")
+
+    for relative in sorted(PACKAGE_PAYLOAD):
+        path = root / relative
+        entries = [path]
+        if path.is_dir() and not path.is_symlink():
+            entries.extend(sorted(path.rglob("*")))
+        for entry in entries:
+            if (
+                ignored_generated_entry(entry)
+                or entry.is_symlink()
+                or not entry.is_file()
+            ):
+                continue
+            try:
+                content = entry.read_bytes()
+            except OSError as error:
+                fail(f"Không đọc được nội dung payload {entry.relative_to(root)}: {error}")
+                continue
+            for label, pattern in FORBIDDEN_PAYLOAD_PATTERNS:
+                if pattern.search(content):
+                    fail(
+                        f"Payload chứa {label} trong "
+                        f"{entry.relative_to(root).as_posix()}"
+                    )
+
 
 def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
     inventory: dict[str, Path | None] = {}
@@ -127,7 +305,7 @@ def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> 
         if path.is_dir():
             entries.extend(sorted(path.rglob("*")))
         for entry in entries:
-            if entry.name == ".DS_Store":
+            if ignored_generated_entry(entry):
                 continue
             archive_name = entry.relative_to(root).as_posix()
             if archive_root:
@@ -336,22 +514,32 @@ if extra:
 
 # --- Registry phong cách -------------------------------------------------
 
-blog_profile = read("profiles/blog-ca-nhan.md")
-technical_profile = read("profiles/ky-thuat-doanh-nghiep.md")
+blog_profile = read("profiles/blog-ca-nhan/rules.md")
+technical_profile = read("profiles/ky-thuat-doanh-nghiep/rules.md")
 style_registry = read(STYLE_REGISTRY)
-style_cards = re.findall(r"(?m)^### `([a-z0-9]+(?:-[a-z0-9]+)*)`: ", style_registry)
-if style_cards != STYLE_CARDS:
-    fail(f"Style card phải đúng thứ tự canonical {STYLE_CARDS}, đang là {style_cards}")
-for index, card_id in enumerate(style_cards):
-    start = style_registry.index(f"### `{card_id}`: ")
-    if index + 1 < len(style_cards):
-        end = style_registry.index(f"### `{style_cards[index + 1]}`: ")
-        block = style_registry[start:end]
-    else:
-        block = style_registry[start:]
-    missing_fields = [field for field in STYLE_CARD_FIELDS if f"- **{field}:**" not in block]
+registry_rows = re.findall(
+    r"(?m)^\| `([a-z0-9]+(?:-[a-z0-9]+)*)` \| `([a-z0-9]+(?:-[a-z0-9]+)*)` \| `(profiles/.+/styles/.+\.md)` \|$",
+    style_registry,
+)
+expected_registry_rows = [
+    (card_id, PurePosixPath(profile_path).parent.name, card_path)
+    for profile_path, cards in STYLE_PROFILE_CARDS.items()
+    for card_id, card_path in cards.items()
+]
+if registry_rows != expected_registry_rows:
+    fail(
+        "Style registry phải khớp exact card/profile/path canonical: "
+        f"mong đợi {expected_registry_rows}, đang là {registry_rows}"
+    )
+for card_id, _profile_id, card_path in expected_registry_rows:
+    card = read(card_path)
+    if not re.search(rf"(?m)^# `{re.escape(card_id)}`: ", card):
+        fail(f"Style card `{card_id}` thiếu heading canonical trong {card_path}")
+    missing_fields = [field for field in STYLE_CARD_FIELDS if f"- **{field}:**" not in card]
     if missing_fields:
         fail(f"Style card `{card_id}` thiếu field: {missing_fields}")
+    if f"`{card_path}`" not in skill:
+        fail(f"SKILL.md chưa trỏ tới style card `{card_path}`")
 if f"`{STYLE_REGISTRY}`" not in skill:
     fail(f"SKILL.md chưa trỏ tới `{STYLE_REGISTRY}`")
 if f"`{STYLE_REGISTRY}`" not in readme:
@@ -382,13 +570,10 @@ if "K7" not in pattern_block(blog_profile, "B8"):
     fail("B8 phải phân vai với K7")
 if "B8" not in pattern_block(technical_profile, "K7"):
     fail("K7 phải phân vai với B8")
-for profile_path, card_ids in STYLE_PROFILE_CARDS.items():
+for profile_path in STYLE_PROFILE_CARDS:
     profile = read(profile_path)
     if f"`{STYLE_REGISTRY}`" not in profile:
         fail(f"{profile_path} chưa trỏ tới `{STYLE_REGISTRY}`")
-    for card_id in card_ids:
-        if f"`{card_id}`" not in profile:
-            fail(f"{profile_path} thiếu style card tương thích `{card_id}`")
 
 # --- Package payload ----------------------------------------------------
 
@@ -398,10 +583,10 @@ for line in package_script.splitlines():
     if not re.match(r"^cp(?:\s|$)", line):
         continue
     copied_payload.update(re.findall(r'\$ROOT/([A-Za-z0-9._/-]+)', line))
-if copied_payload != PACKAGE_PAYLOAD:
+if copied_payload != PACKAGE_COPY_SOURCES:
     fail(
         "package-skill.sh phải chỉ chép public payload "
-        f"{sorted(PACKAGE_PAYLOAD)}, đang là {sorted(copied_payload)}"
+        f"{sorted(PACKAGE_COPY_SOURCES)}, đang là {sorted(copied_payload)}"
     )
 
 # --- Ngân sách dòng ------------------------------------------------------
@@ -416,7 +601,7 @@ for relative, budget in LINE_BUDGETS.items():
 
 # --- Mọi file được SKILL.md trỏ tới đều phải tồn tại ---------------------
 
-for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w.-]+)`", skill))):
+for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w./-]+)`", skill))):
     if not (ROOT / target).exists():
         fail(f"SKILL.md trỏ tới file không tồn tại: {target}")
 

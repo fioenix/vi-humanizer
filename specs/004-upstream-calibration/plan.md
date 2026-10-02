@@ -75,8 +75,8 @@ specs/004-upstream-calibration/
 
 ```text
 SKILL.md                              V23–V25 và version
-profiles/blog-ca-nhan.md              mở rộng B8, phân vai K7
-profiles/ky-thuat-doanh-nghiep.md     K7, phân vai B8
+profiles/blog-ca-nhan/rules.md                mở rộng B8, phân vai K7
+profiles/ky-thuat-doanh-nghiep/rules.md       K7, phân vai B8
 calibration/LOG.md                    bằng chứng trước khi sửa rule
 calibration/ca-kiem-thu.md            24 ca dương/âm
 README.md                             inventory, nguồn, changelog

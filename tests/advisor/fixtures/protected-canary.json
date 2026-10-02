@@ -1,0 +1,20 @@
+{
+  "case_id": "v20_case_01",
+  "candidates": {
+    "candidate_1": {
+      "text": "Câu này đọc lên thấy hụt hẫng."
+    }
+  },
+  "context": {
+    "after": "",
+    "before": ""
+  },
+  "current_intent": "Giữ giọng nhận xét trực tiếp.",
+  "genre": "blog-ca-nhan",
+  "protected_region": "PRIVATE-CANARY-005-DO-NOT-ECHO",
+  "schema_version": "1.0.0",
+  "source": {
+    "pattern": "V20",
+    "text": "Câu này đọc lên thấy hụt."
+  }
+}
