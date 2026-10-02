@@ -1,31 +1,30 @@
 # vi-humanizer
 
-Các AI agents hiện tại có thể viết những đoạn tiếng Việt trôi chảy và đúng ngữ pháp. Tuy vậy, văn phong của chúng vẫn thường có những chỗ người Việt Nam hiếm khi mắc phải: câu giữ nguyên khung tiếng Anh, hư từ hoặc loại từ bị bỏ sót, thuật ngữ quen thuộc bị dịch thành một cách gọi xa lạ, giọng văn thay đổi giữa các đoạn, còn phần mở đầu và kết luận thì đầy những câu sáo rỗng. Từng lỗi riêng lẻ rất nhỏ, nhưng khi xuất hiện cùng nhau, chúng khiến văn bản trở nên khô cứng, thiếu tự nhiên hoặc không đúng với giọng văn của người thật.
+> **Sửa tiếng Việt tự nhiên hơn, giữ nguyên ý và giọng người viết.**
 
-Một yêu cầu chung chung như “viết lại cho tự nhiên hơn” thường không giải quyết được vấn đề này. AI có thể thay cả câu, hạ giọng văn hoặc thêm chi tiết để bản mới nghe mượt hơn, nhưng đồng thời làm lệch ý và mất giọng của tác giả. `vi-humanizer` được tạo ra để biên tập theo một nguyên tắc khác: xác định thể loại và người đọc trước, gọi tên từng lỗi cần sửa, rồi chỉ thay phần thực sự có vấn đề. Blog vẫn được giữ cá tính; README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
+`vi-humanizer` là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
+loại cùng người đọc trước, gọi tên lỗi rồi chỉ sửa phần thực sự có vấn đề. Blog vẫn giữ cá tính;
+README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
 
-Bạn có thể dùng skill này để rà một bản nháp do AI tạo, chỉnh tài liệu dịch từ tiếng Anh, sửa nội dung do người viết song ngữ soạn hoặc kiểm tra lại một bài tiếng Việt đang đọc chưa thuận miệng. Chẳng hạn, câu *“Đã thử ba cách mà vẫn không giải quyết vấn đề”* có thể thiếu chữ *được*. Nếu ý là đã thử nhưng chưa thành công thì câu văn đúng là *“vẫn không giải quyết **được** vấn đề”*. Trong trường hợp này, chữ *được* cho biết người viết đã thử nhưng chưa đạt kết quả.
+Skill dùng được cho bản nháp do AI tạo, bản dịch sát tiếng Anh, nội dung do người viết song ngữ soạn
+hoặc bất kỳ đoạn tiếng Việt nào đọc chưa thuận miệng. Đây không phải công cụ phát hiện AI và không
+dùng lỗi ngôn ngữ để đoán tác giả.
 
-`vi-humanizer` không phải công cụ phát hiện AI. Những lỗi trên cũng xuất hiện trong bản dịch và văn bản do người thật viết, còn LLM vẫn có thể tạo ra một câu hoàn toàn tự nhiên. Mục tiêu của skill là làm cho văn bản đúng nghĩa, đúng thể loại và vẫn giữ được giọng riêng của người viết, không phải đoán xem là con người hay AI đã tạo ra nó.
+## Ba ví dụ đã được hiệu chỉnh
 
-## Phạm vi
+| Mục tiêu | Trước | Sau khi biên tập |
+|---|---|---|
+| Hoàn chỉnh ý | *Đã thử ba cách mà vẫn không giải quyết vấn đề.* | *Đã thử ba cách mà vẫn không giải quyết **được** vấn đề.* |
+| Khôi phục từ bị thiếu | *Câu này đúng ngữ pháp nhưng đọc lên thấy hụt.* | *Câu này đúng ngữ pháp nhưng đọc lên thấy **hụt hẫng**.* |
+| Giữ đúng giọng công việc | *Đội kỹ thuật đã triển khai hệ thống quản lý kho mới để vận hành gọn hơn.* | *Nhằm mục đích nâng cao hiệu quả vận hành kho, **team dev** đã triển khai hệ thống quản lý kho mới.* |
 
-Skill xử lý ba lớp:
+Các cặp trên lấy từ [nhật ký hiệu chuẩn](calibration/LOG.md) và những ví dụ đã khóa trong
+`SKILL.md`. Đây không phải bảng tìm–thay cố định: skill chỉ sửa khi ngữ cảnh, thể loại và mẫu giọng
+cho thấy bản gốc thật sự có vấn đề.
 
-- V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
-- B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
-- T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
-  V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
+## Cài nhanh
 
-Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
-
-Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
-
-## Cài đặt
-
-### Skills CLI
-
-Cài toàn cục:
+### Codex và các agent dùng Skills CLI
 
 ```bash
 npx skills add fioenix/vi-humanizer --global
@@ -58,24 +57,28 @@ Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn
 
 Sau khi cài, gọi skill bằng `/vi-humanizer:vi-humanizer`.
 
-### Claude Desktop và claude.ai
+### Claude và Claude Desktop
 
-Tạo file `.skill` bằng lệnh:
+[Tải `vi-humanizer.skill` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer.skill),
+mở **Customize → Skills → + Create skill → Upload a skill**, chọn file vừa tải rồi bật skill.
+Claude cần bật **Code execution and file creation** để dùng custom skill. Xem thêm
+[hướng dẫn chính thức của Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+
+### Claude Org
+
+[Tải `vi-humanizer-claude-org.zip` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer-claude-org.zip),
+mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn file ZIP. Gói này
+đặt `SKILL.md` ở thư mục gốc và chỉ chứa các file cần khi skill chạy.
+
+### Đóng gói từ source
+
+Người bảo trì repo có thể tự tạo lại cả hai artifact:
 
 ```bash
 ./scripts/package-skill.sh
 ```
 
-Kết quả nằm ở `dist/vi-humanizer.skill`. Gói gồm `SKILL.md`, `profiles/`, `references/` và `calibration/`; các file dành cho người bảo trì repo không được đưa vào gói.
-
-### Claude Org
-
-Cùng lệnh đóng gói ở trên tạo thêm `dist/vi-humanizer-claude-org.zip`. ZIP này đặt `SKILL.md`
-ở thư mục gốc và chỉ chứa các file cần khi skill chạy.
-
-Trong Claude, mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn
-`vi-humanizer-claude-org.zip`. Cách này không cần marketplace repository riêng và không phụ thuộc
-repo `vi-humanizer` là public hay private.
+Kết quả nằm ở `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`.
 
 ### Cài thủ công
 
@@ -85,6 +88,34 @@ thư mục skill của agent:
 ```bash
 git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
 ```
+
+## Dùng ngay
+
+```text
+/vi-humanizer
+
+[văn bản cần biên tập]
+```
+
+Khi cần sửa file, nêu rõ phạm vi:
+
+```text
+Dùng vi-humanizer để sửa phần văn xuôi trong docs/bai-viet.md.
+Giữ nguyên code, bảng tham số và các trích dẫn.
+```
+
+## Phạm vi
+
+Skill xử lý ba lớp:
+
+- V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
+- B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
+- T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
+  V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
+
+Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
+
+Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
 
 ### TypeSafe/Jev là lớp tăng cường tùy chọn
 
@@ -110,20 +141,7 @@ nếu môi trường Org không cho chạy Python, gọi mạng hoặc inject se
 Riêng evaluation harness live mới cần dependency tùy chọn qua `uv sync --locked --group eval`;
 validator và test offline không gọi TypeSafe.
 
-## Cách dùng
-
-```text
-/vi-humanizer
-
-[văn bản cần biên tập]
-```
-
-Khi cần sửa file, nêu rõ phạm vi:
-
-```text
-Dùng vi-humanizer để sửa phần văn xuôi trong docs/bai-viet.md.
-Giữ nguyên code, bảng tham số và các trích dẫn.
-```
+## Giữ giọng và chọn phong cách
 
 ### Giữ giọng của một người cụ thể
 
