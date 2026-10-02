@@ -223,6 +223,64 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("ban-nhap-noi-bo.md", result.stderr)
 
+    def test_validator_rejects_extra_reference_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            extra_reference = repo / "references" / "ghi-chu-rieng.md"
+            extra_reference.write_text(
+                "Không được đi vào public payload.\n",
+                encoding="utf-8",
+            )
+
+            result = self.run_packager(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("ghi-chu-rieng.md", result.stderr)
+
+    def test_validator_rejects_extra_calibration_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            extra_calibration = repo / "calibration" / "raw-user-prose.md"
+            extra_calibration.write_text(
+                "Không được đi vào public payload.\n",
+                encoding="utf-8",
+            )
+
+            result = self.run_packager(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("raw-user-prose.md", result.stderr)
+
+    def test_validator_rejects_credential_shaped_payload_content(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            canary = "ghp_" + "A" * 32
+            log_path = repo / "calibration" / "LOG.md"
+            with log_path.open("a", encoding="utf-8") as log:
+                log.write(f"\n{canary}\n")
+
+            result = self.run_packager(repo)
+
+            output = result.stdout + result.stderr
+            self.assertNotEqual(result.returncode, 0, output)
+            self.assertIn("credential", output.lower())
+            self.assertNotIn(canary, output)
+
+    def test_validator_rejects_machine_path_in_payload_content(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            private_path = "/" + "Users" + "/private-account/project"
+            log_path = repo / "calibration" / "LOG.md"
+            with log_path.open("a", encoding="utf-8") as log:
+                log.write(f"\n{private_path}\n")
+
+            result = self.run_packager(repo)
+
+            output = result.stdout + result.stderr
+            self.assertNotEqual(result.returncode, 0, output)
+            self.assertIn("machine path", output.lower())
+            self.assertNotIn(private_path, output)
+
     def test_packager_rejects_style_card_under_incompatible_profile(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             repo = self.copy_package_fixture(Path(temporary_directory))

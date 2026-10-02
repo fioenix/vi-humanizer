@@ -84,6 +84,42 @@ ADVISOR_FILES = {
     "advisor/models.py",
     "advisor/questions.py",
 }
+REFERENCE_FILES = {
+    "references/bang-tra-cuu.md",
+    "references/bo-giai-phong-cach.md",
+    "references/han-viet-thuan-viet.md",
+    "references/typesafe-advisor.md",
+}
+CALIBRATION_FILES = {
+    "calibration/LOG.md",
+    "calibration/ca-kiem-thu.md",
+}
+EXACT_DIRECTORY_FILES = {
+    "references": REFERENCE_FILES,
+    "calibration": CALIBRATION_FILES,
+}
+FORBIDDEN_PAYLOAD_PATTERNS = (
+    (
+        "credential",
+        re.compile(rb"\bgh[pousr]_[A-Za-z0-9]{20,}\b"),
+    ),
+    (
+        "credential",
+        re.compile(rb"\bsk-[A-Za-z0-9_-]{20,}\b"),
+    ),
+    (
+        "credential",
+        re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+    ),
+    (
+        "machine path",
+        re.compile(rb"/(?:Users|home)/[^/\s]+/"),
+    ),
+    (
+        "machine path",
+        re.compile(rb"\b[A-Za-z]:\\Users\\[^\\\s]+\\", re.IGNORECASE),
+    ),
+)
 PACKAGE_COPY_SOURCES = (PACKAGE_PAYLOAD - {"advisor"}) | ADVISOR_FILES
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 
@@ -151,6 +187,37 @@ def validate_payload_tree(root: Path) -> None:
         expected_kind = "file" if relative == "SKILL.md" else "directory"
         validate_entry(path, expected_kind)
 
+    for directory_name, expected_files in EXACT_DIRECTORY_FILES.items():
+        directory_root = root / directory_name
+        if not directory_root.is_dir() or directory_root.is_symlink():
+            continue
+        entries = [
+            entry
+            for entry in directory_root.rglob("*")
+            if not ignored_generated_entry(entry)
+        ]
+        actual_files = {
+            entry.relative_to(root).as_posix()
+            for entry in entries
+            if entry.is_file() and not entry.is_symlink()
+        }
+        actual_directories = {
+            entry.relative_to(root).as_posix()
+            for entry in entries
+            if entry.is_dir() and not entry.is_symlink()
+        }
+        missing_files = sorted(expected_files - actual_files)
+        extra_files = sorted(actual_files - expected_files)
+        if missing_files:
+            fail(f"{directory_name} thiếu file canonical: {missing_files}")
+        if extra_files:
+            fail(f"{directory_name} chứa file ngoài inventory canonical: {extra_files}")
+        if actual_directories:
+            fail(
+                f"{directory_name} chứa thư mục ngoài inventory canonical: "
+                f"{sorted(actual_directories)}"
+            )
+
     profiles_root = root / "profiles"
     if not profiles_root.is_dir() or profiles_root.is_symlink():
         return
@@ -202,6 +269,30 @@ def validate_payload_tree(root: Path) -> None:
         )
     if actual_advisor_directories:
         fail(f"Advisor runtime chứa thư mục ngoài inventory: {sorted(actual_advisor_directories)}")
+
+    for relative in sorted(PACKAGE_PAYLOAD):
+        path = root / relative
+        entries = [path]
+        if path.is_dir() and not path.is_symlink():
+            entries.extend(sorted(path.rglob("*")))
+        for entry in entries:
+            if (
+                ignored_generated_entry(entry)
+                or entry.is_symlink()
+                or not entry.is_file()
+            ):
+                continue
+            try:
+                content = entry.read_bytes()
+            except OSError as error:
+                fail(f"Không đọc được nội dung payload {entry.relative_to(root)}: {error}")
+                continue
+            for label, pattern in FORBIDDEN_PAYLOAD_PATTERNS:
+                if pattern.search(content):
+                    fail(
+                        f"Payload chứa {label} trong "
+                        f"{entry.relative_to(root).as_posix()}"
+                    )
 
 
 def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
