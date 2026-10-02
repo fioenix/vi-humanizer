@@ -440,7 +440,8 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 - **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
   readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
   và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude
-  Org chứa adapter nhưng không chứa secret hoặc mạo nhận capability của host.
+  Org chứa adapter nhưng không chứa secret hoặc mạo nhận capability của host. README đưa ba ví dụ
+  đã hiệu chỉnh và các đường cài trực tiếp từ artifact phát hành lên đầu trang.
 - **0.9.5** – Tổ chức hai base profile thành thư mục cha–con: `rules.md` giữ B/K pattern, còn bảy
   style card nằm trong `styles/` của profile tương thích. Gói Claude Org nay hiển thị riêng từng
   phong cách; resolver và bảng tra dùng chung vẫn nằm trong `references/`. Nếu prompt hoặc công cụ
