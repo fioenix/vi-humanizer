@@ -44,6 +44,10 @@ không phải fixture kiểm thử. Không bật live advisor chỉ để kiểm
 
 Icon là chữ `ă` vẽ bằng hình học SVG, không phụ thuộc font hoặc ảnh bên ngoài. Bản sáng/tối có
 viewBox vuông 128×128; wordmark dùng cho README/giới thiệu, không thay icon listing vuông.
+Màu dùng các token FINOLABS đã duyệt: `fn-mint` (`#7FE2CE`), `ink-900` (`#0B0B17`),
+`fn-mint-ink` (`#156B58`), `ink-50` (`#F7F7FB`) và `ink-500` (`#5B5B79`). Icon sáng dùng
+ink trên nền mint; icon tối đảo cặp màu. Metadata dùng mint làm màu thương hiệu. SVG/JSON/YAML
+chứa giá trị token được xuất cố định để gói cài không phụ thuộc CSS hoặc repo FINOLABS bên ngoài.
 Metadata Codex có logo, composer icon, màu và starter prompts; metadata Claude có icon cùng
 đường dẫn tài liệu, hỗ trợ, quyền riêng tư và điều kiện sử dụng. Các URL `main` chỉ có nội dung
 public sau khi thay đổi tương ứng đã merge.
