@@ -19,7 +19,7 @@ class DistributionTest(unittest.TestCase):
         repo.mkdir()
         for relative in (
             "SKILL.md", "LICENSE", "README.md", "profiles", "references", "calibration",
-            "advisor", "agents", "assets", "scripts", ".claude-plugin", ".codex-plugin",
+            "agents", "assets", "scripts", ".claude-plugin", ".codex-plugin",
             ".agents/plugins", ".plugin-skills", ".gitignore",
         ):
             source = ROOT / relative
@@ -72,6 +72,24 @@ class DistributionTest(unittest.TestCase):
                     self.assertEqual(archive.read(f"assets/{asset}"), (repo / "assets" / asset).read_bytes())
                     self.assertEqual(archive.read(f"skills/vietnamizer/assets/{asset}"), (repo / "assets" / asset).read_bytes())
 
+    def test_packaged_brand_colors_meet_marketplace_contrast(self) -> None:
+        def luminance(color: str) -> float:
+            channels = [int(color[index:index + 2], 16) / 255 for index in (1, 3, 5)]
+            linear = [value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels]
+            return sum(value * weight for value, weight in zip(linear, (0.2126, 0.7152, 0.0722)))
+
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.fixture(Path(temporary))
+            result = self.package(repo)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            with zipfile.ZipFile(repo / "dist/vietnamizer-plugin.zip") as archive:
+                interface = json.loads(archive.read(".codex-plugin/plugin.json"))["interface"]
+            for field, background in (("brandColor", "#FFFFFF"), ("brandColorDark", "#212121")):
+                with self.subTest(field=field):
+                    foreground, base = luminance(interface[field]), luminance(background)
+                    contrast = (max(foreground, base) + 0.05) / (min(foreground, base) + 0.05)
+                    self.assertGreaterEqual(contrast, 2.0)
+
     def test_plugin_archive_loads_one_canonical_skill_without_maintainer_tooling(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             repo = self.fixture(Path(temporary))
@@ -87,6 +105,7 @@ class DistributionTest(unittest.TestCase):
                     self.assertEqual(manifest["name"], "vietnamizer")
                 self.assertEqual(archive.read("LICENSE"), (repo / "LICENSE").read_bytes())
                 self.assertFalse(any(name.startswith((".agents/", ".specify/", "specs/", "tests/", "output/")) for name in names))
+                self.assertFalse(any("/advisor/" in name for name in names))
 
     def test_plugin_package_rejects_missing_asset_before_replacing_good_archive(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

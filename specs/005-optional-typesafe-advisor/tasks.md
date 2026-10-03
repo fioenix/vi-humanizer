@@ -5,6 +5,10 @@ description: "Nhiệm vụ triển khai cố vấn TypeSafe tùy chọn"
 
 # Tasks: Cố vấn TypeSafe tùy chọn
 
+> Retired on 2026-10-03: the TypeSafe implementation and its tests were removed from the repo.
+> This is a historical record, not a current task list or runnable guide. See
+> `specs/005-optional-typesafe-advisor/spec.md` for the superseding owner decision.
+
 **Input**: Design documents from `/specs/005-optional-typesafe-advisor/`
 
 **Prerequisites**: `plan.md`, `spec.md`, `research.md`, `data-model.md`, `contracts/advisor-cli.md`, `quickstart.md`

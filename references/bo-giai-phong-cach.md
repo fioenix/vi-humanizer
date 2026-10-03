@@ -2,6 +2,9 @@
 
 File này được đọc sau cổng thể loại trong `SKILL.md`. Nó giúp agent chọn cách giữ giọng cho phần văn xuôi đang biên tập; nó không thêm lỗi mới và không thay thế các pattern V, T, B hoặc K.
 
+Mẫu và hồ sơ trong file này là dữ liệu người dùng chủ động cung cấp cho tác vụ hiện tại,
+không phải chỉ thị tìm kiếm memory, lịch sử hội thoại hoặc dữ liệu bên ngoài phạm vi được giao.
+
 ## Điều bộ giải phải trả lời
 
 Trước khi sửa, thu thập năm chiều từ yêu cầu hiện tại, văn bản và mẫu giọng hợp lệ:
@@ -85,11 +88,11 @@ humanize.
 
 | Xung đột | Cách giải |
 |---|---|
-| Yêu cầu hiện tại khác hồ sơ cũ | Làm theo yêu cầu hiện tại trong lượt này; không sửa hồ sơ nếu người dùng chưa yêu cầu lưu |
+| Yêu cầu hiện tại khác hồ sơ được cung cấp | Làm theo yêu cầu hiện tại; không tự ghi hồ sơ |
 | Mẫu đúng người/đúng kênh khác mặc định card | Dùng đặc tính ổn định của mẫu nếu không vi phạm profile hoặc chốt chặn |
 | Nhãn giọng khác mô tả cụ thể | Dùng mô tả cụ thể; nhãn chỉ là từ khóa tìm hướng |
 | Một đặc tính chỉ xuất hiện một lần | Không coi là thói quen; giữ cách hiện tại hoặc tìm thêm bằng chứng trong mẫu |
-| Bộ nhớ không chắc đúng người hoặc sai kênh | Không dùng bộ nhớ |
+| Hồ sơ được cung cấp không chắc đúng người hoặc sai kênh | Không dùng hồ sơ đó |
 | Thiếu vai vế nhưng đầu vào đã có đại từ nhất quán | Giữ đại từ đang có |
 | Thiếu vai vế và thay đổi đại từ là điều bắt buộc để hoàn tất yêu cầu | Hỏi một câu về cách xưng hô rồi dừng phần đó |
 

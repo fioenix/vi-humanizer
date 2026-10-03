@@ -4,7 +4,11 @@
 
 **Created**: 2026-09-26
 
-**Status**: Approved
+**Status**: Retired implementation (owner decision 2026-10-03); historical evidence retained
+
+The TypeSafe-dependent harness and its tests were removed in unreleased v0.9.7.
+This specification records the former experiment, not current implementation requirements.
+See `specs/005-optional-typesafe-advisor/spec.md` for the superseding owner decision.
 
 **Input**: Xây corpus có nhãn ở cấp edit, một runner chạy bằng một lệnh và một phép thử
 shadow cho quyết định biên tập của vi-humanizer. Harness phải đo cả việc source có cần sửa theo

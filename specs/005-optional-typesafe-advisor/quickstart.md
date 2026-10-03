@@ -1,5 +1,9 @@
 # Quickstart: Xác minh Feature 005
 
+> Retired on 2026-10-03: the TypeSafe implementation and its tests were removed from the repo.
+> This is a historical record, not a current task list or runnable guide. See
+> `specs/005-optional-typesafe-advisor/spec.md` for the superseding owner decision.
+
 Các lệnh dưới đây là validation contract sau implementation. Chúng không tự cài dependency, không
 in key và không dùng quota trừ phần **Live probe**.
 

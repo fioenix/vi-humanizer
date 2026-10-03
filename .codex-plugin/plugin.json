@@ -23,8 +23,10 @@
       "Rà phần văn xuôi trong README; giữ nguyên code, lệnh và thuật ngữ.",
       "Sửa bản dịch sát tiếng Anh này thành tiếng Việt tự nhiên."
     ],
-    "brandColor": "#7FE2CE",
+    "brandColor": "#9750C4",
+    "brandColorDark": "#7FE2CE",
     "composerIcon": "./assets/icon.svg",
+    "composerIconDark": "./assets/icon-dark.svg",
     "logo": "./assets/icon.svg",
     "logoDark": "./assets/icon-dark.svg"
   }

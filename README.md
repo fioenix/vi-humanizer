@@ -1,9 +1,7 @@
 # Vietnamizer
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.svg">
-  <img src="assets/wordmark.svg" alt="Vietnamizer — Giúp AI viết tiếng Việt giống con người hơn." width="640" height="144">
-</picture>
+![Vietnamizer — Giúp AI viết tiếng Việt giống con người hơn.](assets/wordmark.svg#gh-light-mode-only)
+![Vietnamizer — Giúp AI viết tiếng Việt giống con người hơn.](assets/wordmark-dark.svg#gh-dark-mode-only)
 
 > **Giúp AI viết tiếng Việt giống con người hơn.**
 
@@ -118,7 +116,7 @@ Kết quả là `dist/vietnamizer-plugin.zip`, có hai manifest và một skill 
 
 ### Cài thủ công
 
-Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/`, `assets/` và optional runtime `advisor/` vào
+Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/` và `assets/` vào
 thư mục skill của agent:
 
 ```bash
@@ -149,33 +147,28 @@ Skill xử lý ba lớp:
 - T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
   V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
 
-Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và kiểm tra mẫu văn hoặc hồ sơ cá nhân của đúng người dùng nếu nền tảng cung cấp memory hay knowledge base.
+Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và dùng mẫu văn hoặc hồ sơ phong cách
+người dùng chủ động cung cấp. Skill không tự truy xuất memory hay lịch sử hội thoại để tìm mẫu.
 
 Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
 
 ### TypeSafe/Jev là lớp tăng cường tùy chọn
 
-`vietnamizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Nếu không
-cấu hình gì thêm, toàn bộ quy trình thể loại, pattern, style card và năm quy tắc chốt chặn vẫn chạy
-bình thường. Public package có thêm optional CLI `advisor/`, viết bằng Python standard library;
-core Markdown không import hoặc phụ thuộc CLI này.
+Vietnamizer chạy đầy đủ mà không cần TypeSafe, SDK, API key hoặc mạng. Từ bản 0.9.7, cả ba
+gói và repo không chứa mã tích hợp TypeSafe. Nếu host đã cung cấp skill chính chủ,
+Agent có thể tận dụng khi thẩm định hữu ích và người dùng cho phép gửi dữ liệu; Vietnamizer không tự
+cài, đọc credential hoặc dựng connector. Có skill trên máy chưa chứng minh dịch vụ dùng được,
+cũng không tạo quyền gửi văn bản.
 
-Muốn bật trên host local, cần Python 3.10+, HTTPS và cơ chế inject secret. Lưu API key bằng secret
-manager của host, inject nó thành `TYPESAFE_API_KEY` cho process chạy agent, rồi từ thư mục skill
-chạy `python3 -m advisor probe`. Không dán key vào prompt, command argument, file repo hoặc ZIP;
-không có cờ `enabled` thứ hai. Chỉ typed response thật với model `jev-1.13.0` mới tạo trạng thái
-`advisor_verified`; có key hoặc config mới chỉ là opt-in, chưa phải bằng chứng integration đang chạy.
+Không có skill TypeSafe trong harness thì Vietnamizer bỏ qua im lặng, không gợi ý cài đặt
+hoặc thiết lập. Đây chỉ là phần bổ trợ tùy chọn, không phải dependency hay yêu cầu để dùng skill.
 
-Advisor chỉ dùng cho hai tín hiệu V20, sau khi host LLM đã tạo candidate. Jev trả signal có cấu trúc
-nhưng không sinh/sửa câu chữ và không quyết định thay source; host Agent vẫn chọn giữ hay sửa. Nếu
-thiếu key, host capability hoặc dịch vụ không phản hồi, CLI trả `core_only`/`advisor_unchecked` và
-core tiếp tục; đó là *chưa kiểm tra*, không phải `pass`. TypeSafe agent skill chỉ cung cấp tài liệu
-cho coding agent, không tự tạo runtime connector. ZIP Claude Org có `advisor/` nhưng vẫn core-only
-nếu môi trường Org không cho chạy Python, gọi mạng hoặc inject secret. Hướng dẫn đầy đủ nằm trong
-[`references/typesafe-advisor.md`](references/typesafe-advisor.md).
+TypeSafe chỉ thẩm định các candidate V20 mà Agent tạo trước; Agent vẫn quyết định giữ hay sửa
+và viết câu cuối. Thiếu capability hoặc lỗi dịch vụ thì tiếp tục core, không mạo nhận đã kiểm.
+Ranh giới sử dụng nằm trong [hướng dẫn thẩm định tùy chọn](references/typesafe-advisor.md).
 
-Riêng evaluation harness live mới cần dependency tùy chọn qua `uv sync --locked --group eval`;
-validator và test offline không gọi TypeSafe.
+Repo không còn CLI, SDK hoặc evaluation harness TypeSafe. Các đặc tả, báo cáo và corpus cũ
+chỉ được giữ để truy nguyên quyết định, không phải mã chạy hay bằng chứng hiệu quả hiện hành.
 
 ## Giữ giọng và chọn phong cách
 
@@ -193,7 +186,8 @@ Hãy sửa đoạn dưới theo cùng cách xưng hô, nhịp câu và mức đ�
 
 Mẫu văn chỉ được ưu tiên đối với thói quen xuất hiện nhất quán, như cách xưng hô, nhịp câu, cách chêm tiếng Anh hoặc dùng dấu câu. Nó không hợp thức hoá lỗi ngôn ngữ rõ ràng và không vượt qua năm quy tắc chốt chặn trong `SKILL.md`.
 
-Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phong của đúng người dùng trước khi sửa. Hồ sơ này phải tách riêng theo người, chỉ lưu đặc tính cần thiết cho việc giữ giọng và luôn nhường chỗ cho yêu cầu hiện tại.
+Có thể dán một hồ sơ phong cách ngắn trong yêu cầu thay cho mẫu văn. Hồ sơ chỉ dùng cho đúng người
+và phạm vi đã nêu; yêu cầu hiện tại được ưu tiên. Skill không tự tìm hay lưu hồ sơ ngoài tác vụ.
 
 ### Chọn phong cách theo mục đích
 
@@ -230,10 +224,9 @@ profiles/ky-thuat-doanh-nghiep/styles/        ba style card kỹ thuật, vận 
 references/han-viet-thuan-viet.md             bảng tra và điều kiện phải giữ thuật ngữ
 references/bang-tra-cuu.md                    bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
 references/bo-giai-phong-cach.md              bộ giải ngữ cảnh, precedence và registry đường dẫn
-references/typesafe-advisor.md                setup, authority, privacy và fallback của advisor
+references/typesafe-advisor.md                consent và ranh giới dùng skill TypeSafe đã có
 calibration/LOG.md                            bằng chứng dùng để sửa quy tắc chung
 calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
-advisor/                                      optional TypeSafe CLI; core Markdown không phụ thuộc
 agents/openai.yaml                            tên hiển thị và lời gọi mặc định
 assets/                                       icon và wordmark SVG sáng/tối
 .codex-plugin/plugin.json                     manifest và nhận diện plugin Codex
@@ -247,20 +240,11 @@ docs/plugin-distribution.md                   đường cài, kiểm thử và g
 scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
 .specify/                                     constitution, template và script của Spec Kit
 specs/                                        đặc tả, checklist, plan và task theo từng feature
-guard_eval/                                   evaluation harness cho edit guard, không thuộc gói skill
-eval/guard/                                   corpus, manifest, config, pricing và policy đã duyệt
-tests/guard_eval/                             test offline; external evaluator luôn được fake trong CI
-artifacts/guard-eval/                         raw run local, bị gitignore và không chứa raw prose
-guard_eval/v2/                                lane tạo shadow recommendation theo component
-eval/guard/v2/                                dev corpus v2, lock v1 và registry holdout đã quan sát
-tests/guard_eval_v2/                          contract/integration test offline cho lane v2
-tests/advisor/                                contract/integration test offline cho public advisor
-artifacts/guard-eval-v2/                      raw run v2 local, bị gitignore
-pyproject.toml, uv.lock                       môi trường Python 3.12 khóa version cho harness
+eval/guard/                                   hồ sơ corpus/config lịch sử đã ngừng dùng
 ```
 
-Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
-`vietnamizer.skill`.
+Ngoài các file từ `.specify/` trở xuống, `docs/`, manifest source và adapter discovery
+cũng phục vụ source hoặc phát triển, không nằm trong gói `vietnamizer.skill`.
 
 Generated agent skills, Spec Kit integration state, raw run và scratch output được giữ local.
 Xem [hướng dẫn đóng góp](CONTRIBUTING.md) để cài tooling maintainer và chạy kiểm tra offline.
@@ -268,34 +252,6 @@ Xem [hướng dẫn đóng góp](CONTRIBUTING.md) để cài tooling maintainer 
 Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card nằm
 trong thư mục `styles/` của profile tương thích; `references/bo-giai-phong-cach.md` chỉ sở hữu cách
 chọn card, thứ tự ưu tiên và registry đường dẫn.
-
-### Evaluation harness cho edit guard
-
-Harness v1 giữ nguyên để làm baseline. Lane v2 bổ sung tín hiệu về *có nên sửa hay không* và
-*candidate nào đủ chuẩn*: host LLM tạo sẵn từ một đến ba candidate; Jev chỉ chấm hai dấu hiệu ở
-nguồn, ba thành phần chất lượng và sáu chiều safety cho từng candidate. Policy tất định suy ra
-shortlist và shadow recommendation `keep`, `replace` hoặc `review`; Choice chỉ xếp hạng khi có ít
-nhất hai candidate đã qua cổng. Jev không sinh, nối hoặc sửa văn bản, còn host Agent/LLM giữ quyền
-quyết định cuối cùng và thực hiện biên tập.
-
-Cài môi trường và chạy toàn bộ đường offline:
-
-```bash
-uv sync --locked --group eval
-uv run --locked python -m unittest discover -s tests -p 'test_*.py' -v
-env -u TYPESAFE_API_KEY uv run --locked python -m guard_eval validate \
-  --manifest eval/guard/manifest.json
-env -u TYPESAFE_API_KEY uv run --locked python -m guard_eval.v2 validate \
-  --manifest eval/guard/v2/manifest.json
-```
-
-`candidate_origin` phân biệt `host_llm_output`, `baseline_observation` và
-`maintainer_fixture`; origin, ground truth và baseline không được gửi cho evaluator. Live dev và
-holdout run cần maintainer hoặc agent được owner ủy quyền rõ cho phép dùng credential/quota riêng.
-Mỗi lane chỉ ghi policy sau khi dev labels và candidate policy đã được review. Holdout v2 đã được
-niêm phong, chạy một lần và ghi vào registry; report trả `collect_more_labels`, nên v2 vẫn chỉ là
-evidence lane, chưa được bật làm runtime gate. Raw run nằm dưới `artifacts/guard-eval*/`; chỉ báo cáo holdout
-đã loại raw prose mới được đưa vào `specs/.../evidence/`.
 
 Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong và nghi lễ chỉ
 được rà T1–T6. Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví
@@ -397,13 +353,13 @@ Skill không tự động chọn giữa dấu thanh kiểu cũ và mới, như *
 
 Khoảng trắng trước dấu câu, lỗi gõ và biến thể chính tả cũng không được dùng làm bằng chứng về tác giả. Có thể sửa chúng khi người dùng yêu cầu làm sạch văn bản, nhưng không suy ra ai đã viết.
 
-## Memory cá nhân và nhật ký hiệu chuẩn
+## Hồ sơ phong cách và nhật ký hiệu chuẩn
 
 Hai cơ chế này phục vụ hai mục đích khác nhau.
 
-### Memory hoặc knowledge base của agent
+### Hồ sơ người dùng chủ động cung cấp
 
-Đây là nơi phù hợp để lưu đặc tính riêng của một người dùng, nếu nền tảng và chính sách lưu trữ cho phép. Hồ sơ nên ngắn và chỉ chứa thông tin cần cho việc giữ giọng:
+Người dùng có thể tự giữ một hồ sơ và dán vào yêu cầu. Hồ sơ nên ngắn, chỉ chứa thông tin giữ giọng:
 
 - cách xưng hô;
 - nhịp và độ dài câu thường dùng;
@@ -412,7 +368,9 @@ Hai cơ chế này phục vụ hai mục đích khác nhau.
 - thói quen viết hoa và dấu câu;
 - phạm vi áp dụng cùng một ví dụ ngắn.
 
-Agent phải xác định đúng người trước khi nạp hồ sơ, không dùng hồ sơ của người này cho người khác và không lưu dữ kiện cá nhân không liên quan. Yêu cầu hiện tại luôn được ưu tiên hơn memory cũ.
+Skill chỉ dùng hồ sơ được cung cấp trong tác vụ, không tự truy xuất Claude memory, lịch sử chat
+hoặc dữ liệu khác, cũng không tự ghi hồ sơ. Không dùng mẫu của người này cho người khác;
+yêu cầu hiện tại luôn được ưu tiên.
 
 ### `calibration/LOG.md`
 
@@ -489,7 +447,10 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
   Claude Code; cả hai dùng một nguồn skill chuẩn. Bổ sung thông tin quyền riêng tư, điều kiện
   sử dụng và kiểm tra asset/metadata trước đóng gói.
   Đổi thương hiệu từ vi-humanizer sang Vietnamizer, đồng bộ định danh skill/plugin/catalog,
-  repo và tên gói tải thành `vietnamizer`. Quy tắc biên tập giữ nguyên.
+  repo và tên gói tải thành `vietnamizer`. Quy tắc biên tập giữ nguyên. Loại CLI advisor khỏi
+  ba archive và repo, cùng harness, kiểm thử và dependency SDK của nó; TypeSafe chỉ được tận
+  dụng qua skill chính chủ đã có khi hữu ích và người dùng đồng ý gửi dữ liệu. Bỏ tự truy xuất/lưu hồ sơ memory; ảnh README
+  dùng Markdown, giữ SVG nền trong suốt và hai biến thể violet/mint đã duyệt.
 - **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
   readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
   và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude

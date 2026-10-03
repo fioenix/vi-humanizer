@@ -7,16 +7,22 @@ Plugin không khai báo MCP server, hook hay quyền đăng nhập vào dịch v
 Văn bản đưa vào Claude hoặc Codex vẫn được xử lý theo cấu hình, quyền truy cập và chính sách dữ
 liệu của nền tảng đó. Cài skill không làm văn bản trở thành dữ liệu chỉ xử lý trên máy.
 
-## Advisor tùy chọn
+## TypeSafe tùy chọn đã có trên host
 
-Python CLI `advisor/` chỉ gọi TypeSafe khi host chủ động chạy lệnh với credential được inject.
-Core không tự gọi CLI. Nếu dùng `assess` hoặc `rank`, các đoạn văn và ngữ cảnh được chọn cho lệnh
-đó được gửi qua HTTPS tới TypeSafe để nhận tín hiệu thẩm định. Jev không sinh văn bản; host agent
-vẫn quyết định có sửa hay không. Thiếu credential hoặc lỗi dịch vụ không chặn core.
+Repo và các gói phân phối không chứa mã tích hợp TypeSafe. Khi Agent tận dụng skill
+TypeSafe chính chủ đã có trên host và người dùng đồng ý gửi dữ liệu, đoạn gốc, candidate và ngữ cảnh tối
+thiểu có thể được gửi tới TypeSafe. Vietnamizer không quản lý credential hoặc kết nối đó và
+không tự bật dịch vụ. Thiếu capability hoặc lỗi không chặn core.
 
-CLI không ghi API key, request body hoặc raw response vào báo cáo. Điều này không thay thế chính
-sách dữ liệu của TypeSafe hoặc log do host tự bật. Xem contract và giới hạn input trong
-[`references/typesafe-advisor.md`](references/typesafe-advisor.md) trước khi bật advisor.
+Maintainer không nhận hoặc lưu văn bản biên tập qua một máy chủ Vietnamizer, nên không có thời
+hạn lưu phía maintainer cho dữ liệu này. Thời hạn lưu, cách xóa và log phía Claude/Codex hoặc
+TypeSafe phụ thuộc tài khoản, cấu hình và chính sách của từng bên; repo không bảo đảm họ không
+lưu dữ liệu. Người dùng cần kiểm chính sách dịch vụ trước khi cho phép gửi, có thể từ chối
+thẩm định và tiếp tục dùng core. Hướng dẫn nằm trong
+[ranh giới TypeSafe](references/typesafe-advisor.md).
+
+Skill chỉ dùng mẫu giọng hoặc hồ sơ người dùng chủ động cung cấp trong tác vụ, không tự truy
+xuất hay cập nhật memory. Việc lưu hội thoại hoặc file bởi host vẫn theo chính sách host.
 
 ## Issue, pull request và ca sửa sai
 

@@ -78,15 +78,7 @@ EXPECTED_PROFILE_DIRECTORIES = {
     for relative in EXPECTED_PROFILE_FILES
     if PurePosixPath(relative).parent.name == "styles"
 }
-PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "advisor", "agents", "assets"}
-ADVISOR_FILES = {
-    "advisor/__init__.py",
-    "advisor/__main__.py",
-    "advisor/cli.py",
-    "advisor/client.py",
-    "advisor/models.py",
-    "advisor/questions.py",
-}
+PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "agents", "assets"}
 REFERENCE_FILES = {
     "references/bang-tra-cuu.md",
     "references/bo-giai-phong-cach.md",
@@ -125,7 +117,7 @@ FORBIDDEN_PAYLOAD_PATTERNS = (
         re.compile(rb"\b[A-Za-z]:\\Users\\[^\\\s]+\\", re.IGNORECASE),
     ),
 )
-PACKAGE_COPY_SOURCES = (PACKAGE_PAYLOAD - {"advisor"}) | ADVISOR_FILES
+PACKAGE_COPY_SOURCES = PACKAGE_PAYLOAD
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 
 errors: list[str] = []
@@ -259,27 +251,6 @@ def validate_payload_tree(root: Path) -> None:
         fail(f"Profiles thiếu thư mục canonical: {missing_directories}")
     if extra_directories:
         fail(f"Profiles chứa thư mục ngoài inventory canonical: {extra_directories}")
-
-    advisor_root = root / "advisor"
-    if not advisor_root.is_dir() or advisor_root.is_symlink():
-        return
-    actual_advisor_files = {
-        entry.relative_to(root).as_posix()
-        for entry in advisor_root.rglob("*")
-        if entry.is_file() and not entry.is_symlink() and not ignored_generated_entry(entry)
-    }
-    actual_advisor_directories = {
-        entry.relative_to(root).as_posix()
-        for entry in advisor_root.rglob("*")
-        if entry.is_dir() and not ignored_generated_entry(entry)
-    }
-    if actual_advisor_files != ADVISOR_FILES:
-        fail(
-            "Advisor runtime phải khớp exact inventory: "
-            f"mong đợi {sorted(ADVISOR_FILES)}, đang là {sorted(actual_advisor_files)}"
-        )
-    if actual_advisor_directories:
-        fail(f"Advisor runtime chứa thư mục ngoài inventory: {sorted(actual_advisor_directories)}")
 
     for relative in sorted(PACKAGE_PAYLOAD):
         path = root / relative

@@ -18,7 +18,14 @@ thứ hai. Các file trong `agents/` và `assets/` đi cùng skill để UI khô
 
 Tạo cả ba artifact bằng `python3 scripts/package-plugin.py`. `dist/` là output sinh ra, không
 commit. Plugin ZIP chỉ chứa public payload, MIT notice, nhận diện và manifest; không chứa Spec
-Kit, generated maintainer skills, corpus evaluation hoặc credential.
+Kit, generated maintainer skills, CLI advisor, corpus evaluation hoặc credential.
+
+Từ v0.9.7, repo cũng không còn advisor, SDK hoặc evaluation harness TypeSafe. Hướng dẫn
+được đóng gói chỉ mô tả cách tận dụng skill chính chủ đã có khi hữu ích và có quyền gửi dữ liệu.
+
+Catalog source trỏ tới root repo, vẫn gồm tooling maintainer và hồ sơ lịch sử. Validator local
+và inventory ZIP không thay thế portal Validate cho commit GitHub thực tế; không suy ra directory
+approval hoặc bắt buộc tách repo chỉ từ kết quả đóng gói.
 
 ## Kiểm từ clone trước khi phát hành
 
@@ -38,7 +45,7 @@ Với Claude Code, cài xong mở session mới và kiểm `/vietnamizer:vietnam
 hoặc thông báo install thành công không tự chứng minh UI đã hiển thị hay invocation chạy được.
 
 Không đưa credential hoặc raw input của người dùng vào log kiểm. Profile thật của maintainer
-không phải fixture kiểm thử. Không bật live advisor chỉ để kiểm plugin packaging.
+không phải fixture kiểm thử. Không gọi dịch vụ TypeSafe chỉ để kiểm plugin packaging.
 
 ## Nhận diện và listing
 
@@ -46,7 +53,8 @@ Icon là chữ `ă` vẽ bằng hình học SVG, không phụ thuộc font hoặ
 viewBox vuông 128×128; wordmark dùng cho README/giới thiệu, không thay icon listing vuông.
 Màu dùng các token FINOLABS đã duyệt: `fn-violet` (`#9750C4`), `fn-mint` (`#7FE2CE`),
 `ink-900` (`#0B0B17`), `ink-50` (`#F7F7FB`), `ink-300` (`#BCBCD0`) và `ink-500` (`#5B5B79`).
-Icon có nền trong suốt: bản sáng dùng violet, bản tối dùng mint. Metadata dùng mint làm màu thương hiệu. SVG/JSON/YAML
+Icon có nền trong suốt: bản sáng dùng violet, bản tối dùng mint. Metadata Codex dùng violet
+cho `brandColor` và mint cho `brandColorDark`; skill UI dùng violet cho trường màu duy nhất. SVG/JSON/YAML
 chứa giá trị token được xuất cố định để gói cài không phụ thuộc CSS hoặc repo FINOLABS bên ngoài.
 Hai wordmark `assets/wordmark.svg` và `assets/wordmark-dark.svg` có nền trong suốt;
 chữ `ă` dùng violet FINOLABS `#9750C4` ở bản sáng và mint `#7FE2CE` ở bản tối,

@@ -3,5 +3,5 @@ interface:
   short_description: "Biên tập tiếng Việt theo đúng thể loại và giọng người viết"
   icon_small: "./assets/icon.svg"
   icon_large: "./assets/icon.svg"
-  brand_color: "#7FE2CE"
+  brand_color: "#9750C4"
   default_prompt: "Dùng $vietnamizer để biên tập đoạn này. Giữ nguyên thông tin, đúng thể loại và không làm mất giọng riêng của người viết."

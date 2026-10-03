@@ -9,12 +9,11 @@ trước khi sửa rule. Sở thích văn phong cá nhân không được đưa 
 
 ## Chạy kiểm tra offline
 
-Skill Markdown dùng trực tiếp, không cần build. Evaluation harness và các test cần Python 3.12
-cùng `uv`; test dùng fixture, không cần TypeSafe API key.
+Skill Markdown dùng trực tiếp, không cần build. Test đóng gói dùng Python 3.12 và standard library;
+không cần SDK, `uv` hoặc TypeSafe API key.
 
 ```bash
-uv sync --locked --group eval
-env -u TYPESAFE_API_KEY uv run --locked python -m unittest discover -s tests -p 'test_*.py' -v
+python3 -m unittest discover -s tests -p 'test_*.py' -v
 python3 scripts/validate-package.py
 npx --yes skills@1.5.20 add . --list
 claude plugin validate .
@@ -24,8 +23,11 @@ python3 scripts/package-plugin.py
 
 Skill packager cần `zip` và `unzip`; plugin packager dựng tiếp một ZIP chung cho hai nền tảng.
 Các archive nằm trong `dist/`. Mỗi archive phải có `LICENSE`,
-đúng public inventory và nội dung khớp source. Chạy live evaluation cần maintainer cho phép dùng
-credential và quota; kết quả offline không chứng minh chất lượng phán đoán của dịch vụ live.
+đúng public inventory và nội dung khớp source.
+
+Vietnamizer không chứa mã tích hợp TypeSafe. Skill chỉ hướng dẫn dùng khả năng chính chủ
+đã có trên host khi hữu ích và có quyền gửi dữ liệu. Không khôi phục runtime từ đặc tả cũ.
+Các corpus, config và evidence cũ là hồ sơ lịch sử đã ngừng dùng, không phải harness thực thi.
 
 ## Tooling Spec Kit cho maintainer
 

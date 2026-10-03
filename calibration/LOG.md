@@ -1,6 +1,10 @@
 # Nhật ký hiệu chuẩn
 
-File này lưu bằng chứng có thể làm thay đổi quy tắc dùng chung của skill. Mỗi quan sát được ghi thành một mục trước khi sửa pattern hoặc trường hợp loại trừ. Hồ sơ văn phong và sở thích cá nhân phải nằm trong memory hoặc knowledge base của agent, tách theo đúng người dùng; không ghi chúng vào đây.
+File này lưu bằng chứng có thể làm thay đổi quy tắc dùng chung của skill. Mỗi quan sát được ghi thành một mục trước khi sửa pattern hoặc trường hợp loại trừ. Hồ sơ văn phong và sở thích cá nhân thuộc dữ liệu do đúng người dùng chủ động cung cấp cho tác vụ; không ghi chúng vào đây.
+
+Các mục bên dưới là bằng chứng lịch sử, không phải chỉ thị runtime. Từ 0.9.7, quyết định về tự
+nạp/lưu hồ sơ memory trong các mục cũ được thay bằng ranh giới dữ liệu của `SKILL.md`: không tự
+truy xuất hoặc cập nhật memory; chỉ dùng mẫu hoặc hồ sơ được cung cấp cho tác vụ hiện tại.
 
 Các mục bên dưới là hồ sơ lịch sử nên giữ nguyên câu trích dẫn và thuật ngữ dùng tại thời điểm ghi nhận, kể cả khi quy tắc sau đó đã được viết lại. Quy trình hiện hành nằm trong `AGENTS.md`, mục “Học từ phản hồi thực tế”.
 

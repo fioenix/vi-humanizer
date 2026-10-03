@@ -1,8 +1,0 @@
-"""Optional TypeSafe advisor for vietnamizer.
-
-The Markdown skill remains fully usable without importing this package.
-"""
-
-from .models import PINNED_MODEL, SCHEMA_VERSION
-
-__all__ = ["PINNED_MODEL", "SCHEMA_VERSION"]

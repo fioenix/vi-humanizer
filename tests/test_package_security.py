@@ -21,7 +21,6 @@ PACKAGE_FIXTURE_PATHS = (
     "agents",
     "assets",
     ".claude-plugin",
-    "advisor",
     "calibration",
     "profiles",
     "references",
@@ -429,21 +428,13 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("LICENSE", result.stderr)
 
-    def test_packages_exact_public_advisor_runtime_in_both_artifacts(self) -> None:
+    def test_packages_exclude_research_advisor_in_both_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             repo = self.copy_package_fixture(Path(temporary_directory))
 
             result = self.run_packager(repo)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            expected = {
-                "advisor/__init__.py",
-                "advisor/__main__.py",
-                "advisor/cli.py",
-                "advisor/client.py",
-                "advisor/models.py",
-                "advisor/questions.py",
-            }
             for archive_name, prefix in (
                 ("vietnamizer.skill", "vietnamizer/"),
                 ("vietnamizer-claude-org.zip", ""),
@@ -455,10 +446,19 @@ class PackageSecurityTest(unittest.TestCase):
                         if name.startswith(prefix + "advisor/") and not name.endswith("/")
                     }
                     all_names = set(package.namelist())
-                self.assertEqual(names, expected)
+                self.assertEqual(names, set())
                 self.assertIn(prefix + "references/typesafe-advisor.md", all_names)
                 self.assertFalse(any("__pycache__" in name or name.startswith(prefix + "tests/") for name in all_names))
                 self.assertFalse(any(name.startswith(prefix + "guard_eval/") or name.startswith(prefix + "eval/") for name in all_names))
+
+    def test_payload_scan_still_rejects_secrets(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            with (repo / "calibration/LOG.md").open("a") as log:
+                log.write("\n" + "sk-" + "test-canary-not-a-real-key-1234567890" + "\n")
+            result = self.run_payload_validator(repo, repo)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("credential", result.stderr)
 
     def test_package_does_not_capture_typesafe_key_from_environment(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
