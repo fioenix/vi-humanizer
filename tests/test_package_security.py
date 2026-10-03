@@ -16,9 +16,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_FIXTURE_PATHS = (
     "SKILL.md",
+    "LICENSE",
     "README.md",
+    "agents",
+    "assets",
     ".claude-plugin",
-    "advisor",
     "calibration",
     "profiles",
     "references",
@@ -28,7 +30,7 @@ PACKAGE_FIXTURE_PATHS = (
 
 class PackageSecurityTest(unittest.TestCase):
     def copy_package_fixture(self, destination: Path) -> Path:
-        repo = destination / "vi-humanizer"
+        repo = destination / "vietnamizer"
         repo.mkdir()
         for relative in PACKAGE_FIXTURE_PATHS:
             source = ROOT / relative
@@ -130,7 +132,7 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_packager(repo)
 
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
-            archive = repo / "dist" / "vi-humanizer.skill"
+            archive = repo / "dist" / "vietnamizer.skill"
             if archive.exists():
                 with zipfile.ZipFile(archive) as package:
                     archived_bytes = b"".join(
@@ -354,7 +356,7 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_packager(repo, env=env)
 
             self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
-            archive = repo / "dist" / "vi-humanizer.skill"
+            archive = repo / "dist" / "vietnamizer.skill"
             if archive.exists():
                 self.assertNotIn(canary.read_bytes(), archive.read_bytes())
 
@@ -362,7 +364,7 @@ class PackageSecurityTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary_directory:
             temporary = Path(temporary_directory)
             repo = self.copy_package_fixture(temporary)
-            archive = repo / "dist" / "vi-humanizer.skill"
+            archive = repo / "dist" / "vietnamizer.skill"
             archive.parent.mkdir()
             previous_release = b"known-good-release-artifact"
             archive.write_bytes(previous_release)
@@ -392,32 +394,50 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_packager(repo)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            archive = repo / "dist" / "vi-humanizer.skill"
+            archive = repo / "dist" / "vietnamizer.skill"
             with zipfile.ZipFile(archive) as package:
                 names = set(package.namelist())
-            self.assertIn("vi-humanizer/SKILL.md", names)
-            self.assertTrue(any(name.startswith("vi-humanizer/profiles/") for name in names))
-            self.assertTrue(any(name.startswith("vi-humanizer/references/") for name in names))
-            self.assertTrue(any(name.startswith("vi-humanizer/calibration/") for name in names))
+            self.assertIn("vietnamizer/SKILL.md", names)
+            self.assertTrue(any(name.startswith("vietnamizer/profiles/") for name in names))
+            self.assertTrue(any(name.startswith("vietnamizer/references/") for name in names))
+            self.assertTrue(any(name.startswith("vietnamizer/calibration/") for name in names))
 
-    def test_packages_exact_public_advisor_runtime_in_both_artifacts(self) -> None:
+    def test_packages_the_license_notice_in_both_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             repo = self.copy_package_fixture(Path(temporary_directory))
 
             result = self.run_packager(repo)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            expected = {
-                "advisor/__init__.py",
-                "advisor/__main__.py",
-                "advisor/cli.py",
-                "advisor/client.py",
-                "advisor/models.py",
-                "advisor/questions.py",
-            }
+            for archive_name, license_path in (
+                ("vietnamizer.skill", "vietnamizer/LICENSE"),
+                ("vietnamizer-claude-org.zip", "LICENSE"),
+            ):
+                with self.subTest(archive=archive_name):
+                    with zipfile.ZipFile(repo / "dist" / archive_name) as package:
+                        self.assertIn(license_path, package.namelist())
+                        self.assertEqual(package.read(license_path), (repo / "LICENSE").read_bytes())
+
+    def test_packager_rejects_missing_license(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            (repo / "LICENSE").unlink()
+
+            result = self.run_packager(repo)
+
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("LICENSE", result.stderr)
+
+    def test_packages_exclude_research_advisor_in_both_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+
+            result = self.run_packager(repo)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             for archive_name, prefix in (
-                ("vi-humanizer.skill", "vi-humanizer/"),
-                ("vi-humanizer-claude-org.zip", ""),
+                ("vietnamizer.skill", "vietnamizer/"),
+                ("vietnamizer-claude-org.zip", ""),
             ):
                 with zipfile.ZipFile(repo / "dist" / archive_name) as package:
                     names = {
@@ -426,10 +446,19 @@ class PackageSecurityTest(unittest.TestCase):
                         if name.startswith(prefix + "advisor/") and not name.endswith("/")
                     }
                     all_names = set(package.namelist())
-                self.assertEqual(names, expected)
+                self.assertEqual(names, set())
                 self.assertIn(prefix + "references/typesafe-advisor.md", all_names)
                 self.assertFalse(any("__pycache__" in name or name.startswith(prefix + "tests/") for name in all_names))
                 self.assertFalse(any(name.startswith(prefix + "guard_eval/") or name.startswith(prefix + "eval/") for name in all_names))
+
+    def test_payload_scan_still_rejects_secrets(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            repo = self.copy_package_fixture(Path(temporary_directory))
+            with (repo / "calibration/LOG.md").open("a") as log:
+                log.write("\n" + "sk-" + "test-canary-not-a-real-key-1234567890" + "\n")
+            result = self.run_payload_validator(repo, repo)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("credential", result.stderr)
 
     def test_package_does_not_capture_typesafe_key_from_environment(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -440,7 +469,7 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_packager(repo, env=env)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            for archive_name in ("vi-humanizer.skill", "vi-humanizer-claude-org.zip"):
+            for archive_name in ("vietnamizer.skill", "vietnamizer-claude-org.zip"):
                 archive = repo / "dist" / archive_name
                 self.assertNotIn(b"PACKAGE-SECRET-CANARY-005", archive.read_bytes())
 
@@ -451,14 +480,14 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_packager(repo)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            archive = repo / "dist" / "vi-humanizer-claude-org.zip"
+            archive = repo / "dist" / "vietnamizer-claude-org.zip"
             with zipfile.ZipFile(archive) as package:
                 names = set(package.namelist())
             self.assertIn("SKILL.md", names)
             self.assertTrue(any(name.startswith("profiles/") for name in names))
             self.assertTrue(any(name.startswith("references/") for name in names))
             self.assertTrue(any(name.startswith("calibration/") for name in names))
-            self.assertFalse(any(name.startswith("vi-humanizer/") for name in names))
+            self.assertFalse(any(name.startswith("vietnamizer/") for name in names))
             self.assertFalse(any(name.startswith(".claude-plugin/") for name in names))
             self.assertNotIn("README.md", names)
 
@@ -469,7 +498,7 @@ class PackageSecurityTest(unittest.TestCase):
             result = self.run_packager(repo)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            archive = repo / "dist" / "vi-humanizer-claude-org.zip"
+            archive = repo / "dist" / "vietnamizer-claude-org.zip"
             with zipfile.ZipFile(archive) as package:
                 names = set(package.namelist())
             expected_files = {
@@ -501,7 +530,7 @@ class PackageSecurityTest(unittest.TestCase):
                 0,
                 package_result.stdout + package_result.stderr,
             )
-            archive = repo / "dist" / "vi-humanizer.skill"
+            archive = repo / "dist" / "vietnamizer.skill"
 
             result = self.run_archive_validator(repo, archive, repo)
 

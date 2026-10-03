@@ -4,7 +4,11 @@
 
 **Created**: 2026-09-26
 
-**Status**: Evaluated — `collect_more_labels`
+**Status**: Retired implementation (owner decision 2026-10-03); evaluated — `collect_more_labels`
+
+The TypeSafe-dependent harness and its tests were removed in unreleased v0.9.7.
+This specification records the former experiment, not current implementation requirements.
+See `specs/005-optional-typesafe-advisor/spec.md` for the superseding owner decision.
 
 **Input**: Tiếp tục sau khi evaluation v1 ra quyết định `stop`: giữ nguyên bằng chứng v1, mở một iteration mới để vi-humanizer phân biệt khi nào nên giữ nguyên, khi nào cần người xem và khi nào có thể chọn một bản sửa.
 

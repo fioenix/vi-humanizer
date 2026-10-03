@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Kiểm tra tính toàn vẹn của gói vi-humanizer, không phụ thuộc thư viện ngoài."""
+"""Kiểm tra tính toàn vẹn của gói vietnamizer, không phụ thuộc thư viện ngoài."""
 
 from __future__ import annotations
 
@@ -9,6 +9,9 @@ import stat
 import sys
 import zipfile
 from pathlib import Path, PurePosixPath
+
+from distribution_assets import ASSETS, validate_svg
+import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -75,15 +78,7 @@ EXPECTED_PROFILE_DIRECTORIES = {
     for relative in EXPECTED_PROFILE_FILES
     if PurePosixPath(relative).parent.name == "styles"
 }
-PACKAGE_PAYLOAD = {"SKILL.md", "profiles", "references", "calibration", "advisor"}
-ADVISOR_FILES = {
-    "advisor/__init__.py",
-    "advisor/__main__.py",
-    "advisor/cli.py",
-    "advisor/client.py",
-    "advisor/models.py",
-    "advisor/questions.py",
-}
+PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "agents", "assets"}
 REFERENCE_FILES = {
     "references/bang-tra-cuu.md",
     "references/bo-giai-phong-cach.md",
@@ -97,6 +92,8 @@ CALIBRATION_FILES = {
 EXACT_DIRECTORY_FILES = {
     "references": REFERENCE_FILES,
     "calibration": CALIBRATION_FILES,
+    "agents": {"agents/openai.yaml"},
+    "assets": {f"assets/{name}" for name in ASSETS},
 }
 FORBIDDEN_PAYLOAD_PATTERNS = (
     (
@@ -120,7 +117,7 @@ FORBIDDEN_PAYLOAD_PATTERNS = (
         re.compile(rb"\b[A-Za-z]:\\Users\\[^\\\s]+\\", re.IGNORECASE),
     ),
 )
-PACKAGE_COPY_SOURCES = (PACKAGE_PAYLOAD - {"advisor"}) | ADVISOR_FILES
+PACKAGE_COPY_SOURCES = PACKAGE_PAYLOAD
 MARKETPLACE_SCHEMA = "https://json.schemastore.org/claude-code-marketplace.json"
 
 errors: list[str] = []
@@ -184,7 +181,7 @@ def validate_payload_tree(root: Path) -> None:
         if not path.exists() and not path.is_symlink():
             fail(f"Thiếu payload bắt buộc: {relative}")
             continue
-        expected_kind = "file" if relative == "SKILL.md" else "directory"
+        expected_kind = "file" if relative in {"LICENSE", "SKILL.md"} else "directory"
         validate_entry(path, expected_kind)
 
     for directory_name, expected_files in EXACT_DIRECTORY_FILES.items():
@@ -218,6 +215,12 @@ def validate_payload_tree(root: Path) -> None:
                 f"{sorted(actual_directories)}"
             )
 
+    for name, square in ASSETS.items():
+        try:
+            validate_svg(root / "assets" / name, square=square)
+        except (OSError, ValueError, ET.ParseError):
+            fail(f"Asset SVG không hợp lệ hoặc chứa nội dung active/external: assets/{name}")
+
     profiles_root = root / "profiles"
     if not profiles_root.is_dir() or profiles_root.is_symlink():
         return
@@ -249,27 +252,6 @@ def validate_payload_tree(root: Path) -> None:
     if extra_directories:
         fail(f"Profiles chứa thư mục ngoài inventory canonical: {extra_directories}")
 
-    advisor_root = root / "advisor"
-    if not advisor_root.is_dir() or advisor_root.is_symlink():
-        return
-    actual_advisor_files = {
-        entry.relative_to(root).as_posix()
-        for entry in advisor_root.rglob("*")
-        if entry.is_file() and not entry.is_symlink() and not ignored_generated_entry(entry)
-    }
-    actual_advisor_directories = {
-        entry.relative_to(root).as_posix()
-        for entry in advisor_root.rglob("*")
-        if entry.is_dir() and not ignored_generated_entry(entry)
-    }
-    if actual_advisor_files != ADVISOR_FILES:
-        fail(
-            "Advisor runtime phải khớp exact inventory: "
-            f"mong đợi {sorted(ADVISOR_FILES)}, đang là {sorted(actual_advisor_files)}"
-        )
-    if actual_advisor_directories:
-        fail(f"Advisor runtime chứa thư mục ngoài inventory: {sorted(actual_advisor_directories)}")
-
     for relative in sorted(PACKAGE_PAYLOAD):
         path = root / relative
         entries = [path]
@@ -295,7 +277,7 @@ def validate_payload_tree(root: Path) -> None:
                     )
 
 
-def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
+def payload_inventory(root: Path, archive_root: str | None = "vietnamizer") -> dict[str, Path | None]:
     inventory: dict[str, Path | None] = {}
     if archive_root:
         inventory[f"{archive_root}/"] = None
@@ -319,7 +301,7 @@ def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> 
 def validate_archive(
     archive_path: Path,
     payload_root: Path,
-    archive_root: str | None = "vi-humanizer",
+    archive_root: str | None = "vietnamizer",
 ) -> None:
     validate_payload_tree(payload_root)
     if errors:
@@ -414,7 +396,7 @@ if sys.argv[1:]:
     ):
         archive_path = Path(arguments[1])
         payload_root = Path(arguments[3])
-        archive_root = None if len(arguments) == 5 else "vi-humanizer"
+        archive_root = None if len(arguments) == 5 else "vietnamizer"
         validate_archive(archive_path, payload_root, archive_root)
         exit_on_errors()
         print(f"Archive đóng gói hợp lệ: {archive_path}")
@@ -609,4 +591,4 @@ for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w./-]+
 
 exit_on_errors()
 
-print(f"Gói vi-humanizer v{skill_version} hợp lệ, gồm {len(declared)} pattern")
+print(f"Gói vietnamizer v{skill_version} hợp lệ, gồm {len(declared)} pattern")

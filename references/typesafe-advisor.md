@@ -1,110 +1,38 @@
-# Cố vấn TypeSafe/Jev tùy chọn
+# Thẩm định bằng TypeSafe đã có trên host
 
-File này chỉ dùng khi host có thể chạy Python 3.10+, gọi HTTPS và inject secret qua environment.
-Thiếu một trong ba năng lực đó thì tiếp tục bằng core Markdown; đây là chế độ được hỗ trợ, không
-phải lỗi cài đặt.
+Vietnamizer không đóng gói runtime TypeSafe, không thiết lập credential và không cần dịch vụ
+này để biên tập. Có thể tận dụng skill chính chủ đã có khi thẩm định hữu ích cho tác vụ hiện tại
+và đáp ứng các điều kiện dưới đây. Đây chỉ là phần bổ trợ, không phải dependency.
 
-## Ai làm gì
+## Điều kiện sử dụng
 
-- Host LLM chạy cổng thể loại và V20, rồi tạo trước một đến ba candidate.
-- Advisor gửi source span, context tối thiểu, intent, base-profile ID và candidate đã có tới Jev.
-- Jev trả xác suất cho từng phán đoán hoặc xếp hạng một shortlist. Jev không sinh hay sửa câu chữ.
-- Agent đọc signal, tự quyết định giữ hay sửa và chịu trách nhiệm cho bản cuối.
+- Host đã cung cấp skill TypeSafe chính chủ qua cơ chế discovery được hỗ trợ. Dùng định danh do
+  host cung cấp; không đoán tên, quét thư mục máy, tải hướng dẫn từ mạng hoặc tự cài skill.
+- Skill đã cài chỉ cung cấp hướng dẫn; khả năng gọi dịch vụ phải thực sự có và được phép.
+- Người dùng đã đồng ý gửi đúng đoạn văn và ngữ cảnh tối thiểu cho lần thẩm định. Yêu cầu biên tập
+  đơn thuần, skill đã cài hoặc key có sẵn không thay thế cho sự đồng ý này.
+- Cấu hình, credential, kết nối và chính sách dữ liệu do skill TypeSafe cùng host quản lý.
+  Vietnamizer không đọc key từ môi trường, yêu cầu dán key hoặc dựng connector thay họ.
 
-Chỉ dùng advisor cho `lexically_incomplete` và `unnatural_collocation` của V20. Không dùng signal
-này làm hard gate, không tự thay câu và không mở rộng nó sang pattern hoặc style khác.
+Nếu harness không cung cấp skill TypeSafe, bỏ qua im lặng và tiếp tục core; không gợi ý agent
+hoặc người dùng cài đặt, thiết lập hay tìm key. Nếu thiếu điều kiện khác, cũng tiếp tục core.
+Chỉ báo *chưa kiểm tra* khi người dùng chủ động hỏi hoặc yêu cầu thẩm định bằng TypeSafe;
+không mạo nhận kết quả. Việc không dùng TypeSafe không phải lỗi hoặc thiếu sót của tác vụ.
 
-## Xác định host đang ở trạng thái nào
+## Ranh giới phán đoán
 
-1. Không có `TYPESAFE_API_KEY`: `core_only`. Đừng nhắc người dùng cài TypeSafe trong mỗi lượt.
-2. Có key nhưng chưa có typed response hợp lệ: `advisor_unchecked`.
-3. Probe thật trả đúng model `jev-1.13.0` và đúng schema: `advisor_verified` cho lần quan sát đó.
+Host Agent gọi tên V20 `lexically_incomplete` hoặc `unnatural_collocation`, loại trừ vùng bảo
+toàn và tạo trước một đến ba candidate. TypeSafe chỉ thẩm định nhu cầu sửa, chất lượng candidate,
+giữ nghĩa, giọng và an toàn; không được yêu cầu sinh, nối hoặc sửa câu chữ.
 
-TypeSafe agent skill chỉ cung cấp tài liệu cho coding agent; nó không tự tạo runtime connector.
-Tương tự, việc ZIP Claude Org chứa thư mục `advisor/` không chứng minh Claude Org cho phép chạy
-Python, gọi mạng hoặc inject secret.
+Chỉ gửi đoạn nhỏ nhất còn đủ nghĩa và các candidate đã có. Loại secret, vùng bảo toàn, định danh
+không cần thiết, nhãn kiểm thử và provenance; nếu không tách được dữ liệu nhạy cảm thì bỏ qua
+dịch vụ. Không gửi toàn tài liệu chỉ để quyết định một edit cục bộ.
 
-## Thiết lập trên host local
+Tín hiệu chỉ hỗ trợ Agent; không làm hard gate, không cứu candidate đã trượt năm quy tắc chốt
+chặn và không dùng threshold chưa hiệu chỉnh. Xếp hạng chỉ áp dụng cho ít nhất hai candidate
+đã đủ chuẩn. Agent quyết định giữ hay sửa và viết bản cuối.
 
-Lấy API key từ TypeSafe rồi lưu bằng secret manager của host. Khi mở process chạy agent, inject
-key thành biến `TYPESAFE_API_KEY`; không dán key vào prompt, file repo, command argument hoặc ZIP.
-Advisor không cần `typesafe-sdk` và không có cờ enable thứ hai.
-
-Với shell POSIX, có thể inject tạm cho đúng session mà không ghi key vào history:
-
-```bash
-read -r -s TYPESAFE_API_KEY
-export TYPESAFE_API_KEY
-```
-
-Từ thư mục gốc của skill, chạy:
-
-```bash
-python3 -m advisor probe
-```
-
-- Exit `0`, `state=advisor_verified`: host vừa quan sát được một typed response thật.
-- Exit `2`, `state=core_only`: process không nhận được key.
-- Exit `2`, `state=advisor_unchecked`: đã thử gọi nhưng auth, network, quota, model hoặc response
-  chưa đạt contract. Core vẫn tiếp tục.
-
-Muốn tắt advisor, bỏ `TYPESAFE_API_KEY` khỏi environment của process. Không sửa file cấu hình.
-
-## Gọi assess
-
-Chỉ gọi sau khi Agent đã xác định V20 và tạo candidate. Truyền JSON qua stdin để prose không xuất
-hiện trong command history:
-
-```bash
-python3 -m advisor assess < /duong/dan/toi/v20-case.json
-```
-
-Input tối thiểu:
-
-```json
-{
-  "case_id": "v20_case_01",
-  "candidates": {
-    "candidate_1": {"text": "Câu này đọc lên thấy hụt hẫng."}
-  },
-  "context": {"after": "", "before": ""},
-  "current_intent": "Giữ giọng nhận xét trực tiếp.",
-  "genre": "blog-ca-nhan",
-  "schema_version": "1.0.0",
-  "source": {"pattern": "V20", "text": "Câu này đọc lên thấy hụt."}
-}
-```
-
-`genre` chỉ nhận `blog-ca-nhan` hoặc `ky-thuat-doanh-nghiep`; candidate là object keyed bằng stable
-ID. CLI reject field lạ và reject trước network nếu source/candidate vượt 1.000 ký tự, context
-trước/sau vượt 2.000 ký tự mỗi phần hoặc intent vượt 1.000 ký tự.
-Provider response lớn hơn 1 MiB bị coi là không hợp lệ; advisor không follow HTTP redirect.
-
-Output checked chỉ có binding, version, model, usage và các score sau:
-
-- source: `lexically_incomplete`, `unnatural_collocation`;
-- candidate: `fixes_issue`, `preserves_meaning_and_nuance`, `fits_voice_and_genre`;
-- safety: thêm claim, đổi actor/time, causality/commitment, order/concurrency, register và process
-  metadata.
-
-Signal không phải action. Nếu source, context, intent, genre hoặc candidate đổi, so
-`case_binding`; binding cũ không còn hiệu lực.
-
-## Gọi rank
-
-Chỉ khi Agent đã tự lập shortlist gồm hai hoặc ba candidate đủ chuẩn, thêm
-`eligible_candidate_ids` rồi chạy:
-
-```bash
-python3 -m advisor rank < /duong/dan/toi/v20-shortlist.json
-```
-
-Ranking không có `keep_original` hoặc `none_of_candidates`. Nó chỉ so các candidate đã được Agent
-cho phép; quyết định có sửa source hay không vẫn thuộc Agent.
-
-## Ranh giới dữ liệu
-
-- Chỉ gửi source span và context nhỏ nhất còn đủ nghĩa; không gửi toàn tài liệu.
-- Không gửi protected region, secret, nhãn đúng/sai, baseline, provenance hoặc định danh người dùng.
-- CLI không ghi log/file mặc định; stdout không lặp raw prose, provider body hay exception.
-- Người dùng vẫn phải tự xem chính sách dữ liệu của TypeSafe trước khi opt-in gửi văn bản.
+Chỉ dùng kết quả thực sự nhận được cho đúng đoạn gốc, ngữ cảnh và candidate hiện tại. Input đổi
+thì kết quả cũ hết hiệu lực. Thiếu capability, timeout hoặc response không hợp lệ là *chưa kiểm
+tra*, không phải `pass`; việc biên tập vẫn tiếp tục bằng core.

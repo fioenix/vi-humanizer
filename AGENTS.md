@@ -20,48 +20,44 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
 | `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card; không sở hữu pattern |
-| `references/typesafe-advisor.md` | Setup, authority, privacy và fail-open contract của optional advisor |
+| `references/typesafe-advisor.md` | Consent, authority và fallback khi tận dụng skill TypeSafe chính chủ đã có |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
+| `CONTRIBUTING.md` | Hướng dẫn góp ca sửa sai, kiểm offline, bootstrap tooling và ranh giới source/local |
+| `LICENSE` | MIT notice của sản phẩm, bắt buộc có trong cả hai archive |
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
+| `assets/` | Icon và wordmark SVG sáng/tối, nền trong suốt; chữ ă violet ở bản sáng, mint ở bản tối; được đóng gói cùng metadata UI |
+| `.codex-plugin/plugin.json` | Manifest và metadata hiển thị của plugin Codex |
+| `.plugin-skills/vietnamizer/SKILL.md` | Adapter discovery cho plugin source, nạp root `SKILL.md`; không sở hữu quy tắc biên tập |
+| `.agents/plugins/marketplace.json` | Catalog phân phối Codex được track, không phải tooling sinh local |
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
 | `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
-| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip` |
+| `scripts/package-skill.sh` | Đóng gói `dist/vietnamizer.skill` và `dist/vietnamizer-claude-org.zip` |
+| `scripts/package-plugin.py` | Kiểm metadata/asset và tạo ZIP plugin hai nền tảng từ cùng public payload |
+| `docs/plugin-distribution.md` | Hướng dẫn kiểm cài đặt và ranh giới repo marketplace với directory chính thức |
+| `PRIVACY.md`, `TERMS.md` | Thông tin dữ liệu và điều kiện dùng gói mã nguồn mở |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
-| `advisor/` | Public Python standard-library CLI cho `probe`, `assess`, `rank`; core không import |
-| `tests/advisor/` | Test offline cho schema, HTTP boundary, CLI và privacy; không gọi TypeSafe thật |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
+| `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
-| `.agents/skills/` | Các skill Spec Kit do `specify init` tạo cho Codex; không được đóng gói vào `vi-humanizer.skill` |
-| `guard_eval/` | Harness Python đánh giá need-to-edit, candidate preference và safety ở shadow mode |
-| `eval/guard/` | Corpus đã gắn nhãn, manifest, evaluation config, pricing snapshot và policy đã duyệt |
-| `tests/guard_eval/` | Test unit/contract/integration offline; CI không gọi TypeSafe |
-| `artifacts/guard-eval/` | Raw run local bị gitignore; artifact không được chứa raw prose, secret hoặc raw exception |
-| `guard_eval/v2/` | Lane v2 tách absolute judgment, deterministic policy và paired comparison khỏi v1 |
-| `eval/guard/v2/` | Dev corpus v2, config/pricing, lock bytes v1 và registry holdout đã quan sát |
-| `tests/guard_eval_v2/` | Test offline cho schema, policy, corpus governance, CLI và report v2 |
-| `artifacts/guard-eval-v2/` | Raw judgment/recommendation run v2 local, bị gitignore |
+| `.agents/skills/` | Generated Codex tooling local, bị gitignore; bootstrap theo `CONTRIBUTING.md` |
+| `eval/guard/` | Hồ sơ corpus và cấu hình thí nghiệm lịch sử đã ngừng dùng; không có harness thực thi |
 
-## Evaluation harness
+Generated integration files, raw runs, scratch output, environment files và cache được giữ local
+theo `.gitignore`. Khi contributor cần Spec Kit, dùng bootstrap trong `CONTRIBUTING.md`; constitution,
+template, scripts, workflows, specs và evidence đã duyệt vẫn là source public được track.
 
-- Candidate phải được host LLM chạy vi-humanizer, baseline observation hoặc maintainer fixture tạo
-  trước. Jev chỉ thẩm định; không prompt hoặc adapter nào được yêu cầu Jev sinh, nối hay sửa prose.
-- `eval/guard/dev.jsonl` dùng để phát triển câu hỏi và fit threshold. `holdout.jsonl` chỉ được đọc
-  sau khi policy đã khóa; không sửa corpus, questions hoặc threshold sau khi xem kết quả holdout.
-- `evaluation-config.json` khóa model và question-set version. `pricing.json` chỉ phục vụ tính cost,
-  không được tham gia route. `policy.json` chỉ được ghi sau live dev run và review của maintainer
-  hoặc agent được owner ủy quyền rõ; artifact phải ghi đúng actor thật.
-- `candidate_origin`, nhãn, baseline, provenance và split không được gửi cho TypeSafe. Generated
-  run/report không được chứa raw prose, credential, request body hoặc raw exception.
-- Thiếu key hoặc lỗi dịch vụ phải ra `unchecked`/exit 2. Không được đổi thành pass và không được
-  làm hỏng workflow Markdown hay gói `vi-humanizer.skill`.
-- V2 không dùng Choice để quyết định giữ bản gốc hoặc cứu candidate đã trượt cổng tuyệt đối. Choice
-  chỉ xếp hạng shortlist có ít nhất hai candidate. Policy tất định chỉ tạo shadow recommendation;
-  host Agent/LLM mới có quyền quyết định có biên tập prose hay không.
-- Trước khi maintainer hoặc agent được owner ủy quyền rõ duyệt holdout riêng, manifest v2 phải giữ descriptor `pending`; `validate`
-  được phép kiểm dev nhưng `holdout` và `compare` không được đọc file holdout hay dùng quota.
+## TypeSafe và hồ sơ lịch sử
+
+Vietnamizer không chứa CLI, SDK hoặc harness TypeSafe. Chỉ tận dụng skill chính chủ đã được
+host cung cấp khi hữu ích và có quyền gửi dữ liệu; hợp đồng nằm trong
+`references/typesafe-advisor.md`. Không tái tạo mã tích hợp từ đặc tả cũ.
+
+Các feature nghiên cứu 001, 002 và 005 cùng `eval/guard/` là hồ sơ lịch sử đã ngừng triển khai.
+Chúng không phải hướng dẫn chạy, không chứng minh hiệu quả cho workflow hiện hành và không
+được dùng để tự khôi phục dependency hoặc tiêu quota.
 
 ## Ranh giới giữa quy tắc chung và profile
 
@@ -84,7 +80,7 @@ cho resolver và registry, còn `SKILL.md` sở hữu thứ tự gọi.
 - **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất của phần Lịch sử phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
 - **Giới hạn dòng:** `SKILL.md` tối đa 550 dòng, profile blog tối đa 320 dòng, profile kỹ thuật tối đa 220 dòng. Các file trong `references/` không bị giới hạn.
 - **Nguồn:** khi thêm pattern dựa trên tài liệu bên ngoài, phải thêm nguồn vào `README.md` và ghi đúng mức độ tin cậy. Nếu chỉ là suy luận, phải nói rõ là suy luận. Không tự tạo nguồn hoặc số liệu tần suất.
-- **Kiểm tra trước khi phát hành:** chạy `python3 scripts/validate-package.py`, `npx skills add . --list` và `claude plugin validate .`.
+- **Kiểm tra trước khi phát hành:** chạy `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`, `npx skills add . --list`, `claude plugin validate .` và `claude plugin validate .claude-plugin/plugin.json --strict`. Plugin ZIP phải chứa đúng một skill; icon và manifest phải resolve trong gói. Giữ root `SKILL.md` canonical, chỉ đổi layout trong output sinh ra.
 
 ## Khi sửa nội dung
 
@@ -111,17 +107,21 @@ Trước khi sửa skill, phải xếp quan sát vào đúng nhóm:
 
 | Nhóm | Cách nhận biết | Nơi xử lý |
 |---|---|---|
-| Sở thích cá nhân | Cả hai cách viết đều tự nhiên; khác nhau ở nhịp câu, xưng hô, mức trang trọng hoặc cách dùng từ | Memory hoặc knowledge base của agent, tách theo đúng người dùng |
+| Sở thích cá nhân | Cả hai cách viết đều tự nhiên; khác nhau ở nhịp câu, xưng hô, mức trang trọng hoặc cách dùng từ | Hồ sơ do đúng người dùng chủ động cung cấp cho tác vụ |
 | Pattern sửa nhầm hoặc bỏ sót | Quy tắc chung sửa một câu vốn đúng, hoặc bỏ qua một lỗi có thể gọi tên | `calibration/LOG.md`, rồi điều chỉnh **Không flag** hoặc phần phát hiện |
 | Hiện tượng mới | Một lỗi chưa có pattern nào mô tả và xuất hiện trong nhiều mẫu độc lập | `calibration/LOG.md`, rồi cân nhắc thêm pattern |
 
 ### Hồ sơ văn phong cá nhân
 
-Không ghi sở thích của một người vào `calibration/LOG.md`. Nếu nền tảng có memory hoặc knowledge base và chính sách lưu trữ cho phép, agent có thể lưu một hồ sơ ngắn cho đúng người dùng, gồm những đặc tính cần thiết để giữ giọng: cách xưng hô, nhịp câu, mức dùng từ Hán-Việt, cách chêm tiếng Anh, viết hoa và dấu câu.
+Không ghi sở thích của một người vào `calibration/LOG.md`. Skill dùng mẫu hoặc hồ sơ phong cách
+người dùng chủ động cung cấp trong tác vụ; không tự truy xuất hoặc cập nhật memory. Có thể đề xuất
+một bản tóm tắt để người dùng tự giữ, gồm cách xưng hô, nhịp câu, thuật ngữ, viết hoa và dấu câu.
 
 Mỗi đặc tính cần có phạm vi áp dụng và một ví dụ ngắn. Không chép nguyên văn bản, không lưu dữ kiện cá nhân không liên quan, không dùng hồ sơ của người này cho người khác. Yêu cầu trong lượt hiện tại luôn được ưu tiên hơn memory cũ.
 
-Trước khi dùng skill, agent nên nạp lại hồ sơ của đúng người dùng nếu xác định được danh tính. Không có hồ sơ hoặc không chắc người dùng là ai thì tiếp tục biên tập theo thể loại, không tự suy đoán.
+Không có mẫu hoặc hồ sơ được cung cấp thì tiếp tục theo thể loại và giọng của văn bản, không tự
+tìm dữ liệu bên ngoài tác vụ hoặc suy đoán danh tính. Cơ chế memory riêng của maintainer/host không
+phải một bước của workflow Vietnamizer.
 
 ### Nhật ký hiệu chuẩn dùng chung
 

@@ -1,5 +1,9 @@
 # Quickstart Validation: Cổng quyết định sửa hay giữ v2
 
+> Retired on 2026-10-03: the TypeSafe implementation and its tests were removed from the repo.
+> This is a historical record, not a current task list or runnable guide. See
+> `specs/005-optional-typesafe-advisor/spec.md` for the superseding owner decision.
+
 Các lệnh dưới đây là contract kiểm chứng cho implementation và revision hiện hành. Tên
 `recommendation` là chủ ý: output của feature 002 chỉ phục vụ shadow evaluation, không phải lệnh
 biên tập cho host Agent.

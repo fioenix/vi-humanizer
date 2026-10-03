@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="144" viewBox="0 0 640 144" role="img" aria-labelledby="title">
+  <title id="title">Vietnamizer — Giúp AI viết tiếng Việt giống con người hơn.</title>
+  <g transform="translate(14 8)">
+    <path d="M47 28 Q64 45 81 28" fill="none" stroke="#7FE2CE" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="61" cy="75" rx="23" ry="25" fill="none" stroke="#7FE2CE" stroke-width="10"/>
+    <path d="M84 50 V100" fill="none" stroke="#7FE2CE" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <text x="148" y="75" font-family="system-ui, sans-serif" font-size="48" font-weight="650" letter-spacing="-1.5" fill="#F7F7FB">Vietnamizer</text>
+  <text x="150" y="109" font-family="system-ui, sans-serif" font-size="20" fill="#BCBCD0">Giúp AI viết tiếng Việt giống con người hơn.</text>
+</svg>

@@ -4,6 +4,10 @@ description: "Dependency-ordered implementation tasks for the edit-level guard e
 
 # Tasks: Đánh giá guard theo từng edit
 
+> Retired on 2026-10-03: the TypeSafe implementation and its tests were removed from the repo.
+> This is a historical record, not a current task list or runnable guide. See
+> `specs/005-optional-typesafe-advisor/spec.md` for the superseding owner decision.
+
 **Input**: Design documents from `specs/001-edit-guard-eval/`
 
 **Prerequisites**: `plan.md`, `spec.md`, `research.md`, `data-model.md`, `contracts/guard-eval-cli.md`, `quickstart.md`

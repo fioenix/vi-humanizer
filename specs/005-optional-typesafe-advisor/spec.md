@@ -4,13 +4,31 @@
 
 **Created**: 2026-09-29
 
-**Status**: Approved
+**Status**: Retired implementation; optional host-skill guidance retained
 
 **Input**: Mở feature 005 để người dùng có thể bật TypeSafe/Jev như một lớp cố vấn tùy chọn cho
 `vi-humanizer`. Core skill vẫn phải chạy đầy đủ khi không có TypeSafe. Host LLM tạo candidate và
 quyết định có sửa hay không; Jev chỉ thẩm định các tín hiệu ngữ nghĩa có cấu trúc, không viết văn.
 
+**Current distribution scope (owner-approved 2026-10-03)**: From unreleased v0.9.7 onward,
+the advisor runtime and TypeSafe-dependent evaluation harness, their tests and SDK environment
+are removed from the repository as well as distribution archives. Earlier scenarios and
+FR-002–FR-023 below are retired historical contracts, not current implementation requirements.
+Static corpus records, specs and evidence remain for traceability, not as a runnable harness.
+FR-025–FR-027 define current behavior; historical evidence and release v0.9.6 remain unchanged.
+
 ## Clarifications
+
+### Session 2026-10-03
+
+- Q: Should Vietnamizer retain TypeSafe code for research? → A: No. The owner explicitly reversed
+  the earlier source-retention decision: “nên bỏ luôn cả code typesafe khỏi Vietnamizer”. Remove
+  the advisor, dependent evaluation harness, their tests and SDK environment. Reuse only an
+  official TypeSafe skill already exposed by the host when useful and data sharing is authorized;
+  availability alone is not consent. Preserve static historical records, not executable code.
+- Q: Does the skill retrieve or persist personal style profiles? → A: Use only style samples or
+  profiles supplied for the current task; do not autonomously retrieve or update Claude memory
+  or chat history. This implements the marketplace upgrade the owner approved.
 
 ### Session 2026-09-29
 
@@ -192,6 +210,16 @@ còn Agent mới đưa ra và giải thích quyết định cuối.
   chọn, cách xác minh readiness và cách tắt bằng việc bỏ credential; core dependency MUST không đổi.
 - **FR-024**: Feature MUST NOT sửa pattern inventory, style resolver hoặc quyền quyết định đã chốt
   trong features 001–004.
+- **FR-025**: Repository source and distribution archives MUST exclude the advisor runtime,
+  dependent evaluation harness, their tests, SDK dependency and research setup guide. Static
+  historical records MAY remain clearly marked retired. Packaging MUST work without TypeSafe
+  runtime dependencies; source-root installation MUST NOT be described as directory approval.
+- **FR-026**: The shipped skill MAY use an already available official TypeSafe skill only when
+  assessment is useful and the user authorizes sending the minimal selected text. It MUST NOT
+  install TypeSafe, read credentials or implement a connector.
+  Missing capability or invalid results MUST fall back to core without fabricated verification.
+- **FR-027**: The shipped skill MUST use style evidence supplied for the current task and MUST
+  NOT autonomously retrieve or persist user profiles in memory or chat history.
 
 ### Key Entities
 

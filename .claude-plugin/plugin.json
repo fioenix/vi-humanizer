@@ -1,14 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "vi-humanizer",
-  "description": "Biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng sáo ngữ không hợp thể loại, đồng thời giữ giọng riêng của người viết.",
-  "version": "0.9.6",
+  "name": "vietnamizer",
+  "displayName": "Vietnamizer",
+  "skills": "./.plugin-skills/",
+  "icon": "./assets/icon.svg",
+  "documentationUrl": "https://github.com/fioenix/vietnamizer#cài-nhanh",
+  "supportUrl": "https://github.com/fioenix/vietnamizer/issues",
+  "privacyPolicyUrl": "https://github.com/fioenix/vietnamizer/blob/main/PRIVACY.md",
+  "termsOfServiceUrl": "https://github.com/fioenix/vietnamizer/blob/main/TERMS.md",
+  "description": "Biên tập bản nháp, bài viết, README và bản dịch tiếng Việt cho tự nhiên hơn. Sửa câu dịch sát, thiếu từ và cách diễn đạt khô cứng; giữ nguyên ý, giọng người viết, dữ kiện, thuật ngữ và code. Không cần tài khoản riêng hay API key.",
+  "version": "0.9.7",
   "author": {
     "name": "Fioenix",
     "url": "https://github.com/fioenix"
   },
-  "homepage": "https://github.com/fioenix/vi-humanizer",
-  "repository": "https://github.com/fioenix/vi-humanizer",
+  "homepage": "https://github.com/fioenix/vietnamizer",
+  "repository": "https://github.com/fioenix/vietnamizer",
   "license": "MIT",
   "keywords": ["tieng-viet", "vietnamese", "writing", "editing", "translationese", "humanize", "prose", "style"]
 }

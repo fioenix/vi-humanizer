@@ -13,25 +13,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Kiểm tra source không track file local bị ignore
+        run: |
+          tracked_ignored=$(git ls-files -ci --exclude-standard)
+          if [[ -n "$tracked_ignored" ]]; then
+            printf 'File local đang được track:\n%s\n' "$tracked_ignored"
+            exit 1
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Cài uv
-        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
-      - name: Đồng bộ evaluation harness
-        run: uv sync --locked --group eval
-      - name: Chạy test offline của evaluation harness
-        env:
-          TYPESAFE_API_KEY: ""
-        run: uv run --locked python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Chạy test đóng gói offline
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Kiểm tra metadata và bảng pattern
         run: python3 scripts/validate-package.py
+      - name: Kiểm tra cả hai archive phát hành
+        run: ./scripts/package-skill.sh
+      - name: Kiểm tra metadata và archive plugin hai nền tảng
+        run: python3 scripts/package-plugin.py
       - name: Kiểm tra Skills CLI nhận diện skill
         run: npx --yes skills@1.5.20 add . --list
       - name: Kiểm tra marketplace Claude Code
         run: |
-          npm install --global @anthropic-ai/claude-code
+          npm install --global @anthropic-ai/claude-code@2.1.287
           claude plugin validate .
+          claude plugin validate .claude-plugin/plugin.json --strict
