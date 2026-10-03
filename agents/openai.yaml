@@ -1,4 +1,7 @@
 interface:
   display_name: "vi-humanizer"
   short_description: "Biên tập tiếng Việt theo đúng thể loại và giọng người viết"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#176454"
   default_prompt: "Dùng $vi-humanizer để biên tập đoạn này. Giữ nguyên thông tin, đúng thể loại và không làm mất giọng riêng của người viết."

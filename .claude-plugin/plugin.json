@@ -1,6 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "vi-humanizer",
+  "displayName": "vi-humanizer",
+  "skills": "./.plugin-skills/",
+  "icon": "./assets/icon.svg",
+  "documentationUrl": "https://github.com/fioenix/vi-humanizer#cài-nhanh",
+  "supportUrl": "https://github.com/fioenix/vi-humanizer/issues",
+  "privacyPolicyUrl": "https://github.com/fioenix/vi-humanizer/blob/main/PRIVACY.md",
+  "termsOfServiceUrl": "https://github.com/fioenix/vi-humanizer/blob/main/TERMS.md",
   "description": "Biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng sáo ngữ không hợp thể loại, đồng thời giữ giọng riêng của người viết.",
   "version": "0.9.7",
   "author": {

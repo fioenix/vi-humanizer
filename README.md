@@ -1,5 +1,10 @@
 # vi-humanizer
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/icon-dark.svg">
+  <img src="assets/icon.svg" alt="vi-humanizer — dấu tiếng Việt" width="80" height="80">
+</picture>
+
 > **Sửa tiếng Việt tự nhiên hơn, giữ nguyên ý và giọng người viết.**
 
 `vi-humanizer` là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
@@ -57,6 +62,22 @@ Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn
 
 Sau khi cài, gọi skill bằng `/vi-humanizer:vi-humanizer`.
 
+### Codex plugin và Marketplace
+
+Từ v0.9.7, repo có catalog Codex riêng bên cạnh catalog Claude Code:
+
+```bash
+codex plugin marketplace add fioenix/vi-humanizer
+codex plugin add vi-humanizer@vi-humanizer
+```
+
+Trong ứng dụng hỗ trợ repo marketplace, chọn nguồn `vi-humanizer` trong trang Plugins rồi cài
+plugin. Khả năng hiển thị tùy client; Skills CLI ở trên vẫn là đường cài độc lập. Catalog của
+repo không đồng nghĩa plugin đã được duyệt vào directory chính thức của OpenAI hoặc Anthropic.
+
+Xem [hướng dẫn phân phối và kiểm thử](docs/plugin-distribution.md),
+[quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
+
 ### Claude và Claude Desktop
 
 [Tải `vi-humanizer.skill` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer.skill),
@@ -80,9 +101,18 @@ Người bảo trì repo có thể tự tạo lại cả hai artifact:
 
 Kết quả nằm ở `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`.
 
+Để tạo gói plugin chung cho Codex và Claude Code:
+
+```bash
+python3 scripts/package-plugin.py
+```
+
+Kết quả là `dist/vi-humanizer-plugin.zip`, có hai manifest và một skill trong
+`skills/vi-humanizer/`. Script tạo gói từ source chuẩn; không bảo trì bản Markdown thứ hai.
+
 ### Cài thủ công
 
-Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/` và optional runtime `advisor/` vào
+Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/`, `assets/` và optional runtime `advisor/` vào
 thư mục skill của agent:
 
 ```bash
@@ -199,8 +229,15 @@ calibration/LOG.md                            bằng chứng dùng để sửa q
 calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
 advisor/                                      optional TypeSafe CLI; core Markdown không phụ thuộc
 agents/openai.yaml                            tên hiển thị và lời gọi mặc định
+assets/                                       icon sáng/tối và wordmark SVG gốc
+.codex-plugin/plugin.json                     manifest và nhận diện plugin Codex
+.plugin-skills/vi-humanizer/SKILL.md          adapter source, nạp root SKILL.md; không sao chép rule
+.claude-plugin/                              manifest và catalog Claude Code
+.agents/plugins/marketplace.json             catalog Codex được track, không phải tooling sinh local
 scripts/validate-package.py                   kiểm tra tính đồng bộ của gói
 scripts/package-skill.sh                      tạo hai artifact cài đặt
+scripts/package-plugin.py                     kiểm metadata và tạo ZIP plugin hai nền tảng
+docs/plugin-distribution.md                   đường cài, kiểm thử và giới hạn publication
 scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
 .specify/                                     constitution, template và script của Spec Kit
 specs/                                        đặc tả, checklist, plan và task theo từng feature
@@ -441,8 +478,11 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 - **0.9.7** – Đưa `LICENSE` vào cả hai archive, giữ MIT notice cho tooling Spec Kit và chuyển
   generated Codex integration cùng state từng checkout ra khỏi Git tracking. Bổ sung ignore
-  cho environment, scratch output và cache; thêm hướng dẫn contributor và gate CI chặn file
-  tracked bị ignore. Quy tắc biên tập giữ nguyên.
+  hẹp cho tooling local, environment, scratch output và cache; thêm hướng dẫn contributor cùng
+  gate CI chặn file tracked bị ignore. Thêm icon SVG sáng/tối, metadata UI, catalog Codex và ZIP plugin chung với
+  Claude Code; cả hai dùng một nguồn skill chuẩn. Bổ sung thông tin quyền riêng tư, điều kiện
+  sử dụng và kiểm tra asset/metadata trước đóng gói.
+  Quy tắc biên tập giữ nguyên.
 - **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
   readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
   và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude

@@ -10,6 +10,9 @@ import sys
 import zipfile
 from pathlib import Path, PurePosixPath
 
+from distribution_assets import ASSETS, validate_svg
+import xml.etree.ElementTree as ET
+
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -75,7 +78,7 @@ EXPECTED_PROFILE_DIRECTORIES = {
     for relative in EXPECTED_PROFILE_FILES
     if PurePosixPath(relative).parent.name == "styles"
 }
-PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "advisor"}
+PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "advisor", "agents", "assets"}
 ADVISOR_FILES = {
     "advisor/__init__.py",
     "advisor/__main__.py",
@@ -97,6 +100,8 @@ CALIBRATION_FILES = {
 EXACT_DIRECTORY_FILES = {
     "references": REFERENCE_FILES,
     "calibration": CALIBRATION_FILES,
+    "agents": {"agents/openai.yaml"},
+    "assets": {f"assets/{name}" for name in ASSETS},
 }
 FORBIDDEN_PAYLOAD_PATTERNS = (
     (
@@ -217,6 +222,12 @@ def validate_payload_tree(root: Path) -> None:
                 f"{directory_name} chứa thư mục ngoài inventory canonical: "
                 f"{sorted(actual_directories)}"
             )
+
+    for name, square in ASSETS.items():
+        try:
+            validate_svg(root / "assets" / name, square=square)
+        except (OSError, ValueError, ET.ParseError):
+            fail(f"Asset SVG không hợp lệ hoặc chứa nội dung active/external: assets/{name}")
 
     profiles_root = root / "profiles"
     if not profiles_root.is_dir() or profiles_root.is_symlink():

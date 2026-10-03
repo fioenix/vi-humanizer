@@ -18,6 +18,8 @@ PACKAGE_FIXTURE_PATHS = (
     "SKILL.md",
     "LICENSE",
     "README.md",
+    "agents",
+    "assets",
     ".claude-plugin",
     "advisor",
     "calibration",

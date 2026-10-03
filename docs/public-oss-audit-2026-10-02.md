@@ -63,6 +63,10 @@ history cụ thể theo [hướng dẫn của GitHub](https://docs.github.com/en
 - `./scripts/package-skill.sh`: cả hai archive pass inventory, privacy và byte-parity validation.
 - `npx --yes skills@1.5.20 add . --list`: tìm đúng một skill `vi-humanizer`.
 - `claude plugin validate .`: validation passed; `git diff --check`: sạch.
+- Clone tách biệt chạy bootstrap Spec Kit v1.0.5, full suite 183 test và đóng gói thành công;
+  Git status vẫn sạch sau các bước đó. Kiểm ignore không dùng global excludes: 41/41 ca đạt.
+- Thử ép track `.env.local` trong index của clone kiểm thử bằng nội dung MIT notice, không dùng
+  secret: đúng cổng CI trên từ chối với exit 1. Đã bỏ fixture khỏi index và xác nhận clone sạch.
 
 Các kết quả trên là kiểm local trước review. Merge, CI trên main và GitHub Release là bằng chứng
 riêng; báo cáo này không tự khẳng định các bước đó đã xảy ra.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="144" viewBox="0 0 640 144" role="img" aria-labelledby="title">
+  <title id="title">vi-humanizer — sửa tiếng Việt, giữ ý và giọng</title>
+  <rect width="640" height="144" rx="24" fill="#FFF8EE"/>
+  <g transform="translate(14 8)">
+    <path d="M47 28 Q64 45 81 28" fill="none" stroke="#176454" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="61" cy="75" rx="23" ry="25" fill="none" stroke="#176454" stroke-width="10"/>
+    <path d="M84 50 V100" fill="none" stroke="#176454" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <text x="148" y="75" font-family="system-ui, sans-serif" font-size="48" font-weight="650" letter-spacing="-1.5" fill="#176454">vi-humanizer</text>
+  <text x="150" y="109" font-family="system-ui, sans-serif" font-size="20" fill="#405C52">Sửa tiếng Việt, giữ ý và giọng.</text>
+</svg>

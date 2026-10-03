@@ -7,7 +7,7 @@
 /research/
 
 # Generated maintainer agent tooling and local integration state
-/.agents/
+/.agents/skills/
 /.superpowers/
 /.specify/init-options.json
 /.specify/integration.json

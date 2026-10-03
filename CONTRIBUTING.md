@@ -19,9 +19,11 @@ python3 scripts/validate-package.py
 npx --yes skills@1.5.20 add . --list
 claude plugin validate .
 ./scripts/package-skill.sh
+python3 scripts/package-plugin.py
 ```
 
-Lệnh cuối cần `zip` và `unzip`, tạo hai archive trong `dist/`. Mỗi archive phải có `LICENSE`,
+Skill packager cần `zip` và `unzip`; plugin packager dựng tiếp một ZIP chung cho hai nền tảng.
+Các archive nằm trong `dist/`. Mỗi archive phải có `LICENSE`,
 đúng public inventory và nội dung khớp source. Chạy live evaluation cần maintainer cho phép dùng
 credential và quota; kết quả offline không chứng minh chất lượng phán đoán của dịch vụ live.
 
@@ -51,6 +53,8 @@ Tooling được vendor từ GitHub Spec Kit v1.0.5 giữ [MIT notice của upst
   trong Git. `specs/*/research.md` là tài liệu thiết kế; `specs/*/evidence/` chứa báo cáo đã duyệt.
 - `artifacts/` dành cho raw evaluation runs; `output/` và root `research/` dành cho scratch output.
   Các thư mục này, `dist/`, agent local state, cache và environment files được ignore.
+- `.agents/skills/` là tooling sinh local; `.agents/plugins/marketplace.json` là catalog phân phối
+  phải được track. Không ignore toàn bộ `.agents/` khi thêm integration mới.
 - `.env.example` và `.env.*.example` được phép commit khi chỉ chứa placeholder.
 - Corpus holdout đã được quan sát là evidence lịch sử. Trạng thái workflow `sealed` không làm file
   public trở thành bí mật; đánh giá độc lập tương lai phải dùng tập mới với quyền truy cập phù hợp.

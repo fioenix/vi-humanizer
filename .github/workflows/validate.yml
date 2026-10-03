@@ -38,9 +38,12 @@ jobs:
         run: python3 scripts/validate-package.py
       - name: Kiểm tra cả hai archive phát hành
         run: ./scripts/package-skill.sh
+      - name: Kiểm tra metadata và archive plugin hai nền tảng
+        run: python3 scripts/package-plugin.py
       - name: Kiểm tra Skills CLI nhận diện skill
         run: npx --yes skills@1.5.20 add . --list
       - name: Kiểm tra marketplace Claude Code
         run: |
           npm install --global @anthropic-ai/claude-code@2.1.287
           claude plugin validate .
+          claude plugin validate .claude-plugin/plugin.json --strict

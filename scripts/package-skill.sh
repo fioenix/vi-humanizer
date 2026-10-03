@@ -34,6 +34,7 @@ RELEASE_ORG_ARCHIVE="$DIST/vi-humanizer-claude-org.zip"
 
 cp -P "$ROOT/SKILL.md" "$ROOT/LICENSE" "$STAGE/"
 cp -RP "$ROOT/profiles" "$ROOT/references" "$ROOT/calibration" "$STAGE/"
+cp -RP "$ROOT/agents" "$ROOT/assets" "$STAGE/"
 mkdir -p "$STAGE/advisor"
 cp -P "$ROOT/advisor/__init__.py" "$ROOT/advisor/__main__.py" "$ROOT/advisor/cli.py" "$ROOT/advisor/client.py" "$ROOT/advisor/models.py" "$ROOT/advisor/questions.py" "$STAGE/advisor/"
 python3 "$ROOT/scripts/validate-package.py" --payload-root "$STAGE"

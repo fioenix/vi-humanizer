@@ -27,10 +27,17 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `CONTRIBUTING.md` | Hướng dẫn góp ca sửa sai, kiểm offline, bootstrap tooling và ranh giới source/local |
 | `LICENSE` | MIT notice của sản phẩm, bắt buộc có trong cả hai archive |
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
+| `assets/` | Icon sáng/tối và wordmark SVG gốc, được đóng gói cùng metadata UI |
+| `.codex-plugin/plugin.json` | Manifest và metadata hiển thị của plugin Codex |
+| `.plugin-skills/vi-humanizer/SKILL.md` | Adapter discovery cho plugin source, nạp root `SKILL.md`; không sở hữu quy tắc biên tập |
+| `.agents/plugins/marketplace.json` | Catalog phân phối Codex được track, không phải tooling sinh local |
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
 | `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
 | `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip` |
+| `scripts/package-plugin.py` | Kiểm metadata/asset và tạo ZIP plugin hai nền tảng từ cùng public payload |
+| `docs/plugin-distribution.md` | Hướng dẫn kiểm cài đặt và ranh giới repo marketplace với directory chính thức |
+| `PRIVACY.md`, `TERMS.md` | Thông tin dữ liệu và điều kiện dùng gói mã nguồn mở |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
 | `advisor/` | Public Python standard-library CLI cho `probe`, `assess`, `rank`; core không import |
 | `tests/advisor/` | Test offline cho schema, HTTP boundary, CLI và privacy; không gọi TypeSafe thật |
@@ -91,7 +98,7 @@ cho resolver và registry, còn `SKILL.md` sở hữu thứ tự gọi.
 - **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất của phần Lịch sử phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
 - **Giới hạn dòng:** `SKILL.md` tối đa 550 dòng, profile blog tối đa 320 dòng, profile kỹ thuật tối đa 220 dòng. Các file trong `references/` không bị giới hạn.
 - **Nguồn:** khi thêm pattern dựa trên tài liệu bên ngoài, phải thêm nguồn vào `README.md` và ghi đúng mức độ tin cậy. Nếu chỉ là suy luận, phải nói rõ là suy luận. Không tự tạo nguồn hoặc số liệu tần suất.
-- **Kiểm tra trước khi phát hành:** chạy `python3 scripts/validate-package.py`, `npx skills add . --list` và `claude plugin validate .`.
+- **Kiểm tra trước khi phát hành:** chạy `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`, `npx skills add . --list`, `claude plugin validate .` và `claude plugin validate .claude-plugin/plugin.json --strict`. Plugin ZIP phải chứa đúng một skill; icon và manifest phải resolve trong gói. Giữ root `SKILL.md` canonical, chỉ đổi layout trong output sinh ra.
 
 ## Khi sửa nội dung
 
