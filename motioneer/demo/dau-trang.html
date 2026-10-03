@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dấu Trăng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F5F1;
+    --ink: #1B1A28;
+    --dim: #B4B2C0;
+    --soft: #5B5B79;
+    --brand: #9750C4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B0B17;
+      --ink: #ECEAF4;
+      --dim: #43415A;
+      --soft: #9A98B4;
+      --brand: #7FE2CE;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0B17;
+    --ink: #ECEAF4;
+    --dim: #43415A;
+    --soft: #9A98B4;
+    --brand: #7FE2CE;
+  }
+
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center;
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    color: var(--ink);
+  }
+
+  #line {
+    position: absolute; left: 160px; top: 340px; width: 1600px;
+    display: flex; flex-wrap: wrap; column-gap: .27em; row-gap: .1em;
+    font-size: 64px; line-height: 1.3; font-weight: 500; letter-spacing: -.01em;
+  }
+  .tok { display: inline-block; white-space: pre; }
+  .tok > .in {
+    display: inline-block;
+    transition: transform .55s cubic-bezier(.3, 1.6, .5, 1), color .4s;
+  }
+  .tok.new > .in { color: var(--brand); }
+
+  .debris {
+    position: absolute; left: 0; top: 0; white-space: pre;
+    font-size: 64px; line-height: 1.3; font-weight: 500; letter-spacing: -.01em;
+    color: var(--ink); transform-origin: center;
+    transition: color .9s;
+  }
+  .debris.fallen { color: var(--dim); }
+
+  #fx { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  #breve path { fill: none; stroke: var(--brand); stroke-linecap: round; }
+
+  #lockup {
+    position: absolute; display: flex; align-items: center; gap: 44px;
+    opacity: 0;
+  }
+  #lockup svg * { fill: none; stroke: var(--brand); }
+  #name { font-size: 118px; font-weight: 600; letter-spacing: -.035em; line-height: 1; }
+  #tag { margin-top: 22px; font-size: 40px; color: var(--soft); line-height: 1.2; }
+
+  #replay {
+    position: fixed; right: 16px; bottom: 16px;
+    font: 500 14px 'Be Vietnam Pro', system-ui, sans-serif;
+    color: var(--soft); background: transparent;
+    border: 1px solid color-mix(in srgb, var(--soft) 40%, transparent);
+    border-radius: 999px; padding: 8px 14px; cursor: pointer; opacity: .55;
+  }
+  #replay:hover { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="line"></div>
+  <div id="lockup">
+    <div id="iconbox">
+      <svg viewBox="0 0 128 128" width="307" height="307">
+        <ellipse id="bowl" cx="61" cy="75" rx="23" ry="25" stroke-width="10" pathLength="1"/>
+        <path id="stem" d="M84 50 V100" stroke-width="10" stroke-linecap="round" pathLength="1"/>
+      </svg>
+    </div>
+    <div>
+      <div id="name">Vietnamizer</div>
+      <div id="tag">Giúp AI viết tiếng Việt giống con người hơn.</div>
+    </div>
+  </div>
+  <svg id="fx" width="1920" height="1080" viewBox="0 0 1920 1080">
+    <g id="breve"><path/></g>
+  </svg>
+</div>
+<button id="replay" type="button">Phát lại</button>
+
+<script>
+// Before/after pair checked against Vietnamizer rules (see Revision 1 in gate-0-creative-direction.md):
+// V11 opener, V16 passive + reorder, V8 các, V7 của, V9 trong quá trình → khi, T4 và → nhưng, V1 + ra.
+const SENTENCE = 'Điều quan trọng cần lưu ý là các lỗi của hệ thống đã được phát hiện bởi đội kỹ thuật trong quá trình kiểm tra, và đội vẫn không tìm nguyên nhân.';
+
+const stage = document.getElementById('stage');
+const line = document.getElementById('line');
+const breveG = document.getElementById('breve');
+const breveP = breveG.querySelector('path');
+const lockup = document.getElementById('lockup');
+const iconbox = document.getElementById('iconbox');
+
+function fit() {
+  const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+}
+addEventListener('resize', fit);
+fit();
+document.getElementById('replay').addEventListener('click', () => location.reload());
+
+// ---------- timing helpers ----------
+const E = {
+  inOut: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  out: t => 1 - Math.pow(1 - t, 3),
+  back: t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const rand = (a, b) => a + Math.random() * (b - a);
+function tween(dur, fn, ease = E.inOut) {
+  return new Promise(res => {
+    const t0 = performance.now();
+    (function f(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      fn(ease(t));
+      if (t < 1) requestAnimationFrame(f); else res();
+    })(t0);
+  });
+}
+
+// ---------- breve: the logo's curve, 1.53x (w=17, depth=17, stroke=8 in the 128 icon) ----------
+const B = { x: -120, y: 180, rot: -20, w: 26, d: 26, sw: 12, bob: 1, o: 1 };
+function moveBreve(x, y, dur, { arc = 0, ease = E.inOut } = {}) {
+  const sx = B.x, sy = B.y;
+  return tween(dur, e => {
+    B.x = sx + (x - sx) * e;
+    B.y = sy + (y - sy) * e - arc * Math.sin(Math.PI * e);
+  }, ease);
+}
+function morph(to, dur, ease = E.inOut) {
+  const from = {};
+  for (const k in to) from[k] = B[k];
+  return tween(dur, e => { for (const k in to) B[k] = from[k] + (to[k] - from[k]) * e; }, ease);
+}
+
+// ---------- tokens ----------
+function mk(text, cls = '') {
+  const t = document.createElement('span');
+  t.className = 'tok ' + cls;
+  const i = document.createElement('span');
+  i.className = 'in';
+  i.textContent = text;
+  t.appendChild(i);
+  return t;
+}
+const T = SENTENCE.split(' ').map(w => mk(w));
+T.forEach(t => { t.firstChild.style.opacity = 0; line.appendChild(t); });
+
+function pos(t) {
+  return { x: line.offsetLeft + t.offsetLeft, y: line.offsetTop + t.offsetTop, w: t.offsetWidth, h: t.offsetHeight };
+}
+function gpos(arr) {
+  const ps = arr.map(pos);
+  const use = ps.filter(p => p.y === ps[0].y);
+  const x0 = Math.min(...use.map(p => p.x));
+  const x1 = Math.max(...use.map(p => p.x + p.w));
+  return { x: x0, y: use[0].y, w: x1 - x0, h: use[0].h, cx: (x0 + x1) / 2 };
+}
+const above = p => [p.cx ?? p.x + p.w / 2, p.y + 2];
+
+// FLIP: record, mutate, animate everyone back from their old place.
+async function flip(mutate, dur = 650, arcs = new Map()) {
+  const before = new Map([...line.children].map(t => [t, { x: t.offsetLeft, y: t.offsetTop }]));
+  mutate();
+  const runs = [];
+  for (const t of line.children) {
+    const b = before.get(t);
+    if (!b) continue;
+    const dx = b.x - t.offsetLeft, dy = b.y - t.offsetTop;
+    if (!dx && !dy) continue;
+    const arc = arcs.get(t) || 0;
+    const kf = arc
+      ? [{ transform: `translate(${dx}px,${dy}px)` },
+         { transform: `translate(${dx / 2}px,${dy / 2 - arc}px)` },
+         { transform: 'translate(0,0)' }]
+      : [{ transform: `translate(${dx}px,${dy}px)` }, { transform: 'translate(0,0)' }];
+    runs.push(t.animate(kf, {
+      duration: arc ? dur * 1.2 : dur,
+      easing: arc ? 'cubic-bezier(.45,0,.3,1)' : 'cubic-bezier(.2,.9,.25,1.04)',
+    }).finished);
+  }
+  await Promise.all(runs);
+}
+
+// ---------- debris physics: kicked words fall to the floor and stay ----------
+const FLOOR = 1046;
+const debris = [];
+function toDebris(t, launchDelay, v) {
+  const p = pos(t);
+  const el = document.createElement('div');
+  el.className = 'debris';
+  el.textContent = t.textContent;
+  el.style.transform = `translate(${p.x}px,${p.y}px)`;
+  stage.insertBefore(el, document.getElementById('fx'));
+  t.style.visibility = 'hidden';
+  debris.push({
+    el, x: p.x, y: p.y, w: p.w, h: p.h, rot: 0, s: 1,
+    vx: v.vx, vy: v.vy, vr: v.vr,
+    launchAt: performance.now() + launchDelay, rest: false, restRot: rand(-7, 7), fell: false,
+  });
+}
+async function kick(toks, { vx = [250, 700], vy = [-1150, -850], stagger = 40, gapDelay = 120, flipDur = 650 } = {}) {
+  toks.forEach((t, i) => toDebris(t, i * stagger, { vx: rand(...vx), vy: rand(...vy), vr: rand(-420, 420) }));
+  await sleep(gapDelay + stagger * toks.length * .5);
+  await flip(() => toks.forEach(t => t.remove()), flipDur);
+}
+function stepDebris(dt, now) {
+  for (const o of debris) {
+    if (now < o.launchAt) continue;
+    if (!o.fell) { o.fell = true; requestAnimationFrame(() => o.el.classList.add('fallen')); }
+    if (!o.rest) {
+      o.vy += 2700 * dt;
+      o.x += o.vx * dt;
+      o.y += o.vy * dt;
+      o.rot += o.vr * dt;
+      o.s += (.5 - o.s) * Math.min(1, dt * 2.6);
+      const half = o.h / 2, bottom = o.y + half + o.h * o.s / 2;
+      if (bottom > FLOOR) {
+        o.y = FLOOR - half - o.h * o.s / 2;
+        o.vy *= -.3; o.vx *= .62; o.vr *= .45;
+        if (Math.abs(o.vy) < 90) { o.vy = 0; o.rest = true; }
+      }
+    } else {
+      o.vx *= .86;
+      o.x += o.vx * dt;
+      o.rot += (o.restRot - o.rot) * Math.min(1, dt * 9);
+    }
+    const vis = o.w * o.s, cx = o.x + o.w / 2;
+    if (cx - vis / 2 < 30) { o.x = 30 + vis / 2 - o.w / 2; o.vx = Math.abs(o.vx) * .5; }
+    if (cx + vis / 2 > 1890) { o.x = 1890 - vis / 2 - o.w / 2; o.vx = -Math.abs(o.vx) * .5; }
+    o.el.style.transform = `translate(${o.x}px,${o.y}px) rotate(${o.rot}deg) scale(${o.s})`;
+  }
+  // Words at rest on the floor shuffle apart so every discarded word stays readable.
+  const rested = debris.filter(o => o.rest).sort((a, b) => (a.x + a.w / 2) - (b.x + b.w / 2));
+  for (let i = 0; i < rested.length - 1; i++) {
+    const a = rested[i], b = rested[i + 1];
+    const overlap = a.w * a.s / 2 + b.w * b.s / 2 + 18 - ((b.x + b.w / 2) - (a.x + a.w / 2));
+    if (overlap > 0) { a.x -= overlap * .12; b.x += overlap * .12; }
+  }
+}
+
+// ---------- render loop ----------
+let last = performance.now();
+(function frame(now) {
+  const dt = Math.min(.033, (now - last) / 1000);
+  last = now;
+  const bob = Math.sin(now / 360) * 5 * B.bob;
+  breveG.setAttribute('transform', `translate(${B.x} ${B.y + bob}) rotate(${B.rot})`);
+  breveG.style.opacity = B.o;
+  breveP.setAttribute('d', `M ${-B.w} 0 Q 0 ${B.d} ${B.w} 0`);
+  breveP.setAttribute('stroke-width', B.sw);
+  stepDebris(dt, now);
+  requestAnimationFrame(frame);
+})(last);
+
+// ---------- the film ----------
+async function reveal(t, i) {
+  const a = t.firstChild.animate(
+    [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
+    { duration: 260, delay: i * 52, easing: 'ease-out', fill: 'forwards' });
+  await a.finished;
+  t.firstChild.style.opacity = 1;
+  a.cancel();
+}
+
+async function insertBefore(ref, text) {
+  const t = mk(text, 'new');
+  const i = t.firstChild;
+  i.style.opacity = 0;
+  await flip(() => line.insertBefore(t, ref), 520);
+  const a = i.animate(
+    [{ opacity: 0, transform: 'translateY(-70px) scale(.35)' }, { opacity: 1, transform: 'none' }],
+    { duration: 520, easing: 'cubic-bezier(.3,1.6,.5,1)', fill: 'forwards' });
+  await a.finished;
+  i.style.opacity = 1;
+  a.cancel();
+  return t;
+}
+
+async function film() {
+  await document.fonts.load('500 68px "Be Vietnam Pro"');
+  await document.fonts.ready;
+  const lw = lockup.offsetWidth, lh = lockup.offsetHeight;
+  lockup.style.left = (1920 - lw) / 2 + 'px';
+  lockup.style.top = (1080 - lh) / 2 + 'px';
+  await sleep(500);
+
+  // 1 — the stiff sentence types itself
+  await Promise.all(T.map(reveal));
+  await sleep(1300);
+
+  const [opener, cac, loi, cua, heThong, da, duoc, phatHien, boi, doiKT, tqt, kiemTra, va, rest, nguyenNhan] = [
+    T.slice(0, 7), T[7], T[8], T[9], T.slice(10, 12), T[12], T[13], T.slice(14, 16), T[16],
+    T.slice(17, 20), T.slice(20, 23), T.slice(23, 25), T[25], T.slice(26, 30), T.slice(30, 32),
+  ];
+
+  // 2 — breve enters, kicks out the empty opener (V11)
+  let g = gpos(opener);
+  await moveBreve(g.x + 60, g.y - 10, 1100, { arc: 120 });
+  await Promise.all([moveBreve(g.x - 50, g.y + 70, 380), morph({ rot: -70 }, 380)]);
+  await morph({ rot: 25 }, 150, E.out);
+  const kickOpener = kick(opener, { vx: [-150, 650], vy: [-1350, -950], stagger: 34 });
+  await Promise.all([morph({ rot: 0 }, 500), moveBreve(g.x + 40, g.y - 20, 500, { ease: E.out })]);
+  await kickOpener;
+  await sleep(350);
+
+  // 3 — passive flips to active (V16): "đội kỹ thuật" is lobbed to the front
+  g = gpos(doiKT);
+  await moveBreve(g.cx, g.y + 104, 650, { arc: 60 });
+  await morph({ d: 44, w: 30 }, 220);
+  const arcs = new Map(doiKT.map(t => [t, 230]));
+  const lob = flip(() => {
+    doiKT[0].firstChild.textContent = 'Đội';
+    doiKT.slice().reverse().forEach(t => line.insertBefore(t, line.firstChild));
+  }, 900, arcs);
+  const dest = gpos(doiKT);
+  await Promise.all([lob, moveBreve(dest.cx, dest.y + 104, 1080, { arc: 230 })]);
+  await morph({ d: 26, w: 26 }, 260);
+  await moveBreve(dest.cx, dest.y - 2, 300, { ease: E.out });
+
+  //     "được" and "bởi" lose their support and drop
+  await sleep(150);
+  for (const t of [duoc, boi]) t.firstChild.animate(
+    [{ transform: 'rotate(0)' }, { transform: 'rotate(-4deg)' }, { transform: 'rotate(3deg)' }, { transform: 'rotate(0)' }],
+    { duration: 320 });
+  await sleep(330);
+  await kick([duoc, boi], { vx: [-80, 80], vy: [-160, 0], stagger: 90 });
+  await sleep(200);
+
+  //     the object slides behind the verb: "...đã phát hiện các lỗi của hệ thống"
+  const obj = [cac, loi, cua, ...heThong];
+  g = gpos(obj);
+  await moveBreve(g.x - 20, g.y + 50, 450);
+  await morph({ rot: 90 }, 200);
+  const slide = flip(() => {
+    const after = phatHien[1].nextSibling;
+    obj.forEach(t => line.insertBefore(t, after));
+  }, 750, new Map(obj.map(t => [t, -60])));
+  const g2 = gpos(obj);
+  await Promise.all([slide, moveBreve(g2.x - 20, g2.y + 50, 750)]);
+  await morph({ rot: 0 }, 250);
+  await sleep(250);
+
+  // 4 — quick flicks: các (V8), của (V7), then "trong quá trình" → "khi" (V9)
+  for (const t of [cac, cua]) {
+    const p = gpos([t]);
+    await moveBreve(p.cx, p.y - 2, 300, { arc: 40 });
+    await morph({ rot: -35 }, 90);
+    const k = kick([t], { vx: [200, 600], vy: [-1000, -800], gapDelay: 40, flipDur: 420 });
+    await morph({ rot: 0 }, 160, E.out);
+    await k;
+  }
+  g = gpos(tqt);
+  await moveBreve(g.cx, g.y - 2, 380, { arc: 50 });
+  await morph({ rot: -35 }, 90);
+  const kq = kick(tqt, { vx: [100, 650], vy: [-1150, -850], stagger: 50, gapDelay: 60, flipDur: 450 });
+  await morph({ rot: 0 }, 160, E.out);
+  await kq;
+  //     the breve turns into a hook and sets "khi" down
+  let p = pos(kiemTra[0]);
+  await Promise.all([moveBreve(p.x - 14, p.y - 30, 300), morph({ d: -26 }, 300)]);
+  const khiIns = insertBefore(kiemTra[0], 'khi');
+  await moveBreve(p.x + 30, p.y + 20, 320, { ease: E.out });
+  await khiIns;
+  await Promise.all([morph({ d: 26 }, 260), moveBreve(B.x, B.y - 30, 260)]);
+  await sleep(200);
+
+  // 5 — "và" turns over into "nhưng" (T4: "vẫn" already says this is a contrast)
+  p = gpos([va]);
+  await moveBreve(p.cx, p.y - 2, 450, { arc: 40 });
+  const spin = morph({ rot: 360 }, 640, E.inOut);
+  const vi = va.firstChild;
+  const fold = vi.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }],
+    { duration: 200, easing: 'ease-in', fill: 'forwards' });
+  await fold.finished;
+  const swap = flip(() => { vi.textContent = 'nhưng'; va.classList.add('new'); }, 450);
+  const open = vi.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }],
+    { duration: 380, easing: 'cubic-bezier(.3,1.6,.5,1)', fill: 'forwards' });
+  fold.cancel();
+  await Promise.all([swap, open.finished, spin]);
+  open.cancel();
+  B.rot = 0;
+  await sleep(500);
+
+  // 6 — stillness. The line sags where a word is missing, the breve sets down "ra" (V1)
+  const tim = rest[3];
+  p = pos(tim);
+  const gapX = p.x + p.w + 10;
+  await moveBreve(gapX, p.y - 8, 900, { arc: 30 });
+  B.bob = .3;
+  nguyenNhan.forEach((t, i) => {
+    t.firstChild.style.transition = 'transform .9s cubic-bezier(.5,0,.3,1)';
+    t.firstChild.style.transform = `translateY(${14 + i * 4}px) rotate(${1.2 + i * .6}deg)`;
+  });
+  await sleep(1300);
+  await morph({ d: -26 }, 320);
+  const raIns = insertBefore(nguyenNhan[0], 'ra');
+  await moveBreve(gapX + 18, p.y + 24, 380, { ease: E.out });
+  await raIns;
+  nguyenNhan.forEach(t => { t.firstChild.style.transition = ''; t.firstChild.style.transform = ''; });
+  await Promise.all([morph({ d: 26 }, 300), moveBreve(B.x, B.y - 34, 400)]);
+  B.bob = 1;
+
+  // 7 — the finished sentence breathes
+  await sleep(250);
+  line.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.012)' }, { transform: 'scale(1)' }],
+    { duration: 1400, easing: 'ease-in-out' });
+  const top = gpos([line.firstChild]);
+  await moveBreve(top.x + 200, top.y - 80, 1400, { arc: 30 });
+  await sleep(1800);
+
+  // 8 — the breve lands on the "a" of the logo
+  line.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, fill: 'forwards' });
+  debris.forEach(o => o.el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, fill: 'forwards' }));
+  await sleep(500);
+  lockup.style.opacity = 1;
+  const k = 307 / 128;
+  for (const id of ['bowl', 'stem']) {
+    const el = document.getElementById(id);
+    el.style.strokeDasharray = 1;
+    el.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }],
+      { duration: 900, easing: 'cubic-bezier(.6,0,.3,1)', fill: 'forwards' });
+  }
+  const textEls = [document.getElementById('name'), document.getElementById('tag')];
+  textEls.forEach(el => el.style.opacity = 0);
+  const lx = lockup.offsetLeft + iconbox.offsetLeft, ly = lockup.offsetTop + iconbox.offsetTop;
+  await moveBreve(lx + 64 * k, ly + 28 * k - 140, 1100, { arc: 80 });
+  B.bob = 0;
+  await sleep(150);
+  await Promise.all([
+    moveBreve(lx + 64 * k, ly + 28 * k, 420, { ease: E.back }),
+    morph({ w: 17 * k, d: 17 * k, sw: 8 * k, rot: 0 }, 420, E.back),
+  ]);
+  await sleep(250);
+  textEls.forEach((el, i) => el.animate(
+    [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+    { duration: 600, delay: i * 220, easing: 'ease-out', fill: 'forwards' }));
+}
+
+film();
+</script>
+</body>
+</html>
