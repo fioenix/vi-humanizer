@@ -73,6 +73,31 @@ class DistributionTest(unittest.TestCase):
             path.write_text(json.dumps(data))
             self.assertNotEqual(self.package(repo).returncode, 0)
 
+    def test_metadata_rejects_falsey_non_map_translations(self) -> None:
+        for translations in ([], False, 0, ""):
+            with self.subTest(translations=translations), tempfile.TemporaryDirectory() as temporary:
+                repo = self.fixture(Path(temporary))
+                path = repo / ".codex-plugin/plugin.json"
+                data = json.loads(path.read_text())
+                data["extensions"]["com.openai"]["publication"]["translations"] = translations
+                path.write_text(json.dumps(data))
+                self.assertNotEqual(self.package(repo).returncode, 0)
+
+    def test_metadata_accepts_absent_null_or_empty_translation_map(self) -> None:
+        for mode in ("absent", "null", "empty"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temporary:
+                repo = self.fixture(Path(temporary))
+                path = repo / ".codex-plugin/plugin.json"
+                data = json.loads(path.read_text())
+                publication = data["extensions"]["com.openai"]["publication"]
+                if mode == "absent":
+                    publication.pop("translations")
+                else:
+                    publication["translations"] = None if mode == "null" else {}
+                path.write_text(json.dumps(data))
+                result = self.package(repo)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_skill_archive_contains_resolvable_ui_assets(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             repo = self.fixture(Path(temporary))

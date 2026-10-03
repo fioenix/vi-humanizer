@@ -58,3 +58,17 @@ The privacy URL currently points to remote main, not these uncommitted local cha
 Then use the matching new ZIP for portal review. Publisher verification, category confirmation,
 security/privacy scans and skills-only eligibility still require direct portal evidence.
 No claim is made that English listing text alone resolves the reported category finding.
+
+## Independent review correction
+
+Independent review of 6bda79c found that `translations or {}` allowed invalid falsey values
+to pass the release gate. The manifest itself remained valid, but acceptance criterion 4 was
+not fully met. A fresh subprocess regression test failed for [], false, 0 and an empty string.
+The correction normalizes only omission/null; other non-map values are rejected. Positive
+controls retain support for omission, null and an empty locale map.
+
+Fresh full-suite result after the correction: 42 tests, 12.709 seconds, OK. Package and
+distribution metadata validation both passed; `git diff --check` reported no whitespace errors.
+
+The reviewer also noted malformed URL ports as a nonblocking robustness issue; the current
+GitHub support URL is valid. That separate minor issue is not changed in this correction.

@@ -47,7 +47,9 @@ def validate_listing(interface: dict, manifest: dict) -> None:
             raise ValueError("Starter prompts must omit app mentions")
     if len(set(prompts)) != len(prompts):
         raise ValueError("Starter prompts must be unique")
-    translations = manifest.get("extensions", {}).get("com.openai", {}).get("publication", {}).get("translations") or {}
+    translations = manifest.get("extensions", {}).get("com.openai", {}).get("publication", {}).get("translations")
+    if translations is None:
+        translations = {}
     if not isinstance(translations, dict):
         raise ValueError("Translations must be a locale map")
     for locale, fields in translations.items():
