@@ -61,6 +61,17 @@ class DistributionTest(unittest.TestCase):
                 root = repo / manifest["skills"]
                 self.assertEqual([path.relative_to(root).as_posix() for path in root.rglob("SKILL.md")], ["vietnamizer/SKILL.md"])
 
+    def test_plugin_archive_contains_both_wordmark_variants(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.fixture(Path(temporary))
+            result = self.package(repo)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            with zipfile.ZipFile(repo / "dist/vietnamizer-plugin.zip") as archive:
+                for asset in ("wordmark.svg", "wordmark-dark.svg"):
+                    self.assertIn(f"assets/{asset}", archive.namelist())
+                    self.assertEqual(archive.read(f"assets/{asset}"), (repo / "assets" / asset).read_bytes())
+                    self.assertEqual(archive.read(f"skills/vietnamizer/assets/{asset}"), (repo / "assets" / asset).read_bytes())
+
     def test_plugin_archive_loads_one_canonical_skill_without_maintainer_tooling(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             repo = self.fixture(Path(temporary))

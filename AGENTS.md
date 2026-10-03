@@ -27,7 +27,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `CONTRIBUTING.md` | Hướng dẫn góp ca sửa sai, kiểm offline, bootstrap tooling và ranh giới source/local |
 | `LICENSE` | MIT notice của sản phẩm, bắt buộc có trong cả hai archive |
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
-| `assets/` | Icon sáng/tối và wordmark SVG gốc, được đóng gói cùng metadata UI |
+| `assets/` | Icon và wordmark SVG sáng/tối, nền trong suốt; chữ ă violet ở bản sáng, mint ở bản tối; được đóng gói cùng metadata UI |
 | `.codex-plugin/plugin.json` | Manifest và metadata hiển thị của plugin Codex |
 | `.plugin-skills/vietnamizer/SKILL.md` | Adapter discovery cho plugin source, nạp root `SKILL.md`; không sở hữu quy tắc biên tập |
 | `.agents/plugins/marketplace.json` | Catalog phân phối Codex được track, không phải tooling sinh local |

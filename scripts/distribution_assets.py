@@ -4,7 +4,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 
-ASSETS = {"icon.svg": True, "icon-dark.svg": True, "wordmark.svg": False}
+ASSETS = {"icon.svg": True, "icon-dark.svg": True, "wordmark.svg": False, "wordmark-dark.svg": False}
 
 
 def validate_svg(path: Path, square: bool = True) -> None:

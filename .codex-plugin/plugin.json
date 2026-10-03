@@ -1,7 +1,7 @@
 {
   "name": "vietnamizer",
   "version": "0.9.7",
-  "description": "Biên tập tiếng Việt theo thể loại, giữ nguyên ý và giọng người viết.",
+  "description": "Giúp AI viết tiếng Việt giống con người hơn.",
   "author": { "name": "Fioenix", "url": "https://github.com/fioenix" },
   "homepage": "https://github.com/fioenix/vietnamizer",
   "repository": "https://github.com/fioenix/vietnamizer",

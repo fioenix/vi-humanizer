@@ -1,11 +1,11 @@
 # Vietnamizer
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/icon-dark.svg">
-  <img src="assets/icon.svg" alt="vietnamizer — dấu tiếng Việt" width="80" height="80">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.svg">
+  <img src="assets/wordmark.svg" alt="Vietnamizer — Giúp AI viết tiếng Việt giống con người hơn." width="640" height="144">
 </picture>
 
-> **Sửa tiếng Việt tự nhiên hơn, giữ nguyên ý và giọng người viết.**
+> **Giúp AI viết tiếng Việt giống con người hơn.**
 
 Vietnamizer là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
 loại cùng người đọc trước, gọi tên lỗi rồi chỉ sửa phần thực sự có vấn đề. Blog vẫn giữ cá tính;
@@ -235,7 +235,7 @@ calibration/LOG.md                            bằng chứng dùng để sửa q
 calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
 advisor/                                      optional TypeSafe CLI; core Markdown không phụ thuộc
 agents/openai.yaml                            tên hiển thị và lời gọi mặc định
-assets/                                       icon sáng/tối và wordmark SVG gốc
+assets/                                       icon và wordmark SVG sáng/tối
 .codex-plugin/plugin.json                     manifest và nhận diện plugin Codex
 .plugin-skills/vietnamizer/SKILL.md          adapter source, nạp root SKILL.md; không sao chép rule
 .claude-plugin/                              manifest và catalog Claude Code

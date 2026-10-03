@@ -8,7 +8,7 @@
   "supportUrl": "https://github.com/fioenix/vietnamizer/issues",
   "privacyPolicyUrl": "https://github.com/fioenix/vietnamizer/blob/main/PRIVACY.md",
   "termsOfServiceUrl": "https://github.com/fioenix/vietnamizer/blob/main/TERMS.md",
-  "description": "Biên tập văn bản tiếng Việt bị dịch sát, thiếu từ, sai cấu trúc hoặc dùng sáo ngữ không hợp thể loại, đồng thời giữ giọng riêng của người viết.",
+  "description": "Giúp AI viết tiếng Việt giống con người hơn.",
   "version": "0.9.7",
   "author": {
     "name": "Fioenix",
