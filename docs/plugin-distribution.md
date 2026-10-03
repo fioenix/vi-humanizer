@@ -49,6 +49,24 @@ không phải fixture kiểm thử. Không gọi dịch vụ TypeSafe chỉ đ�
 
 ## Nhận diện và listing
 
+Nguồn chuẩn: [Plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines)
+và [Submit plugins](https://developers.openai.com/plugins/deploy/submission).
+
+Base subtitle và description Codex dùng tiếng Anh theo hướng dẫn submission. Bản dịch tiếng
+Việt nằm trong `extensions.com.openai.publication.translations`; importer hiện giữ bản dịch
+nhưng chưa dùng chúng để đổi nội dung Directory hiển thị. Skill và listing Claude vẫn dùng
+tiếng Việt. Giữ category `Productivity`: mô tả rõ biên tập tài liệu, tin nhắn và bản dịch theo
+thể loại, không chỉ nêu một lời hứa “tự nhiên hơn”. Không bảo đảm category sẽ được chấp thuận.
+
+Gate riêng của repo yêu cầu đủ URL website, hỗ trợ, privacy và terms với HTTPS, không chứa
+credential. Đây là tiêu chuẩn phân phối của Vietnamizer; không phải khẳng định schema bắt
+buộc cả bốn URL đối với mọi skills-only plugin. Kiểm riêng nội dung tiếng Anh và quyền sử dụng
+tài sản khi review; validator không suy ra được hai điều này từ định dạng.
+
+Không ghi đè gói 0.9.7 đã công bố bằng candidate 0.9.8. Kiểm gói mới, tích hợp source và phát
+hành phiên bản mới trước khi dùng nó để cập nhật listing. Scan, publisher verification và
+eligibility trên portal là các cổng riêng, không được thay bằng kết quả kiểm offline.
+
 Icon là chữ `ă` vẽ bằng hình học SVG, không phụ thuộc font hoặc ảnh bên ngoài. Bản sáng/tối có
 viewBox vuông 128×128; wordmark dùng cho README/giới thiệu, không thay icon listing vuông.
 Màu dùng các token FINOLABS đã duyệt: `fn-violet` (`#9750C4`), `fn-mint` (`#7FE2CE`),

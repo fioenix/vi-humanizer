@@ -11,11 +11,51 @@ import tempfile
 import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path, PurePosixPath
+from urllib.parse import urlsplit
 
 from distribution_assets import ASSETS, validate_svg
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def listing_text(value: object, limit: int, *, single_line: bool = False) -> None:
+    if not isinstance(value, str) or not value.strip() or len(value) > limit:
+        raise ValueError("Listing text is empty or exceeds its submission limit")
+    if any(ord(char) < 32 and (char != "\n" or single_line) for char in value):
+        raise ValueError("Listing text contains unsupported control characters")
+
+
+def validate_listing(interface: dict, manifest: dict) -> None:
+    for field, limit in (("displayName", 30), ("shortDescription", 30),
+                         ("longDescription", 4000), ("developerName", 80)):
+        listing_text(interface[field], limit, single_line=field != "longDescription")
+    # A project release gate, even though all four URLs are not schema-required for skills-only.
+    for field in ("websiteURL", "supportURL", "privacyPolicyURL", "termsOfServiceURL"):
+        value = interface[field]
+        listing_text(value, 1024, single_line=True)
+        url = urlsplit(value)
+        if url.scheme != "https" or not url.hostname or url.username is not None or url.password is not None or any(char.isspace() for char in value):
+            raise ValueError("Listing URLs must use HTTPS without credentials")
+    prompts = interface.get("defaultPrompt", [])
+    prompts = [prompts] if isinstance(prompts, str) else prompts
+    if not isinstance(prompts, list) or len(prompts) > 3:
+        raise ValueError("At most three starter prompts are allowed")
+    for prompt in prompts:
+        listing_text(prompt, 128, single_line=True)
+        if "@" in prompt:
+            raise ValueError("Starter prompts must omit app mentions")
+    if len(set(prompts)) != len(prompts):
+        raise ValueError("Starter prompts must be unique")
+    translations = manifest.get("extensions", {}).get("com.openai", {}).get("publication", {}).get("translations") or {}
+    if not isinstance(translations, dict):
+        raise ValueError("Translations must be a locale map")
+    for locale, fields in translations.items():
+        if not isinstance(locale, str) or not locale.strip() or not isinstance(fields, dict):
+            raise ValueError("Invalid translation locale")
+        for field, limit in (("subtitle", 30), ("description", 4000)):
+            if fields.get(field) is not None:
+                listing_text(fields[field], limit, single_line=field == "subtitle")
 
 
 def local_file(relative: str) -> Path:
@@ -56,6 +96,7 @@ def validate_metadata() -> dict[str, dict]:
     for name, square in ASSETS.items():
         validate_svg(local_file(f"./assets/{name}"), square=square)
     interface = manifests["codex"]["interface"]
+    validate_listing(interface, manifests["codex"])
     for field in ("composerIcon", "logo", "logoDark"):
         validate_svg(icon_file(interface[field]))
     validate_svg(icon_file(manifests["claude"]["icon"]))

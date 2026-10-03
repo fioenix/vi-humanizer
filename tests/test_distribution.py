@@ -39,6 +39,40 @@ class DistributionTest(unittest.TestCase):
             capture_output=True, text=True, check=False,
         )
 
+    def test_metadata_rejects_missing_or_unsafe_support_link(self) -> None:
+        for value in (None, "", "http://example.com/help", "https://user:password@example.com/help"):
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as temporary:
+                repo = self.fixture(Path(temporary))
+                path = repo / ".codex-plugin/plugin.json"
+                data = json.loads(path.read_text())
+                data["interface"]["supportURL"] = value
+                path.write_text(json.dumps(data))
+                result = self.package(repo)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse((repo / "dist/vietnamizer-plugin.zip").exists())
+
+    def test_metadata_rejects_listing_text_over_submission_limits(self) -> None:
+        for field, value in (("shortDescription", "a" * 31), ("longDescription", "a" * 4001),
+                             ("defaultPrompt", ["a" * 129]), ("defaultPrompt", ["Same", "Same"])):
+            with self.subTest(field=field, value=str(value)[:40]), tempfile.TemporaryDirectory() as temporary:
+                repo = self.fixture(Path(temporary))
+                path = repo / ".codex-plugin/plugin.json"
+                data = json.loads(path.read_text())
+                data["interface"][field] = value
+                path.write_text(json.dumps(data))
+                self.assertNotEqual(self.package(repo).returncode, 0)
+
+    def test_metadata_rejects_invalid_translation_before_packaging(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.fixture(Path(temporary))
+            path = repo / ".codex-plugin/plugin.json"
+            data = json.loads(path.read_text())
+            data["extensions"] = {"com.openai": {"publication": {
+                "translations": {"vi-VN": {"subtitle": "a" * 31}}
+            }}}
+            path.write_text(json.dumps(data))
+            self.assertNotEqual(self.package(repo).returncode, 0)
+
     def test_skill_archive_contains_resolvable_ui_assets(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             repo = self.fixture(Path(temporary))

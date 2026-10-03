@@ -28,9 +28,10 @@ cho thấy bản gốc thật sự có vấn đề.
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Các lệnh dưới đây dùng source đã đổi tên; trước khi source được merge,
-hãy dùng checkout của nhánh thay đổi thay vì cài từ `main`. Bản 0.9.7 chưa phát hành;
-asset của các release cũ vẫn mang tên `vi-humanizer.*` và chứa định danh cũ.
+`vi-humanizer`). Bản hiện tại là **0.9.8**, cập nhật metadata và ranh giới quyền riêng tư
+cho Directory; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
+Asset của các release trước 0.9.7 vẫn mang tên
+`vi-humanizer.*` và chứa định danh cũ.
 Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
 
 ### Codex và các agent dùng Skills CLI
@@ -440,6 +441,11 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
 
+- **0.9.8** – Chuẩn hóa base listing Codex bằng tiếng Anh, giữ bản dịch tiếng Việt và bổ sung
+  liên kết hỗ trợ. Làm rõ workflow theo thể loại, ranh giới dữ liệu bị hạn chế và quyền riêng tư;
+  phản hồi biên tập không tự cấp quyền ghi nhật ký hiệu chuẩn hoặc sửa skill. Thêm gate metadata
+  chặn URL hỗ trợ không an toàn, nội dung vượt giới hạn và bản dịch không hợp lệ. Giữ branding,
+  pattern và TypeSafe tùy chọn; phát hành gói không thay thế xét duyệt của Directory.
 - **0.9.7** – Đưa `LICENSE` vào cả hai archive, giữ MIT notice cho tooling Spec Kit và chuyển
   generated Codex integration cùng state từng checkout ra khỏi Git tracking. Bổ sung ignore
   hẹp cho tooling local, environment, scratch output và cache; thêm hướng dẫn contributor cùng

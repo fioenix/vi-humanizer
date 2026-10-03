@@ -1,7 +1,7 @@
 {
   "name": "vietnamizer",
-  "version": "0.9.7",
-  "description": "Giúp AI viết tiếng Việt giống con người hơn.",
+  "version": "0.9.8",
+  "description": "Genre-aware Vietnamese editing that preserves meaning and the writer's voice.",
   "author": { "name": "Fioenix", "url": "https://github.com/fioenix" },
   "homepage": "https://github.com/fioenix/vietnamizer",
   "repository": "https://github.com/fioenix/vietnamizer",
@@ -10,18 +10,19 @@
   "skills": "./.plugin-skills/",
   "interface": {
     "displayName": "Vietnamizer",
-    "shortDescription": "Biên tập tiếng Việt, giữ giọng",
+    "shortDescription": "Vietnamese editing, your voice",
     "developerName": "Fioenix",
-    "longDescription": "Biên tập bản nháp, bản dịch sát và văn bản tiếng Việt đọc chưa thuận. Chọn quy tắc theo thể loại và người đọc; giữ dữ kiện, thuật ngữ, trích dẫn và giọng người viết. Không cần tài khoản riêng hoặc API key để dùng quy trình cốt lõi; không phải công cụ phát hiện AI.",
+    "longDescription": "Edit Vietnamese drafts, workplace messages, articles, README prose, and literal translations. Designed for Vietnamese-speaking writers and professionals, Vietnamizer selects editing rules by genre and audience, checks explicit exceptions before changing text, and reviews each edit for meaning and voice preservation. Correct missing words, unnatural collocations, and awkward sentence structures while preserving facts, terminology, quotations, and code. Keep already-natural wording unchanged. No separate account or API key is required for core editing. This plugin does not detect AI-generated text. Provide only text you are authorized to share, without payment card data, protected health information, government identifiers, or authentication secrets.",
     "category": "Productivity",
     "capabilities": [],
     "websiteURL": "https://github.com/fioenix/vietnamizer",
+    "supportURL": "https://github.com/fioenix/vietnamizer/issues",
     "privacyPolicyURL": "https://github.com/fioenix/vietnamizer/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/fioenix/vietnamizer/blob/main/TERMS.md",
     "defaultPrompt": [
-      "Biên tập đoạn tiếng Việt này, giữ nguyên ý và giọng người viết.",
-      "Rà phần văn xuôi trong README; giữ nguyên code, lệnh và thuật ngữ.",
-      "Sửa bản dịch sát tiếng Anh này thành tiếng Việt tự nhiên."
+      "Edit this Vietnamese draft while preserving its meaning and the writer's voice.",
+      "Review the Vietnamese prose in this README; preserve code, commands, quotations, and terminology.",
+      "Make this literal English-to-Vietnamese translation sound natural without adding facts."
     ],
     "brandColor": "#9750C4",
     "brandColorDark": "#7FE2CE",
@@ -29,5 +30,17 @@
     "composerIconDark": "./assets/icon-dark.svg",
     "logo": "./assets/icon.svg",
     "logoDark": "./assets/icon-dark.svg"
+  },
+  "extensions": {
+    "com.openai": {
+      "publication": {
+        "translations": {
+          "vi-VN": {
+            "subtitle": "Biên tập tiếng Việt, giữ giọng",
+            "description": "Giúp AI viết tiếng Việt giống con người hơn. Biên tập bản nháp, tin nhắn công việc, bài viết, README và bản dịch sát. Chọn quy tắc theo thể loại và người đọc, kiểm tra trường hợp không nên sửa, rồi đối chiếu từng thay đổi với ý và giọng gốc. Giữ nguyên dữ kiện, thuật ngữ, trích dẫn, code và câu vốn đã tự nhiên. Không cần tài khoản riêng hay API key cho quy trình cốt lõi; không phải công cụ phát hiện AI. Chỉ cung cấp văn bản được phép chia sẻ, không chứa dữ liệu thẻ thanh toán, thông tin sức khỏe được bảo vệ, định danh chính phủ hoặc secret xác thực."
+          }
+        }
+      }
+    }
   }
 }
