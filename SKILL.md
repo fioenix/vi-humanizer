@@ -1,5 +1,5 @@
 ---
-name: vi-humanizer
+name: vietnamizer
 description: |
   Biên tập những đoạn tiếng Việt đọc còn khô cứng, hụt ý hoặc mang nặng cấu trúc
   dịch, đồng thời giữ nguyên thông tin và giọng riêng của người viết. Dùng cho
@@ -10,7 +10,7 @@ metadata:
   version: "0.9.7"
 ---
 
-# vi-humanizer
+# Vietnamizer
 
 Hãy đọc văn bản như một biên tập viên tiếng Việt, xem câu đã trọn vẹn ý nghĩa chưa, các từ kết hợp với nhau có tự nhiên không, và giọng điệu có hợp với thể loại cùng hoàn cảnh sử dụng không. Chỉ sửa những chỗ thật sự cần sửa. Giữ nguyên thông tin, ý nghĩa và những thói quen ổn định tạo nên giọng riêng của người viết.
 

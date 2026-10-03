@@ -9,7 +9,7 @@ from guard_eval.models import EvaluationRun, RunStatus, to_jsonable
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="guard_eval", description="Evaluate vi-humanizer edit guards")
+    parser = argparse.ArgumentParser(prog="guard_eval", description="Evaluate vietnamizer edit guards")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     validate = subparsers.add_parser("validate", help="validate an evaluation corpus")

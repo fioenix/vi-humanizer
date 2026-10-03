@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Kiểm tra tính toàn vẹn của gói vi-humanizer, không phụ thuộc thư viện ngoài."""
+"""Kiểm tra tính toàn vẹn của gói vietnamizer, không phụ thuộc thư viện ngoài."""
 
 from __future__ import annotations
 
@@ -306,7 +306,7 @@ def validate_payload_tree(root: Path) -> None:
                     )
 
 
-def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> dict[str, Path | None]:
+def payload_inventory(root: Path, archive_root: str | None = "vietnamizer") -> dict[str, Path | None]:
     inventory: dict[str, Path | None] = {}
     if archive_root:
         inventory[f"{archive_root}/"] = None
@@ -330,7 +330,7 @@ def payload_inventory(root: Path, archive_root: str | None = "vi-humanizer") -> 
 def validate_archive(
     archive_path: Path,
     payload_root: Path,
-    archive_root: str | None = "vi-humanizer",
+    archive_root: str | None = "vietnamizer",
 ) -> None:
     validate_payload_tree(payload_root)
     if errors:
@@ -425,7 +425,7 @@ if sys.argv[1:]:
     ):
         archive_path = Path(arguments[1])
         payload_root = Path(arguments[3])
-        archive_root = None if len(arguments) == 5 else "vi-humanizer"
+        archive_root = None if len(arguments) == 5 else "vietnamizer"
         validate_archive(archive_path, payload_root, archive_root)
         exit_on_errors()
         print(f"Archive đóng gói hợp lệ: {archive_path}")
@@ -620,4 +620,4 @@ for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w./-]+
 
 exit_on_errors()
 
-print(f"Gói vi-humanizer v{skill_version} hợp lệ, gồm {len(declared)} pattern")
+print(f"Gói vietnamizer v{skill_version} hợp lệ, gồm {len(declared)} pattern")

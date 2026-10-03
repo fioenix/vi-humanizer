@@ -1,6 +1,6 @@
 # Dữ liệu và quyền riêng tư
 
-`vi-humanizer` là bộ hướng dẫn biên tập chạy trong agent mà người dùng chọn. Quy trình Markdown
+`vietnamizer` là bộ hướng dẫn biên tập chạy trong agent mà người dùng chọn. Quy trình Markdown
 cốt lõi không có máy chủ riêng, telemetry hoặc bước gửi văn bản đến dịch vụ của maintainer.
 Plugin không khai báo MCP server, hook hay quyền đăng nhập vào dịch vụ bên ngoài.
 
@@ -24,5 +24,5 @@ Issue và pull request của repo công khai có thể được người khác �
 quyền công bố; thay tên, dữ kiện nội bộ và thông tin cá nhân bằng ví dụ giả lập. Không gửi API key
 hoặc credential qua issue. Hướng dẫn ca hiệu chuẩn nằm trong [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-Liên hệ về quyền riêng tư qua [GitHub Issues](https://github.com/fioenix/vi-humanizer/issues),
+Liên hệ về quyền riêng tư qua [GitHub Issues](https://github.com/fioenix/vietnamizer/issues),
 chỉ mô tả vấn đề đã loại dữ liệu nhạy cảm.

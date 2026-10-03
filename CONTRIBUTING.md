@@ -1,4 +1,4 @@
-# Đóng góp cho vi-humanizer
+# Đóng góp cho vietnamizer
 
 Người dùng có thể gửi ca sửa sai hoặc đề xuất sửa bằng issue và pull request. Một ca hữu ích gồm
 thể loại, người đọc, đoạn gốc, kết quả của skill, bản đối chiếu và lý do khác biệt. Chỉ gửi văn bản

@@ -1,13 +1,13 @@
-# vi-humanizer
+# Vietnamizer
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/icon-dark.svg">
-  <img src="assets/icon.svg" alt="vi-humanizer — dấu tiếng Việt" width="80" height="80">
+  <img src="assets/icon.svg" alt="vietnamizer — dấu tiếng Việt" width="80" height="80">
 </picture>
 
 > **Sửa tiếng Việt tự nhiên hơn, giữ nguyên ý và giọng người viết.**
 
-`vi-humanizer` là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
+Vietnamizer là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
 loại cùng người đọc trước, gọi tên lỗi rồi chỉ sửa phần thực sự có vấn đề. Blog vẫn giữ cá tính;
 README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
 
@@ -29,17 +29,23 @@ cho thấy bản gốc thật sự có vấn đề.
 
 ## Cài nhanh
 
+Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
+`vi-humanizer`). Các lệnh dưới đây dùng source đã đổi tên; trước khi source được merge,
+hãy dùng checkout của nhánh thay đổi thay vì cài từ `main`. Bản 0.9.7 chưa phát hành;
+asset của các release cũ vẫn mang tên `vi-humanizer.*` và chứa định danh cũ.
+Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
+
 ### Codex và các agent dùng Skills CLI
 
 ```bash
-npx skills add fioenix/vi-humanizer --global
+npx skills add fioenix/vietnamizer --global
 ```
 
 Cài cho mọi agent mà Skills CLI hỗ trợ:
 
 ```bash
-npx skills add fioenix/vi-humanizer \
-  --skill vi-humanizer \
+npx skills add fioenix/vietnamizer \
+  --skill vietnamizer \
   --agent '*' \
   --global \
   --yes
@@ -48,7 +54,7 @@ npx skills add fioenix/vi-humanizer \
 Bỏ `--global` nếu muốn cài trong phạm vi dự án. Có thể xem skill mà CLI tìm được trước khi cài:
 
 ```bash
-npx skills add fioenix/vi-humanizer --list
+npx skills add fioenix/vietnamizer --list
 ```
 
 Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn. Cờ `--agent '*'` chọn mọi agent được hỗ trợ; cờ `--copy` buộc CLI sao chép file thay vì tạo liên kết tượng trưng.
@@ -56,22 +62,22 @@ Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn
 ### Claude Code plugin
 
 ```text
-/plugin marketplace add fioenix/vi-humanizer
-/plugin install vi-humanizer@vi-humanizer
+/plugin marketplace add fioenix/vietnamizer
+/plugin install vietnamizer@vietnamizer
 ```
 
-Sau khi cài, gọi skill bằng `/vi-humanizer:vi-humanizer`.
+Sau khi cài, gọi skill bằng `/vietnamizer:vietnamizer`.
 
 ### Codex plugin và Marketplace
 
 Từ v0.9.7, repo có catalog Codex riêng bên cạnh catalog Claude Code:
 
 ```bash
-codex plugin marketplace add fioenix/vi-humanizer
-codex plugin add vi-humanizer@vi-humanizer
+codex plugin marketplace add fioenix/vietnamizer
+codex plugin add vietnamizer@vietnamizer
 ```
 
-Trong ứng dụng hỗ trợ repo marketplace, chọn nguồn `vi-humanizer` trong trang Plugins rồi cài
+Trong ứng dụng hỗ trợ repo marketplace, chọn nguồn `vietnamizer` trong trang Plugins rồi cài
 plugin. Khả năng hiển thị tùy client; Skills CLI ở trên vẫn là đường cài độc lập. Catalog của
 repo không đồng nghĩa plugin đã được duyệt vào directory chính thức của OpenAI hoặc Anthropic.
 
@@ -80,14 +86,14 @@ Xem [hướng dẫn phân phối và kiểm thử](docs/plugin-distribution.md),
 
 ### Claude và Claude Desktop
 
-[Tải `vi-humanizer.skill` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer.skill),
+[Tải gói skill từ trang Releases](https://github.com/fioenix/vietnamizer/releases/latest),
 mở **Customize → Skills → + Create skill → Upload a skill**, chọn file vừa tải rồi bật skill.
 Claude cần bật **Code execution and file creation** để dùng custom skill. Xem thêm
 [hướng dẫn chính thức của Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
 
 ### Claude Org
 
-[Tải `vi-humanizer-claude-org.zip` từ bản phát hành mới nhất](https://github.com/fioenix/vi-humanizer/releases/latest/download/vi-humanizer-claude-org.zip),
+[Tải gói Claude Org từ trang Releases](https://github.com/fioenix/vietnamizer/releases/latest),
 mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn file ZIP. Gói này
 đặt `SKILL.md` và `LICENSE` ở thư mục gốc, cùng các file cần khi skill chạy.
 
@@ -99,7 +105,7 @@ Người bảo trì repo có thể tự tạo lại cả hai artifact:
 ./scripts/package-skill.sh
 ```
 
-Kết quả nằm ở `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip`.
+Kết quả nằm ở `dist/vietnamizer.skill` và `dist/vietnamizer-claude-org.zip`.
 
 Để tạo gói plugin chung cho Codex và Claude Code:
 
@@ -107,8 +113,8 @@ Kết quả nằm ở `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-or
 python3 scripts/package-plugin.py
 ```
 
-Kết quả là `dist/vi-humanizer-plugin.zip`, có hai manifest và một skill trong
-`skills/vi-humanizer/`. Script tạo gói từ source chuẩn; không bảo trì bản Markdown thứ hai.
+Kết quả là `dist/vietnamizer-plugin.zip`, có hai manifest và một skill trong
+`skills/vietnamizer/`. Script tạo gói từ source chuẩn; không bảo trì bản Markdown thứ hai.
 
 ### Cài thủ công
 
@@ -116,13 +122,13 @@ Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `a
 thư mục skill của agent:
 
 ```bash
-git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-humanizer
+git clone https://github.com/fioenix/vietnamizer.git /duong/dan/toi/skills/vietnamizer
 ```
 
 ## Dùng ngay
 
 ```text
-/vi-humanizer
+/vietnamizer
 
 [văn bản cần biên tập]
 ```
@@ -130,7 +136,7 @@ git clone https://github.com/fioenix/vi-humanizer.git /duong/dan/toi/skills/vi-h
 Khi cần sửa file, nêu rõ phạm vi:
 
 ```text
-Dùng vi-humanizer để sửa phần văn xuôi trong docs/bai-viet.md.
+Dùng vietnamizer để sửa phần văn xuôi trong docs/bai-viet.md.
 Giữ nguyên code, bảng tham số và các trích dẫn.
 ```
 
@@ -149,7 +155,7 @@ Skill không dùng kết quả rà soát để xác định tác giả. Người
 
 ### TypeSafe/Jev là lớp tăng cường tùy chọn
 
-`vi-humanizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Nếu không
+`vietnamizer` không cần TypeSafe, `typesafe-sdk`, API key hoặc kết nối mạng để biên tập. Nếu không
 cấu hình gì thêm, toàn bộ quy trình thể loại, pattern, style card và năm quy tắc chốt chặn vẫn chạy
 bình thường. Public package có thêm optional CLI `advisor/`, viết bằng Python standard library;
 core Markdown không import hoặc phụ thuộc CLI này.
@@ -191,7 +197,7 @@ Nếu agent có memory hoặc knowledge base, nó nên đọc hồ sơ văn phon
 
 ### Chọn phong cách theo mục đích
 
-`vi-humanizer` không còn gom mọi văn bản vào hai giọng *cá nhân* và *trung tính*. Hai profile đó vẫn
+`vietnamizer` không còn gom mọi văn bản vào hai giọng *cá nhân* và *trung tính*. Hai profile đó vẫn
 giữ vai trò cổng pattern, còn bộ giải phong cách chọn một card theo mục đích, người đọc, quan hệ,
 thanh ngữ vực, kênh và mẫu giọng. Một phần văn bản chỉ dùng tối đa một card; file pha nhiều chức
 năng được chia theo phần, không ép chung một giọng.
@@ -231,7 +237,7 @@ advisor/                                      optional TypeSafe CLI; core Markdo
 agents/openai.yaml                            tên hiển thị và lời gọi mặc định
 assets/                                       icon sáng/tối và wordmark SVG gốc
 .codex-plugin/plugin.json                     manifest và nhận diện plugin Codex
-.plugin-skills/vi-humanizer/SKILL.md          adapter source, nạp root SKILL.md; không sao chép rule
+.plugin-skills/vietnamizer/SKILL.md          adapter source, nạp root SKILL.md; không sao chép rule
 .claude-plugin/                              manifest và catalog Claude Code
 .agents/plugins/marketplace.json             catalog Codex được track, không phải tooling sinh local
 scripts/validate-package.py                   kiểm tra tính đồng bộ của gói
@@ -254,7 +260,7 @@ pyproject.toml, uv.lock                       môi trường Python 3.12 khóa v
 ```
 
 Các file từ `.specify/` trở xuống phục vụ quy trình phát triển và không nằm trong gói
-`vi-humanizer.skill`.
+`vietnamizer.skill`.
 
 Generated agent skills, Spec Kit integration state, raw run và scratch output được giữ local.
 Xem [hướng dẫn đóng góp](CONTRIBUTING.md) để cài tooling maintainer và chạy kiểm tra offline.
@@ -467,7 +473,7 @@ Những nguồn dưới đây giúp tìm thuật ngữ hoặc ghi nhận hiện 
 
 ## Tác giả và ghi nhận
 
-`vi-humanizer` do Fioenix thiết kế và duy trì. Codex và Claude Code được dùng làm agent kỹ thuật để
+`vietnamizer` do Fioenix thiết kế và duy trì. Codex và Claude Code được dùng làm agent kỹ thuật để
 hỗ trợ nghiên cứu, triển khai, kiểm thử và review.
 
 Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tham khảo
@@ -482,7 +488,8 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
   gate CI chặn file tracked bị ignore. Thêm icon SVG sáng/tối, metadata UI, catalog Codex và ZIP plugin chung với
   Claude Code; cả hai dùng một nguồn skill chuẩn. Bổ sung thông tin quyền riêng tư, điều kiện
   sử dụng và kiểm tra asset/metadata trước đóng gói.
-  Quy tắc biên tập giữ nguyên.
+  Đổi thương hiệu từ vi-humanizer sang Vietnamizer, đồng bộ định danh skill/plugin/catalog,
+  repo và tên gói tải thành `vietnamizer`. Quy tắc biên tập giữ nguyên.
 - **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
   readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
   và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude

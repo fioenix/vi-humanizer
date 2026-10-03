@@ -1,9 +1,9 @@
 {
-  "name": "vi-humanizer",
-  "interface": { "displayName": "vi-humanizer" },
+  "name": "vietnamizer",
+  "interface": { "displayName": "Vietnamizer" },
   "plugins": [
     {
-      "name": "vi-humanizer",
+      "name": "vietnamizer",
       "source": { "source": "local", "path": "./" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Productivity"

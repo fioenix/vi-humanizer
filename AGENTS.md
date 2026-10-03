@@ -29,12 +29,12 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
 | `assets/` | Icon sáng/tối và wordmark SVG gốc, được đóng gói cùng metadata UI |
 | `.codex-plugin/plugin.json` | Manifest và metadata hiển thị của plugin Codex |
-| `.plugin-skills/vi-humanizer/SKILL.md` | Adapter discovery cho plugin source, nạp root `SKILL.md`; không sở hữu quy tắc biên tập |
+| `.plugin-skills/vietnamizer/SKILL.md` | Adapter discovery cho plugin source, nạp root `SKILL.md`; không sở hữu quy tắc biên tập |
 | `.agents/plugins/marketplace.json` | Catalog phân phối Codex được track, không phải tooling sinh local |
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
 | `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
-| `scripts/package-skill.sh` | Đóng gói `dist/vi-humanizer.skill` và `dist/vi-humanizer-claude-org.zip` |
+| `scripts/package-skill.sh` | Đóng gói `dist/vietnamizer.skill` và `dist/vietnamizer-claude-org.zip` |
 | `scripts/package-plugin.py` | Kiểm metadata/asset và tạo ZIP plugin hai nền tảng từ cùng public payload |
 | `docs/plugin-distribution.md` | Hướng dẫn kiểm cài đặt và ranh giới repo marketplace với directory chính thức |
 | `PRIVACY.md`, `TERMS.md` | Thông tin dữ liệu và điều kiện dùng gói mã nguồn mở |
@@ -60,7 +60,7 @@ template, scripts, workflows, specs và evidence đã duyệt vẫn là source p
 
 ## Evaluation harness
 
-- Candidate phải được host LLM chạy vi-humanizer, baseline observation hoặc maintainer fixture tạo
+- Candidate phải được host LLM chạy vietnamizer, baseline observation hoặc maintainer fixture tạo
   trước. Jev chỉ thẩm định; không prompt hoặc adapter nào được yêu cầu Jev sinh, nối hay sửa prose.
 - `eval/guard/dev.jsonl` dùng để phát triển câu hỏi và fit threshold. `holdout.jsonl` chỉ được đọc
   sau khi policy đã khóa; không sửa corpus, questions hoặc threshold sau khi xem kết quả holdout.
@@ -70,7 +70,7 @@ template, scripts, workflows, specs và evidence đã duyệt vẫn là source p
 - `candidate_origin`, nhãn, baseline, provenance và split không được gửi cho TypeSafe. Generated
   run/report không được chứa raw prose, credential, request body hoặc raw exception.
 - Thiếu key hoặc lỗi dịch vụ phải ra `unchecked`/exit 2. Không được đổi thành pass và không được
-  làm hỏng workflow Markdown hay gói `vi-humanizer.skill`.
+  làm hỏng workflow Markdown hay gói `vietnamizer.skill`.
 - V2 không dùng Choice để quyết định giữ bản gốc hoặc cứu candidate đã trượt cổng tuyệt đối. Choice
   chỉ xếp hạng shortlist có ít nhất hai candidate. Policy tất định chỉ tạo shadow recommendation;
   host Agent/LLM mới có quyền quyết định có biên tập prose hay không.

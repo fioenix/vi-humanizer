@@ -1,4 +1,4 @@
-"""Optional TypeSafe advisor for vi-humanizer.
+"""Optional TypeSafe advisor for vietnamizer.
 
 The Markdown skill remains fully usable without importing this package.
 """

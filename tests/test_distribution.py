@@ -47,11 +47,11 @@ class DistributionTest(unittest.TestCase):
                 capture_output=True, text=True, check=False,
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            with zipfile.ZipFile(repo / "dist/vi-humanizer.skill") as archive:
-                self.assertIn("vi-humanizer/agents/openai.yaml", archive.namelist())
+            with zipfile.ZipFile(repo / "dist/vietnamizer.skill") as archive:
+                self.assertIn("vietnamizer/agents/openai.yaml", archive.namelist())
                 for asset in ("icon.svg", "icon-dark.svg"):
                     path = f"assets/{asset}"
-                    self.assertEqual(archive.read(f"vi-humanizer/{path}"), (repo / path).read_bytes())
+                    self.assertEqual(archive.read(f"vietnamizer/{path}"), (repo / path).read_bytes())
 
     def test_source_manifests_resolve_a_plugin_skill_adapter(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -59,21 +59,21 @@ class DistributionTest(unittest.TestCase):
             for platform in ("codex", "claude"):
                 manifest = json.loads((repo / f".{platform}-plugin/plugin.json").read_text())
                 root = repo / manifest["skills"]
-                self.assertEqual([path.relative_to(root).as_posix() for path in root.rglob("SKILL.md")], ["vi-humanizer/SKILL.md"])
+                self.assertEqual([path.relative_to(root).as_posix() for path in root.rglob("SKILL.md")], ["vietnamizer/SKILL.md"])
 
     def test_plugin_archive_loads_one_canonical_skill_without_maintainer_tooling(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             repo = self.fixture(Path(temporary))
             result = self.package(repo)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            with zipfile.ZipFile(repo / "dist/vi-humanizer-plugin.zip") as archive:
+            with zipfile.ZipFile(repo / "dist/vietnamizer-plugin.zip") as archive:
                 names = archive.namelist()
-                self.assertEqual([name for name in names if name.endswith("SKILL.md")], ["skills/vi-humanizer/SKILL.md"])
-                self.assertEqual(archive.read("skills/vi-humanizer/SKILL.md"), (repo / "SKILL.md").read_bytes())
+                self.assertEqual([name for name in names if name.endswith("SKILL.md")], ["skills/vietnamizer/SKILL.md"])
+                self.assertEqual(archive.read("skills/vietnamizer/SKILL.md"), (repo / "SKILL.md").read_bytes())
                 for platform in ("codex", "claude"):
                     manifest = json.loads(archive.read(f".{platform}-plugin/plugin.json"))
                     self.assertEqual(manifest["skills"], "./skills/")
-                    self.assertEqual(manifest["name"], "vi-humanizer")
+                    self.assertEqual(manifest["name"], "vietnamizer")
                 self.assertEqual(archive.read("LICENSE"), (repo / "LICENSE").read_bytes())
                 self.assertFalse(any(name.startswith((".agents/", ".specify/", "specs/", "tests/", "output/")) for name in names))
 
@@ -82,7 +82,7 @@ class DistributionTest(unittest.TestCase):
             repo = self.fixture(Path(temporary))
             good = self.package(repo)
             self.assertEqual(good.returncode, 0, good.stdout + good.stderr)
-            archive = repo / "dist/vi-humanizer-plugin.zip"
+            archive = repo / "dist/vietnamizer-plugin.zip"
             original = archive.read_bytes()
             (repo / "assets/icon.svg").unlink()
             result = self.package(repo)

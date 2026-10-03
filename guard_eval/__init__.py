@@ -1,1 +1,1 @@
-"""Evaluation harness for vi-humanizer edit guards."""
+"""Evaluation harness for vietnamizer edit guards."""

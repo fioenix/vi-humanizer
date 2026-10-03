@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "vi-humanizer",
+  "name": "vietnamizer",
   "owner": {
     "name": "Fioenix",
     "url": "https://github.com/fioenix"
@@ -8,7 +8,7 @@
   "description": "Plugin Claude Code dùng để biên tập văn bản tiếng Việt theo thể loại và giọng người viết.",
   "plugins": [
     {
-      "name": "vi-humanizer",
+      "name": "vietnamizer",
       "source": "./",
       "description": "Sửa lỗi dịch sát, thiếu từ, sai cấu trúc và sáo ngữ trong văn bản tiếng Việt.",
       "license": "MIT",

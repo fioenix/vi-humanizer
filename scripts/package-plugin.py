@@ -45,14 +45,14 @@ def validate_metadata() -> dict[str, dict]:
     for platform in ("codex", "claude"):
         relative = f".{platform}-plugin/plugin.json"
         manifest = json.loads(local_file(f"./{relative}").read_text())
-        if manifest.get("name") != "vi-humanizer" or manifest.get("version") != version[1]:
+        if manifest.get("name") != "vietnamizer" or manifest.get("version") != version[1]:
             raise ValueError("Plugin identity/version differs from the canonical skill")
         if manifest.get("skills") != "./.plugin-skills/":
             raise ValueError("Source plugins must reference the canonical workflow adapter")
         if any(field in manifest for field in ("apps", "mcpServers", "hooks")):
             raise ValueError("Skills-only plugins do not declare apps, MCP servers or hooks")
         manifests[platform] = manifest
-    local_file("./.plugin-skills/vi-humanizer/SKILL.md")
+    local_file("./.plugin-skills/vietnamizer/SKILL.md")
     for name, square in ASSETS.items():
         validate_svg(local_file(f"./assets/{name}"), square=square)
     interface = manifests["codex"]["interface"]
@@ -67,10 +67,10 @@ def validate_metadata() -> dict[str, dict]:
         validate_svg(icon_file(match[1]))
     catalog = json.loads(local_file("./.agents/plugins/marketplace.json").read_text())
     entries = catalog.get("plugins", [])
-    if catalog.get("name") != "vi-humanizer" or len(entries) != 1 or entries[0].get("name") != "vi-humanizer" or entries[0].get("source") != {"source": "local", "path": "./"}:
+    if catalog.get("name") != "vietnamizer" or len(entries) != 1 or entries[0].get("name") != "vietnamizer" or entries[0].get("source") != {"source": "local", "path": "./"}:
         raise ValueError("Codex catalog must resolve the source plugin at the repo root")
     claude = json.loads(local_file("./.claude-plugin/marketplace.json").read_text())
-    if claude.get("name") != "vi-humanizer" or len(claude.get("plugins", [])) != 1 or claude["plugins"][0].get("source") != "./" or claude["plugins"][0].get("name") != "vi-humanizer":
+    if claude.get("name") != "vietnamizer" or len(claude.get("plugins", [])) != 1 or claude["plugins"][0].get("source") != "./" or claude["plugins"][0].get("name") != "vietnamizer":
         raise ValueError("Claude catalog must resolve the source plugin at the repo root")
     return manifests
 
@@ -78,11 +78,11 @@ def validate_metadata() -> dict[str, dict]:
 def build(manifests: dict[str, dict]) -> None:
     subprocess.run(["bash", str(ROOT / "scripts/package-skill.sh")], check=True)
     files = {}
-    with zipfile.ZipFile(ROOT / "dist/vi-humanizer.skill") as skill:
+    with zipfile.ZipFile(ROOT / "dist/vietnamizer.skill") as skill:
         for entry in skill.infolist():
             if not entry.is_dir():
-                relative = entry.filename.removeprefix("vi-humanizer/")
-                files[f"skills/vi-humanizer/{relative}"] = skill.read(entry)
+                relative = entry.filename.removeprefix("vietnamizer/")
+                files[f"skills/vietnamizer/{relative}"] = skill.read(entry)
     files["LICENSE"] = (ROOT / "LICENSE").read_bytes()
     for name in sorted(ASSETS):
         files[f"assets/{name}"] = (ROOT / "assets" / name).read_bytes()
@@ -91,7 +91,7 @@ def build(manifests: dict[str, dict]) -> None:
         files[f".{platform}-plugin/plugin.json"] = (json.dumps(packaged, ensure_ascii=False, indent=2) + "\n").encode()
     dist = ROOT / "dist"
     with tempfile.TemporaryDirectory(prefix=".plugin-", dir=dist) as temporary:
-        candidate = Path(temporary) / "vi-humanizer-plugin.zip"
+        candidate = Path(temporary) / "vietnamizer-plugin.zip"
         with zipfile.ZipFile(candidate, "w", compression=zipfile.ZIP_DEFLATED) as archive:
             for name, content in sorted(files.items()):
                 archive.writestr(name, content)
@@ -100,8 +100,8 @@ def build(manifests: dict[str, dict]) -> None:
                 raise ValueError("Plugin archive inventory/CRC validation failed")
             if any(archive.read(name) != content for name, content in files.items()):
                 raise ValueError("Plugin archive byte parity failed")
-        candidate.replace(dist / "vi-humanizer-plugin.zip")
-    print("Plugin archive validated: dist/vi-humanizer-plugin.zip")
+        candidate.replace(dist / "vietnamizer-plugin.zip")
+    print("Plugin archive validated: dist/vietnamizer-plugin.zip")
 
 
 def main() -> int:

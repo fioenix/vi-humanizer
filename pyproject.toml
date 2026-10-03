@@ -1,7 +1,7 @@
 [project]
-name = "vi-humanizer-guard-eval"
+name = "vietnamizer-guard-eval"
 version = "0.1.0"
-description = "Offline-first evaluation harness for vi-humanizer edit guards"
+description = "Offline-first evaluation harness for vietnamizer edit guards"
 requires-python = ">=3.12,<3.13"
 dependencies = []
 

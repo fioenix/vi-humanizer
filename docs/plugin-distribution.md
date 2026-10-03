@@ -1,19 +1,20 @@
-# Phân phối plugin vi-humanizer
+# Phân phối plugin vietnamizer
 
-Bằng chứng kiểm bản 0.9.7: [plugin-readiness-2026-10-03.md](plugin-readiness-2026-10-03.md).
+Bằng chứng kiểm tên mới: [rename-vietnamizer-2026-10-03.md](rename-vietnamizer-2026-10-03.md).
+Báo cáo [plugin-readiness-2026-10-03.md](plugin-readiness-2026-10-03.md) ghi snapshot tên cũ trước migration.
 
 ## Một nội dung, nhiều đường cài
 
 Root `SKILL.md` là nguồn chuẩn. Manifest source của Codex và Claude Code trỏ tới adapter mỏng
 trong `.plugin-skills/`; adapter nạp file chuẩn và resolve resource từ root plugin. Gói plugin
-được sinh với layout `skills/vi-humanizer/`, manifest trỏ tới `./skills/`. Không commit bản skill
+được sinh với layout `skills/vietnamizer/`, manifest trỏ tới `./skills/`. Không commit bản skill
 thứ hai. Các file trong `agents/` và `assets/` đi cùng skill để UI không mất icon khi cài riêng.
 
 | Artifact | Mục đích | Layout |
 |---|---|---|
-| `vi-humanizer.skill` | Custom skill và cài skill thông thường | `vi-humanizer/SKILL.md` |
-| `vi-humanizer-claude-org.zip` | Upload skill vào Claude Org | `SKILL.md` ở root |
-| `vi-humanizer-plugin.zip` | Gói plugin Codex/Claude Code | Hai manifest, một `skills/vi-humanizer/SKILL.md` |
+| `vietnamizer.skill` | Custom skill và cài skill thông thường | `vietnamizer/SKILL.md` |
+| `vietnamizer-claude-org.zip` | Upload skill vào Claude Org | `SKILL.md` ở root |
+| `vietnamizer-plugin.zip` | Gói plugin Codex/Claude Code | Hai manifest, một `skills/vietnamizer/SKILL.md` |
 
 Tạo cả ba artifact bằng `python3 scripts/package-plugin.py`. `dist/` là output sinh ra, không
 commit. Plugin ZIP chỉ chứa public payload, MIT notice, nhận diện và manifest; không chứa Spec
@@ -31,9 +32,9 @@ npx --yes skills@1.5.20 add . --list
 ```
 
 `--check` không dựng archive. Cần kiểm thêm đường cài trên profile tạm: thêm marketplace từ
-clone, cài `vi-humanizer@vi-humanizer`, kiểm plugin cache có manifest đúng version và skill nạp
+clone, cài `vietnamizer@vietnamizer`, kiểm plugin cache có manifest đúng version và skill nạp
 đúng tên. Với Codex có thể dùng app-server `skills/list` để kiểm discovery mà không gọi model.
-Với Claude Code, cài xong mở session mới và kiểm `/vi-humanizer:vi-humanizer`; metadata validator
+Với Claude Code, cài xong mở session mới và kiểm `/vietnamizer:vietnamizer`; metadata validator
 hoặc thông báo install thành công không tự chứng minh UI đã hiển thị hay invocation chạy được.
 
 Không đưa credential hoặc raw input của người dùng vào log kiểm. Profile thật của maintainer

@@ -182,7 +182,7 @@ wheels = [
 ]
 
 [[package]]
-name = "vi-humanizer-guard-eval"
+name = "vietnamizer-guard-eval"
 version = "0.1.0"
 source = { virtual = "." }
 
